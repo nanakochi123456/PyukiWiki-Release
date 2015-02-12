@@ -1,12 +1,12 @@
 ######################################################################
 # servererror.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: servererror.inc.pl,v 1.58 2007/07/15 07:40:09 papu Exp $
+# $Id: servererror.inc.pl,v 1.78 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -14,7 +14,10 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
-# Return:LF Code=EUC-JP 1TAB=4Spaces
+# Return:LF Code=Shift-JIS 1TAB=4Spaces
+######################################################################
+# サーバー上のエラーをキャッチするものです。
+# .htaccessの設定で起動します。
 ######################################################################
 
 sub plugin_servererror_action {
@@ -124,6 +127,15 @@ In written to /.htaccess
  ErrorDocument 404 /index.cgi?cmd=servererror
  ErrorDocument 500 /index.cgi?cmd=servererror
 
+or
+
+ ErrorDocument 400 /nph-index.cgi?cmd=servererror
+ ErrorDocument 401 /nph-index.cgi?cmd=servererror
+ ErrorDocument 402 /nph-index.cgi?cmd=servererror
+ ErrorDocument 403 /nph-index.cgi?cmd=servererror
+ ErrorDocument 404 /nph-index.cgi?cmd=servererror
+ ErrorDocument 500 /nph-index.cgi?cmd=servererror
+
 etc...
 
 =head1 DESCRIPTION
@@ -140,7 +152,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/servererror/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/servererror.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/servererror.inc.pl?view=log>
 
 =back
 
@@ -150,7 +162,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nanami
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -160,9 +172,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by Nanami.
+Copyright (C) 2005-2010 by Nanami.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

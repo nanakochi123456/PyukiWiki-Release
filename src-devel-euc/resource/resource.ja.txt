@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.7 $$
-# $Id: resource.ja.txt,v 1.65 2007/07/15 07:40:09 papu Exp $
+# "PyukiWiki" version 0.1.8 $$
+# $Id: resource.ja.txt,v 1.85 2010/12/14 22:20:00 papu Exp $
 #
 
 resource_loaded=1
@@ -18,9 +18,6 @@ difftitle=差分表示
 diffbutton=差分
 renamebutton=リネーム
 rss10button=RSS
-rss20button=RSS 2.0
-atombutton=ATOM
-opmlbutton=OPML
 attachbutton=添付
 recentbutton=最終更新
 recentchanges=更新履歴
@@ -86,3 +83,6 @@ date_weekdaylength_en=3
 date_ampm_ja=午前,午後
 date_weekday_ja=日曜日,月曜日,火曜日,水曜日,木曜日,金曜日,土曜日
 date_weekdaylength_ja=2
+
+# diff.inc.pl
+diff_disable_email=(メールアドレス)

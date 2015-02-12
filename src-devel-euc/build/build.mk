@@ -1,9 +1,9 @@
 # release file makefile for pyukiwiki
-# $Id: build.mk,v 1.73 2007/07/15 07:40:08 papu Exp $
+# $Id: build.mk,v 1.93 2010/12/14 22:20:00 papu Exp $
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"
-	@echo "Usage: ${MAKE} [build|prof|test|pkg|cvsupdate|clean|cvsclean]"
+	@echo "Usage: ${MAKE} [build|prof|release|pkg|cvsupdate|clean|cvsclean]"
 
 version:
 	@echo "PyukiWIki ${VERSION}"
@@ -11,6 +11,7 @@ version:
 pkg:
 	@${MAKE} -f ${BUILDDIR}/build.mk cvsclean
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgzip PKGTYPE=devel PKGPREFIX="-devel"
+	@${MAKE} -f ${BUILDDIR}/build.mk pkgzip PKGTYPE=updatedevel PKGPREFIX="-update-devel"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgzip PKGTYPE=updatecompact PKGPREFIX="-update-compact"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgzip PKGTYPE=update PKGPREFIX="-update-full"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgzip PKGTYPE=compact PKGPREFIX="-compact"
@@ -18,10 +19,11 @@ pkg:
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=updatecompact PKGPREFIX="-update-compact"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=update PKGPREFIX="-update-full"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=devel PKGPREFIX="-devel"
+	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=updatedevel PKGPREFIX="-update-devel"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=compact PKGPREFIX="-compact"
 	@${MAKE} -f ${BUILDDIR}/build.mk pkgtgz PKGTYPE=release PKGPREFIX="-full"
 
-test:FORCE
+release:FORCE
 	@rm -rf ${TEMP} ${RELEASE}
 	@mkdir ${TEMP} 2>/dev/null
 	@mkdir ${RELEASE} 2>/dev/null
@@ -30,8 +32,9 @@ test:FORCE
 	@mkdir ${RELEASE}/${PKGNAME}-${VERSION}-compact 2>/dev/null
 	@mkdir ${RELEASE}/${PKGNAME}-${VERSION}-update-compact 2>/dev/null
 	@mkdir ${RELEASE}/${PKGNAME}-${VERSION}-devel 2>/dev/null
+	@mkdir ${RELEASE}/${PKGNAME}-${VERSION}-update-devel 2>/dev/null
 	@echo "Building ${PKGNAME}-${VERSION}-full"
-	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-full "release" lf #>/dev/null
+	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-full "release" lf >/dev/null
 	@echo "Building ${PKGNAME}-${VERSION}-compact"
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-compact "compact" lf >/dev/null
 	@echo "Building ${PKGNAME}-${VERSION}-update"
@@ -40,6 +43,8 @@ test:FORCE
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-update-compact "updatecompact" lf >/dev/null
 	@echo "Building ${PKGNAME}-${VERSION}-devel"
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-devel "devel" lf >/dev/null
+	@echo "Building ${PKGNAME}-${VERSION}-update-devel"
+	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-update-devel  "updatedevel" lf >/dev/null
 
 buildrelease:FORCE
 	@rm -rf ${TEMP} ${RELEASE}
@@ -88,6 +93,7 @@ pkgtgz:
 #	@cd ${RELEASE} && ${GZIP} ${PKGNAME}-${VERSION}${PKGPREFIX}.tar >/dev/null 2>/dev/null
 	@cd ${RELEASE} && ${GZIP_7Z} ${PKGNAME}-${VERSION}${PKGPREFIX}.tar.gz ${PKGNAME}-${VERSION}${PKGPREFIX}.tar >/dev/null 2>/dev/null
 	@rm ${RELEASE}/${PKGNAME}-${VERSION}${PKGPREFIX}.tar
+	@${PERL} -e 'mkdir("${ARCHIVEDIR}");' 2>/dev/null
 	@${PERL} -e 'mkdir("${ARCHIVEDIR}/${PKGNAME}-${VERSION}");' 2>/dev/null
 	@cp ${RELEASE}/${PKGNAME}-${VERSION}${PKGPREFIX}.tar.gz ${ARCHIVEDIR}/${PKGNAME}-${VERSION}
 	@rm ${RELEASE}/${PKGNAME}-${VERSION}${PKGPREFIX}.tar.gz
@@ -101,6 +107,7 @@ pkgzip:
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}${PKGPREFIX} ${PKGTYPE} crlf >/dev/null
 #	@cd ${RELEASE} && ${ZIP} zip.zip ${PKGNAME}-${VERSION}${PKGPREFIX}/* >/dev/null 2>/dev/null
 	@cd ${RELEASE} && ${ZIP_7Z} zip.zip ${PKGNAME}-${VERSION}${PKGPREFIX}/* >/dev/null 2>/dev/null
+	@${PERL} -e 'mkdir("${ARCHIVEDIR}");' 2>/dev/null
 	@${PERL} -e 'mkdir("${ARCHIVEDIR}/${PKGNAME}-${VERSION}");' 2>/dev/null
 	@cp ${RELEASE}/zip.zip ${ARCHIVEDIR}/${PKGNAME}-${VERSION}/${PKGNAME}-${VERSION}${PKGPREFIX}.zip
 	@rm ${RELEASE}/zip.zip

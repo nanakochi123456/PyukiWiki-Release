@@ -1,6 +1,6 @@
-/* "PyukiWiki" version 0.1.7 $$ */
-/* $Id: common.utf8.ja.js,v 1.87 2007/07/15 07:40:09 papu Exp $ */
-/* Code=UTF-8 */
+/* "PyukiWiki" version 0.1.8 $$ */
+/* $Id: common.utf8.ja.js,v 1.109 2010/12/14 22:20:00 papu Exp $ */
+/* Code=EUC-JP */
 
 var d=document;
 var ie=d.selection ? 1 : 0;

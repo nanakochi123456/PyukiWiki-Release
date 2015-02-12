@@ -1,4 +1,4 @@
-#$Id: pagenavi.inc.pl.ja.pod,v 1.49 2007/07/15 07:40:09 papu Exp $
+#$Id: pagenavi.inc.pl.ja.pod,v 1.71 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -57,7 +57,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/pagenavi/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/pagenavi.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/pagenavi.inc.pl?view=log>
 
 =back
 
@@ -67,7 +67,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item ななみ
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -77,9 +77,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2005-2007 by ななみ.
+Copyright (C) 2005-2010 by ななみ.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

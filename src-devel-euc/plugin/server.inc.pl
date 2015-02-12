@@ -1,12 +1,12 @@
 ######################################################################
 # server.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: server.inc.pl,v 1.66 2007/07/15 07:40:09 papu Exp $
+# $Id: server.inc.pl,v 1.86 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -16,7 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-# 携帯に対応していたのですが、一度削除しました。
+# 携帯に対応していたのですが、削除しました。
 # ベンチマークは、サーバーを4秒間高負荷の状態にしますので注意
 # Perl詳細情報は、可能な限りのperlモジュールを検索するので、場合に
 # よっては、タイムアウトでInternal Server Errorになる可能性があります。
@@ -614,7 +614,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/server/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl?view=log>
 
 =back
 
@@ -624,7 +624,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nanami
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -634,9 +634,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by Nanami.
+Copyright (C) 2005-2010 by Nanami.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

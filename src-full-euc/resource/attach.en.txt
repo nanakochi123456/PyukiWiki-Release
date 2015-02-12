@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.7 $$
-# $Id: attach.en.txt,v 1.52 2007/07/15 07:40:09 papu Exp $
+# "PyukiWiki" version 0.1.8 $$
+# $Id: attach.en.txt,v 1.72 2010/12/14 22:20:00 papu Exp $
 #
 
 attach_plugin_msg_upload=of upload file
@@ -19,6 +19,9 @@ attach_plugin_msg_md5hash=MD5 Hash Value
 attach_plugin_msg_filesize=Size
 attach_plugin_msg_date=Date
 attach_plugin_msg_dlcount=Access Count
+attach_plugin_msg_dlcount_total=Total
+attach_plugin_msg_dlcount_today=Today
+attach_plugin_msg_dlcount_yesterday=Yesterday
 attach_plugin_msg_delete=Is Delete?
 attach_plugin_msg_deleted=file deleted.
 attach_plugin_err_delete=Can't Delete

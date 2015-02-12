@@ -1,12 +1,12 @@
 ######################################################################
 # versionlist.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: versionlist.inc.pl,v 1.62 2007/07/15 07:40:09 papu Exp $
+# $Id: versionlist.inc.pl,v 1.82 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/

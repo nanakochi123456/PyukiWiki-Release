@@ -1,4 +1,4 @@
-#$Id: servererror.inc.pl.ja.pod,v 1.50 2007/07/15 07:40:09 papu Exp $
+#$Id: servererror.inc.pl.ja.pod,v 1.72 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -9,7 +9,7 @@ servererror.inc.pl - PyukiWiki 管理者向けプラグイン
 
 =head1 概要
 
-In written to /.htaccess
+.htaccessファイルに
 
  ErrorDocument 400 /index.cgi?cmd=servererror
  ErrorDocument 401 /index.cgi?cmd=servererror
@@ -18,7 +18,18 @@ In written to /.htaccess
  ErrorDocument 404 /index.cgi?cmd=servererror
  ErrorDocument 500 /index.cgi?cmd=servererror
 
-etc...
+もしくは
+
+ ErrorDocument 400 /nph-index.cgi?cmd=servererror
+ ErrorDocument 401 /nph-index.cgi?cmd=servererror
+ ErrorDocument 402 /nph-index.cgi?cmd=servererror
+ ErrorDocument 403 /nph-index.cgi?cmd=servererror
+ ErrorDocument 404 /nph-index.cgi?cmd=servererror
+ ErrorDocument 500 /nph-index.cgi?cmd=servererror
+
+等と記載して下さい。
+
+なお、.htaccessのコメントを外せば動作します。
 
 =head1 説明
 
@@ -34,7 +45,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/servererror/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/servererror.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/servererror.inc.pl?view=log>
 
 =back
 
@@ -44,7 +55,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item ななみ
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -54,9 +65,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2005-2007 by ななみ.
+Copyright (C) 2005-2010 by ななみ.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

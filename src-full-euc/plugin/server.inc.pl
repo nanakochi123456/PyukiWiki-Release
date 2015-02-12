@@ -1,12 +1,12 @@
 ######################################################################
 # server.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: server.inc.pl,v 1.66 2007/07/15 07:40:09 papu Exp $
+# $Id: server.inc.pl,v 1.86 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -16,7 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-# 携帯に対応していたのですが、一度削除しました。
+# 携帯に対応していたのですが、削除しました。
 # ベンチマークは、サーバーを4秒間高負荷の状態にしますので注意
 # Perl詳細情報は、可能な限りのperlモジュールを検索するので、場合に
 # よっては、タイムアウトでInternal Server Errorになる可能性があります。

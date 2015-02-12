@@ -1,12 +1,12 @@
 #!/usr/bin/perl
 ######################################################################
 # regex.src - This is PyukiWiki, yet another Wiki clone.
-# $Id: regex.src,v 1.47 2007/07/15 07:40:09 papu Exp $
+# $Id: regex.src,v 1.67 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -90,10 +90,9 @@ $http_URL_regex_punyonly = q{\b} . $URI_reference_punyonly;
 
 $test=<<EOM;
 http://pyukiwiki.sourceforge.jp/
-http://かいもの.jp/buying
-http://出稼ぎ.jp/ahaha.html#abc
-https://www.出稼ぎ.jp/ahaha.html#abc
-http://あああ.出稼ぎ.jp:82/ahaha.html#abc
+http://てすと.jp/buying
+http://wikiエンジン.jp/ahaha.html#abc
+https://うぃきEngins.jp/ahaha.html#abc
 https://192.168.0.1/
 http://aiうえo.jp/
 http://aiうえお.jp/

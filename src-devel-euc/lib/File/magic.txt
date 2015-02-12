@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------
-# $Id: magic.txt,v 1.74 2007/07/15 07:40:09 papu Exp $
+# $Id: magic.txt.src,v 1.57 2010/12/14 22:20:00 papu Exp $
 # "magic file for File::MMagic" version 1.4 $$
 #----------------------------------------------------------------------
 # archive:  file(1) magic for archive formats (see also "msdos" for self-
@@ -1725,7 +1725,7 @@
 # riff:  file(1) magic for RIFF format
 # See
 #	http://www.seanet.com/users/matts/riffmci/riffmci.htm
-# AVI section extended by Patrik RÂdman <patrik+file-magic (at) iki (dot) fi>
+# AVI section extended by Patrik RÂ‰man <patrik+file-magic (at) iki (dot) fi>
 0	string	RIFF	RIFF (little-endian) data
 >8	string	PAL	\b, palette
 >>16	leshort	x	\b, version %d

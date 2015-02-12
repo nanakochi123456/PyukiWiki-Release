@@ -1,22 +1,21 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.7 $$
+	"PyukiWiki" version 0.1.8 $$
 	Copyright (C)
-	  2005-2007 PukiWiki Developers Team
-	  2004-2007 Nekyo (Based on PukiWiki, YukiWiki)
+	  2005-2010 PukiWiki Developers Team
+	  2004-2010 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
 
 	URL:
-	http://nekyo.hp.infoseek.co.jp/
+	http://nekyo.qp.land.to/
 	http://pyukiwiki.sourceforge.jp/
 
 	MAIL:
-		Nekyo <nekyo (at) yamaneko (dot) club (dot) ne (dot) jp>
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.67 2007/07/15 07:40:08 papu Exp $
+	$Id: README.txt,v 1.88 2010/12/14 22:20:00 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -24,19 +23,8 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 ■最新情報
 -------------------------------------------------
 以下のURLで最新情報を入手してください。
-http://nekyo.hp.infoseek.co.jp/
+http://nekyo.qp.land.to/
 http://pyukiwiki.sourceforge.jp/
-
--------------------------------------------------
-■導入前の注意
--------------------------------------------------
-アクセスカウンターの不具合を修正しているため、以前のカウンターが正しく
-修正できない可能性があります。
-Totalの数字のみ自動修正を自動的に試みますが、すべてのカウンターの数値を
-修正する場合は、以下のカウンタデータ変換ツールを使用して下さい。
-
-・Birth of Re-Birth:【不具合対策】カウンタデータ変換ツール
-　http://www.re-birth.com/pyuki/wiki.cgi?%a5%b5%a5%a4%a5%c8%c0%a9%ba%ee%2fPyukiWiki%2f%c9%d4%b6%f1%b9%e7#i3
 
 -------------------------------------------------
 ■概要
@@ -47,6 +35,11 @@ Webアプリケーション(WikiWikiWeb)です。テキストデータからHTMLを生成することがで
 
 PyukiWikiはperl言語で書かれたスクリプトなので、多くのCGI動作可能なWebサーバー
 （無料含む）に容易に設置でき、軽快に動作します。
+
+なお、更に軽快に動作をさせたいのであれば、かなり最適化された
+Nekyo氏のバージョンをご利用下さい。
+
+http://nekyo.qp.land.to/
 
 -------------------------------------------------
 ■ライセンス
@@ -92,8 +85,9 @@ PyukiWikiの動作環境は以下のとおりです。
 　されている必要があります。
 　Jcode.pm、Time::Local
 
-・CGIの動作し、Perl5.005_004以降が動作するWebサーバー
-　奨励はPerl5.8.1以降です。
+・CGIの動作し、Perl5.8.1（なるだけ）以降が動作するWebサーバー
+　なお、Perl 5.0004に関しては現バージョンでは未サポートです。
+　最新のPerl5.10系でも動作確認済みです。
 
 -------------------------------------------------
 ■パッケージについて
@@ -104,7 +98,7 @@ PyukiWikiの動作環境は以下のとおりです。
 ・-compact
 　サーバーの容量が少ない場合、こちらを導入してみて下さい。
 　以下の制限があります。
-　・opml,あいまい検索,sitemap,showrss,bugtrack,perlpod,settingがない
+　・あいまい検索,sitemap,showrss,bugtrack,perlpod,settingがない
 　・管理プラグイン(listfrozen,server,servererror,versionlist)がない
 　・PukiWiki互換ダミープラグインがない
 　・Explugin lang, setting, urlhack, punyurlがない
@@ -195,7 +189,6 @@ Webサーバに転送する必要はありません。
     +-- Nana                      755 (rwxr-xr-x)  ディレクトリ
     |   |-- Cache.pm        TEXT  644 (rw-r--r--)  キャッシュモジュール
     |   |-- Lock.pm         TEXT  644 (rw-r--r--)  ファイルロック用
-    |   |-- OPML.pm*        TEXT  644 (rw-r--r--)  OPMLモジュール
     |   |-- Pod2Wiki.pm*    TEXT  644 (rw-r--r--)  pod→wiki変換モジュール
     |   |-- Search.pm*      TEXT  644 (rw-r--r--)  あいまい検索用
     |   +-- YukiWikiDB.pm   TEXT  644 (rw-r--r--)  リニューアルしたYukiWikiDB
@@ -292,6 +285,17 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 　http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
 
 -------------------------------------------------
+■アップデート版においての追記
+-------------------------------------------------
+アップデート版でも、ルートフォルダ（ディレクトリの）
+「pyukiwiki.ini.cgi」が上書きされるため
+アップデート前に必ずリネームして下さい。
+
+また、こちらがお勧めですが、info/setup.ini.cgi に
+pyukiwiki.ini.cgi の変更部分を記述すれば
+スムーズにアップデートできるかと思います。
+
+-------------------------------------------------
 ■簡単なFAQ
 -------------------------------------------------
 ・PyukiWikiの作者が変ったのですか？
@@ -300,11 +304,11 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 ・既存のプラグインが動かなくなってしまったのですが？
 　可能な限り、過去バージョン向けのプラグインを動作できるよう変更はしていますが、
 　実質、0.1.6にて大幅に仕様が変更になり動作しなくなったものもあります。
-　(popular, rename等は、既存バージョン用のプラグインが「まともに」（＝ちょっとしたこと
-　　でも）動作しないので、新しいバージョンを添付しています）
+　(popular, rename等は、既存バージョン用のプラグインが「まともに」
+ （＝ちょっとしたことでも）動作しないので、新しいバージョンを添付しています）
 
 ・mod_perl、speedy_cgiで動かないのですが？
-　対応させるためのルーチンは存在するのですが、今回のバージョンでは見送りとします。
+　mod_perlには対応確認済みです。speedy_cgiは未確認です。
 
 ・wiki.cgiが醜い(本来の変換は見にくい）のですが・・・
 　-full版、-compact版は、実際に動作する環境の為に、余計なコメント等を
@@ -327,6 +331,19 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 　また、インラインプラグイン(&plugin(...);)において、「;」で終了していないと、
 　不具合が起きます。ネスト可能にする為に厳格に文法チェックを行なっていますので、
 　閉じていない場合は、「；」で閉じるようにして下さい。
+
+-------------------------------------------------
+■0.1.7からの主な変更点
+-------------------------------------------------
+・#article、#comment、#pcommentの本文に日本語文面がなければ
+　拒否されるようになりました。
+　また、URL文字列が10個以上含まれるものも拒否されるように
+　なりました。(両者ともpyukiwiki.ini.cgiで設定可）
+・rss10以外の廃止
+・jcode.plの廃止（Jcode.pmのみの対応になります）
+・InterWikiNameに検索エンジンを追加した
+・一部のバグの修正等
+・一部のURLリンク切れの修正
 
 -------------------------------------------------
 ■0.1.5からの主な変更点
@@ -411,9 +428,6 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 
 ・deletecache.inc.pl
 　管理者用プラグインで、キャッシュディレクトリの中身をすべて削除します。
-　OPML取得に必要な外部サイト情報も消去されますので、RSSを取得している
-　外部サイトを表示しているページを再表示する等して、再構築をするように
-　して下さい。
 
 ・article.inc.pl
 　改行自動変換を実装（変数フラグのみあった）
@@ -570,10 +584,10 @@ Copyright (C) 2004-2007 by Nekyo
 http://nekyo.hp.infoseek.co.jp/
 
 Copyright (C) 2002-2007 by Hiroshi Yuki
-http://www.hyuki.com/
+http://nekyo.qp.land.to/
 
 Copyright (C) 2005-2007 by ななみ
-http://lineage.netgamers.jp/ http://line.daiba.cx/
+http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
 
 Copyright (C) 2004-2007 by やしがにもどき
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi

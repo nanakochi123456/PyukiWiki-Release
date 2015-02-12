@@ -21,7 +21,17 @@
 [[Google:PyukiWiki]]
 :YahooでPyukiWikiを検索|
 [[Yahoo:PyukiWiki]]
+:MSN(bing)でPyukiWikiを検索|
+[[MSN:PyukiWiki]]
+:GooでPyukiWikiを検索|
+[[Goo:PyukiWiki]]
+:FresheyeでPyukiWikiを検索|
+[[Fresheye:PyukiWiki]]
+
 **検索フォームも出せる。
 #lookup(Google,検索,PyukiWiki)
 #lookup(Yahoo,検索,PyukiWiki)
+#lookup(MSN,検索,PyukiWiki)
+#lookup(Goo,検索,PyukiWiki)
+#lookup(Fresheye,検索,PyukiWiki)
 

@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# $Id: magic.txt.src,v 1.37 2007/07/15 07:40:09 papu Exp $
+# $Id: magic.txt.src,v 1.57 2010/12/14 22:20:00 papu Exp $
 # "magic file for File::MMagic" version 1.4 $$
 
 #------------------------------------------------------------------------------
@@ -3312,7 +3312,7 @@
 # natinst:  file(1) magic for National Instruments Code Files
 
 #
-# From <egamez (at) fcfm (dot) buap (dot) mx> Enrique G·mez-Flores
+# From <egamez (at) fcfm (dot) buap (dot) mx>
 # version 1
 # Many formats still missing, we use, for the moment LabVIEW
 # We guess VXI format file. VISA, LabWindowsCVI, BridgeVIEW, etc, are missing
@@ -3697,8 +3697,7 @@
 #        10	SS, 8 SPT
 #        11	DS, 8 SPT
 #
-#  11111001	Double density 3Ω floppy disk, high density 5º
-#  11110000	High density 3Ω floppy disk
+#  11111001	Double density floppy disk, high density 5ªË#  11110000	High density floppy disk
 #  11111000	Hard disk any format
 #
 
@@ -6264,7 +6263,7 @@
 #
 # Linux kernel boot images, from Albert Cahalan <acahalan (at) cs (dot) uml (dot) edu>
 # and others such as Axel Kohlmeyer <akohlmey (at) rincewind (dot) chemie (dot) uni-ulm (dot) de>
-# and Nicol·s Lichtmaier <nick (at) debian (dot) org>
+# and Nicol·Û Lichtmaier <nick (at) debian (dot) org>
 # All known start with: b8 c0 07 8e d8 b8 00 90 8e c0 b9 00 01 29 f6 29
 # Linux kernel boot images (i386 arch) (Wolfram Kleff)
 514	string		HdrS		Linux kernel
@@ -6287,10 +6286,10 @@
 >0x1e3		string	Loading		version 1.3.79 or older
 >0x1e9		string	Loading		from prehistoric times
 
-# System.map files - Nicol·s Lichtmaier <nick (at) debian (dot) org>
+# System.map files - Nicol·Û Lichtmaier <nick (at) debian (dot) org>
 8	string	\ A\ _text	Linux kernel symbol map text
 
-# LSM entries - Nicol·s Lichtmaier <nick (at) debian (dot) org>
+# LSM entries - Nicol·Û Lichtmaier <nick (at) debian (dot) org>
 0	string	Begin3	Linux Software Map entry text
 0	string	Begin4	Linux Software Map entry text (new format)
 
@@ -7510,7 +7509,7 @@
 #
 #	http://www.seanet.com/users/matts/riffmci/riffmci.htm
 #
-# AVI section extended by Patrik RÂdman <patrik+file-magic (at) iki (dot) fi>
+# AVI section extended by Patrik RÂ‰man <patrik+file-magic (at) iki (dot) fi>
 #
 0	string		RIFF		RIFF (little-endian) data
 # RIFF Palette format

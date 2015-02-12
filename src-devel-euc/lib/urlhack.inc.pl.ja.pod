@@ -1,4 +1,4 @@
-#$Id: urlhack.inc.pl.ja.pod,v 1.52 2007/07/15 07:40:09 papu Exp $
+#$Id: urlhack.inc.pl.ja.pod,v 1.74 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -68,6 +68,16 @@ $use_path_info=1; ¤ò $use_path_info=0; ¤ËÊÑ¹¹¤·¤Þ¤¹¡£
 
  DirectoryIndex B<nph-index.cgi> index.cgi wiki.cgi pyukiwiki.cgi index.html
 
+ RewriteEngine on
+ RewriteBase /
+ 
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^\?(.*)$ ./index.cgi?$1 [L]
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^(.+)/$ ./index.cgi/$1 [L]
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^$ ./index.cgi [L]
+
  ErrorDocument 400 /nph-index.cgi?cmd=servererror
  ErrorDocument 401 /nph-index.cgi?cmd=servererror
  ErrorDocument 402 /nph-index.cgi?cmd=servererror
@@ -81,30 +91,26 @@ $use_path_info=1; ¤ò $use_path_info=0; ¤ËÊÑ¹¹¤·¤Þ¤¹¡£
 
 =over 4
 
-=item $::use_path_info
+=item $urlhack::use_path_info
 
 PATH_INFO´Ä¶­ÊÑ¿ô¤ò»ÈÍÑ¤¹¤ë¾ì¹ç¤Ï£±¡¢404 Not found ¥¨¥é¡¼¤òÍøÍÑ¤¹¤ë¾ì¹ç¤Ï£°¤Ë¤·¤Þ¤¹¡£
 
-=item $::fake_extention
+=item $urlhack::fake_extention
 
+¸½ºß¡¢¿½¤·Ìõ¤¢¤ê¤Þ¤»¤ó¤¬¡¢µ¶Áõ¤Ç¤­¤ë¤Î¤Ï¡Ö/¡×¤Î¤ß¤Ç¤¹¡£
 ³ÈÄ¥»ÒÅù¤ò¤Ä¤±¤Æ¡¢µ¶Áõ¤·¤Þ¤¹¡£
-
- $::fake_extention='.html';
- http://example.com/FrontPage.html
- http://example.com/PyukiWiki/Download.html
- http://example.com/a5d8a5eba5d7.html
  
  $::fake_extention='/';
  http://example.com/FrontPage/
  http://example.com/PyukiWiki/Download/
  http://example.com/a5d8a5eba5d7/
 
-=item $::use_puny
+=item $urlhack::use_puny
 
  0:16¿Ê¥¨¥ó¥³¡¼¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£
  1:puny¥¨¥ó¥³¡¼¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£¾¯¤·URL¤¬Ã»¤¯¤Ê¤ê¤Þ¤¹¡£
 
-=item $::noconvert_marks
+=item $urlhack::noconvert_marks
 
 »ØÄê¤µ¤ì¤¿Ê¸»ú¤Î¤ß¤Ç¹½À®¤µ¤ì¤ë¥Ú¡¼¥¸Ì¾¤Î¾ì¹ç¡¢¥¨¥ó¥³¡¼¥É¤ò¤·¤Þ¤»¤ó¡£
 
@@ -127,9 +133,9 @@ PATH_INFO´Ä¶­ÊÑ¿ô¤ò»ÈÍÑ¤¹¤ë¾ì¹ç¤Ï£±¡¢404 Not found ¥¨¥é¡¼¤òÍøÍÑ¤¹¤ë¾ì¹ç¤Ï£°¤Ë¤·¤
 L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/urlhack/>
 
 
-=item PyukiWiki CVS
+=item PyukiWiki CVS¥ì¥Ü¥¸¥È¥ê
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl?view=log>
 
 =back
 
@@ -139,7 +145,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/ur
 
 =item ¤Ê¤Ê¤ß
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -149,9 +155,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ¥é¥¤¥»¥ó¥¹
 
-Copyright (C) 2005-2007 by ¤Ê¤Ê¤ß.
+Copyright (C) 2005-2010 by ¤Ê¤Ê¤ß.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

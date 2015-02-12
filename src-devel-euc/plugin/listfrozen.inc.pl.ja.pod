@@ -1,4 +1,4 @@
-#$Id: listfrozen.inc.pl.ja.pod,v 1.48 2007/07/15 07:40:09 papu Exp $
+#$Id: listfrozen.inc.pl.ja.pod,v 1.70 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -25,7 +25,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/listfrozen/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/listfrozen.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/listfrozen.inc.pl?view=log>
 
 =back
 
@@ -33,9 +33,9 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =over 4
 
-=item Nekyo
+=item ななみ
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -45,9 +45,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2005-2010 by ななみ.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

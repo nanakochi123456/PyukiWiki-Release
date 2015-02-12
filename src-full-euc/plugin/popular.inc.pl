@@ -1,21 +1,5 @@
 ######################################################################
-# popular.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: popular.inc.pl,v 1.53 2007/07/15 07:40:09 papu Exp $
-#
-# "PyukiWiki" version 0.1.7 $$
-# Author: YashiganiModoki
-#         http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
-# Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
-# License: GPL2 and/or Artistic or each later version
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the same terms as Perl itself.
-# Return:LF Code=EUC-JP 1TAB=4Spaces
+# 
 ######################################################################
 # 作者音信普通の為、承諾がとれていませんが、便宜の上で
 # v0.1.6対応版を配布することとしました。
@@ -24,7 +8,7 @@
 ######################################################################
 # 使い方
 #
-# #popular(10(件数),FrontPage|MenuBar,[total/today/yesterday...])
+# #popular(10(件数),FrontPage|MenuBar,[total/today/yesterday...],[notitle])
 #
 # ・件数：表示する件数
 # ・非対象ページ：対象外のページを正規表現で記述する
@@ -32,6 +16,7 @@
 #   $::CountView=2であれば、以下も使用できます。
 #   week - 今週の合計
 #   lastweek - 先週の合計
+# ・notitle：文字列を指定するとタイトルが表示されなくなる。
 # なお、popurarを使用すると、自動的にpopular.inc.plがインクルード
 # されます。
 ######################################################################
@@ -45,7 +30,7 @@ $popular::cache_expire=20*60
 
 sub plugin_popular_convert {
 	my $argv = shift;
-	my ($limit, $ignore_page, $flag) = split(/,/, $argv);
+	my ($limit, $ignore_page, $flag, $notitle) = split(/,/, $argv);
 
 	return qq(<div class="error">counter.inc.pl can't require</div>)
 		if (&exist_plugin("counter") ne 1);
@@ -99,8 +84,10 @@ sub plugin_popular_convert {
 			$out =  '<ul class="popular_list">' . $out . '</ul>';
 		}
 
-		if ($::resource{"popular_plugin_$flag\_frame"}) {
-			$out=sprintf $::resource{"popular_plugin_$flag\_frame"}, $count, $out;
+		if($notitle ne 'notitle') {
+			if ($::resource{"popular_plugin_$flag\_frame"}) {
+				$out=sprintf $::resource{"popular_plugin_$flag\_frame"}, $count, $out;
+			}
 		}
 		$cache->write($cachefile,$out);
 	}

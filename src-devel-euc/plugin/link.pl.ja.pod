@@ -1,4 +1,4 @@
-#$Id: link.pl.ja.pod,v 1.50 2007/07/15 07:40:09 papu Exp $
+#$Id: link.pl.ja.pod,v 1.70 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -31,7 +31,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/link/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/link.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/link.pl?view=log>
 
 =back
 
@@ -39,7 +39,9 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =over 4
 
+=item Hiroshi Yuki
 
+L<http://www.hyuki.com/>
 
 =item PyukiWiki Developers Team
 
@@ -49,9 +51,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2002-2007 by Hiroshi Yuki.
+Copyright (C) 2002-2010 by Hiroshi Yuki.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.7 $$
-# $Id: setting.en.txt,v 1.31 2007/07/15 07:40:09 papu Exp $
+# "PyukiWiki" version 0.1.8 $$
+# $Id: setting.en.txt,v 1.51 2010/12/14 22:20:00 papu Exp $
 #
 
 # setting.inc.pl
@@ -29,5 +29,5 @@ plugin_setting_savename_default=0
 
 
 plugin_setting_popup=Popup link place
-plugin_setting_popup_list=0:Link to same browser,1:Popup Link
+plugin_setting_popup_list=0:Link to same browser,1:Popup Link or same browser of other tab
 plugin_setting_popup_default=sub{$::use_popup eq 0 ? 0 : 1};

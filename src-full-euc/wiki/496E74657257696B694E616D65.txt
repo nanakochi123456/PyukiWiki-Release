@@ -24,19 +24,22 @@
 -[http://pyukiwiki.sourceforge.jp/? PyukiWiki] euc
 -[http://pyukiwiki.sourceforge.jp/? PyukiWiki.dev] euc
 // Nekyo Site
--[http://nekyo.hp.infoseek.co.jp/? PyukiWiki.org] euc
--[http://nekyo.hp.infoseek.co.jp/? Nekyo] euc
+-[http://nekyo.qp.land.to/? PyukiWiki.org] euc
+-[http://nekyo.qp.land.to/? Nekyo] euc
 
 ** Search Engine
 -[http://www.google.co.jp/search?ie=utf8&amp;oe=utf8&amp;q=$1&amp;lr=lang_ja&amp;hl=ja Google.jp] utf8 
 -[http://www.google.co.jp/search?ie=utf8&amp;oe=utf8&amp;q=$1&amp;lr=lang_ja&amp;hl=ja Google] utf8 
 //IEのGoogleツールバー対策でUTF-8になってます。
--[http://search.yahoo.co.jp/bin/search?p=$1 Yahoo.jp] euc
--[http://search.yahoo.co.jp/bin/search?p=$1 Yahoo] euc
+-[http://search.yahoo.co.jp/search?p=$1 Yahoo.jp] euc
+-[http://search.yahoo.co.jp/search?p=$1 Yahoo] euc
 -[http://search.yahoo.co.jp/search/dir?p=$1 Yahoo.dir] euc
--[http://www.infoseek.co.jp/ITitles?qt=$1 Infoseek] euc
--[http://search.goo.ne.jp/web.jsp?MT=$1 goo] euc
--[http://search.fresheye.com/?kw=$1 fresheye] sjis
+-[http://websearch.rakuten.co.jp/WebIS?qt=$1 Infoseek] euc
+-[http://websearch.rakuten.co.jp/WebIS?qt=$1 Rakuten] euc
+-[http://www.bing.com/search?q=$1 MSN] utf8
+-[http://www.bing.com/search?q=$1 bing] utf8
+-[http://search.goo.ne.jp/web.jsp?MT=$1 Goo] euc
+-[http://search.fresheye.com/?kw=$1 Fresheye] sjis
 -[http://ja.wikipedia.org/wiki/ WikiPedia] utf8
 
 ** 拡張InterWikiName

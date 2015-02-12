@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.88 2007/07/15 07:40:08 papu Exp $
+# $Id: build.pl,v 1.108 2010/12/14 22:20:00 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
@@ -13,14 +13,15 @@ $releasepatch="./releasepatch";
 $binary_files='(\.(jpg|png|gif|dat|key|zip)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
-$common_ignore='\.sum$|\.sign$|^rss10page|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|setup.ini.cgi|\.bak$|\.lk$';
+$common_ignore='\.sum$|\.sign$|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v.cgi|^playvideo|setup.ini.cgi|\.bak$|\.lk$';
 $release_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip|\.src$';
-$update_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess';
-$compact_ignore='|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$';
+$update_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
+$compact_ignore='|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|\.en\.txt$';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
-$updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess';
+$updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
 
 $devel_ignore=$common_ignore . '|\.zip$';
+$updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 
 @release_dirs=(
 	"attach:nodata:0777:0644",
@@ -152,10 +153,59 @@ $devel_ignore=$common_ignore . '|\.zip$';
 #	"releasepatch/skin::0755:0644"
 );
 
+@updated_dirs=(
+	"attach:nodata:0777:0644",
+	"build::0755:0644",
+	"cache:nodata:0777:0644",
+	"counter:nodata:0777:0644",
+	"diff:nodata:0777:0644",
+	"info::0777:666",
+#	"wiki::0777:0666",
+	"image::0755:0644",
+	"image/face::0755:0644",
+	"lib::0755:0644",
+	"lib/Algorithm::0755:0644",
+	"lib/File::0755:0644",
+	"lib/Jcode::0755:0644",
+	"lib/Jcode/Unicode::0755:0644",
+	"lib/Nana::0755:0644",
+	"lib/Time::0755:0644",
+	"lib/Yuki::0755:0644",
+	"lib/IDNA::0755:0644",
+	"lib/Digest::0755:0644",
+	"lib/Digest/Perl::0755:0644",
+	"plugin::0755:0644",
+	"resource::0755:0644",
+	"sample::0755:0644",
+	"skin::0755:0644",
+	"releasepatch::0755:0644",
+#	"releasepatch/attach:nodata:0777:0644",
+#	"releasepatch/build::0755:0644",
+#	"releasepatch/cache:nodata:0777:0644",
+#	"releasepatch/counter:nodata:0777:0644",
+#	"releasepatch/diff:nodata:0777:0644",
+#	"releasepatch/info::0777:666",
+#	"releasepatch/wiki::0777:0666",
+#	"releasepatch/image::0755:0644",
+#	"releasepatch/image/face::0755:0644",
+#	"releasepatch/lib::0755:0644",
+#	"releasepatch/lib/Algorithm::0755:0644",
+#	"releasepatch/lib/Jcode::0755:0644",
+#	"releasepatch/lib/Jcode/Unicode::0755:0644",
+#	"releasepatch/lib/Nana::0755:0644",
+#	"releasepatch/lib/Yuki::0755:0644",
+#	"releasepatch/lib/Digest::0755:0644",
+#	"releasepatch/plugin::0755:0644",
+#	"releasepatch/resource::0755:0644",
+#	"releasepatch/sample::0755:0644",
+#	"releasepatch/skin::0755:0644"
+);
+
 @cvs_dirs=@devel_dirs;
 
 @release_files=(
 	".htaccess:0644",
+	".htpasswd:0644",
 	"COPYRIGHT.ja.txt:0644",
 	"COPYRIGHT.txt:0644",
 	"index.cgi:0755",
@@ -166,6 +216,7 @@ $devel_ignore=$common_ignore . '|\.zip$';
 
 @releasec_files=(
 	".htaccess:0644",
+	".htpasswd:0644",
 	"COPYRIGHT.ja.txt:0644",
 	"COPYRIGHT.txt:0644",
 	"index.cgi:0755",
@@ -192,6 +243,19 @@ $devel_ignore=$common_ignore . '|\.zip$';
 
 @devel_files=(
 	".htaccess:0644",
+	".htpasswd:0644",
+	"COPYRIGHT.ja.txt:0644",
+	"COPYRIGHT.txt:0644",
+	"index.cgi:0755",
+	"pyukiwiki.ini.cgi:0644",
+	"favicon.ico:0644",
+	"Makefile:0644",
+	"README.txt:0644",
+	"DEVEL.txt:0644",
+);
+
+@develc_files=(
+#	".htaccess:0644",
 	"COPYRIGHT.ja.txt:0644",
 	"COPYRIGHT.txt:0644",
 	"index.cgi:0755",
@@ -243,6 +307,15 @@ if($TYPE eq 'release') {
 } elsif($TYPE eq 'devel') {
 	@dirs=@devel_dirs;
 	@files=@devel_files;
+	$ignore=$devel_ignore;
+	$checktimestamp=0;
+	$debug=1;
+	$podcut=0;
+	$commentcut=0;
+	$touchonly=0;
+} elsif($TYPE eq 'updatedevel') {
+	@dirs=@updated_dirs;
+	@files=@develc_files;
 	$ignore=$devel_ignore;
 	$checktimestamp=0;
 	$debug=1;
@@ -352,6 +425,10 @@ sub copyascii {
 	my $cut=0;
 	foreach(<R>) {
 		chomp;
+
+		# for sorceforge url
+		s/L\<\@\@CVSURL\@\@(.*)\>/L\<\@\@CVSURL\@\@$1\?view\=log\>/g;
+
 		$cut=1 if(/^\=(head|lang)/);
 		if(/^\=cut/) {
 			$cut=0;

@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: Makefile,v 1.34 2006/03/04 13:12:52 papu Exp $
+# $Id: Makefile,v 1.54 2010/12/14 22:20:00 papu Exp $
 
 ARCHIVEDIR=./archive
 BUILDDIR=./build
@@ -67,9 +67,9 @@ cvscheckout:
 		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
 		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
 
-test:FORCE
+release:FORCE
 	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
-	@${MAKE} test VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
+	@${MAKE} release VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
 		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
 		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
 		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \

@@ -1,7 +1,6 @@
 #
-# Id: Jcode.pm,v 2.5 2006/05/16 05:00:19 dankogai Exp dankogai $
-# $Id: Jcode.pm,v 1.52 2007/07/15 07:40:08 papu Exp $
-# "Jcode.pm" version 2.5 $$
+# $Id: Jcode.pm,v 1.72 2010/12/14 22:20:00 papu Exp $
+# Id: Jcode.pm,v 2.7 2008/05/10 18:15:19 dankogai Exp dankogai
 #
 
 package Jcode;
@@ -10,8 +9,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = q$Id: Jcode.pm,v 1.52 2007/07/15 07:40:08 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.52 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Jcode.pm,v 1.72 2010/12/14 22:20:00 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.72 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = 0;
 
 # we no longer use Exporter
@@ -322,6 +321,7 @@ sub tr{
     my $opt  = $_[2] || '';
     $from =~ s,\\,\\\\,og; $from =~ s,/,\\/,og;
     $to   =~ s,\\,\\\\,og; $to   =~ s,/,\\/,og;
+    $opt  =~ s,[^a-z],,og;
     my $match = eval qq{ \$str =~ tr/$from/$to/$opt };
     if ($@){
         $self->{error_tr} = $@;
@@ -427,14 +427,14 @@ sub mime_encode{
 
 sub _add_encoded_word {
     require MIME::Base64;
-    my($str, $line, $bpl) = @_;
+    my($str, $line, $lf, $bpl) = @_;
     my $result = '';
     while (length($str)) {
 	my $target = $str;
 	$str = '';
 	if (length($line) + 22 +
 	    ($target =~ /^(?:$RE{EUC_0212}|$RE{EUC_C})/o) * 8 > $bpl) {
-	    $line =~ s/[ \t\n\r]*$/\n/;
+	    $line =~ s/[ \t\n\r]*$/$lf/eo;
 	    $result .= $line;
 	    $line = ' ';
 	}
@@ -484,7 +484,7 @@ sub _mime_unstructured_header {
 		$header .= $word;
 	    }
 	} else {
-	    $header = _add_encoded_word($word, $header, $bpl);
+	    $header = _add_encoded_word($word, $header, $lf, $bpl);
 	}
 	$header =~ /(?:.*\n)*(.*)/;
 	if (length($1) == $bpl) {
@@ -510,6 +510,9 @@ sub m{
     my $pattern = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $opt     = shift || '' ;
     my @match;
+
+    $pattern =~ s,\\,\\\\,og; $pattern =~ s,/,\\/,og;
+    $opt     =~ s,[^a-z],,og;
     
     eval qq{ \@match = (\$\$r_str =~ m/$pattern/$opt) };
     if ($@){
@@ -527,6 +530,11 @@ sub s{
     my $pattern = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $replace = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $opt     = shift;
+
+    $pattern =~ s,\\,\\\\,og; $pattern =~ s,/,\\/,og;
+    $replace =~ s,\\,\\\\,og; $replace =~ s,/,\\/,og;
+    $opt     =~ s,[^a-z],,og;
+
     eval qq{ (\$\$r_str =~ s/$pattern/$replace/$opt) };
     if ($@){
 	$self->{error_s} = $@;

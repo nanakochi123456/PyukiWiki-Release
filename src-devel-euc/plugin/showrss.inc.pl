@@ -1,12 +1,12 @@
 ######################################################################
 # showrss.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: showrss.inc.pl,v 1.71 2007/07/15 07:40:09 papu Exp $
+# $Id: showrss.inc.pl,v 1.91 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
+# "PyukiWiki" version 0.1.8 $$
 # Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -30,7 +30,7 @@ sub plugin_showrss_inline
 }
 
 sub plugin_showrss_convert {
-	my ($rssuri,$tmplname,$usecache,$dateflag) = split(/,/, shift);
+	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag) = split(/,/, shift);
 	return if($rssuri eq '');
 
 	my $expire = $usecache * 3600;
@@ -55,10 +55,10 @@ sub plugin_showrss_convert {
 	my $buf=$cache->read($cachefile,1);
 	# rss10pageで生成されたページの場合
 	if($rssuri!~/$::isurl/) {
-		return &makebody($buf,$tmplname,$dateflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag);
 	}
 	if($cache->read($cachefile) ne '') {
-		return &makebody($buf,$tmplname,$dateflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag);
 	}
 	my $pid;
 	if($buf ne '') {
@@ -74,7 +74,7 @@ sub plugin_showrss_convert {
 		if($result ne 0) {
 			return qq(#showrss: $stream : $rssuri);
 		}
-		return &makebody($stream,$tmplname,$dateflag);
+		return &makebody($stream,$tmplname,$dateflag,$discflag);
 	} else {
 		if($pid) {
 			# マルチタスクの親
@@ -85,9 +85,9 @@ sub plugin_showrss_convert {
 				alerm(0);
 			};
 			if ($@ =~ /time out/) {
-				return &makebody($buf,$tmplname,$dateflag);
+				return &makebody($buf,$tmplname,$dateflag,$discflag);
 			} else {
-				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag);
+				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag);
 			}
 		} else {
 			# マルチタスクの子
@@ -100,7 +100,7 @@ sub plugin_showrss_convert {
 }
 
 sub makebody {
-	my($stream,$tmplname,$dateflag)=@_;
+	my($stream,$tmplname,$dateflag,$discflag)=@_;
 	my $body;
 	my %xml = &xmlParser($stream);
 	my @title = split(/\n/,
@@ -119,7 +119,16 @@ sub makebody {
 		)
 	);
 
-#	my @desc  = split(/\n/, $xml{'rdf:RDF/item/description'});
+	my @desc;
+	if($discflag eq 1) {
+		@desc = split(/\n/,
+			($xml{'rdf:RDF/item/description'} ne ""
+			? $xml{'rdf:RDF/item/description'}
+			: $xml{'rss/channel/item/description'}
+			)
+		);
+	}
+
 
 	my ($footer, $ll, $lr);
 
@@ -167,9 +176,16 @@ EOD
 				$dt='';
 			}
 		}
-		$body .=<<"EOD";
-$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count])]}$lr
+		# 複数ドメイン対応のため "_self"を指定
+		if($discflag) {
+			$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}<br />$desc[$count]$lr
 EOD
+		} else {
+			$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}$lr
+EOD
+		}
 		$count++;
 	}
 	$body .= $footer;
@@ -252,6 +268,7 @@ sub xmlParser {
 	my ($stream) = @_;
 	my ($i, $ch, $name, @node, $val, $key, %xml);
 	my $flg = 0;	# 1:key / 0:value
+	$stream=~s/<br><\/br>/\r/g;
 	foreach $i (0..length $stream) {
 		$ch = substr($stream, $i, 1);
 		if ($ch eq '<') {
@@ -263,6 +280,7 @@ sub xmlParser {
 			chop $name;
 			$val =~ s/<//g;
 			$val =~ s/>//g;
+			$val =~ s/\r/<br \/>/g;
 			$xml{$name} .= "$val\n";
 			undef $val;
 		}
@@ -293,7 +311,7 @@ showrss.inc.pl - PyukiWiki Plugin
 
 =head1 SYNOPSIS
 
- #showrss(URL of rdf, [recent|body|menubar], time)
+ #showrss(URL of rdf, [recent|body|menubar], time, dateflag, discflag)
 
 =head1 DESCRIPTION
 
@@ -315,6 +333,14 @@ View format selection of 'recent', 'body' or 'menubar'
 
 Update cycle of hour
 
+=item dateflag
+
+Setting 2 of display date, and Setting 3 of display date time
+
+=item discflag
+
+Setting 1 of display description, 0 and none is no display
+
 =back
 
 =head1 SEE ALSO
@@ -327,7 +353,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/showrss/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl?view=log>
 
 =back
 
@@ -337,7 +363,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -347,9 +373,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

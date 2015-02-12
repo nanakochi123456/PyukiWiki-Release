@@ -1,4 +1,4 @@
-#$Id: hr.pl.ja.pod,v 1.15 2006/03/04 13:12:53 papu Exp $
+#$Id: hr.pl.ja.pod,v 1.37 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -28,7 +28,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/hr/>
 
 =item PyukiWiki CVSレボジトリ
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/hr.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/hr.pl?view=log>
 
 =back
 
@@ -38,7 +38,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item ななみ
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -48,9 +48,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2005-2006 by ななみ.
+Copyright (C) 2005-2010 by ななみ.
 
-Copyright (C) 2005-2006 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

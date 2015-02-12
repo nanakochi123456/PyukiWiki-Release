@@ -1,4 +1,4 @@
-$Id: Search.pm.ja.pod,v 1.47 2007/07/15 07:40:09 papu Exp $
+$Id: Search.pm.ja.pod,v 1.69 2010/12/14 22:20:00 papu Exp $
 
 __END__
 
@@ -28,7 +28,7 @@ charactor set is EUC only
 
 =item ななみ
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -36,9 +36,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by ななみ.
+Copyright (C) 2005-2010 by ななみ.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 
@@ -46,5 +46,3 @@ This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 =cut
-
-1;

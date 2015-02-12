@@ -1,4 +1,4 @@
-#$Id: showrss.inc.pl.ja.pod,v 1.52 2007/07/15 07:40:09 papu Exp $
+#$Id: showrss.inc.pl.ja.pod,v 1.74 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -9,7 +9,7 @@ showrss.inc.pl - PyukiWiki プラグイン
 
 =head1 概要
 
- #showrss(rdfへのURI,[recent|body|menubar],時間）
+ #showrss(rdfへのURI,[recent|body|menubar],時間,時間フォーマットフラグ,詳細フラグ）
 
 =head1 説明
 
@@ -19,7 +19,7 @@ rdfを読込んで表示します。
 
 指定しない場合は、デフォルトの1時間となります。
 
-cache ディレクトリを作成する必要があります。Jcode.pm または Unicode::Japanese の使用が必須となります。
+cache ディレクトリを作成する必要があります。
 
 =head1 USING
 
@@ -29,9 +29,17 @@ cache ディレクトリを作成する必要があります。Jcode.pm または Unicode::Japanese の
 
 表示する書式を 'recent', 'body' or 'menubar' または未指定から選択します。
 
-=item time
+=item 時間
 
 更新周期を指定します。
+
+=item 時間フォーマットフラグ
+
+2を設定することで日付を、3を設定することで日時を表示します。
+
+=item 詳細フラグ
+
+1を設定することで、descriptionタグを表示します。（ただし複数行未対応）
 
 =back
 
@@ -45,7 +53,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/showrss/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl?view=log>
 
 =back
 
@@ -55,7 +63,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -65,9 +73,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

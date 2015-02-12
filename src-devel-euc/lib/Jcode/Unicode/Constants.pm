@@ -1,7 +1,6 @@
 #
-# Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp $
-# $Id: Constants.pm,v 1.53 2007/07/15 07:40:09 papu Exp $
-# "Jcode.pm" version 2.5 $$
+# $Id: Constants.pm,v 1.73 2010/12/14 22:20:00 papu Exp $
+# Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp 
 #
 
 package Jcode::Unicode::Constants;
@@ -40,8 +39,8 @@ Copyright (c) 1991-1994 Unicode, Inc.
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: Constants.pm,v 1.53 2007/07/15 07:40:09 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.53 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Constants.pm,v 1.73 2010/12/14 22:20:00 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.73 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 

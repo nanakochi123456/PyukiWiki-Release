@@ -1,24 +1,23 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.7 $$
+	"PyukiWiki" version 0.1.8 $$
 	Copyright (C)
-	  2005-2007 PukiWiki Developers Team
-	  2004-2007 Nekyo (Based on PukiWiki, YukiWiki)
+	  2005-2010 PukiWiki Developers Team
+	  2004-2010 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
 
 	URL:
-	http://nekyo.hp.infoseek.co.jp/
+	http://nekyo.qp.land.to/
 	http://pyukiwiki.sourceforge.jp/
 
 	MAIL:
-		Nekyo <nekyo (at) yamaneko (dot) club (dot) ne (dot) jp>
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.41 2007/07/15 07:40:08 papu Exp $
+	$Id: DEVEL.txt,v 1.62 2010/12/14 22:20:00 papu Exp $
 
-	このテキストファイルはShiftJIS、TAB4で記述されています。
+	このテキストファイルはShift-JIS、TAB4で記述されています。
 
 -------------------------------------------------
 ■ devel版について

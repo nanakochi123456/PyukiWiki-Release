@@ -1,12 +1,12 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.77 2007/07/15 07:40:09 papu Exp $
+# $Id: attach.inc.pl,v 1.97 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
+# "PyukiWiki" version 0.1.8 $$
 # Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -16,6 +16,9 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# 2010/11/17: カウンター対応
+# 2010/10/24: 一部修正
+######################################################################
 
 #use strict;
 use CGI qw(:standard);
@@ -23,6 +26,9 @@ use Digest::MD5 qw(md5_hex);
 #use Digest::Perl::MD5 qw(md5_hex);
 # if your system has not Digest::MD5, swap comment.
 use File::MMagic;
+
+# add 0.1.8
+require "plugin/counter.inc.pl";
 
 @magic_files=(
 	# システムによってmagicファイルが異なりすぎて判別できない可能性があります
@@ -85,7 +91,7 @@ my %mime = (
 
 	# Phone sound files
 #	'\.mld'				=> "text/plain|data", #DoCoMo (text/plainが奨励されている)
-	'\.mmf'				=> "application/vnd.smaf|SMAF", #Voda/au/Tu-Ka
+	'\.mmf'				=> "application/vnd.smaf|SMAF", #SoftBank(not iphone)/au
 
 	# Image Files
 	'\.bmp'				=> "image/bmp|bitmap",
@@ -119,9 +125,9 @@ my %mime = (
 #	'\.(css)'			=> "text/plain|text",
 
 	# exec files, etc...
-#	'\.(exe|com)'		=> "application/octet-stream|MS",
-#	'\.(chm|hlp)'		=> "application/octet-stream|MS",
-#	'\.(msi)'			=> "application/octet-stream|Office",
+#	'\.(exe|com)'		=> "application/octet-stream|MS Exec File",
+#	'\.(chm|hlp)'		=> "application/octet-stream|MS Help File",
+#	'\.(msi)'			=> "application/octet-stream|MS installer",
 
 );
 
@@ -483,6 +489,11 @@ sub code_convert {
 	return &$funcp(@_);
 }
 
+sub plugin_counter_do {
+	my $funcp = $::functions{"plugin_counter_do"};
+	return &$funcp(@_);
+}
+
 sub new
 {
 	my $this = bless {};
@@ -508,11 +519,18 @@ sub open
 	my $query = new CGI;
 	my $http_header;
 	my $filename=$this->{file};
-	# Windows MSIE & Opera
+
+	# add 0.1.8
+	if($::AttachCounter > 0) {
+		my $pg=$this->{page};
+		my $fn=$this->{file};
+		&plugin_counter_do("attach\_$pg\_$fn","w");
+	}
+
+	# Windows MSIE & Opera & Chrome
 
 	if($filename=~/[\x81-\xfe]/) {
-		if($ENV{HTTP_USER_AGENT}=~/Opera/) {
-			$filename=&code_convert(\$filename,"utf8",$::defaultcode);
+		if($ENV{HTTP_USER_AGENT}=~/Opera/ || $ENV{HTTP_USER_AGENT} =~/Chrome/) {			$filename=&code_convert(\$filename,"utf8",$::defaultcode);
 			$filename=qq(filename="$filename");
 #			$filename="filename*=ISO-2022-JP" . qq{''} . &encode($filename) . qq{"};
 			$filename=~s/%2e/\./g;
@@ -527,6 +545,7 @@ sub open
 	} else {
 		$filename=qq(filename="$filename");
 	}
+
 	$http_header=$query->header(
 		-type=>"$this->{type}",
 		-Content_disposition=>"attachment; $filename",
@@ -542,6 +561,7 @@ sub open
 	my $buffer;
 	print $buffer while (read(FILE, $buffer, 4096));
 	close(FILE);
+
 	exit;
 }
 
@@ -555,6 +575,17 @@ sub info
 
 	my $info = $this->toString(1, 0);
 	my %retval;
+
+	# add 0.1.8
+	my $counterstring;
+	if($::AttachCounter > 0) {
+		my $pg=$::form{refer};
+		my $fn=$this->{file};
+		my %attach_counter=&plugin_counter_do("attach\_$pg\_$fn","r");
+		$counterstring=<<EOM;
+ <dd>$::resource{attach_plugin_msg_dlcount}: $::resource{attach_plugin_msg_dlcount_total}: $attach_counter{total} $::resource{attach_plugin_msg_dlcount_today}: $attach_counter{today} $::resource{attach_plugin_msg_dlcount_yesterday}: $attach_counter{yesterday}</dd>
+EOM
+	}
 
 	$retval{msg} = "\t$::resource{attach_plugin_msg_info}";
 	$retval{body} =<<EOD;
@@ -570,7 +601,7 @@ sub info
  <dd>$::resource{attach_plugin_msg_filesize}: $this->{size_str} ($this->{size} bytes)</dd>
  <dd>Content-type: $this->{type}</dd>
  <dd>Magic: $this->{magic}</dd>
- <dd>$::resource{attach_plugin_msg_date}: $this->{time_str}</dd>
+ <dd>$::resource{attach_plugin_msg_date}: $this->{time_str}</dd>$counterstring
 </dl>
 EOD
 
@@ -857,7 +888,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/attach/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/attach.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/attach.inc.pl?view=log>
 
 =back
 
@@ -867,7 +898,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -877,9 +908,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,12 +1,12 @@
 ######################################################################
 # comment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: comment.inc.pl,v 1.61 2007/07/15 07:40:09 papu Exp $
+# $Id: comment.inc.pl,v 1.81 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
+# "PyukiWiki" version 0.1.8 $$
 # Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -16,6 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v 0.0.3 - 2006/01/15 Tnx:Birgus-Latro
 # v 0.0.2 - 2004/10/28 Tnx:Birgus-Latro
 # v 0.0.1 - ProtoType
 ######################################################################
@@ -56,6 +57,8 @@ $comment::format_now = "Y-m-d(lL) H:i:s"
 
 
 sub plugin_comment_action {
+	&::spam_filter($::form{mymsg}, 2);
+	&::spam_filter($::form{myname}, 0);
 
 	if (($::form{mymsg} =~ /^\s*$/ && $comment::nodata eq 1)
 	 || ($::form{myname} =~ /^\s*$/ && $comment::noname eq 1)

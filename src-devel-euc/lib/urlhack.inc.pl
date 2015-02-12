@@ -1,12 +1,12 @@
 ######################################################################
-# urlhack.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: urlhack.inc.pl,v 1.74 2007/07/15 07:40:09 papu Exp $
+# urlhack.inc.pl - This is PyukiWiki, yet another Wiki clone.
+# $Id: urlhack.inc.pl,v 1.94 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -389,6 +389,16 @@ change from B<$urlhack::use_path_info=1;> to B<$urlhack::use_path_info=0;>
 
  DirectoryIndex B<nph-index.cgi> index.cgi wiki.cgi pyukiwiki.cgi index.html
 
+ RewriteEngine on
+ RewriteBase /
+ 
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^\?(.*)$ ./index.cgi?$1 [L]
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^(.+)/$ ./index.cgi/$1 [L]
+ RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
+ RewriteRule ^$ ./index.cgi [L]
+
  ErrorDocument 400 /nph-index.cgi?cmd=servererror
  ErrorDocument 401 /nph-index.cgi?cmd=servererror
  ErrorDocument 402 /nph-index.cgi?cmd=servererror
@@ -406,13 +416,8 @@ When using a PATH_INFO environment variable, it is set 1, using 404 Not found of
 
 =item $urlhack::fake_extention
 
-An extension etc. is attached and camouflaged.
+Sorry. this option is '/' only ;;
 
- $urlhack::fake_extention='.html';
- http://example.com/FrontPage.html
- http://example.com/PyukiWiki/Download.html
- http://example.com/a5d8a5eba5d7.html
- 
  $urlhack::fake_extention='/';
  http://example.com/FrontPage/
  http://example.com/PyukiWiki/Download/
@@ -437,6 +442,7 @@ In the case of the page name which consists of only specified characters, it doe
 
 make_cookedurl was overrided.
 
+
 =head1 SEE ALSO
 
 =over 4
@@ -447,7 +453,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/urlhack/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl?view=log>
 
 =back
 
@@ -457,17 +463,19 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/ur
 
 =item Nanami
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
 L<http://pyukiwiki.sourceforge.jp/>
 
+=back
+
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by Nanami.
+Copyright (C) 2005-2010 by Nanami.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,4 +1,4 @@
-#$Id: img.inc.pl.ja.pod,v 1.33 2007/07/15 07:40:09 papu Exp $
+#$Id: img.inc.pl.ja.pod,v 1.55 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -52,7 +52,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/img/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/img.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/img.inc.pl?view=log>
 
 =back
 
@@ -62,7 +62,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -72,9 +72,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

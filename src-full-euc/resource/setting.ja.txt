@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.7 $$
-# $Id: setting.ja.txt,v 1.31 2007/07/15 07:40:09 papu Exp $
+# "PyukiWiki" version 0.1.8 $$
+# $Id: setting.ja.txt,v 1.51 2010/12/14 22:20:00 papu Exp $
 #
 
 # setting.inc.pl
@@ -28,5 +28,5 @@ plugin_setting_savename_list=0:保存しない,1:保存する
 plugin_setting_savename_default=0
 
 plugin_setting_popup=リンク先のポップアップ
-plugin_setting_popup_list=0:なし,1:ポップアップする
+plugin_setting_popup_list=0:なし,1:ポップアップするか別タブで表示する
 plugin_setting_popup_default=sub{$::use_popup eq 0 ? 0 : 1};

@@ -1,4 +1,4 @@
-#$Id: gzip.inc.pl.ja.pod,v 1.52 2007/07/15 07:40:09 papu Exp $
+#$Id: gzip.inc.pl.ja.pod,v 1.72 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -37,6 +37,10 @@ gzipのパスは、動作確認できたら、必ず指定して下さい。自動取得の場合、PATHを推定し
 
 使用するサーバーによっては、サーバー側でgzip圧縮が有効になっている可能性がありますので、その場合は使用しないほうがパフォーマンスが向上します。
 
+=head1 その他
+
+クライアントのPCが高性能であれば、イントラネット上においてもgzip圧縮を有効にすることにより若干軽快に閲覧できるようです。
+
 =head1 上書きする関数
 
 関数 content_output を上書きします。
@@ -50,9 +54,9 @@ gzipのパスは、動作確認できたら、必ず指定して下さい。自動取得の場合、PATHを推定し
 L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/gzip/>
 
 
-=item PyukiWiki CVS
+=item PyukiWiki CVSレボジトリ
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/gzip.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/gzip.inc.pl?view=log>
 
 =back
 
@@ -70,13 +74,6 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2005-2007 by ななみ.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
-
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
-
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
 
 =cut

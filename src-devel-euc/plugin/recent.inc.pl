@@ -1,12 +1,12 @@
 ######################################################################
 # recent.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: recent.inc.pl,v 1.59 2007/07/15 07:40:09 papu Exp $
+# $Id: recent.inc.pl,v 1.79 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
+# "PyukiWiki" version 0.1.8 $$
 # Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -126,7 +126,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/recent/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/recent.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/recent.inc.pl?view=log>
 
 =back
 
@@ -136,7 +136,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -146,9 +146,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

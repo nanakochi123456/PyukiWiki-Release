@@ -1,12 +1,12 @@
 ######################################################################
-# autometarobot.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: autometarobot.inc.pl,v 1.51 2007/07/15 07:40:09 papu Exp $
+# autometarobot.inc.pl - This is PyukiWiki, yet another Wiki clone.
+# $Id: autometarobot.inc.pl,v 1.71 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -21,6 +21,11 @@
 ######################################################################
 #
 # ページからロボット型検索エンジンへのキーワードを自動生成する
+#
+# 注意点：
+# ・検索キーワードがあまりにも好みでないのであれば、
+# 　適当にwiki自体の強調文字等を設定してみたり、解除してみたり
+# 　してみて下さい。
 #
 ######################################################################
 

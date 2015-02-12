@@ -1,0 +1,60 @@
+#$Id: iecompatiblehack.inc.pl.ja.pod,v 1.4 2010/12/14 22:20:00 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+iecompatiblehack.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+IEの互換表示ボタンを強制的になくすプラグイン
+
+=head1 説明
+
+Internet Explorere 8 以降で互換表示ボタンが表示されるのを阻止します。
+
+なお、他のコンテンツやスキンのCSSの互換が悪い場合には使用しないで下さい。
+ブラウジングできるようにします。
+
+=head1 使用方法
+
+iecompatiblehack.inc.cgi にリネームして下さい。
+
+=head1 上書きする関数
+
+なし
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/ExPlugin/iecompatiblehack
+
+L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/iecompatiblehack/>
+
+
+=item PyukiWiki CVSレボジトリ
+
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/iecompatiblehack.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sourceforge.jp/>
+
+=back
+
+=head1 ライセンス
+
+
+
+=cut

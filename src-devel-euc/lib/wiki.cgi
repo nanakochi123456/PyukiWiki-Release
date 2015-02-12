@@ -1,11 +1,11 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.211 2007/07/15 07:40:09 papu Exp $
+# $Id: wiki.cgi,v 1.234 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -40,7 +40,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.7';
+$::version = '0.1.8';
 
 	# 2005.12.19 pochi: mod_perlで実行可能に
 	# グローバル関数の定義
@@ -261,7 +261,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Dev/Specification/wiki.cgi/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/wiki.cgi>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/wiki.cgi?view=log>
 
 =back
 
@@ -271,7 +271,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/lib/wi
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -281,9 +281,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 
@@ -778,7 +778,7 @@ sub skin_check {
 
 sub init_inline_regex {
 	$::inline_regex =qq(($bracket_name)|($embedded_inline));
-	$::inline_regex.=qq(|($isurl))						# Direct URL
+	$::inline_regex.=qq(|($::isurl))						# Direct URL
 		if($::autourllink eq 1);
 	$::inline_regex.=qq(|(mailto:$ismail)|($ismail))	# Mail
 		if($::automaillink eq 1);
@@ -967,9 +967,7 @@ sub makenavigator {
 		&makenavigator_sub1("help","refer",$refer);
 	}
 	&makenavigator_sub3("rss10");
-	&makenavigator_sub3("rss20");
-	&makenavigator_sub3("atom");
-	&makenavigator_sub3("opml");
+#	&makenavigator_sub3("rss20");
 
 	# リンクの並び順を設定
 	my @naviindex;
@@ -1368,6 +1366,126 @@ sub do_read {
 	return 0;
 }
 
+
+=head2 snapshot
+
+=over 4
+
+=item 設定
+
+$::deny_log = 1 詳細出力をpyukiwiki.ini.cgiに設定した$::deny_logに出力する。
+
+$::filter_flg = 1 スパムフィルターを設定したときに$::black_logに出力する。
+
+=item 入力値
+
+&snapshot(ログ出力の理由のメッセージ);
+
+=item 出力
+
+なし
+
+=item オーバーライド
+
+不可
+
+=item 概要
+
+スパムフィルター &spam_filter においてのロギングをする。 add by Nekyo
+
+=back
+
+=cut
+
+sub snapshot {
+	my $title = shift;
+	my $fp;
+
+	if ($::deny_log) {
+		open $fp, ">>$::deny_log";
+		print $fp "<<" . $title . ' ' . date("Y-m-d H:i:s") . ">>\n";
+		print $fp "HTTP_USER_AGENT:"      . $::ENV{'HTTP_USER_AGENT'}      . "\n";
+		print $fp "HTTP_REFERER:"         . $::ENV{'HTTP_REFERER'}         . "\n"; # 呼び出し元URL
+		print $fp "REMOTE_ADDR:"          . $::ENV{'REMOTE_ADDR'}          . "\n";  # リモート
+		print $fp "REMOTE_HOST:"          . $::ENV{'REMOTE_HOST'}          . "\n";
+		print $fp "REMOTE_IDENT:"         . $::ENV{'REMOTE_IDENT'}         . "\n";
+		print $fp "HTTP_ACCEPT_LANGUAGE:" . $::ENV{'HTTP_ACCEPT_LANGUAGE'} . "\n";
+		print $fp "HTTP_ACCEPT:"          . $::ENV{'HTTP_ACCEPT'}          . "\n";
+		print $fp "HTTP_HOST:"            . $::ENV{'HTTP_HOST'}            . "\n";
+		print $fp "\n";
+		close $fp;
+	}
+	if ($::filter_flg == 1) {
+		open($fp, "$::black_log");
+		while (<$fp>) {
+			tr/\r\n//d;
+			s/\./\\\./g;
+			if ($_ ne '' && $::ENV{'REMOTE_ADDR'} =~ /$_/i) {
+				close($fp);
+				return 0;
+			}
+		}
+		close($fp);
+		open($fp, ">>$::black_log");
+		print $fp $::ENV{'REMOTE_ADDR'} . "\n";  # リモート
+		close $fp;
+	}
+}
+
+=lang ja
+
+=head2 spam_filter
+
+=over 4
+
+=item 入力値
+
+&spam_filter(なし 文字列指定, レベル);
+
+レベル
+
+0または指定なしの場合Over Httpのみのチェックをする。
+
+1の場合日本語チェックをする
+
+2の場合Over Httpと日本語チェックのみをする。
+
+=item 出力
+
+なし
+
+=item オーバーライド
+
+不可
+
+=item 概要
+
+掲示板、コメント等のスパムフィルター  add by Nekyo
+
+=back
+
+=cut
+
+sub spam_filter {
+	my ($chk_str, $level) = @_;
+	return if ($::filter_flg != 1);	# フィルターオフなら何もしない。
+	return if ($chk_str eq '');		# 文字列が無ければ何もしない。
+	# レベル 2　を除きOver Httpチェックを行う。
+	if (($level ne  1) && ($::chk_uri_count > 0) && (($chk_str =~ s/https?:\/\///g) > $::chk_uri_count)) {
+		&snapshot('Over http');
+	# レベルが 1 の時のみ 日本語チェックを行う。
+	# changed by nanami
+	#} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /[あ-んア-ン]/)) {
+	} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /[\x8E\xA1-\xFE]/)) {
+		&snapshot('No Japanese');
+	} else {
+		return;
+	}
+	&skinex($::form{mypage}, &message($::resource{auth_writefobidden}), 0);
+	&close_db;
+	exit;
+}
+
 =lang ja
 
 =head2 do_write
@@ -1459,6 +1577,9 @@ sub do_write {
 		$::form{mymsg} =~ s/&page;/$tmp/g;
 	}
 	$::form{mymsg}=~s/\x0D\x0A|\x0D|\x0A/\n/g;
+
+	# スパムフィルター
+	&spam_filter($::form{mymsg}, 2) if ($::chk_write_jp_only eq 1);
 
 	# Making diff
 	if (1) {
@@ -1561,6 +1682,10 @@ sub read_by_part {
 	}
 	return @parts;
 }
+
+
+
+
 
 =lang ja
 
@@ -1716,7 +1841,7 @@ sub text_to_html {
 		push(@result, shift(@saved)) if (@saved and $saved[0] eq '</pre>' and /^[^ \t]/);
 		my $escapedscheme=$_;
 		# v0.1.6 url or mail scheme escape to [BS] or [TAB]
-		if($escapedscheme=~/($isurl|mailto:$ismail)/) {
+		if($escapedscheme=~/($::isurl|mailto:$ismail)/) {
 			my $url1=$1;
 			my $url2=$url1;
 			$url2=~s!:!\x08!g;
@@ -2085,7 +2210,6 @@ sub inline {
 	my ($line, %option) = @_;
 	$line =~ tr|\x08|:|;							# escaped scheme v0.1.6
 	$line =~ tr|\x07|/|;							# escaped scheme v0.1.6
-#	$line =~ s|^//.*$||g;							# Comment
 	$line =~ s|^//.*||g;							# Comment
 	$line =~ s|\s//\s\#.*$||g;						# Comment # debug
 	$line = &htmlspecialchars($line);
@@ -2221,44 +2345,50 @@ sub note {
 
 sub make_link {
 	my $chunk = shift;
+	my $res;
 	my $orgchunk=$chunk;
+	my $target = qq( target="_blank");
 
-#	} elsif ($chunk =~ /^$interwiki_definition2$/) {
-#		return qq(<span class="InterWiki">) . &make_link_url("interwiki",$1,$2) . " $3</span>";
-#	} elsif ($chunk =~ /^$interwiki_definition$/) {
-#		return qq(<span class="InterWiki">) . &make_link_url("interwiki",$1,$2) . "</span>";
-#	} elsif ($chunk =~ /^$embedded_inline/o) {
+	# bug fix 0.1.8
+	if ($chunk =~ /^(https?|ftp):/) {
+		if (&exist_plugin('img') == 1) {
+			$res = &plugin_img_convert("$chunk,module");
+			return $res if ($res ne '');
+		}
+#		return qq(<a href="$chunk"$target>$chunk</a>);
+
+	} elsif ($chunk =~ /^$interwiki_definition2$/) {
+#	if ($chunk =~ /^$interwiki_definition2$/) {
+		my $value = <<EOM;
+<span class="InterWiki">@{[&make_link_target($1, $2, $target)]}</span>
+EOM
+		return $value;
 
 	# インラインプラグイン
-	if ($chunk =~ /^$embedded_inline/o) {
+	} elsif ($chunk =~ /^$embedded_inline/o) {
 		if($::usePukiWikiStyle eq 1) {
 			return &embedded_inline($chunk,2);
 		} else {
 			return &embedded_inline($chunk);
 		}
 	}
-#	$chunk = &unescape(&unarmor_name($chunk));
-#	my $cookedchunk = &encode($chunk);
-#	my $escapedchunk = &htmlspecialchars($chunk);
 	my $escapedchunk=&unarmor_name($chunk);
 	$chunk=&unescape($escapedchunk);
 	# url
-#	if ($chunk =~ /^(https?|ftp):/) {
 	if ($chunk =~ /^$::isurl$/o) {
 		my $tmp=&make_link_urlhref($chunk);
 		if ($use_autoimg and $chunk =~ /\.$::image_extention$/o) {
 			return &make_link_url("url",$tmp,$tmp,$tmp);
 		} else {
 			return &make_link_url("url",$tmp,$tmp);
-#			return &make_link_url("url",$chunk,$escapedchunk);
 		}
 	}
 	# [[intername:wiki#anchor]]
-	if ($chunk!~/>/ && $chunk =~ /^$interwiki_name2$/o && $chunk!~/$isurl|$ismail/o) {
+	if ($chunk!~/>/ && $chunk =~ /^$interwiki_name2$/o && $chunk!~/$::isurl|$ismail/o) {
 		my $chunk1=&make_link_interwiki($1,$2,$3,$escapedchunk);
 		return $chunk1 if($chunk1 ne '');
 	# [[intername:wiki]]
-	} elsif ($chunk!~/>/ && $chunk =~ /^$interwiki_name1$/o && $chunk!~/$isurl|$ismail/o) {
+	} elsif ($chunk!~/>/ && $chunk =~ /^$interwiki_name1$/o && $chunk!~/$::isurl|$ismail/o) {
 		$escapedchunk=&make_link_interwiki($1,$2,$escapedchunk);
 		return $chunk1 if($chunk1 ne '');
 	}
@@ -2278,14 +2408,14 @@ sub make_link {
 		$escapedchunk=$1;
 		my $chunk2=$2;
 		#[[http://some/image.(gif|png|jpe?g)>???]]
-		if ($use_autoimg && $escapedchunk=~/$isurl/o && $escapedchunk =~ /\.$::image_extention$/o) {
+		if ($use_autoimg && $escapedchunk=~/$::isurl/o && $escapedchunk =~ /\.$::image_extention$/o) {
 			$escapedchunk=&make_link_image($escapedchunk);
 		} else {
 			$escapedchunk=&htmlspecialchars($escapedchunk);
 		}
 		# v0.1.7 http & mailto swap
 		# [[name>http://url/]]
-		if($chunk2=~/$isurl/o) {
+		if($chunk2=~/$::isurl/o) {
 			return &make_link_url("link",$chunk2,$escapedchunk);
 		# [[name>mailto:mail@address]] or [[name>mail@address]]
 		} elsif($chunk2=~/$ismail/o) {
@@ -2301,7 +2431,7 @@ sub make_link {
 		} elsif($chunk2=~/^$interwiki_name1$/o) {
 			my $chunk1=&make_link_interwiki($1,$2,$escapedchunk);
 			return $chunk1 if($escapedchunk ne '');
-		} elsif($chunk=~/^$isurl/o) {
+		} elsif($chunk=~/^$::isurl/o) {
 			if ($use_autoimg and $escapedchunk =~ /\.$::image_extention$/o) {
 				return &make_link_url("image",$chunk,$chunk,$escapedchunk);
 			} else {
@@ -2314,7 +2444,7 @@ sub make_link {
 		$escapedchunk=$1;
 		my $chunk2=$2;
 		#[[http://some/image.(gif|png|jpe?g)>???]]
-		if ($use_autoimg && $escapedchunk=~/$isurl/o && $escapedchunk =~ /\.$::image_extention$/o) {
+		if ($use_autoimg && $escapedchunk=~/$::isurl/o && $escapedchunk =~ /\.$::image_extention$/o) {
 			$escapedchunk=&make_link_image($escapedchunk);
 		} else {
 			$escapedchunk=&htmlspecialchars($escapedchunk);
@@ -2326,7 +2456,7 @@ sub make_link {
 			}
 			return &make_link_mail($chunk2,$escapedchunk);
 		# [[name>http://url/]]
-		} elsif($chunk2=~/$isurl/o) {
+		} elsif($chunk2=~/$::isurl/o) {
 			return &make_link_url("link",$chunk2,$escapedchunk);
 		# [[name>intername:wiki#anchor]]
 		} elsif($chunk2=~/^$interwiki_name2$/o) {
@@ -2336,7 +2466,7 @@ sub make_link {
 		} elsif($chunk2=~/^$interwiki_name1$/o) {
 			my $chunk1=&make_link_interwiki($1,$2,$escapedchunk);
 			return $chunk1 if($escapedchunk ne '');
-		} elsif($chunk=~/^$isurl/o) {
+		} elsif($chunk=~/^$::isurl/o) {
 			if ($use_autoimg and $escapedchunk =~ /\.$::image_extention$/o) {
 				return &make_link_url("image",$chunk,$chunk,$escapedchunk);
 			} else {
@@ -2533,7 +2663,7 @@ sub make_link_mail {
 
 =item 入力値
 
-&make_link_url(クラス, チャンク, 表示文字列, 画像);
+&make_link_url(クラス, チャンク, 表示文字列, 画像, ターゲット);
 
 =item 出力
 
@@ -2610,7 +2740,7 @@ sub make_link_target {
 		$target='' if($url=~/\Q$tmp/);
 	}
 	if($target eq '') {
-		return qq(<a href="$url"@{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
+		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 	} elsif($::is_xhtml) {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return openURI('$url','$target');" onkeypress="return openURI('$url','$target');">);
 	} else {
@@ -3299,7 +3429,6 @@ sub close_diff {
 sub is_readable {
 	my($page)=@_;
 	return 0 if($page eq $::RecentChanges);	# do not delete
-#	return 0 if($page=~/testauth/);	# debug
 	return 1;
 }
 
@@ -3334,13 +3463,6 @@ sub is_editable {
 	return 0 if($fixedpage{$page} || $fixedplugin{$::form{cmd}});
 	return 0 if(
 		$page=~/([\xa\xd\f\t\[\]])|(\.{1,3}\/)|^\s|\s$|^\#|^\/|\/$|^$|^$interwiki_name1$|^$::ismail$/o);
-#	return 0 if (&is_bracket_name($page) || $fixedpage{$page});	# debug
-#	return 0 if ($fixedplugin{$::form{cmd}});					# debug
-#	return 0 if ($page=~/(\x0a|\x0d|\f|\t)/ || $page=~/^\s/ || $page =~/\s$/);# debug
-#	return 0 if ($page=~/^$interwiki_name1$/ || $page=~/^\#/);	# debug
-#	return 0 if ($page =~ /(^|\/)\.{1,2}(\/|$)/); # ./ ../ is ng# debug
-#	return 0 if ($page=~/^\// || $page=~/\/$/);					# debug
-#	return 0 if ($page eq '' || not $page);						# debug
 	return 0 if (not &is_readable($page));
 	return 1;
 }
@@ -4221,12 +4343,7 @@ sub code_convert {
 	if($$contentref ne '') {
 		if ($::lang eq 'ja') {
 			if($::code_method{ja} eq 'jcode.pl') {
-				require "jcode.pl";
-				if($kanjicode=~/utf/ || $icode=~/utf/) {
-					return $$contentref;
-#					die "Unsupport UTF8 on jcode.pl";
-				}
-				&jcode::convert($contentref, $kanjicode);
+				die "Unsupport jcode.pl";
 			} else {
 				&load_module("Jcode");
 				&Jcode::convert($contentref, $kanjicode, $icode);
@@ -4363,10 +4480,6 @@ sub escape {
 sub unescape {
 	my $s=shift;
 	$s=~s/\&(amp|lt|gt|quot);/$::_unescape{$1}/g;
-#	$s=~s|\&amp;|\&|g;
-#	$s=~s|\&lt;|\<|g;
-#	$s=~s|\&gt;|\>|g;
-#	$s=~s|\&quot;|\"|g;
 	return $s;
 }
 
@@ -4399,11 +4512,6 @@ HTML文字列をエスケープする。
 sub htmlspecialchars {
 	my($s)=@_;
 	$s=~s/([<>"&])/$::_htmlspecial{$1}/g;
-#	$s=~s|>|&gt;|g if($s=~/</);
-#	$s=~s|\r\n|\n|g;
-#	$s=~s|\&|&amp;|g;
-#	$s=~s|<|&lt;|g;
-#	$s=~s|"|&quot;|g;
 	return $s;
 }
 
@@ -4483,9 +4591,6 @@ sub valid_password {
 	($pass,$salt)=split(/ /,$::adminpass);
 	$salt="AA" if($salt eq '');
 	return (crypt($givenpassword, $salt) eq $pass) ? 1 : 0;
-#
-#	return (crypt($givenpassword, "AA") eq $::adminpass 
-#		||  crypt($givenpassword, "AA") eq $::adminpass{$type}) ? 1 : 0;
 }
 
 =lang ja
@@ -4744,7 +4849,6 @@ sub fopen {
 			$ip = pack('C4', split(/\./, $host));
 		} else {
 			#HOST名をIPに直す
-		#	$ip = (gethostbyname($host))[4] || return (1, "Host Not Found.");
 			$ip = inet_aton($host) || return 0;	# Host Not Found.
 		}
 		$sockaddr = pack_sockaddr_in($port, $ip) || return 0; # Can't Create Socket address.

@@ -1,11 +1,11 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.119 2007/07/15 07:40:08 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.140 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -23,10 +23,8 @@ $::lang = "ja";				# ja:日本語/en:英語(参考)
 $::kanjicode = "euc";		# euc:EUC-JP/sjis:ShiftJIS/utf8:UTF-8
 #$::charset = "utf-8";		# UTF8で動作させる場合、こちらを有効に
 
-# 言語コード変換
-$::code_method{ja}="Jcode";	# ja : Jcode / Unicode::Japanese(testing) / jcode.pl(nonsupport utf8)
-#$::code_method{ja}="Unicode::Japanese";
-#$::code_method{ja}="jcode.pl";
+# 言語コード変換			# Jcode Only!!
+$::code_method{ja}="Jcode";	# ja : Jcode
 
 # データ格納ディレクトリ
 $::data_home = '.';		# CGIからのみアクセスするデータのディレクトリ
@@ -178,6 +176,8 @@ $::allview = 1;			# 1:すべての画面でHeader, MenuBar, Footerを表示する, 0:しない
 $::notesview = 0;		# 注釈を 0:$bodyの下に表示 ,1:footerの上に表示, 2:footerの下に表示
 $::enable_convtime = 1;	# コンバートタイム 1:表示/0:非表示(perlversionも表示されます)
 
+$::diff_disable_email = 1;# diffプラグインにおいてメールアドレスを隠す。
+
 # 日時フォーマット
 $::date_format = 'Y-m-d'; 			# replace &date; to this format.
 $::time_format = 'H:i:s'; 			# replace &time; to this format,
@@ -225,7 +225,7 @@ $::write_location=1;	# ページ編集後、locationで移動する
 $::partedit=1;			# 部分編集を0:使わない 1:使う 2:凍結ページも 3:
 $::partfirstblock=0;	# 1:最初の見出しより前の部分を1番目の見出しとみなして編集できるようにする
 $::usePukiWikiStyle=1;	# PukiWIki書式を 0:使わない 1:使う
-$::writefrozenplugin = 0;# 掲示板等、凍結されているページでもプラグインから書き込めるようにする。
+$::writefrozenplugin=1;	# 掲示板等、凍結されているページでもプラグインから書き込めるようにする。
 						# 0:不可 1:可
 $::newpage_auth=0;		# 新規ページ作成で 0:誰でもできる, 1:凍結パスワードが必要
 						# ただしプラグインから生成される新規ページには適用しません
@@ -253,6 +253,7 @@ $::max_filesize = 1000000;	# アップロードファイルの容量
 $::AttachFileCheck=1;		# 添付ファイルの内容監査を 0:拡張子のみ/1:内容監査もする
 							# 0の場合、セキュリティー上の問題になるので
 							# 信頼できるイントラ(local)ネット以外では使用しないで下さい。
+$::AttachCounter=0;			# 添付ファイルのカウントをするだけ(1)、表示もする(2)
 
 # ヘルプ
 $::use_HelpPlugin=1;	# ヘルプをプラグインで実行する（ナビゲータが変化します）
@@ -316,6 +317,25 @@ $::modifier_sendmail = '';
 #$::navi{"link_height"}=14;
 #$::navi{"link_width"}=16;
 
+# フィルター関連
+$::filter_flg = 1;					# 1でフィルター機能を有効にする。
+$::chk_uri_count = 10;				# 1つの投稿ホームページアドレスが
+									# 10個以上あるとスパムとみなす。
+$::chk_write_jp_only = 0;			# 編集画面で日本語が一字も入ってないと
+									# スパムとみなす。
+									# なお、デフォルトはプラグインだけや
+									# ソースファイルや英語等のページを作れる
+									# ようにOFFにしてある。
+$::chk_jp_only = 1;					# 掲示板、コメント等に日本語が一字も
+									# 入っていないとスパムとみなす。
+$::deny_log = "$::cache_dir/deny.log";
+									# ログファイル。
+									#指定されているとログを取る。
+									# 無くても問題ない。
+
+$::black_log = "$::cache_dir/black.lst";
+									# フィルターフラグが付いているときの
+									# ログ出力先
 
 # 書き込み禁止キーワード
 $::disablewords=<<EOM;

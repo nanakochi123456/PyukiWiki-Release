@@ -1,13 +1,13 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.56 2007/07/15 07:40:09 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.76 2010/12/14 22:20:00 papu Exp $
 #
 # "Yuki::YukiWikiDB" version 2.1.2a $$
 # Author: Hiroshi Yuki
 # http://www.hyuki.com/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/

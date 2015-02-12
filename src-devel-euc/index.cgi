@@ -4,12 +4,12 @@
 #!c:\perl\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.61 2007/07/15 07:40:08 papu Exp $
+# $Id: index.cgi,v 1.81 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -39,14 +39,14 @@ BEGIN {
 	$::_conv_start = (times)[0];
 }
 
-# If Windows NT Server, use sample it
-#BEGIN {
-#	chdir('C:/inetpub/cgi-bin/pyuki');
-#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/';
-#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/CGI';
-#	push @INC, 'C:/inetpub/cgi-bin/pyuki/';
-#	$::_conv_start = (times)[0];
-#}
+	# If Windows NT Server, use sample it
+	#BEGIN {
+	#	chdir('C:/inetpub/cgi-bin/pyuki');
+	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/';
+	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/CGI';
+	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/';
+	#	$::_conv_start = (times)[0];
+	#}
 
 
 use CGI qw(:standard);
@@ -71,21 +71,25 @@ This file is a wrapper program for starting wiki.
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
 L<http://pyukiwiki.sourceforge.jp/>
 
+=back
+
 =head1 LICENSE
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
+
+=cut
 
 =cut

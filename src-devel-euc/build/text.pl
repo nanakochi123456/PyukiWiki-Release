@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.43 2007/07/15 07:40:08 papu Exp $
+# $Id: text.pl,v 1.65 2010/12/14 22:20:00 papu Exp $
 
 use Jcode;
 
@@ -156,6 +156,12 @@ $text{AUTHOR_NEKYO}=<<EOM;
 L<\@\@NEKYO_URL\@\@>
 EOM
 
+$text{AUTHOR_YUKI}=<<EOM;
+=item \@\@YUKI\@\@
+
+L<\@\@YUKI_URL\@\@>
+EOM
+
 $text{AUTHOR_JUNICHI}=<<EOM;
 =item \@\@JUNICHI\@\@
 
@@ -182,7 +188,7 @@ $text{YUKI}='Hiroshi Yuki';
 $text{YUKI_URL}='http://www.hyuki.com/';
 
 $text{NEKYO}='Nekyo';
-$text{NEKYO_URL}='http://nekyo.hp.infoseek.co.jp/';
+$text{NEKYO_URL}='http://nekyo.qp.land.to/';
 
 $text{JUNICHI}='Junichi';
 $text{JUNICHI_URL}='http://www.re-birth.com/';
@@ -194,7 +200,7 @@ if($fn=~/\.ja/) {
 	$text{NANAMI}='Nanami';
 	$text{YASIGANIMODOKI}='YashiganiModoki';
 }
-$text{NANAMI_URL}='http://lineage.netgamers.jp/';
+$text{NANAMI_URL}='http://nanakochi.daiba.cx/';
 
 $text{YASIGANIMODOKI_URL}='http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi';
 
@@ -203,7 +209,7 @@ $text{YUKIWIKI_URL}='http://www.hyuki.com/yukiwiki/';
 $text{PUKIWIKI_URL}='http://pukiwiki.sourceforge.jp/';
 
 $text{BASEURL}='http://pyukiwiki.sourceforge.jp';
-$text{CVSURL}='http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki';
+$text{CVSURL}='http://sourceforge.jp/cvs/view/pyukiwiki';
 
 $text{RECENTDATE}=&date("Y-m-d (D)");
 

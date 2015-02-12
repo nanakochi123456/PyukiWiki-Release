@@ -1,12 +1,12 @@
 ######################################################################
 # alias.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: alias.inc.pl,v 1.15 2007/07/15 07:40:09 papu Exp $
+# $Id: alias.inc.pl,v 1.35 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -18,7 +18,6 @@
 ######################################################################
 # Based on PukiWiki Plugin "alias.inc.php" ver.1.5 2005/05/28
 # modified by kochi
-# http://221.243.18.83/~pukiwiki/index.php?%A5%D7%A5%E9%A5%B0%A5%A4%A5%F3%2Falias.inc.php
 ######################################################################
 
 use strict;
@@ -110,12 +109,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/alias/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/alias.inc.pl>
-
-=item PukiWiki alias.inc.php
-
-L<http://221.243.18.83/~pukiwiki/index.php?%A5%D7%A5%E9%A5%B0%A5%A4%A5%F3%2Falias.inc.php>
-
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/alias.inc.pl?view=log>
 
 =back
 
@@ -125,7 +119,7 @@ L<http://221.243.18.83/~pukiwiki/index.php?%A5%D7%A5%E9%A5%B0%A5%A4%A5%F3%2Falia
 
 =item Nanami
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -135,9 +129,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by Nanami.
+Copyright (C) 2005-2010 by Nanami.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

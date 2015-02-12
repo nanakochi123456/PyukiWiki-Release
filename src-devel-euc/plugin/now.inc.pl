@@ -1,12 +1,12 @@
 ######################################################################
 # now.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: now.inc.pl,v 1.33 2007/07/15 07:40:09 papu Exp $
+# $Id: now.inc.pl,v 1.53 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Author: Nanami http://nanakochi.daiba.cx/
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -93,22 +93,6 @@ Specification date and time. It becomes a date on the day at the time of an abbr
 
 =back
 
-=head1 SAMPLES
-
-Date format samples
-
-=over 4
-
-=item &date(Y-n-j[D] H:m:S,2006/1/1 22:15:32)
-
-2006-1-1[Sun] 22:15:32
-
-=item &date(y/m/J H:m:S,2006/1/1 22:15:32)
-
-06/01/01 22:15:32
-
-=back
-
 =head1 SEE ALSO
 
 =over 4
@@ -119,7 +103,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/now/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/now.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/now.inc.pl?view=log>
 
 =back
 
@@ -129,7 +113,7 @@ L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin
 
 =item Nanami
 
-L<http://lineage.netgamers.jp/> etc...
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
@@ -139,9 +123,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2007 by Nanami.
+Copyright (C) 2005-2010 by Nanami.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

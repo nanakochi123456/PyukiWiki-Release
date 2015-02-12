@@ -1,4 +1,4 @@
-#$Id: rss10.inc.pl.ja.pod,v 1.50 2007/07/15 07:40:09 papu Exp $
+#$Id: rss10.inc.pl.ja.pod,v 1.72 2010/12/14 22:20:00 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -25,7 +25,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/rss10/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/rss10.inc.pl>
+L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rss10.inc.pl?view=log>
 
 =item YukiWiki
 
@@ -41,7 +41,7 @@ L<http://www.hyuki.com/yukiwiki/wiki.cgi>
 
 =item Nekyo
 
-L<http://nekyo.hp.infoseek.co.jp/>
+L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
@@ -51,9 +51,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2004-2007 by Nekyo.
+Copyright (C) 2004-2010 by Nekyo.
 
-Copyright (C) 2005-2007 by PyukiWiki Developers Team
+Copyright (C) 2005-2010 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

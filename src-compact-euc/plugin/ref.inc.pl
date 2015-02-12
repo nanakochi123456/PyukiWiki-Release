@@ -1,12 +1,12 @@
 ######################################################################
 # ref.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: ref.inc.pl,v 1.71 2007/07/15 07:40:09 papu Exp $
+# $Id: ref.inc.pl,v 1.91 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
+# "PyukiWiki" version 0.1.8 $$
 # Author: Nekyo
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -56,9 +56,9 @@
 
 use strict;
 
-$ref::file_icon = '<img src="'
-	. $::image_url
-	. '/file.png" width="20" height="20" alt="file" style="border-width:0px" />'
+$ref::file_icon =<<EOM
+<img src="$::image_url/file.png" width="20" height="20" alt="file" style="border-width:0px" />
+EOM
 	if(!defined($ref::file_icon));
 
 # default alignment
@@ -87,8 +87,7 @@ $ref::imagepopup=0
 $ref::wopen='toolbar=no,hotkeys=no,directories=no,scrollbars=no,resizable=yes,menubar=no,width=1,height=1'
 	if(!defined($ref::wopen));
 
-#######################################################################################
-
+######################################################################
 
 sub plugin_ref_action {
 	if($::form{mode} eq "image") {
@@ -443,6 +442,17 @@ sub plugin_ref_body {
 		my $icon = $params{noicon} ? '' : $ref::file_icon;
 		$params{_body} = &make_link_target($url,$class,"_target",$info,$target)
 			. "$icon$title</a>\n";
+
+		if($::AttachCounter eq 2) {
+			require "plugin/counter.inc.pl";
+			my %attach_counter=&plugin_counter_do("attach\_$page\_$name","r");
+			$params{_body} .= <<EOM;
+<br />
+<span style="font-size: 10px;">
+TOTAL: $attach_counter{total} TODAY: $attach_counter{today} YESTERDAY:$attach_counter{yesterday}
+</span>
+EOM
+		}
 	}
 	return %params;
 

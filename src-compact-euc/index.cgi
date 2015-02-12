@@ -4,12 +4,12 @@
 #!c:\perl\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.61 2007/07/15 07:40:08 papu Exp $
+# $Id: index.cgi,v 1.81 2010/12/14 22:20:00 papu Exp $
 #
-# "PyukiWiki" version 0.1.7 $$
-# Copyright (C) 2004-2007 by Nekyo.
-# http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2007 PyukiWiki Developers Team
+# "PyukiWiki" version 0.1.8 $$
+# Copyright (C) 2004-2010 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2010 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -39,9 +39,14 @@ BEGIN {
 	$::_conv_start = (times)[0];
 }
 
-# If Windows NT Server, use sample it
-#BEGIN {
-#}
+
+
+
+
+
+
+
+
 
 
 use CGI qw(:standard);
@@ -51,4 +56,5 @@ use CGI::Carp qw(fatalsToBrowser);
 require 'lib/wiki.cgi';
 
 __END__
+
 
