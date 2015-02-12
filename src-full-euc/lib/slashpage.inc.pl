@@ -1,12 +1,12 @@
 ######################################################################
 # slashpage.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: slashpage.inc.pl,v 1.51 2006/03/17 14:00:10 papu Exp $
+# $Id: slashpage.inc.pl,v 1.59 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -50,13 +50,17 @@ sub plugin_slashpage_init {
 }
 
 sub make_link_wikipage {
-	my($chunk,$escapedchunk)=@_;
+	my($chunk1,$escapedchunk)=@_;
+	my($chunk,$anchor)=$chunk1=~/^([^#]+)#?(.*)/;
 	my $cookedchunk  = &encode($chunk);
 	my $cookedurl=&make_cookedurl($cookedchunk);
+
 	if (&is_exist_page($chunk)) {
-		return qq(<a title="$chunk" href="$cookedurl">$escapedchunk</a>);
-	} elsif (($chunk =~ /^([^#]*)#(.+)/) && $::database{$1}) {
-		return qq(<a title="$chunk" href="$cookedurl#$2">$escapedchunk</a>);
+		if($anchor eq '') {
+			return qq(<a title="$chunk" href="$cookedurl">$escapedchunk</a>);
+		} else {
+			return qq(<a title="$chunk" href="$cookedurl#$anchor">$escapedchunk</a>);
+		}
 	}
 	foreach my $pagetemp (@::PLUGIN_SLASHPAGE_STACK) {
 		my $pagetemp2=$pagetemp;
@@ -64,11 +68,11 @@ sub make_link_wikipage {
 		if($pagetemp2 eq $chunk) {
 			$cookedchunk  = &encode($pagetemp);
 			$cookedurl=&make_cookedurl($pagetemp);
-			return qq(<a title="$pagetemp" href="$cookedurl">$escapedchunk</a>);
-		} elsif (($pagetemp2 =~ /^([^#]*)#(.+)/) && $::database{$1}) {
-			$cookedchunk  = &encode($pagetemp);
-			$cookedurl=&make_cookedurl($pagetemp);
-			return qq(<a title="$1" href="$cookedurl#$2">$escapedchunk</a>);
+			if($anchor eq '') {
+				return qq(<a title="$pagetemp" href="$cookedurl">$escapedchunk</a>);
+			} else {
+				return qq(<a title="$1" href="$cookedurl#$anchor">$escapedchunk</a>);
+			}
 		}
 	}
 	if (&is_editable($chunk)) {

@@ -1,5 +1,5 @@
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]]用の練習ページです。
--$Id: 496E74657257696B6953616E64426F78.txt,v 1.41 2006/03/17 14:00:11 papu Exp $ // # debug
+-$Id: 496E74657257696B6953616E64426F78.txt,v 1.49 2007/07/15 07:40:09 papu Exp $ // # debug
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|
 

@@ -1,11 +1,11 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.33 2006/03/17 14:00:11 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.41 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
-# Copyright (C) 2004-2006 by Nekyo.
+# "PyukiWiki" version 0.1.7 $$
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -234,7 +234,7 @@ EOD
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 ~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/]]''
-Copyright&copy; 2004-2006 by [[Nekyo>http://nekyo.hp.infoseek.co.jp/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
+Copyright&copy; 2004-2007 by [[Nekyo>http://nekyo.hp.infoseek.co.jp/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
 License is [[GPL>http://www.opensource.jp/gpl/gpl.ja.html]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
@@ -245,7 +245,7 @@ EOD
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 ~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/en/]]''
-Copyright&copy; 2004-2006 by [[Nekyo>http://nekyo.hp.infoseek.co.jp/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
+Copyright&copy; 2004-2007 by [[Nekyo>http://nekyo.hp.infoseek.co.jp/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
 License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>http://www.perl.com/language/misc/Artistic.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~

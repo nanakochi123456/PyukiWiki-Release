@@ -1,12 +1,12 @@
 ######################################################################
 # calendar2.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: calendar2.inc.pl,v 1.42 2006/03/17 14:00:10 papu Exp $
+# $Id: calendar2.inc.pl,v 1.51 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -57,18 +57,20 @@ use Time::Local;
 
 ######################################################################
 # 新規編集画面での初期値
-
+# カレンダーのALT
 
 if($::_exec_plugined{exdate} ne '') {
 
 	$calendar2::initwikiformat=<<EOM;
 *&date(SGGY年Zn月Zj日（DL）RY RK RS RG XG SZ MG,__DATE__);
 EOM
+	$calendar2::altformat="DL RY RK RG";
 } else {
 
 	$calendar2::initwikiformat=<<EOM;
 *&date(Y-n-j[lL],__DATE__);
 EOM
+	$calendar2::altformat="[lL]";
 }
 
 ######################################################################
@@ -188,13 +190,11 @@ END
 		} else {
 			$style = 'style_td_day';
 		}
-		my $alt=&date($date_format,
+		my $alt=&date($calendar2::altformat,
 			Time::Local::timelocal(0,0,0,$i,$disp_month-1,$disp_year-1900));
-		$alt=~s/\n\n/\n/g while($alt=~/\n\n/);
-		$alt=~s/(\xA1\xA1| )(\xA1\xA1| )/$1/g if($alt=~/(\xA1\xA1| )/);
-		$alt=~s/(\xA1\xA1| )\n/\n/g while($alt=~/(\xA1\xA1| )\n/);
-		$alt=~s/\n(\xA1\xA1| )/\n/g while($alt=~/\n(\xA1\xA1| )/);
-		$alt=~s/\n/$crlf/g while($alt=~/\n/);
+		$alt=~s/^\s//g while($alt=~/^\s/);
+		$alt=~s/\s\s/ /g while($alt=~/\s\s/);
+		$alt=~s/\s$//g while($alt=~/\s$/);
 		$calendar .= qq(<td class="$style">@{[&makepagelink($pagename,"$alt","$alt",$i,$initwiki_format,"$disp_year/$disp_month/$i")]}</td>);
 	}
 	$disp_wday=&getwday($disp_year,$disp_month,&lastday($disp_year,$disp_month));

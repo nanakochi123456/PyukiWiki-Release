@@ -1,0 +1,35 @@
+#$Id: mailform.inc.pl.ja.pod,v 1.5 2007/07/15 07:40:09 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+mailform.inc.pl - PyukiWiki プラグイン
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://lineage.netgamers.jp/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sourceforge.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2007 by ななみ.
+
+Copyright (C) 2005-2007 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

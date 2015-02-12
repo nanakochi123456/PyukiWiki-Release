@@ -1,12 +1,12 @@
 ######################################################################
 # rss10.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rss10.inc.pl,v 1.59 2006/03/17 14:00:10 papu Exp $
+# $Id: rss10.inc.pl,v 1.68 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nekyo
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -16,6 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v0.1.7 2006/05/19 RSSタイトルが化けるのを修正
 # v0.1.6 2006/01/07 include Yuki::RSS, 半角スペースのページに対応
 # v0.0.2 2005/03/11 Add dc:date
 ######################################################################
@@ -38,7 +39,7 @@ sub plugin_rss10_action {
 	);
 	$rss->channel(
 		title => $::modifier_rss_title
-				. ($::_exec_plugined{lang} > 1 ? "($::langlist{$::lang})" : ""),
+				. ($::_exec_plugined{lang} > 1 ? "(" . (split(/,/,$::langlist{$::lang}))[0] . ")" : ""),
 		link  => $::modifier_rss_link,
 		description => $::modifier_rss_description,
 	);

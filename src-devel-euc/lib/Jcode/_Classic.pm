@@ -1,7 +1,8 @@
 #
-# Id: _Classic.pm,v 2.0 2005/05/16 19:08:04 dankogai Exp"
-# $Id: _Classic.pm,v 1.43 2006/03/17 14:00:10 papu Exp $
-# "Jcode.pm" version 2.3 $$
+# Id: _Classic.pm,v 2.0 2005/05/16 19:08:04 dankogai Exp $
+# $Id: _Classic.pm,v 1.52 2007/07/15 07:40:09 papu Exp $
+# "Jcode.pm" version 2.5 $$
+#
 
 package Jcode::_Classic;
 use 5.004;
@@ -9,8 +10,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = "Id: _Classic.pm,v 2.0 2005/05/16 19:08:04 dankogai Exp";
-$VERSION = do { my @r = ("Revision: 2.0" =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: _Classic.pm,v 1.52 2007/07/15 07:40:09 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.52 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 $DEBUG = $Jcode::DEBUG;
 use vars qw($USE_CACHE $NOXS);

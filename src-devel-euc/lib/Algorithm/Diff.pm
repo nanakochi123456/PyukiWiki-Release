@@ -2,7 +2,7 @@
 # Diff.pm - This is PyukiWiki, yet another Wiki clone.
 # from YukiWiki
 #
-# $Id: Diff.pm,v 1.45 2006/03/17 14:00:10 papu Exp $
+# $Id: Diff.pm,v 1.53 2007/07/15 07:40:09 papu Exp $
 #
 # "Algorithm::Diff" version 1.1901 $$
 # Ned Konz, perl (at) bike-nomad (dot) com
@@ -32,7 +32,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw();
 @EXPORT_OK = qw(LCS diff traverse_sequences);
-$VERSION = sprintf('%d.%02d', (q$Revision: 1.45 $ =~ /\d+/g));
+$VERSION = sprintf('%d.%02d', (q$Revision: 1.53 $ =~ /\d+/g));
 
 # McIlroy-Hunt diff algorithm
 # Adapted from the Smalltalk code of Mario I. Wolczko, <mario (at) wolczko (dot) com>

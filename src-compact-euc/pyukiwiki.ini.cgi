@@ -1,11 +1,11 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.108 2006/03/17 14:00:10 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.119 2007/07/15 07:40:08 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
-# Copyright (C) 2004-2006 by Nekyo.
+# "PyukiWiki" version 0.1.7 $$
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -71,6 +71,10 @@ $::use_blosxom=0;	# blosxom.cssを使用するとき１にする
 # pyukiwiki.ini.cgiの変更部分のみをsetup.ini.cgiに記載することで、
 # 今後のアップデートが容易になります。
 $::setup_file	= "$::info_dir/setup.ini.cgi" if($::setup_file eq '');
+
+# プロキシ設定
+#$::proxy_host = '';
+#$::proxy_port = 3128;
 
 # wiki、修正者情報 (各変数の言語名の連想配列にすると、言語別にできます）
 $::wiki_title = '';										# サイト名（なくても可）
@@ -241,6 +245,7 @@ $::cookie_refresh=86400;		# 保存cookieのリフレッシュ間隔(１日)
 # アクセスカウンター
 $::CounterVersion=1;	# 1:今日と昨日のみ保存、2:↓日数分保存
 $::CounterDates=365;	# 保存する日数(14〜1000)
+$::CounterHostCheck=1;	# 1:カウンターのリモートホストをチェック/0:リロードでもカウントする
 
 # 添付
 $::file_uploads = 3;		# 添付を 0:使わない/1:使う/2:認証付き/3:削除のみ認証付
@@ -290,7 +295,12 @@ $::non_list = qq((^\:));
 
 # sendmailパスの指定 $::modifier_mail宛てにメール通知
 $::modifier_sendmail = '';
-#$::modifier_sendmail = '/usr/sbin/sendmail -t -n';
+#$::modifier_sendmail=<<EOM;
+#/usr/sbin/sendmail -t
+#/usr/bin/sendmail -t
+#/usr/lib/sendmail -t
+#/var/qmail/bin/sendmail -t
+#EOM
 
 # P3Pのコンパクトポリシー http://fs.pics.enc.or.jp/p3pwiz/p3p_ja.html
 # 必要であれば /w3c以下ディレクトリにも適切にファイルを設置し、有効にします
@@ -306,6 +316,19 @@ $::modifier_sendmail = '';
 #$::navi{"link_height"}=14;
 #$::navi{"link_width"}=16;
 
+
+# 書き込み禁止キーワード
+$::disablewords=<<EOM;
+zhangweijp.com
+linjp.net
+1102213.com
+bibi520.com
+dj5566.org
+webnow.biz
+oulianyong.com
+yzlin.com
+EOM
 1;
 
 __END__
+

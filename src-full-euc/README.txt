@@ -1,9 +1,9 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.6 $$
+	"PyukiWiki" version 0.1.7 $$
 	Copyright (C)
-	  2005-2006 PukiWiki Developers Team
-	  2004-2006 Nekyo (Based on PukiWiki, YukiWiki)
+	  2005-2007 PukiWiki Developers Team
+	  2004-2007 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
@@ -16,7 +16,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 		Nekyo <nekyo (at) yamaneko (dot) club (dot) ne (dot) jp>
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.59 2006/03/17 14:00:10 papu Exp $
+	$Id: README.txt,v 1.67 2007/07/15 07:40:08 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -566,20 +566,20 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 -------------------------------------------------
 ■作者
 -------------------------------------------------
-Copyright (C) 2004-2006 by Nekyo
+Copyright (C) 2004-2007 by Nekyo
 http://nekyo.hp.infoseek.co.jp/
 
-Copyright (C) 2002-2006 by Hiroshi Yuki
+Copyright (C) 2002-2007 by Hiroshi Yuki
 http://www.hyuki.com/
 
-Copyright (C) 2005-2006 by ななみ
+Copyright (C) 2005-2007 by ななみ
 http://lineage.netgamers.jp/ http://line.daiba.cx/
 
-Copyright (C) 2004-2006 by やしがにもどき
+Copyright (C) 2004-2007 by やしがにもどき
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
 
-Copyright (C) 2005-2006 by Junichi
+Copyright (C) 2005-2007 by Junichi
 http://www.re-birth.com/
 
-Copyright (C) 2005-2006 PukiWiki Developers Team
+Copyright (C) 2005-2007 PukiWiki Developers Team
 http://pyukiwiki.sourceforge.jp/

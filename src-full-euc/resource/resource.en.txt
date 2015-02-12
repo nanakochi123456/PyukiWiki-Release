@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.6 $$
-# $Id: resource.en.txt,v 1.57 2006/03/17 14:00:11 papu Exp $
+# "PyukiWiki" version 0.1.7 $$
+# $Id: resource.en.txt,v 1.65 2007/07/15 07:40:09 papu Exp $
 #
 
 resource_loaded=1
@@ -65,10 +65,12 @@ admin_passwd_prompt_msg=Password:
 admin_passwd_prompt_error=Invalid Password
 admin_passwd_button=Send
 
-auth_writefobidden=Deny for write this page
 
 # for feauture, authble wiki
 auth_readfobidden=Deny for read this page
+
+# write
+auth_writefobidden=Deny for write this page
 
 # search.inc.pl
 searchpage=Search Word

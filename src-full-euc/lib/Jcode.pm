@@ -1,7 +1,8 @@
 #
-# Id: Jcode.pm,v 2.3 2005/07/07 04:00:52 dankogai Exp dankogai
-# $Id: Jcode.pm,v 1.43 2006/03/17 14:00:10 papu Exp $
-# "Jcode.pm" version 2.3 $$
+# Id: Jcode.pm,v 2.5 2006/05/16 05:00:19 dankogai Exp dankogai $
+# $Id: Jcode.pm,v 1.52 2007/07/15 07:40:08 papu Exp $
+# "Jcode.pm" version 2.5 $$
+#
 
 package Jcode;
 use 5.005; # fair ?
@@ -9,8 +10,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = "Id: Jcode.pm,v 2.3 2005/07/07 04:00:52 dankogai Exp dankogai";
-$VERSION = do { my @r = ("Revision: 2.3"  =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Jcode.pm,v 1.52 2007/07/15 07:40:08 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.52 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = 0;
 
 # we no longer use Exporter
@@ -298,11 +299,11 @@ sub AUTOLOAD {
     no strict 'refs';
     *{$myname} =
 	sub {
-	      my $r_str = $_[0]->{r_str};
-	      Encode::is_utf8($$r_str) ?
-		      $e->encode($$r_str, $_[0]->{fallback}) : $$r_str;
+	    my $str = ${ $_[0]->{r_str} };
+            Encode::is_utf8($str) ?
+		      $e->encode($str, $_[0]->{fallback}) : $str;
 	  };
-    goto &{$myname};
+    $myname->($self);
 }
 
 #######################################
@@ -365,7 +366,7 @@ sub jfold{
 	$lines[$i] .= $char;
 	$len += $clen;
     }
-    $lines[$i] or pop @lines;
+    defined($lines[$i]) or pop @lines;
     $$r_str = join($nl, @lines);
 
     $self->{r_str} = $r_str;

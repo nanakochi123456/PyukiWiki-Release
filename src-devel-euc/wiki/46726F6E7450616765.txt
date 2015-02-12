@@ -10,5 +10,6 @@
 - RecentChangesが最近更新されたページの一覧になります。
 - 練習にはSandBoxがお勧めです。
 - [[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]]を試すにはInterWikiSandBoxがあります。
+- あなたの作ったページを、是非[[ソーシャルブックマーク>http://nekyo.hp.infoseek.co.jp/?%a5%bd%a1%bc%a5%b7%a5%e3%a5%eb%a5%d6%a5%c3%a5%af%a5%de%a1%bc%a5%af]] で紹介して下さい。
 
 #counter

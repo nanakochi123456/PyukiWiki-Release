@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.6 $$
-# $Id: resource.ja.txt,v 1.57 2006/03/17 14:00:11 papu Exp $
+# "PyukiWiki" version 0.1.7 $$
+# $Id: resource.ja.txt,v 1.65 2007/07/15 07:40:09 papu Exp $
 #
 
 resource_loaded=1
@@ -66,6 +66,8 @@ admin_passwd_prompt_msg=管理者パスワード：
 admin_passwd_prompt_error=パスワードが誤っています。
 admin_passwd_button=送信
 
+
+# write
 auth_writefobidden=このページへの書き込みが認められていません
 
 # for feauture, authble wiki

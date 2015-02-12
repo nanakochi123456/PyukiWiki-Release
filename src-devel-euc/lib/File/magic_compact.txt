@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------
-# $Id: magic_compact.txt,v 1.56 2006/03/17 14:00:10 papu Exp $
+# $Id: magic_compact.txt,v 1.64 2007/07/15 07:40:09 papu Exp $
 # "magic file for File::MMagic" version 1.4 $$
 #----------------------------------------------------------------------
 # archive:  file(1) magic for archive formats (see also "msdos" for self-

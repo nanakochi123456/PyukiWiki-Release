@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.1.6 $$ */
-/* $Id: common.sjis.ja.js,v 1.79 2006/03/17 14:00:11 papu Exp $ */
+/* "PyukiWiki" version 0.1.7 $$ */
+/* $Id: common.sjis.ja.js,v 1.87 2007/07/15 07:40:09 papu Exp $ */
 /* Code=Shift-JIS */
 
 var d=document;

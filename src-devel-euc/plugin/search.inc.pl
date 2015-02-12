@@ -1,12 +1,12 @@
 ######################################################################
 # search.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: search.inc.pl,v 1.53 2006/03/17 14:00:10 papu Exp $
+# $Id: search.inc.pl,v 1.62 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nekyo
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -32,7 +32,7 @@ sub plugin_search_action {
 	}
 
 	my $body = "";
-	my $word=&escape(&code_convert(\$::form{search}, $::defaultcode));
+	my $word=&escape(&code_convert(\$::form{mymsg}, $::defaultcode));
 	if ($word) {
 		@words = split(/\s+/, $word);
 		my $total = 0;
@@ -90,7 +90,7 @@ sub plugin_search_form {
 <div>
 <input type="hidden" name="cmd" value="search" />
 <input type="hidden" name="refer" value="$::form{refer}" />
-<input type="text" name="search" value="$word" size="20" />
+<input type="text" name="mymsg" value="$word" size="20" />
 <select name="type">
 <option value="AND">$::resource{searchand}</option>
 <option value="OR"@{[$::form{type} eq 'OR' ? " selected" : ""]}>$::resource{searchor}</option>
@@ -105,7 +105,7 @@ EOD
 <div>
 <input type="hidden" name="cmd" value="search" />
 <input type="hidden" name="refer" value="$::form{refer}" />
-<input type="text" name="search" value="$word" size="20" />
+<input type="text" name="mymsg" value="$word" size="20" />
 <input type="radio" name="type" value="AND" @{[ ($::form{type} ne 'OR' ? qq( checked="checked") : qq()) ]} />$::resource{searchand}
 <input type="radio" name="type" value="OR" @{[ ($::form{type} eq 'OR' ? qq( checked="checked") : qq()) ]}/>$::resource{searchor}
 <input type="submit" value="$::resource{searchbutton}" />
@@ -118,7 +118,7 @@ EOD
 <div>
 <input type="hidden" name="cmd" value="search" />
 <input type="hidden" name="refer" value="$::form{refer}" />
-<input type="text" name="search" value="$word" size="20" />
+<input type="text" name="mymsg" value="$word" size="20" />
 <input type="hidden" name="type" value="AND" />
 <input type="submit" value="$::resource{searchbutton}" />
 </div>
@@ -145,7 +145,7 @@ Search on the page.
 
 =head1 USAGE
 
- ?cmd=search[&word=string][&type=OR|AND]
+ ?cmd=search[&mymsg=string][&type=OR|AND]
 
 =over 4
 
@@ -221,9 +221,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2006 by Nekyo.
+Copyright (C) 2004-2007 by Nekyo.
 
-Copyright (C) 2005-2006 by PyukiWiki Developers Team
+Copyright (C) 2005-2007 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

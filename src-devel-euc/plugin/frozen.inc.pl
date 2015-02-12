@@ -1,12 +1,12 @@
 ######################################################################
 # frozen.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: frozen.inc.pl,v 1.48 2006/03/17 14:00:10 papu Exp $
+# $Id: frozen.inc.pl,v 1.56 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nekyo
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -68,9 +68,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2006 by Nekyo.
+Copyright (C) 2004-2007 by Nekyo.
 
-Copyright (C) 2005-2006 by PyukiWiki Developers Team
+Copyright (C) 2005-2007 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

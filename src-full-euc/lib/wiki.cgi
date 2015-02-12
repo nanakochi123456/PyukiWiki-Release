@@ -1,11 +1,11 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.200 2006/03/17 14:00:10 papu Exp $
+# $Id: wiki.cgi,v 1.211 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
-# Copyright (C) 2004-2006 by Nekyo.
+# "PyukiWiki" version 0.1.7 $$
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -39,7 +39,7 @@ $::use_exists = 0;
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.6';
+$::version = '0.1.7';
 
 
 
@@ -836,6 +836,17 @@ sub do_write {
 	}
 
 
+	foreach(split(/\n/,$::disablewords)) {
+		s/\./\\\./g;
+		s/\//\\\//g;
+		if($::form{mymsg}=~/$_/) {
+			&send_mail_to_admin($::form{mypage}, "Deny", $::form{mymsg});
+			&skinex($::form{mypage}, &message($::resource{auth_writefobidden}), 0);
+			return 0;
+		}
+	}
+
+
 	if($FrozenWrite eq 'FrozenWrite') {
 		if($::writefrozenplugin eq 1) {
 			$::form{myfrozen} = &get_info($::form{mypage}, $info_IsFrozen);
@@ -1091,39 +1102,28 @@ sub text_to_html {
 
 		} elsif (/^(-{1,3})(.+)/) {
 			my $class = "";
-			if($::usePukiWikiStyle eq 1) {
-				push(@result, shift(@saved))
-					if($nest ne $1);
-				$nest=$1;
-				my $margin;
-				$class=qq( class="plist) . length($1) . qq(");
-				&back_push('ul', 1, \@saved, \@result,$class);
-			} else {
-				if ($::form{mypage} ne $::MenuBar) {
-					$class=qq( class="list) . length($1) . qq(");
-				}
-				&back_push('ul',length($1), \@saved, \@result, $class);
+			if ($::form{mypage} ne $::MenuBar) {
+				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"";
 			}
+			&back_push('ul', length($1), \@saved, \@result, $class);
 			push(@result, '<li>' . &inline($2) . '</li>');
+		} elsif (/^(\+{1,3})(.+)/) {
+			my $class = "";
+			if ($::form{mypage} ne $::MenuBar) {
+				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"";
+			}
+			&back_push('ol', length($1), \@saved, \@result, $class);
+			push(@result, '<li>' . &inline($2) . '</li>');
+
 
 		} elsif (/^(\+{1,3})(.+)/) {
 			my $class = "";
-			if($::usePukiWikiStyle eq 1) {
-				push(@result, shift(@saved))
-					if($nest ne $1);
-				$nest=$1;
-				my $margin;
-				$margin=$::form{mypage} eq $::MenuBar
-					? 2+4*length($1) : 16*length($1);
-				$class=qq( class="plist) . length($1) . qq(")
-				&back_push('ol', 1, \@saved, \@result,$class);
-			} else {
-				if ($::form{mypage} ne $::MenuBar) {
-					$class=qq( class="list) . length($1) . qq(");
-				}
-				&back_push('ol',length($1), \@saved, \@result, $class);
+			if ($::form{mypage} ne $::MenuBar) {
+				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"";
 			}
+			&back_push('ol', length($1), \@saved, \@result, $class);
 			push(@result, '<li>' . &inline($2) . '</li>');
+
 
 		} elsif (/^:/) {
 			$escapedscheme=~/^(:{1,3})(.+)/;
@@ -1224,6 +1224,7 @@ sub text_to_html {
 							$col_style[$i]=$value_style[$i];
 						} else {
 							$value[$i] = sprintf('<%s%s%s class="style_%s" style="%s%s">%s</%s>', $thflag,$align[$i], $colspan[$i], $thflag,$col_style[$i],$value_style[$i],&inline($value[$i]),$thflag);
+#%> for Hidemaru
 							$value_style[$i]="";
 						}
 					} else {
@@ -1437,14 +1438,15 @@ sub make_link {
 			$escapedchunk=&htmlspecialchars($escapedchunk);
 		}
 
-		if($chunk2=~/$ismail/o) {
+
+		if($chunk2=~/$isurl/o) {
+			return &make_link_url("link",$chunk2,$escapedchunk);
+
+		} elsif($chunk2=~/$ismail/o) {
 		 	if($chunk2=~/([Mm][Aa][Ii][Ll][Tt][Oo]):$ismail/o) {
 				$chunk2=~s/[Mm][Aa][Ii][Ll][Tt][Oo]://g;
 			}
 			return &make_link_mail($chunk2,$escapedchunk);
-
-		} elsif($chunk2=~/$isurl/o) {
-			return &make_link_url("link",$chunk2,$escapedchunk);
 
 		} elsif($chunk2=~/^$interwiki_name2$/o) {
 			my $chunk1=&make_link_interwiki($1,$2,$3,$escapedchunk);
@@ -1512,13 +1514,17 @@ sub make_link {
 
 
 sub make_link_wikipage {
-	my($chunk,$escapedchunk)=@_;
-	$cookedchunk  = &encode($chunk);
+	my($chunk1,$escapedchunk)=@_;
+	my($chunk,$anchor)=$chunk1=~/^([^#]+)#?(.*)/;
+	my $cookedchunk  = &encode($chunk);
 	my $cookedurl=&make_cookedurl($cookedchunk);
+
 	if (&is_exist_page($chunk)) {
-		return qq(<a title="$chunk" href="$cookedurl">$escapedchunk</a>);
-	} elsif (($chunk =~ /^([^#]*)#(.+)/) && $::database{$1}) {
-		return qq(<a title="$chunk" href="$cookedurl#$2">$escapedchunk</a>);
+		if($anchor eq '') {
+			return qq(<a title="$chunk" href="$cookedurl">$escapedchunk</a>);
+		} else {
+			return qq(<a title="$chunk" href="$cookedurl#$anchor">$escapedchunk</a>);
+		}
 	} elsif (&is_editable($chunk)) {
 
 		if ($::editchar eq 'this') {
@@ -1810,31 +1816,9 @@ sub get_subjectline {
 
 
 sub send_mail_to_admin {
-	my ($page, $mode) = @_;
-	return unless $modifier_sendmail;
-	my $message = <<"EOD";
-To: $::modifier_mail
-From: $::modifier_mail
-Subject: [Wiki]$mode $::basehref
-MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
-Content-Transfer-Encoding: 7bit
-
---------
-WIKI = $::modifier_rss_title
-MODE = $mode
-REMOTE_ADDR = $ENV{REMOTE_ADDR}
-REMOTE_HOST = $ENV{REMOTE_HOST}
---------
-$page
---------
-$::database{$page}
---------
-EOD
-	$message=&code_convert(\$message, 'jis');
-	open(MAIL, "| $modifier_sendmail");
-	print MAIL $message;
-	close(MAIL);
+	my($page, $mode, $data)=@_;
+	&load_module("Nana::Mail");
+	Nana::Mail::toadmin($mode, $page, $data);
 }
 
 
@@ -2192,19 +2176,7 @@ sub code_convert {
 	my ($contentref, $kanjicode, $icode) = @_;
 	if($$contentref ne '') {
 		if ($::lang eq 'ja') {
-			if ($::code_method{ja} eq 'Unicode::Japanese') {
-				my $icode_j=$icode eq '' ? 'auto' : $icode;
-				&load_module("Unicode::Japanese");
-				if($kanjicode eq 'sjis') {
-					return Unicode::Japanese->new($$contentref,$icode_j)->sjis;
-				} elsif($kanjicode eq 'euc') {
-					return Unicode::Japanese->new($$contentref,$icode_j)->euc;
-				} elsif($kanjicode eq 'jis') {
-					return Unicode::Japanese->new($$contentref,$icode_j)->jis;
-				} else {
-					return Unicode::Japanese->new($$contentref,$icode_j)->get;
-				}
-			} elsif($::code_method{ja} eq 'jcode.pl') {
+			if($::code_method{ja} eq 'jcode.pl') {
 				require "jcode.pl";
 				if($kanjicode=~/utf/ || $icode=~/utf/) {
 					return $$contentref;
@@ -2366,6 +2338,59 @@ sub lastday {
 	return  (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)[$mon - 1]
 		+ ($mon == 2 and $year % 4 == 0 and
 		($year % 400 == 0 or $year % 100 != 0));
+}
+
+
+sub fopen {
+	my ($fname, $fmode) = @_;
+	my $_fname;
+	my $fp;
+
+
+	if ($fname =~ /^http:\/\//) {
+		$fname =~ m!(http:)?(//)?([^:/]*)?(:([0-9]+)?)?(/.*)?!;
+		my $host = ($3 ne "") ? $3 : "localhost";
+		my $port = ($5 ne "") ? $5 : 80;
+		my $path = ($6 ne "") ? $6 : "/";
+		if ($::proxy_host) {
+			$host = $::proxy_host;
+			$port = $::proxy_port;
+			$path = $fname;
+		}
+		my ($sockaddr, $ip);
+		$fp = new FileHandle;
+		if ($host =~ /^(\d+).(\d+).(\d+).(\d+)$/) {
+			$ip = pack('C4', split(/\./, $host));
+		} else {
+
+
+			$ip = inet_aton($host) || return 0;
+		}
+		$sockaddr = pack_sockaddr_in($port, $ip) || return 0; # Can't Create Socket address.
+		socket($fp, PF_INET, SOCK_STREAM, 0) || return 0;
+		connect($fp, $sockaddr) || return 0;
+		autoflush $fp(1);
+		print $fp "GET $path HTTP/1.1\r\nHost: $host\r\n\r\n";
+		return $fp;
+	} else {
+		$fmode = lc($fmode);
+
+		if ($fmode eq 'w') {
+			$_fname = ">$fname";
+		} elsif ($fmode eq 'w+') {
+			$_fname = "+>$fname";
+		} elsif ($fmode eq 'a') {
+			$_fname = ">>$fname";
+		} elsif ($fmode eq 'r') {
+			$_fname = $fname;
+		} else {
+			return 0;
+		}
+		if (open($fp, $_fname)) {
+			return $fp;
+		}
+	}
+	return 0;
 }
 
 

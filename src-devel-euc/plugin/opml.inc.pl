@@ -1,12 +1,12 @@
 ######################################################################
 # opml.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: opml.inc.pl,v 1.36 2006/03/17 14:00:10 papu Exp $
+# $Id: opml.inc.pl,v 1.46 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -51,8 +51,8 @@ sub plugin_opml_action {
 	);
 	$opml->channel(
 		title => $::modifier_rss_title
-				. ($::_exec_plugined{lang} > 1 ? "($::langlist{$::lang})" : ""),
-		link  => $::modifier_rss_link,
+				. ($::_exec_plugined{lang} > 1 ? "(" . (split(/,/,$::langlist{$::lang}))[0] . ")" : ""),
+ 		link  => $::modifier_rss_link,
 		description => $::modifier_rss_description,
 	);
 
@@ -219,9 +219,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2006 by Nanami.
+Copyright (C) 2005-2007 by Nanami.
 
-Copyright (C) 2005-2006 by PyukiWiki Developers Team
+Copyright (C) 2005-2007 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

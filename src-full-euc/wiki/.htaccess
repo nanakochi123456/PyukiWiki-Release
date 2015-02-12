@@ -1,7 +1,7 @@
 ######################################################################
 # Apache wiki/.htaccess for PyukiWiki
-# $Id: .htaccess,v 1.43 2006/03/17 14:00:11 papu Exp $
-# "PyukiWiki" version 0.1.6 $$
+# $Id: .htaccess,v 1.51 2007/07/15 07:40:09 papu Exp $
+# "PyukiWiki" version 0.1.7 $$
 ######################################################################
 
 Order allow,deny

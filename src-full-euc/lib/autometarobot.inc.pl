@@ -1,12 +1,12 @@
 ######################################################################
 # autometarobot.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: autometarobot.inc.pl,v 1.42 2006/03/17 14:00:10 papu Exp $
+# $Id: autometarobot.inc.pl,v 1.51 2007/07/15 07:40:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.6 $$
+# "PyukiWiki" version 0.1.7 $$
 # Author: Nanami http://lineage.netgamers.jp/
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -24,9 +24,9 @@
 #
 ######################################################################
 
-$::auto_meta_maxkeyword=30
+$::auto_meta_maxkeyword=100
 	if(!defined($::auto_meta_maxkeyword));
-$::auto_meta_minlength=6
+$::auto_meta_minlength=5
 	if(!defined($::auto_meta_minlength));
 
 # Initlize
@@ -56,15 +56,14 @@ EOD
 EOD
 		$keyword=$::meta_keyword;
 		if($::auto_meta_maxkeyword>0) {
-			$keyword="$::wiki_title," . &htmlspecialchars($pagename);
 
 			my @keyword;
 			$keyword="$::wiki_title," . &htmlspecialchars($pagename);
 
-			foreach($body=~/(<h\d>(.+)<\/h\d>|<strong>(.+)<\/strong>|$::wiki_name)/g) {
+			foreach($body=~/(<h\d>(.+?)<\/h\d>|<strong>(.+?)<\/strong>|$::wiki_name)/g) {
 				s/[\x0d\x0a]//g;
 				s/<.*?>//g;
-				$keyword.="$_ ";
+				$keyword.="$_ ,";
 			}
 
 			foreach($body=~/<(?:a|img)(?:.+?)(?:alt|title)="(.+?)"(?:.+)>/g) {

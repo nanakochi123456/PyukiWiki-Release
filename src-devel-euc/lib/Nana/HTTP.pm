@@ -1,13 +1,13 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.14 2006/03/17 14:00:10 papu Exp $
+# $Id: HTTP.pm,v 1.23 2007/07/15 07:40:09 papu Exp $
 #
-# "Nana::HTTP" version 0.1 $$
+# "Nana::HTTP" version 0.2 $$
 # Author: Nanami
 # http://lineage.netgamers.jp/
-# Copyright (C) 2004-2006 by Nekyo.
+# Copyright (C) 2004-2007 by Nekyo.
 # http://nekyo.hp.infoseek.co.jp/
-# Copyright (C) 2005-2006 PyukiWiki Developers Team
+# Copyright (C) 2005-2007 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -22,10 +22,10 @@ package	Nana::HTTP;
 use 5.005;
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.1';
+$VERSION = '0.2';
 
 # 0:付属エンジン 1:LWPが存在すればLWP、なければ付属エンジン
-$Nana::HTTP::useLWP=1;
+$Nana::HTTP::useLWP=0;
 
 # ユーザーエージェント
 $Nana::HTTP::UserAgent="$::package/$::version \@\@";
@@ -36,17 +36,10 @@ $Nana::HTTP::timeout=20;
 # 再試行回数 (↑で割れる数で、LWPは未使用)
 $Nana::HTTP::counter=2;
 
-# プロクシ (LWPのみ)
-%Nana::HTTP::proxy= (
-	'http'=>'',			# http://proxy.sn.no:8001/
-	'https'=>'',
-	'ftp'=>'',
-);
-
 ######################################################################
 
-use Socket;
 my $timeoutflag=0;
+use Socket;
 
 sub new {
 	my ($class, %hash) = @_;
@@ -58,20 +51,22 @@ sub new {
 		user => $hash{user},
 		pass => $hash{pass},
 	};
-	if($Nana::HTTP::useLWP) {
+	$$self{lwp_ok}=0;
+	if($Nana::HTTP::useLWP eq 1) {
 		if(&load_module("LWP::UserAgent")) {
 			$$self{lwp_ua}=LWP::UserAgent->new;
 			$$self{_ua} = &makeua($$self{lwp_ua}->_agent,%hash),
 			$$self{_header} = "User-Agent: " . $$self{_ua} . $$self{header};
 			$$self{lwp_ua}->agent($$self{_ua});
 			$$self{lwp_ua}->timeout($Nana::HTTP::timeout);
-			foreach(keys %Nana::HTTP::proxy) {
-				$$self{lwp_ua}->proxy($_,$Nana::HTTP::proxy{$_})
-					if($Nana::HTTP::proxy{$_} ne '');
+			foreach("http", "https", "ftp") {
+				$$self{lwp_ua}->proxy($_,"http://$::proxy_host:$::proxy_port/")
 			}
 			$$self{lwp_ok}=1;
 		}
-	} else {
+	}
+	if($$self{lwp_ok} ne 1) {
+		$$self{lwp_ok}=0;
 		$$self{_ua} = &makeua("",%hash),
 		$$self{_header} = "User-Agent: " . $$self{_ua} . $$self{header};
 	}
@@ -153,6 +148,7 @@ sub httpcl {
 
 	$SIG{ALRM}=\&httpcl_timeout;
 	$ret="";
+
 	while($timeoutcounter>0) {
 		$timeoutflag=0;
 		alarm($Nana::HTTP::alarmtime / $Nana::HTTP::counter);
@@ -184,14 +180,23 @@ sub httpclsub {
 			my $port = ($5 ne "") ? $5 : 80;
 			my $path = ($6 ne "") ? $6 : "/";
 #			$port = getservbyname('http', 'tcp');
-			$iaddr = inet_aton($host) || return (1,"");
-			$sock_addr = pack_sockaddr_in($port, $iaddr) || return (2,"");
-			socket(SOCKET, PF_INET, SOCK_STREAM, 0) || return (3,"");
-			connect(SOCKET, $sock_addr) || return (4,"");
-			select(SOCKET); $|=1; select(STDOUT);
+			if($::proxy_host ne '' && $::proxy_port > 0) {
+				$iaddr = inet_aton($::proxy_host) || return (1,"");
+				$sock_addr = pack_sockaddr_in($::proxy_port, $iaddr) || return (2,"");
+				socket(SOCKET, PF_INET, SOCK_STREAM, 0) || return (3,"");
+				connect(SOCKET, $sock_addr) || return (4,"");
+				select(SOCKET); $|=1; select(STDOUT);
+				print SOCKET "$method $url HTTP/1.0\r\n";
+			} else {
+				$iaddr = inet_aton($host) || return (1,"");
+				$sock_addr = pack_sockaddr_in($port, $iaddr) || return (2,"");
+				socket(SOCKET, PF_INET, SOCK_STREAM, 0) || return (3,"");
+				connect(SOCKET, $sock_addr) || return (4,"");
+				select(SOCKET); $|=1; select(STDOUT);
+				print SOCKET "$method /$path HTTP/1.0\r\n";
+				print SOCKET "Host: $host:$port\r\n";
+			}
 			$postlength=length($postdata);
-			print SOCKET "$method /$path HTTP/1.0\r\n";
-			print SOCKET "Host: $host:$port\r\n";
 			foreach(split(/\n/,$header)) {
 				print SOCKET "$_\r\n"
 					if($_=~/:/);

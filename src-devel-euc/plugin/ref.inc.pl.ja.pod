@@ -1,4 +1,4 @@
-#$Id: ref.inc.pl.ja.pod,v 1.40 2006/03/17 14:00:10 papu Exp $
+#$Id: ref.inc.pl.ja.pod,v 1.48 2007/07/15 07:40:09 papu Exp $
 
 __END__
 =encoding euc-jp
