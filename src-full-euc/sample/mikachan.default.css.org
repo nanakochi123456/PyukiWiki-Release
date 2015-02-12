@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0-p2 $$ */
-/* $Id: mikachan.default.css.org,v 1.246 2012/03/01 10:39:22 papu Exp $ */
+/* "PyukiWiki" ver 0.2.0-p3 $$ */
+/* $Id: mikachan.default.css.org,v 1.274 2012/03/18 11:23:53 papu Exp $ */
 /* Code=Shift-JIS */
 /* Mikachan Japanese font - http://mikachan.sourceforge.jp/ */
 /* Convert Tips - http://www.adobe.com/jp/joc/devnet/dreamweaver/articles/html5pack_css3_part4.html */
@@ -17,8 +17,8 @@
 			url('./mikachan.ttf')	format('truetype'),
 			url('./mikachan.otf')	format('opentype');
 }
-/* "PyukiWiki" version 0.2.0-p2 $$ */
-/* $Id: mikachan.default.css.org,v 1.246 2012/03/01 10:39:22 papu Exp $ */
+/* "PyukiWiki" ver 0.2.0-p3 $$ */
+/* $Id: mikachan.default.css.org,v 1.274 2012/03/18 11:23:53 papu Exp $ */
 /* Code=Shift-JIS */
 /* base */
 pre, dl, ol, ul, p, blockquote {

@@ -1,6 +1,8 @@
-/* "PyukiWiki" version 0.2.0-p2 $$ */
-/* $Id: common.lang.js.src,v 1.313 2012/03/01 10:39:27 papu Exp $ */
-/* Code=UTF-8 */
+/*
+ * "PyukiWiki" ver 0.2.0-p3 $$
+ * $Id: common.lang.js.src,v 1.342 2012/03/18 11:23:59 papu Exp $ *
+ * Code=UTF-8
+ */
 
 var	w=window,
 	d=w.document,
@@ -13,7 +15,9 @@ var	w=window,
 	moz = (u.indexOf("gecko") > x || ff),
 	gc = (u.indexOf("chrome") > x),
 	sa = (u.indexOf("safari") > x),
-	p='px';
+	p='px',
+	ef="editform",
+	h="";
 
 /* for antispam.inc.cgi */
 function addec_link(ad) {
@@ -25,12 +29,16 @@ function addec_link(ad) {
 	}
 }
 
+function gid(id) {
+	return d.getElementById(id);
+}
+
 function addec_text(ad,id) {
-	d.getElementById(id).innerHTML = ae(ad);
+	gid(id).innerHTML = ae(ad);
 }
 
 function ae(ad) {
-	for(var dec="",i=0;i<ad.length;i+=4) {
+	for(var dec=h,i=0;i<ad.length;i+=4) {
 		var dif = cs.indexOf(ad.charAt(i))*cs.length+cs.indexOf(ad.charAt(i+1)),
 		c0=cs.indexOf(ad.charAt(i+2)), c=c0*cs.length+cs.indexOf(ad.charAt(i+3))-dif;
 		dec=dec+String.fromCharCode(c);
@@ -39,6 +47,9 @@ function ae(ad) {
 }
 
 function ou(a, frame){
+	if(frame == "b") {
+		frame="_blank";
+	}
 	window.open(a, frame);
 	return false;
 }
@@ -53,7 +64,7 @@ function keyCode(e){
 	var e=w.event || e;
 
 	if(d.all)
-         return e.keyCode;
+          return e.keyCode;
      else if(d.getElementById)
          return e.keyCode ? e.keyCode : e.charCode;
      else if(d.layers)
@@ -142,7 +153,7 @@ imagePop = function (e, path, w, h){
 			iP.style.display = "block";
 		} else w.status = "画像読み込み中…";	# lang_en
 		} else w.status = "Loading image...";	# lang_ja
-		iP.onload = function(){iP.style.display="block"; w.status="";}
+		iP.onload = function(){iP.style.display="block"; w.status=h;}
 		iP.onclick = function(){d.body.removeChild(iP);iP=null;}
 		iP.title = "Close for mouse click";		# lang_en
 		iP.title = "マウスクリックで閉じます";	# lang_ja
@@ -200,6 +211,10 @@ hF = function(e){
 	d.body.appendChild(tT);
 }
 
-w.onload = function(){
-	if(moz) hF(event);
+window.onload = function(){
+	if(moz) {
+		try {
+			hF(event);
+		} catch (e) {}
+	}
 }

@@ -1,8 +1,8 @@
 ######################################################################
 # ls2.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: ls2.inc.pl,v 1.477 2012/03/01 10:39:21 papu Exp $
+# $Id: ls2.inc.pl,v 1.505 2012/03/18 11:23:51 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -16,6 +16,8 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v0.2.0-p3
+#        2012/03/13 バグ修正
 # v0.2.0 2012/02/15 親階層の表示等で修正。MenuBar上の表示で修正
 # v0.1.6 2006/01/07 *****まで対応する、その他修正
 # v0.1   2005/04/01 encode バグ Fix Tnx:Junichiさん
@@ -62,7 +64,7 @@ sub plugin_ls2_convert
 			}
 		}
 	}
-	$prefix = $::form{mypage} . "/" if ($prefix eq '');
+	$prefix = $::form{mypage} if ($prefix eq '');
 
 	foreach my $page (sort keys %::database) {
 		if ($page =~ /^$prefix/ && &is_readable($page) && $page!~/$::non_list/) {

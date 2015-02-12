@@ -1,8 +1,8 @@
 ######################################################################
 # Logs.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Logs.pm,v 1.163 2012/03/01 10:39:25 papu Exp $
+# $Id: Logs.pm,v 1.191 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::Logs" version 0.2 $$
+# "Nana::Logs" ver 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

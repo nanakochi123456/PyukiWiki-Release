@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p2 $$
-# $Id: edit.en.txt,v 1.471 2012/03/01 10:39:22 papu Exp $
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: edit.en.txt,v 1.499 2012/03/18 11:23:53 papu Exp $
 #
 # edit.inc.pl
 edit_plugin_title=Edit

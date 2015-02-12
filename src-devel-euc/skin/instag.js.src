@@ -1,40 +1,44 @@
 /* edit navi javascript */
-/* "PyukiWiki" version 0.2.0-p2 $$ */
-/* $Id: instag.js.src,v 1.391 2012/03/01 10:39:23 papu Exp $ */
+/* "PyukiWiki" ver 0.2.0-p3 $$ */
+/* $Id: instag.js.src,v 1.421 2012/03/18 11:23:53 papu Exp $ */
 
-var noOverwrite=false,
-	alertText,
+var noOverwrite=false, alertText;
+
+/*
 	clientPC = navigator.userAgent.toLowerCase(),
-	is_gecko = ((clientPC.indexOf('gecko')!=-1) && (clientPC.indexOf('spoofer')==-1)
+	moz = ((clientPC.indexOf('gecko')!=-1) && (clientPC.indexOf('spoofer')==-1)
                 && (clientPC.indexOf('khtml') == -1) && (clientPC.indexOf('netscape/7.0')==-1)),
-	is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spoofer')==-1));
+	sa = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spoofer')==-1));
+ */
 
-// apply tagOpen/tagClose to selection in textarea,
-// use sampleText instead of selection if there is none
-// copied and adapted from phpBB
+/* apply tagOpen/tagClose to selection in textarea,
+ * use sampleText instead of selection if there is none
+ * copied and adapted from phpBB
+ */
+
 function insTag(tagOpen, tagClose, sampleText) {
-	var txtarea = d.editform.mymsg;
-	// IE
-	if (d.selection && !is_gecko) {
+	var txtarea = gid(ef).mymsg;
+	/* IE */
+	if (d.selection && !moz) {
 		var theSelection = d.selection.createRange().text;
 		if (!theSelection) { theSelection=sampleText;}
 		txtarea.focus();
 		if (theSelection.charAt(theSelection.length - 1) == " ") {
-			// exclude ending space char, if any
+			/* exclude ending space char, if any */
 			theSelection = theSelection.substring(0, theSelection.length - 1);
 			d.selection.createRange().text = tagOpen + theSelection + tagClose + " ";
 		} else {
 			d.selection.createRange().text = tagOpen + theSelection + tagClose;
 		}
 
-	// Mozilla
+	/* Mozilla */
 	} else if(txtarea.selectionStart || txtarea.selectionStart == '0') {
  		var startPos = txtarea.selectionStart,
 			endPos = txtarea.selectionEnd,
 			scrollTop=txtarea.scrollTop,
 			myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
-		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
+		if(myText.charAt(myText.length - 1) == " "){ /* exclude ending space char, if any */
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
 		} else {
 			subst = tagOpen + myText + tagClose;
@@ -48,7 +52,7 @@ function insTag(tagOpen, tagClose, sampleText) {
 		txtarea.selectionEnd=cPos;
 		txtarea.scrollTop=scrollTop;
 
-	// All others
+	/* All others */
 	} else {
 		var copy_alertText=alertText,
 			re1=new RegExp("\\$1","g"),
@@ -65,12 +69,66 @@ function insTag(tagOpen, tagClose, sampleText) {
 		if(!text) { text=sampleText;}
 		text=tagOpen+text+tagClose;
 		d.infoform.infobox.value=text;
-		// in Safari this causes scrolling
-		if(!is_safari) {
+		/* in Safari this causes scrolling */
+		if(!sa) {
 			txtarea.focus();
 		}
 		noOverwrite=true;
 	}
-	// reposition cursor if possible
+	/* reposition cursor if possible */
 	if (txtarea.createTextRange) txtarea.caretPos = d.selection.createRange().duplicate();
 }
+
+/* for blog category */
+function addcategory() {
+	var f=gid(ef),
+		c=f.category,
+		s=f.selcategory;
+	if(c && s) {
+		if(c.value == "") {
+			c.value=s.value;
+		} else {
+			c.value=c.value + " | " + s.value;
+		}
+		s.selectedIndex=0;
+	}
+}
+
+/* color picker, size picker */
+
+var op=null;
+try {
+	$(document).ready(function() {
+		for(var i=1; i<6; i++) {
+			if(i < 3) {
+				$('#picker' + i).farbtastic('#panel' + i);
+			}
+
+			$('#panelbody' + i).jqm({
+				trigger:'#panellink' + i,
+				overlay: 0,
+				onShow: function(h) {
+
+					if(op != null) {
+						op.w.jqmHide();
+					}
+					op=h;
+					h.w.show();
+				},
+				onHide: function(h) {
+					/* this or */
+					op=null;
+					h.w.hide();
+					if(h.o) h.o.remove();
+				}
+			});
+		}
+		$("#mymsg").mousedown(
+			function () {
+				if(op != null) {
+					op.w.jqmHide();
+				}
+			}
+		);
+	});
+} catch (e) {}

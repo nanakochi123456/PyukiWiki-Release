@@ -1,8 +1,8 @@
 ######################################################################
 # adminchangepassword.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: adminchangepassword.inc.pl,v 1.312 2012/03/01 10:39:25 papu Exp $
+# $Id: adminchangepassword.inc.pl,v 1.341 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -190,7 +190,7 @@ EOM
 	my $js;
 	if($cryptflg) {
 		$js.="if(keypress(e)==false) return;";
-		$js.="var f=getid('adminchangepasswd');";
+		$js.="var f=gid('adminchangepasswd');";
 		foreach("common","admin","frozen","attach") {
 			$js.="pencf(f.passwd\_$_,f.passwd\_$_\_enc,f.passwd\_$_\_token);";
 			$js.="pencf(f.passwd2\_$_,f.passwd2\_$_\_enc,f.passwd2\_$_\_token);";

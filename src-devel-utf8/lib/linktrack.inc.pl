@@ -1,8 +1,8 @@
 ######################################################################
 # linktrack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: linktrack.inc.pl,v 1.312 2012/03/01 10:39:24 papu Exp $
+# $Id: linktrack.inc.pl,v 1.341 2012/03/18 11:23:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -36,7 +36,7 @@ $linktrack::ignoredomain = $ENV{HTTP_HOST}
 sub plugin_linktrack_init {
 	my $header=<<EOM;
 <script type="text/javascript"><!--
-function Ck(c,f){var b="&amp;",e="?cmd=ck"+b,g=e+c,a;if(f=="r"){g=e+"r=y"+b+c;d.location=g;return true}else{if(f!=""){ou(g,f)}else{d.location=g}}return false};
+function Ck(g,f){var b,e;a="&amp;",c="?cmd=ck"+a,p="p=",k="l=",u;b=hs("$::form{mypage}");e=hs(g);u=c+p+b+a+k+e;if(f=="r"){u=c+"r=y"+a+p+b+a+k+e;d.location=u}else{if(f!=""){ou(u,f)}else{d.location=u}}return false}function hs(g){var b="";for(var e=0;e<g.length;e++){var f=g.charCodeAt(e).toString(16).toUpperCase();b=b+f}return b};
 //--></script>
 EOM
 	return ('init'=>1 ,  'header'=>$header
@@ -70,20 +70,20 @@ sub make_link_target {
 	if($mydomain eq 0) {
 #		$escapedurl="?cmd=ck&amp;p=" . &escape($::form{mypage}) . "&amp;lk=" . &dbmname(&unescape($url));
 		my $mp=&dbmname(&unescape($::form{mypage}));
-		$escapedurl="p=" . $mp . "&amp;l=" . &dbmname(&unescape($url));
+#		$escapedurl="p=" . $mp . "&amp;l=" . &dbmname(&unescape($url));
 		$::linktrack_link_id++;
 		if($target eq '') {
-			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck('$escapedurl','');" oncontextmenu="return Ck('$escapedurl','r');">);
+			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck(this.href);" oncontextmenu="return Ck(this.href,'r');">);
 		} elsif($::is_xhtml) {
-			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck('$escapedurl','$target');" oncontextmenu="return Ck('$escapedurl','r');">);
+			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck(this.href,'@{[$target eq "_blank" ? "b" : $target]}');" oncontextmenu="return Ck(this.href,'r');">);
 		} else {
-			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck('$escapedurl','$target');" oncontextmenu="return Ck('$escapedurl','r');">);
+			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return Ck(this.href,'@{[$target eq "_blank" ? "b" : $target]}');" oncontextmenu="return Ck(this.href,'r');">);
 		}
 	} else {
 		if($target eq '') {
 			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 		} elsif($::is_xhtml) {
-			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
+			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou(this.href,'@{[$target eq "_blank" ? "b" : $target]}');">);
 		} else {
 			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 		}

@@ -1,6 +1,6 @@
 <?php
 // http://joliclic.free.fr/php/javascript-packer/en/index.php
-// $Id: example-file.php,v 1.11 2012/03/01 10:39:24 papu Exp $
+// $Id: example-file.php,v 1.38 2012/03/18 11:23:55 papu Exp $
 // you can pass this script to PHP CLI to convert your file.
 
 // adapt these 2 paths to your files.

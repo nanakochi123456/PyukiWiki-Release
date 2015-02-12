@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.561 2012/03/01 10:39:22 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.590 2012/03/18 11:23:53 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -119,8 +119,9 @@ $::BodyHeader		= ':BodyHeader';
 $::BodyFooter		= ':BodyFooter';
 $::SkinFooter		= ':SkinFooter';					# PyukiWikiの
 														# (c)に載せる
-
+$::SandBox			= 'SandBox';
 $::InterWikiName	= 'InterWikiName';
+$::InterWikiSandBox	= 'InterWikiSandBox';
 $::ErrorPage		= "ErrorPage";
 $::AdminPage		= "AdminPage";
 $::IndexPage		= "IndexPage";

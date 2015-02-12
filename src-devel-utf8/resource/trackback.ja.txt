@@ -1,0 +1,21 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: trackback.ja.txt,v 1.27 2012/03/18 11:23:58 papu Exp $
+#
+
+# trackback.inc.pl
+trackback_plugin_title=受信したトラックバック
+trackback_plugin_notload=<span class="error">trackback.inc.cgiが読み込まれていません。</span>
+trackbackplugin_allpagelist=全ページのトラックバック一覧
+trackbackplugin_pagelist=$PAGEのトラックバック一覧
+trackbackplugin_notcompatible=<span class="error">トラックバックデータが異常です。</span>
+trackbackplugin_nodata=$PAGEのトラックバックはありません。
+trackback_plugin_parmerr=<span class="error">パラメータが異常です。</span>
+
+trackback_plugin_link_MSIE=<hr /><h5 class="trackback">このページのトラックバックURL</h5><a class="trackback" href="$URL" title="$URL" onclick="clipboardData.setData('Text', '$URL');alert('トラックバックURL $URLをコピーしました。');return false;">$URL</a>
+trackback_plugin_link=<hr /><h5 class="trackback">このページのトラックバックURL</h5><a class="trackback" href="$URL" title="$URL" onclick="return false;">$URL</a>
+
+trackback_plugin_linklist=<h5 class="trackback">リンク元</h5><span class="trackback">$LINK</span>
+trackback_plugin_cantdisplay=<span class="error">このページのトラックバックは表示できません。</span>
+

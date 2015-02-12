@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 # ncftp mirroring for pyukiwiki
+# $Id: ftp.pl,v 1.11 2012/03/18 11:23:55 papu Exp $
 
 # format
 # local-folder \t servername \t username \t password \t directory \t url

@@ -1,8 +1,8 @@
 ######################################################################
 # comment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: comment.inc.pl,v 1.310 2012/03/01 10:39:25 papu Exp $
+# $Id: comment.inc.pl,v 1.338 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

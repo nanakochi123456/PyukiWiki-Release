@@ -1,8 +1,8 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.305 2012/03/01 10:39:25 papu Exp $
+# $Id: HTTP.pm,v 1.333 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::HTTP" version 0.6 $$
+# "Nana::HTTP" ver 0.7 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
@@ -26,7 +26,7 @@ use Fcntl;
 use Errno qw(EAGAIN);
 use HTTP::Lite;
 use vars qw($VERSION);
-$VERSION = '0.6';
+$VERSION = '0.7';
 # 0:付属エンジン(HTTP::Lite) 1:LWPが存在すればLWP、なければ付属エンジン
 $Nana::HTTP::useLWP=0;
 # ユーザーエージェント
@@ -152,26 +152,42 @@ sub makeua {
 }
 sub httpcl {
 	my($url,$method,$header,$postdata)=@_;
-	my $http=new HTTP::Lite;
-	$method="GET" if($method eq '');
-	$http->method($method);
-	$http->http11_mode(1);
-	foreach(split(/\n/,$header)) {
-		my($hn,$hv)=split(/:\s/,$_);
-		$http->add_req_header($hn,$hv) if($_=~/:/);
+	my $stat;
+	my $body;
+	eval {
+		local $SIG{ALRM}=sub { die "timeout" };
+		alarm($Nana::HTTP::timeout);
+		my $http=new HTTP::Lite;
+		$method="GET" if($method eq '');
+		$http->method($method);
+		$http->http11_mode(1);
+		foreach(split(/\n/,$header)) {
+			my($hn,$hv)=split(/:\s/,$_);
+			$http->add_req_header($hn,$hv) if($_=~/:/);
+		}
+		if($::proxy_host ne '' && $::proxy_port > 0) {
+			$http->proxy("http://$::proxy_host:$::proxy_port");
+		}
+		if($postdata ne '') {
+			$http->prepare_post($postdata);
+		}
+		my $req=$http->request($url);
+		if($req eq 200) {
+			$stat=0;
+			$body=$http->body();
+		} else {
+			$stat=1;
+			$body="Error $req";
+		}
+		alarm 0;
+	};
+	alarm 0;
+	if($@) {
+		if($@=~/timeout/) {
+			return(1,"Timeout $url");
+		}
 	}
-	if($::proxy_host ne '' && $::proxy_port > 0) {
-		$http->proxy("http://$::proxy_host:$::proxy_port");
-	}
-	if($postdata ne '') {
-		$http->prepare_post($postdata);
-	}
-	my $req=$http->request($url);
-	if($req eq 200) {
-		return(0,$http->body());
-	} else {
-		return(1,"Error $req");
-	}
+	return($stat,$body);
 }
 1;
 __END__

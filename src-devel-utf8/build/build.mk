@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: build.mk,v 1.310 2012/03/01 10:39:24 papu Exp $
+# $Id: build.mk,v 1.338 2012/03/18 11:23:55 papu Exp $
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"
@@ -183,6 +183,7 @@ BUILDMAKER=${BUILDDIR}/makesampleini.pl \
 
 BUILDFILES=sample/pyukiwiki.ini.cgi \
 			skin/instag.js \
+			skin/instag.css \
 			skin/common.en.js skin/common.ja.js \
 			skin/passwd.js \
 			skin/twitter.js \
@@ -194,6 +195,8 @@ BUILDFILES=sample/pyukiwiki.ini.cgi \
 			sample/mikachan.skin.cgi \
 			skin/blosxom.css \
 			skin/video.js \
+			skin/flowplayer-3.2.6.min.js \
+			skin/jquery.js \
 			skin/videoresize.js \
 			skin/video-js.css \
 			skin/ad.css \
@@ -259,19 +262,26 @@ sample/pyukiwiki.ini.cgi: pyukiwiki.ini.cgi ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/makesampleini.pl > sample/pyukiwiki.ini.cgi
 
 skin/instag.js: skin/instag.js.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl js skin/instag.js skin/instag.js.src
+	cat skin/instag.js.src skin/jqModal.js.src skin/farbtastic.js.src > tmpjsinstag
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/instag.js tmpjsinstag
+	rm tmpjsinstag
+
+skin/instag.css: skin/jqModal.css.src skin/farbtastic.css.src ${BUILDMAKER}
+	cat skin/jqModal.css.src skin/farbtastic.css.src > tmpcss
+	${PERL} ${BUILDDIR}/compressfile.pl css skin/instag.css tmpcss
+	rm tmpcss
 
 skin/passwd.js: skin/passwd.js.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl js skin/passwd.js skin/passwd.js.src
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/passwd.js skin/passwd.js.src
 
 skin/twitter.js: skin/twitter.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl js skin/twitter.js skin/twitter.js.src
 
 skin/common.en.js: skin/common.en.js.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl js skin/common.en.js skin/common.en.js.src
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/common.en.js skin/common.en.js.src
 
 skin/common.ja.js: skin/common.ja.js.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl js skin/common.ja.js skin/common.ja.js.src
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/common.ja.js skin/common.ja.js.src
 
 skin/common.en.js.src: skin/common.lang.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/lang.pl en skin/common.lang.js.src
@@ -279,8 +289,10 @@ skin/common.en.js.src: skin/common.lang.js.src ${BUILDMAKER}
 skin/common.ja.js.src: skin/common.lang.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/lang.pl ja skin/common.lang.js.src
 
-skin/pyukiwiki.default.css: skin/pyukiwiki.default.css.org ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.default.css skin/pyukiwiki.default.css.org
+skin/pyukiwiki.default.css: skin/pyukiwiki.default.css.org skin/pyukiwiki.admin.css.org ${BUILDMAKER}
+	cat skin/pyukiwiki.default.css.org skin/pyukiwiki.admin.css.org >tmpcsspyukiwikidefault
+	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.default.css tmpcsspyukiwikidefault
+	rm tmpcsspyukiwikidefault
 
 skin/pyukiwiki.print.css: skin/pyukiwiki.print.css.org ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.print.css skin/pyukiwiki.print.css.org
@@ -292,12 +304,20 @@ skin/video-js.css: skin/video-js.css.org ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl css skin/video-js.css skin/video-js.css.org
 
 skin/videoresize.js: skin/videoresize.js.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/compressfile.pl js skin/videoresize.js skin/videoresize.js.src
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/videoresize.js skin/videoresize.js.src
 
 skin/video.js: skin/video.js.src skin/videoresize.js.src ${BUILDMAKER}
-	cat skin/videoresize.js.src skin/video.js.src > tmpjs
-	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/video.js tmpjs
-	rm tmpjs
+	cat skin/videoresize.js.src skin/video.js.src > tmpjsvideojs
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/video.js tmpjsvideojs
+	rm tmpjsvideojs
+
+skin/flowplayer-3.2.6.min.js: skin/flowplayer-3.2.6.min.js.src skin/videoresize.js.src ${BUILDMAKER}
+	cat skin/videoresize.js.src skin/flowplayer-3.2.6.min.js.src > tmpjsflowplayer
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/flowplayer-3.2.6.min.js tmpjsflowplayer
+	rm tmpjsflowplayer
+
+skin/jquery.js: skin/jquery.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/jquery.js skin/jquery.js.src
 
 skin/ad.css: skin/ad.css.org ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl css skin/ad.css skin/ad.css.org
@@ -312,9 +332,9 @@ sample/mikachan.skin.cgi: skin/pyukiwiki.skin.cgi ${BUILDMAKER}
 	cp skin/pyukiwiki.skin.cgi sample/mikachan.skin.cgi
 
 skin/syntaxhighlighter/shCore.js: skin/syntaxhighlighter/shCore.js.src skin/syntaxhighlighter/XRegExp.js.src ${BUILDMAKER}
-	cat skin/syntaxhighlighter/shCore.js.src skin/syntaxhighlighter/XRegExp.js.src > tmpjs
-	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/syntaxhighlighter/shCore.js tmpjs
-	rm tmpjs
+	cat skin/syntaxhighlighter/shCore.js.src skin/syntaxhighlighter/XRegExp.js.src > tmpjsshcore
+	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/syntaxhighlighter/shCore.js tmpjsshcore
+	rm tmpjsshcore
 
 skin/syntaxhighlighter/shAutoloader.js: skin/syntaxhighlighter/shAutoloader.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl js2 skin/syntaxhighlighter/shAutoloader.js skin/syntaxhighlighter/shAutoloader.js.src

@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------
-# $Id: magic.txt.src,v 1.304 2012/03/01 10:39:25 papu Exp $
+# $Id: magic.txt.src,v 1.331 2012/03/18 11:23:56 papu Exp $
 # "magic file for File::MMagic" version 1.27 $$
 #----------------------------------------------------------------------
 # Magic
@@ -11,7 +11,7 @@
 #------------------------------------------------------------------------------
 # Localstuff:  file(1) magic for locally observed files
 #
-# $Id: magic.txt.src,v 1.304 2012/03/01 10:39:25 papu Exp $
+# $Id: magic.txt.src,v 1.331 2012/03/18 11:23:56 papu Exp $
 # Add any locally observed files here.  Remember:
 # text if readable, executable if runnable binary, data if unreadable.
 

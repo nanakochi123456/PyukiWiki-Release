@@ -1,0 +1,12 @@
+/* "PyukiWiki" ver 0.2.0-p3 $$
+ * $Id: instag.css,v 1.22 2012/03/18 11:23:59 papu Exp $
+ *
+ * jqModal - Minimalist Modaling with jQuery
+ * Copyright (c) 2007,2008 Brice Burgess
+ * Dual licensed under the MIT and GPL licenses:
+ *
+ * Farbtastic Color Picker 1.2
+ * (c)2008 Steven Wittens
+ * License GPL2
+ */
+.editcolorpicker{display:none;position:absolute;margin:20px 0 0 -100px;background-color:#fff;border-bottom:3px solid #def;border-top:1px solid #def;border-left:10px solid #def;border-right:5px solid #def}input.colortext{width:100%}.editpanel{background-color:#fff;border-bottom:3px solid #def;border-top:1px solid #def;border-left:10px solid #def;border-right:5px solid #def}.editsizepanel{display:none;position:absolute;margin:20px 0 0 -100px;width:270px}.editfontpanel{display:none;position:absolute;margin:20px 0 0 -100px;width:350px}.editfacepanel{display:none;position:absolute;margin:20px 0 0 -100px;width:200px}.sizesample,a.sizesample,.fontesample,a.fontsample,.faceesample,a.facesample{color:#000;background-color:#fff;text-decoration:none}.farbtastic{position:relative}.farbtastic *{position:absolute;cursor:crosshair}.farbtastic,.farbtastic .wheel{width:195px;height:195px}.farbtastic .color,.farbtastic .overlay{top:47px;left:47px;width:101px;height:101px}.farbtastic .wheel{background:url(wheel.png) no-repeat;width:195px;height:195px}.farbtastic .overlay{background:url(mask.png) no-repeat}.farbtastic .marker{width:17px;height:17px;margin:-8px 0 0 -8px;overflow:hidden;background:url(marker.png) no-repeat}

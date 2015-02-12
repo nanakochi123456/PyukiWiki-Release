@@ -1,0 +1,38 @@
+/* "PyukiWiki" ver 0.2.0-p3 $$ */
+/* $Id: pyukiwiki.admin.css.org,v 1.12 2012/03/18 11:23:53 papu Exp $ */
+/* Code=Shift-JIS */
+/* logs_viewer graph bar */
+/* graph CSS sample */
+/* http://papermashup.com/using-php-and-css-to-make-a-simple-graph/ */
+.graphcont {
+	color:#000;
+	font-weight:700;
+	float:left
+}
+.graph {
+	float:left;
+/*	background-color:#cecece;	*/
+	position:relative;
+	width:600px;				/* ìKìñÇ»êîéöÅBäæ */
+	border:#80a0ff 1px solid;	/* í«â¡ */
+	padding:0
+}
+.graph .bar {
+	display:block;
+	position:relative;
+	background-color:#1080ff;
+/*	background-image:url(http://papermashup.com/demos/php-graph/images/bargraph.gif);	*/
+	background-position:right center;
+	background-repeat:repeat-x;
+	border-right:#538e02 1px solid;
+	text-align:center;
+	color:#ffffff;
+	height:25px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:1.9em
+}
+.graph .bar span {
+	position:absolute;
+	left:1em
+}

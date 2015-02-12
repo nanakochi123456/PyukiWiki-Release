@@ -1,8 +1,8 @@
 ######################################################################
 # autometarobot.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: autometarobot.inc.pl,v 1.308 2012/03/01 10:39:24 papu Exp $
+# $Id: autometarobot.inc.pl,v 1.338 2012/03/18 11:23:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -50,7 +50,8 @@ sub meta_robots {
 	my $keyword;
 	if($cmd=~/edit|admin|diff|attach|backup/
 		|| $::form{mypage} eq '' && $cmd!~/list|sitemap|recent/
-		|| $::form{mypage}=~/SandBox|$::resource{help}|$::resource{rulepage}|$::MenuBar|$::non_list/
+		|| $::form{mypage}=~/$::resource{help}|$::resource{rulepage}|$::RecentChanges|$::MenuBar|$::SideBar|$::TitleHeader|$::Header|$::Footer$::BodyHeader$::BodyFooter|$::SkinFooter|$::SandBox|$::InterWikiName|$::InterWikiSandBox|$::non_list/
+		|| $::meta_keyword eq "" || lc $::meta_keyword eq "disable"
 		|| &is_readable($::form{mypage}) eq 0) {
 		$robots.=<<EOD;
 <meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE" />

@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.305 2012/03/01 10:39:24 papu Exp $
+# $Id: text.pl,v 1.333 2012/03/18 11:23:55 papu Exp $
 
 use Jcode;
 
@@ -387,7 +387,7 @@ $text{ARTISTIC_URL}="http://www.perl.com/language/misc/Artistic.html";
 	$text{FILENAME}=$fn;
 	$text{FILENAME}=~s/.*\///g;
 	$text{CRLF}=$mode eq 'lf' ? 'LF' : 'CRLF';
-	$text{PYUKIWIKIVERSION}=qq("PyukiWiki" version $pyukiversion \$\$);
+	$text{PYUKIWIKIVERSION}=qq("PyukiWiki" ver $pyukiversion \$\$);
 	$text{PYUKIVER}=qq($pyukiversion);
 	$VERSION="";
 	$pkg="";
@@ -423,11 +423,11 @@ $text{ARTISTIC_URL}="http://www.perl.com/language/misc/Artistic.html";
 		}
 	}
 	if($VERSION ne '' && $PLUGIN ne '') {
-		$text{PLUGINVERSION}=qq("$PLUGIN" version $VERSION \$\$);
+		$text{PLUGINVERSION}=qq("$PLUGIN" ver $VERSION \$\$);
 	} elsif($VERSION ne '' && $EXPLUGIN ne '') {
-		$text{PLUGINVERSION}=qq("$EXPLUGIN" version $VERSION \$\$);
+		$text{PLUGINVERSION}=qq("$EXPLUGIN" ver $VERSION \$\$);
 	} elsif($VERSION ne '' && $pkg ne '') {
-		$text{MODULEVERSION}=qq("$pkg" version $VERSION \$\$);
+		$text{MODULEVERSION}=qq("$pkg" ver $VERSION \$\$);
 	} else {
 		$text{MODULEVERSION}=$text{PYUKIWIKIVERSION};
 	}

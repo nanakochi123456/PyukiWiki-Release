@@ -1,6 +1,6 @@
 PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 
-	"PyukiWiki" version 0.2.0-p2 $$ CGIƒCƒ“ƒXƒg[ƒ‰”Å
+	"PyukiWiki" ver 0.2.0-p3 $$ CGIƒCƒ“ƒXƒg[ƒ‰”Å@’Ç‹Lƒ}ƒjƒ…ƒAƒ‹
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
@@ -14,9 +14,9 @@ PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		‚È‚È‚İ <nanami (at) daiba (dot) cx> (’FƒlƒJƒ}‚Å‚·)
+		‚È‚È‚İ <nanami (at) daiba (dot) cx> (’Fƒo[ƒ`ƒƒƒ‹—‚Ìq‚Å‚·)
 
-	$Id: CGI_INSTALLER.ja.txt,v 1.71 2012/03/01 10:39:19 papu Exp $
+	$Id: CGI_INSTALLER.ja.txt,v 1.101 2012/03/18 11:23:49 papu Exp $
 
 	‚±‚ÌƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÍShift-JISATAB4‚Å‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B
 
@@ -135,7 +135,8 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 (3)ƒuƒ‰ƒEƒU[ã‚ÅAƒT[ƒo[ã‚É‚ ‚éƒCƒ“ƒXƒg[ƒ‰‚ÌURL‚ÉƒAƒNƒZƒX‚µ‚Ü‚·B
 
 (4)’ÊíAƒZƒLƒ…ƒAƒCƒ“ƒXƒg[ƒ‹‚ğ‘I‘ğ‚µ‚Ü‚·B‚»‚ê‚Å“®ì‚µ‚È‚¢ê‡A
-@’Êí‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğ‘I‘ğ‚µ‚Ä‰º‚³‚¢B
+@ˆê“xƒT[ƒo[ã‚Ìƒtƒ@ƒCƒ‹‚ğ‘S‚Äíœ‚µ‚Ä‚©‚çAÄ‚ÑƒAƒbƒvƒ[ƒh‚µ‚È‚¨‚µ‚Ä
+@’Êí‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğs‚È‚Á‚Ä‚­‚¾‚³‚¢B
 
 (5)index.cgi ‚ÉƒAƒNƒZƒX‚µ‚ÄA–â‘è‚È‚­“®ì‚µ‚½‚çAƒCƒ“ƒXƒg[ƒ‰ƒtƒ@ƒCƒ‹‚ğ
 @•K‚¸íœ‚µ‚Ä‰º‚³‚¢B
@@ -169,14 +170,11 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 
 E‚»‚ê‚Å‚à‚¾‚ß‚È‚ç.htaccess‚ğ‚Ü‚¸íœ‚µ‚Ä‚İ‚Ä‰º‚³‚¢B
 @“Á‚ÉAattach/.htaccess, image/.htaccess, skin/.htaccess‚Ìíœ‚ğ–Y‚ê‚È‚¢‚Å‰º‚³‚¢B
+@iƒCƒ“ƒXƒg[ƒ‰‚Åíœ‚Å‚«‚é‹@”\‚ª‚ ‚è‚Ü‚·j
 
 Eˆê•”‚ÌƒvƒƒoƒCƒ_[‚Å‚ÍAİ’è‚ÉH•v‚ª•K—v‚Å‚·B
 
 EOS‚ªWindowsŒn‚Ìê‡‚ÍA‚±‚ÌƒCƒ“ƒXƒg[ƒ‰‚ÍÀs‚Å‚«‚Ü‚¹‚ñB
-
-EDigest::MD5‚ª“±“ü‚³‚ê‚Ä‚¢‚È‚¢ƒT[ƒo[‚Å‚ÍAˆÈ‰º‚Ì‚æ‚¤‚É•ÏX‚µ‚Ä‰º‚³‚¢B
-@attach.inc.pl‚Ìuse Digest::MD5 qw(md5_hex);‚ğƒRƒƒ“ƒgƒAƒEƒg‚µA
-@#use Digest::Perl::MD5 qw(md5_hex);‚ÌƒRƒƒ“ƒg‚ğ‚Í‚¸‚·
 
 ECGI.pm‚ª“±“ü‚³‚ê‚Ä‚¢‚È‚¢ƒT[ƒo[‚Å‚ÍA•Ê“r”z•z‚³‚ê‚Ä‚¢‚éCGI.pm.zip‚ğ‰ğ“€‚µ‚Ä
 @lib ˆÈ‰º‚É’u‚¢‚Ä‰º‚³‚¢B
@@ -186,6 +184,10 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 @perl5.8.0ˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Å‚©‚ÂƒT[ƒo[ã‚ÉJcode‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 @‘ã‘Ö‚ÌJcode.pm 0.88‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‰º‚³‚¢B
 /cgi-bin/w/PyukiWiki/Download ‚©‚çƒ_ƒEƒ“ƒ[ƒh‚Å‚«‚Ü‚·B
+
+Eˆê•”‚Ì–³—¿ƒT[ƒo[‚Å‚ÍAEUC”ÅAUTF8”ÅA‚à‚µ‚­‚Í‘o•û‚Æ‚à•¶š‰»‚¯‚·‚é‰Â”\«‚ª
+@‚ ‚è‚Ü‚·BƒT[ƒo[‚Éd—l‚Æ‚àl‚¦‚ç‚ê‚Ü‚·‚Ì‚ÅAV‚½‚É•Ê‚Ì–³—¿ƒT[ƒo[‚ğ‚²—˜—p
+@‚³‚ê‚é‚±‚Æ‚ğ‚¨Š©‚ß‚µ‚Ü‚·B
 
 -------------------------------------------------
 ¡ƒAƒbƒvƒf[ƒg”Å‚É‚¨‚¢‚Ä‚Ì’Ç‹L
@@ -285,11 +287,12 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 Copyright (C) 2004-2012 by Nekyo
 http://nekyo.qp.land.to/
 
-Copyright (C) 2002-2007 by Hiroshi Yuki
+	Copyright (C) 2002-2007 by Hiroshi Yuki
 http://www.hyuki.com/
 
 Copyright (C) 2005-2012 by ‚È‚È‚İ (‚È‚È‚±‚Á‚¿š)
-http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
+http://nanakochi.daiba.cx/ http://www.daiba.cx/ http://chat.daiba.cx/
+http://pyu.be/
 http://twitter.com/nanakochi123456/
 http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 

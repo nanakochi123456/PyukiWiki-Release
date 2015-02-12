@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0-p2 $$
-# $Id: attach.ja.txt,v 1.470 2012/03/01 10:39:22 papu Exp $
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: attach.ja.txt,v 1.498 2012/03/18 11:23:53 papu Exp $
 #
 attach_plugin_msg_upload=への添付
 attach_plugin_msg_listpagelink=添付ファイル一覧

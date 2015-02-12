@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.700 2012/03/01 10:39:20 papu Exp $
+# $Id: wiki.cgi,v 1.738 2012/03/18 11:23:50 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -24,7 +24,7 @@ $::editchar = '?';
 $::subject_delimiter = ' - ';
 $::use_exists = 1;
 $::package = 'PyukiWiki';
-$::version = '0.2.0-p2';
+$::version = '0.2.0-p3';
 %::functions = (
 	"dbmname" => \&dbmname,
 	"undbmname" => \&undbmname,
@@ -144,33 +144,50 @@ $::info_AdminPassword = 'AdminPassword';
 	'quot' => '"',
 );
 %::_facemark = (
-	' :)'		=> 'smile',
-	' (^^)'		=> 'smile',
-	' :D'		=> 'bigsmile',
-	' (^-^)'	=> 'bigsmile',
-	' :p'		=> 'huh',
-	' :d'		=> 'huh',
-	' XD'		=> 'oh',
-	' X('		=> 'oh',
-	' ;)'		=> 'oh',
-	' (;'		=> 'wink',
-	' (^_-)'	=> 'wink',
-	' ;('		=> 'sad',
-	' :('		=> 'sad',
-	' (--;)'	=> 'sad',
-	' (^^;)'	=> 'worried',
-	'&heart;'	=> 'heart',
-	'&bigsmile;'=> 'bigsmile',
-	'&huh;'		=> 'huh',
-	'&oh;'		=> 'oh',
-	'&sad;'		=> 'sad',
-	'&smile;'	=> 'smile',
-	'&wink;'	=> 'wink',
-	'&worried;' => 'worried',
+	' :)'		=> 'smile.png',
+	' (^^)'		=> 'smile.png',
+	' :D'		=> 'bigsmile.png',
+	' (^-^)'	=> 'bigsmile.png',
+	' :p'		=> 'huh.png',
+	' :d'		=> 'huh.png',
+	' XD'		=> 'oh.png',
+	' X('		=> 'oh.png',
+	' ;)'		=> 'oh.png',
+	' (;'		=> 'wink.png',
+	' (^_-)'	=> 'wink.png',
+	' ;('		=> 'sad.png',
+	' :('		=> 'sad.png',
+	' (--;)'	=> 'sad.png',
+	' (^^;)'	=> 'worried.png',
+	'&heart;'	=> 'heart.png',
+	'&bigsmile;'=> 'bigsmile.png',
+	'&huh;'		=> 'huh.png',
+	'&oh;'		=> 'oh.png',
+	'&sad;'		=> 'sad.png',
+	'&smile;'	=> 'smile.png',
+	'&wink;'	=> 'wink.png',
+	'&worried;' => 'worried.png',
+	'&big;'			=> 'extend_bigsmile.png',
+	'&big_plus;'	=> 'extend_bigsmile.png',
+	'&heart2;'		=> 'extend_heart.png',
+	'&heartplus;'	=> 'extend_heart.png',
+	'&oh2;'			=> 'extend_oh.png',
+	'&ohplus;'		=> 'extend_oh.png',
+	'&sad2;'		=> 'extend_sad.png',
+	'&sadplus;'		=> 'extend_sad.png',
+	'&smile2;'		=> 'extend_smile.png',
+	'&smileplus;'	=> 'extend_smile.png',
+	'&wink2;'		=> 'extend_wink.png',
+	'&winkplus;'	=> 'extend_wink.png',
+	'&worried2;'	=> 'extend_worried.png',
+	'&worriedplus;'	=> 'extend_worried.png',
+	'&ummr;'		=> 'umm.png',
+	'&star;'		=> 'star.gif',
+	'&tear;'		=> 'tear.png',
 );
-$::_facemark=q{(\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;)};
-$::_facemark.=q{(|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;)} if($::usePukiWikiStyle eq 1);
-$::_sgmlescape=q{amp|nbsp|iexcl|cent|pound|curren|yen|brvbar|sect|uml|copy|ordf|laquo|not|shy|reg|macr|deg|plusmn|sup2|sup3|acute|micro|para|middot|cedil|sup1|ordm|raquo|frac14|frac12|frac34|iquest|Agrave|Aacute|Acirc|Atilde|Auml|Aring|AElig|Ccedil|Egrave|Eacute|Ecirc|Euml|Igrave|Iacute|Icirc|Iuml|ETH|Ntilde|Ograve|Oacute|Ocirc|Otilde|Oumltimes|Oslash|Ugrave|Uacute|Ucirc|Uuml|Yacute|THORN|szlig|agrave|aacute|acirc|atilde|auml|aring|aelig|ccedil|egrave|eacute|ecirc|euml|igrave|iacute|icirc|iuml|eth|ntilde|ograve|oacute|ocirc|otilde|ouml|divide|oslash|ugrave|uacute|ucirc|uuml|yacute|thorn|yuml|euro|dagger|Dagger|bull|trade|permil|lsquo|rsquo|sbquo|ldquo|rdquo|bdquo|mdash|ndash|smile|bigsmile|huh|oh|wink|sad|worried|heart};
+$::_facemark=q{\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^\_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;};
+$::_facemark.=q{|\&big\;|\&big\_plus\;|\&bigsmile\;|\&heart2\;|\&heartplus\;|\&huh\;|\&oh2\;|\&oh\;|\&ohplus\;|\&sad2\;|\&sad\;|\&sadplus\;|\&smile2\;|\&smile\;|\&smileplus\;|\&star\;|\&tear\;|\&ummr\;|\&wink2\;|\&wink\;|\&winkplus\;|\&worried2\;|\&worried\;|\&worriedplus\;} if($::usePukiWikiStyle eq 1);
+$::_sgmlescape=q{aelig|aacute|acirc|agrave|aring|atilde|auml|ccedil|eth|eacute|ecirc|egrave|euml|iacute|icirc|igrave|iuml|ntilde|oacute|ocirc|ograve|oslash|otilde|oumltimes|thorn|uacute|ucirc|ugrave|uuml|yacute|acute|amp|bdquo|big|big_plus|bigsmile|brvbar|bull|cedil|cent|copy|curren|dagger|deg|divide|euro|frac12|frac14|frac34|heart|heart2|heartplus|huh|iexcl|iquest|laquo|ldquo|lsquo|macr|mdash|micro|middot|nbsp|ndash|not|oh|oh2|ohplus|ordf|ordm|ouml|para|permil|plusmn|pound|raquo|rdquo|reg|rsquo|sad|sad2|sadplus|sbquo|sect|shy|smile|smile2|smileplus|star|sup1|sup2|sup3|szlig|tear|trade|uml|ummr|wink|wink2|winkplus|worried|worried2|worriedplus|yen|yuml};
 my %command_do = (
 	read => \&do_read,
 	write => \&do_write,
@@ -493,7 +510,7 @@ sub skinex {
 		$editable = 1;
 		if(!&is_exist_page($page) && $is_page) {
 			$page=$pagename=$::FrontPage;
-			if($::form{mypreview_cancel} ne '') {
+			if($::form{mypreview_cancel} ne '' || $::form{mypreview_blogcancel} ne '') {
 				if(&is_exist_page($::form{refer}) && $::form{refer} ne '') {
 					$page=$pagename=$::form{refer};
 				}
@@ -661,7 +678,8 @@ sub meta_robots {
 	my $keyword;
 	if($cmd=~/edit|admin|diff|attach|backup/
 		|| $::form{mypage} eq '' && $cmd!~/list|sitemap|recent/
-		|| $::form{mypage}=~/SandBox|$::resource{help}|$::resource{rulepage}|$::MenuBar|$::non_list/
+		|| $::form{mypage}=~/$::resource{help}|$::resource{rulepage}|$::RecentChanges|$::MenuBar|$::SideBar|$::TitleHeader|$::Header|$::Footer$::BodyHeader$::BodyFooter|$::SkinFooter|$::SandBox|$::InterWikiName|$::InterWikiSandBox|$::non_list/
+		|| $::meta_keyword eq "" || lc $::meta_keyword eq "disable"
 		|| &is_readable($::form{mypage}) eq 0) {
 		$robots.=<<EOD;
 <meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE" />
@@ -854,25 +872,29 @@ EOM
 	}
 }
 sub spam_filter {
-	my ($chk_str, $level, $uricount, $mailcount) = @_;
+	my ($chk_str, $level, $uricount, $mailcount, $retflg) = @_;
 	return if ($::filter_flg != 1);
 	return if ($chk_str eq '');
-	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x8E\xA1-\xFE]';
+	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x80-\xFE]';
 	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x80-\xFE]';
 	if($uricount+0 eq 0 || $uricount+0 > $::chk_uri_count+0) {
 		$uricount=$::chk_uri_count;
 	}
 	if (($level ne  1) && ($uricount > 0) && (($chk_str =~ s/https?:\/\///g) >= $uricount)) {
 		&snapshot('Over http');
+		return "Over http" if($retflg+0 eq 1);
 	} elsif (($level ne  1) && ($mailcount+0 > 0) && (($chk_str =~ s/$::ismail//g) >= $uricount)) {
-		&snapshot('Over mail');
+		&snapshot('Over Mail', $retflg+0);
+		return "Over Mail" if($retflg+0 eq 1);
 	} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /$chk_jp_regex/)) {
-		&snapshot('No Japanese');
+		&snapshot('No Japanese', $retflg+0);
+		return "No Japanese" if($retflg+0 eq 1);
 	} else {
 		return;
 	}
 	&skinex($::form{mypage}, &message($::resource{auth_writefobidden}), 0);
 	&close_db;
+	return "spam" if($retflg+0 eq 1);
 	exit;
 }
 sub do_write {
@@ -945,9 +967,11 @@ sub do_write {
 		if(&is_exist_page($::form{mypage})) {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "Modify");
+			&do_write_after($::form{mypage}, "Modify");
 		} else {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "New");
+			&do_write_after($::form{mypage}, "New");
 		}
 		&open_info_db;
 		&set_info($::form{mypage}, $::info_ConflictChecker, '' . localtime);
@@ -1001,8 +1025,12 @@ sub do_write {
 		&close_info_db;
 		&close_db;
 		&skinex($::form{mypage}, &message($::resource{deleted}), 0);
+		&do_write_after($::form{mypage}, "Delete");
 	}
 	return 0;
+}
+sub do_write_after {
+	my($page, $mode)=@_;
 }
 sub read_by_part {
 	my ($page) = @_;
@@ -1405,7 +1433,7 @@ sub inline {
 	$line =~ s|\(\((.*)\)\)||gex;
 	$line =~ s|\[\#(.*)\]|<a class="anchor_super" id="$1" href="#$1" title="$1">$::_symbol_anchor</a>|g;
 	if ($::usefacemark == 1) {
-		$line=~s!($::_facemark)!<img src="$::image_url/face/$::_facemark{$1}.png" alt="@{[htmlspecialchars($1,1)]}" />!go;
+		$line=~s!($::_facemark)!<img src="$::image_url/face/$::_facemark{$1}" alt="@{[htmlspecialchars($1,1)]}" />!go;
 	}
 	return $line;
 }
@@ -1639,7 +1667,7 @@ sub make_link_target {
 	if($target eq '') {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 	} elsif($::is_xhtml) {
-		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
+		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou(this.href, '@{[$target eq "_blank" ? "b" : $target]}');">);
 	} else {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 	}
@@ -1709,7 +1737,13 @@ sub init_form {
 		$::form{mypage} = $query;
 	}
 	foreach (keys %::form) {
-		if (/^mypreview_(.*)$/ || /^mypreviewjs_(.*)$/) {
+		if (/^mypreview_blog(.*)$/ || /^mypreviewjs_blog(.*)$/) {
+			if($::form{$_} ne '') {
+				$::form{cmd} = "blog";
+				$::form{mode} = $1;
+				$::form{mypreview} = 1;
+			}
+		} elsif (/^mypreview_(.*)$/ || /^mypreviewjs_(.*)$/) {
 			if($::form{$_} ne '') {
 				$::form{cmd} = $1;
 				$::form{mypreview} = 1;
@@ -2019,21 +2053,23 @@ sub is_frozen {
 sub exist_plugin {
 	my ($plugin) = @_;
 	if (!$_plugined{$plugin}) {
-		my $path = "$::plugin_dir/$plugin" . '.inc.pl';
-		if (-e $path) {
-			require $path;
-			$::debug.=$@;
-			$_plugined{$1} = 1;
-			$path="$::res_dir/$plugin.$::lang.txt";
-			%::resource = &read_resource($path,%::resource) if(-r $path);
-			return 1;
-		} else {
-			$path = "$::plugin_dir/$plugin" . '.pl';
+		if($plugin=~/^\w{1,64}$/) {
+			my $path = "$::plugin_dir/$plugin" . '.inc.pl';
 			if (-e $path) {
 				require $path;
 				$::debug.=$@;
-				$_plugined{$1} = 2;
-				return 2;
+				$_plugined{$1} = 1;
+				$path="$::res_dir/$plugin.$::lang.txt";
+				%::resource = &read_resource($path,%::resource) if(-r $path);
+				return 1;
+			} else {
+				$path = "$::plugin_dir/$plugin" . '.pl';
+				if (-e $path) {
+					require $path;
+					$::debug.=$@;
+					$_plugined{$1} = 2;
+					return 2;
+				}
 			}
 		}
 		return 0;
@@ -2043,14 +2079,16 @@ sub exist_plugin {
 sub exist_explugin {
 	my ($explugin) = @_;
 	if (!$_exec_plugined{$explugin}) {
-		my $path = "$::explugin_dir/$explugin" . '.inc.cgi';
-		if (-e $path) {
-			require $path;
-			$::debug.=$@;
-			$_exec_plugined{$1} = 1;
-			$path="$::res_dir/$explugin.$::lang.txt";
-			%::resource = &read_resource($path,%::resource) if(-r $path);
-			return 1;
+		if($explugin=~/^\w{1,64}$/) {
+			my $path = "$::explugin_dir/$explugin" . '.inc.cgi';
+			if (-e $path) {
+				require $path;
+				$::debug.=$@;
+				$_exec_plugined{$1} = 1;
+				$path="$::res_dir/$explugin.$::lang.txt";
+				%::resource = &read_resource($path,%::resource) if(-r $path);
+				return 1;
+			}
 		}
 		return 0;
 	}
@@ -2117,9 +2155,12 @@ sub embedded_inline {
 sub load_module{
 	my $mod = shift;
 	return $mod if $::_module_loaded{$mod}++;
-	eval qq( require $mod; );
-	$mod=undef if($@);
-	return $mod;
+	if($mod=~/^[\w\:]{1,64}$/) {
+		eval qq( require $mod; );
+		$mod=undef if($@);
+		return $mod;
+	}
+	return undef;
 }
 sub code_convert {
 	my ($contentref, $kanjicode, $icode) = @_;
@@ -2168,7 +2209,7 @@ sub htmlspecialchars {
 	return $s if($s!~/([<>"&])/);
 	$s=~s/([<>"&])/$::_htmlspecial{$1}/g;
 	return $s if($flg eq 1);
-	$s=~s/&amp;($::_sgmlescape);/&$1;/g;
+	$s=~s/&amp;($::_sgmlescape);/&$1;/ig;
 	$s=~s/&amp;#([0-9A-Fa-fXx]+)?;/&#$1;/g;
 	return $s;
 }
@@ -2260,7 +2301,7 @@ EOM
 				$body.=<<EOM;
 <span id="submitbutton"></span>
 <script type="text/javascript"><!--
-	getid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
+	gid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
 //--></script>
 <noscript><input type="submit" value="$::resource{admin_passwd_button}" /></noscript>
 EOM

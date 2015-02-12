@@ -1,8 +1,8 @@
 ######################################################################
 # GZIP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: GZIP.pm,v 1.206 2012/03/01 10:39:20 papu Exp $
+# $Id: GZIP.pm,v 1.234 2012/03/18 11:23:51 papu Exp $
 #
-# "Nana::GZIP" version 0.2 $$
+# "Nana::GZIP" ver 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

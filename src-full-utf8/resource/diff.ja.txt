@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0-p2 $$
-# $Id: diff.ja.txt,v 1.307 2012/03/01 10:39:27 papu Exp $
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: diff.ja.txt,v 1.335 2012/03/18 11:23:58 papu Exp $
 #
 # diff.inc.pl
 diff_plugin_title=の変更点

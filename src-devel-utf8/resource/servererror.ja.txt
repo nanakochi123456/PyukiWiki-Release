@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0-p2 $$
-# $Id: servererror.ja.txt,v 1.307 2012/03/01 10:39:27 papu Exp $
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: servererror.ja.txt,v 1.335 2012/03/18 11:23:58 papu Exp $
 #
 
 # servererror.inc.pl
@@ -11,7 +11,8 @@
 servererror_plugin_commonmsg=サーバーの障害と思われる場合は、$1[[サーバー管理者>$ENV{SERVER_ADMIN}]]までご連絡ください。
 servererror_plugin_modifier_mail=[[ウェブ管理者>$ENV{modifier_mail}]]、または
 #servererror_plugin_rfcurl=http://www.ietf.org/rfc/rfc$1.txt
-servererror_plugin_rfcurl=http://www.studyinghttp.net/cgi-bin/rfc.cgi?$1
+#servererror_plugin_rfcurl=http://www.studyinghttp.net/cgi-bin/rfc.cgi?$1
+servererror_plugin_rfcurl=http://www.studyinghttp.net/rfc_ja/#RFC$1
 servererror_plugin_rfcmsg=参考：[[RFC$1>$2]]
 servererror_plugin_errormessage=エラーメッセージの内容：
 
@@ -26,7 +27,7 @@ servererror_plugin_401_title=認証が必要です
 servererror_plugin_401_msg=サーバーは"''$ENV{REDIRECT_URL}''"へのアクセス許可を確認できませんでした。\nあなたが間違った証明書（間違ったパスワードなど）を送信したか、またはお使いのブラウザが要求される証明書の提供手段を知らないのでしょう。
 servererror_plugin_401_rfc=2617
 
-## 402 Payment Required (
+## 402 Payment Required
 servererror_plugin_402_header=Payment Required
 servererror_plugin_402_title=このコンテンツは有料です
 servererror_plugin_402_msg=要求された"''$ENV{REDIRECT_URL}''"は''有料コンテンツです''。

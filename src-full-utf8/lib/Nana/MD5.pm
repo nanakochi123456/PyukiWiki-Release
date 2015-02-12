@@ -1,8 +1,8 @@
 ######################################################################
 # MD5.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: MD5.pm,v 1.15 2012/03/01 10:39:25 papu Exp $
+# $Id: MD5.pm,v 1.43 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::MD5" version 0.1 $$
+# "Nana::MD5" ver 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: getversion.pl,v 1.27 2006/03/04 13:12:52 papu Exp $
+# $Id: getversion.pl,v 1.36 2012/03/18 11:23:49 papu Exp $
 
 open(R,"lib/wiki.cgi");
 foreach(<R>) {

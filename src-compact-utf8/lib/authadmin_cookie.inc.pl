@@ -1,8 +1,8 @@
 ######################################################################
 # authadmin_cookie.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: authadmin_cookie.inc.pl,v 1.308 2012/03/01 10:39:24 papu Exp $
+# $Id: authadmin_cookie.inc.pl,v 1.337 2012/03/18 11:23:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -153,7 +153,7 @@ EOM
 				$body.=<<EOM;
 <span id="submitbutton"></span>
 <script type="text/javascript"><!--
-	getid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
+	gid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
 //--></script>
 <noscript><input type="submit" value="$::resource{admin_passwd_button}" /></noscript>
 EOM

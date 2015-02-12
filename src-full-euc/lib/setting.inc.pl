@@ -1,8 +1,8 @@
 ######################################################################
 # setting.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: setting.inc.pl,v 1.451 2012/03/01 10:39:20 papu Exp $
+# $Id: setting.inc.pl,v 1.481 2012/03/18 11:23:50 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -55,8 +55,10 @@ sub plugin_setting_setting {
 	if($::setting_cookie{style} ne '') {
 		my $style=$::setting_cookie{style};
 		if($style!~/\//) {
-			$::skin_name=$style;
-			&skin_init;
+			if($style=~/^\w{1,64}$/) {
+				$::skin_name=$style;
+				&skin_init;
+			}
 		}
 	}
 	if($::setting_cookie{fontsize}+0 > 0) {

@@ -1,8 +1,8 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.502 2012/03/01 10:39:21 papu Exp $
+# $Id: attach.inc.pl,v 1.531 2012/03/18 11:23:51 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -202,7 +202,7 @@ EOD
   $::resource{'attach_plugin_msg_file'}: <input type="file" name="attach_file" />
   $pass
   @{[$auth{crypt} ?
-    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	getid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_upload'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_upload'}" /></noscript>)
+    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	gid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_upload'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_upload'}" /></noscript>)
     :
    qq(<input type="submit" value="$::resource{'attach_plugin_btn_upload'}" />)
   ]}
@@ -551,7 +551,7 @@ EOD
   $msg_delete
   $msg_pass
   @{[$auth{crypt} ?
-    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	getid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_submit'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_submit'}" /></noscript>)
+    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	gid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_submit'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_submit'}" /></noscript>)
     :
    qq(<input type="submit" value="$::resource{'attach_plugin_btn_submit'}" />)
   ]}

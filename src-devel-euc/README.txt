@@ -1,6 +1,6 @@
 PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 
-	"PyukiWiki" version 0.2.0-p2 $$
+	"PyukiWiki" ver 0.2.0-p3 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
@@ -14,11 +14,37 @@ PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		Nanami <nanami (at) daiba (dot) cx> (’FƒlƒJƒ}‚Å‚·)
+		Nanami <nanami (at) daiba (dot) cx> (’Fƒo[ƒ`ƒƒƒ‹—‚Ìq‚Å‚·)
 
-	$Id: README.txt,v 1.490 2012/03/01 10:39:19 papu Exp $
+	$Id: README.txt,v 1.520 2012/03/18 11:23:49 papu Exp $
 
 	‚±‚ÌƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÍShift-JISATAB4‚Å‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B
+
+-------------------------------------------------
+¡–ÚŸ
+-------------------------------------------------
+EÅVî•ñ
+EŠT—v
+Eƒ‰ƒCƒZƒ“ƒX
+EŠñ•t‚É‚Â‚¢‚Ä
+EƒpƒbƒP[ƒW‚É‚Â‚¢‚Ä
+E‚Í‚¶‚ß‚É
+Eƒtƒ@ƒCƒ‹ˆê——
+ECSS‚ğ•ÒW‚µ‚½‚¯‚ê‚ÎH
+EJavaScript‚ğ•ÒW‚µ‚½‚¯‚ê‚ÎH
+E‚à‚µ“®‚©‚È‚¯‚ê‚ÎH
+EƒAƒbƒvƒf[ƒg”Å‚É‚¨‚¢‚Ä‚Ì’Ç‹L
+EŠÈ’P‚ÈFAQ
+E0.2.0-p2‚©‚ç‚Ìå‚È•ÏX“_
+E0.2.0-p1‚©‚ç‚Ìå‚È•ÏX“_
+E0.2.0‚©‚ç‚Ìå‚È•ÏX“_
+E0.1.9‚©‚ç‚Ìå‚È•ÏX“_
+E0.1.8‚©‚ç‚Ìå‚È•ÏX“_
+E0.1.7‚©‚ç‚Ìå‚È•ÏX“_
+E0.1.5‚©‚ç‚Ìå‚È•ÏX“_
+Eg—p‚µ‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ“™
+EÓ«
+EìÒ
 
 -------------------------------------------------
 ¡ÅVî•ñ
@@ -43,7 +69,8 @@ Nekyo‚Ìƒo[ƒWƒ‡ƒ“‚ğ‚²—˜—p‰º‚³‚¢B
 http://nekyo.qp.land.to/
 
 ‚½‚¾‚µA‚±‚Ìƒo[ƒWƒ‡ƒ“‚ÍH•v‚ğ‚µ‚È‚¢‚ÆAƒZƒLƒ…ƒŠƒeƒB[ƒŠƒXƒN‚ª
-‚ ‚è‚Ü‚·‚Ì‚Å’ˆÓ‚µ‚Ä‰º‚³‚¢B
+‚ ‚è‚Ü‚·‚Ì‚Å’ˆÓ‚µ‚Ä‰º‚³‚¢Bƒ†[ƒU[Œ ŒÀ‚Ì‚ ‚éƒT[ƒo[‚Å‚ÍA
+CGIƒCƒ“ƒXƒg[ƒ‰‚ÅŠÈ’P‚Éİ’è‚Å‚«‚é‚æ‚¤‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
 -------------------------------------------------
 ¡ƒ‰ƒCƒZƒ“ƒX
@@ -59,6 +86,9 @@ PyukiWiki‚ÍAGPL3‚à‚µ‚­‚ÍArtisticƒ‰ƒCƒZƒ“ƒX‚ÌŒ³‚Å”z•z‚³‚ê‚Ü‚·B
 ‚½‚¾‚µAŒ´”Å‚Æ“¯–¼‚ÌƒpƒbƒP[ƒW‚Æ‚µ‚Ä–¼æ‚é‚±‚Æ‚ğ‹Ö~‚µ‚Ü‚·B
 Ú‚µ‚­‚ÍA‰º‹L‚ÌURLC‚Ü‚½‚ÍAƒCƒ“ƒXƒg[ƒ‹Ï‚ÌPyukiWiki‚Ìwiki•¶‚©‚ç
 ‚²Šm”F‰º‚³‚¢B
+
+“¯«‚µ‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‚ÍAˆê•”MITƒ‰ƒCƒZƒ“ƒX‚Ì•¨‚ªŠÜ‚Ü‚ê‚Ü‚·‚ª
+‚±‚¿‚ç‚Í“K—p‚µ‚Ü‚¹‚ñB
 
 EPyukiWiki:ƒ‰ƒCƒZƒ“ƒX‚É‚Â‚¢‚Ä
 @@@BASEURL/PyukiWiki/Install/License/
@@ -85,9 +115,56 @@ PyukiWiki‚ÍAGPL3‚à‚µ‚­‚ÍArtisticƒ‰ƒCƒZƒ“ƒX‚ÌŒ³‚Å”z•z‚³‚ê‚Ü‚·B
 @http://dev.perl.org/perl6/rfc/346.html
 
 -------------------------------------------------
+¡Šñ•t‚É‚Â‚¢‚Ä
+-------------------------------------------------
+ŠJ”­ŠÂ‹«‹­‰»AŒp‘±“I‚ÈŠJ”­‚Ìˆ×‚ÉAŠñ•t‚ğ‚¨Šè‚¢‚µ‚Ä
+‚¢‚Ü‚·B
+vector ƒVƒFƒAƒŒƒWi–{ƒhƒLƒ…ƒƒ“ƒg‹LÚ‚Í€”õ’†jA
+‹âsU‚è‚İ‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
+
+‹âsU‚è‚İ“™‚ÍˆÈ‰º‚Ì‚¨U‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
+E‹âsU‚è‚İ
+@ƒXƒ‹ƒK‹âsAZMSBIƒlƒbƒg‹âsAO•H“Œ‹UFJ‹âs
+@OˆäZ—F‹âs
+EEdy to Edy
+E“dqƒ}ƒl[©‘Ì‚Ì—X‘—
+EˆÈ‰ºA18Î–¢–‹Ö~
+@ƒ^ƒoƒR©‘Ì‚ğ‘—‚éAo‰ï‚¢ŒnƒTƒCƒg–³—¿“o˜^
+
+vector ƒVƒFƒAƒŒƒW‚ÍˆÈ‰º‚Ì‚¨U‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·B
+EƒNƒŒƒWƒbƒgƒJ[ƒh
+@VISAAMASTERAAMEXAJCBAUCADCANICOSASAISONA
+@ORICOAUFJ(MILLION)ADINERSAJACCS
+E“dqƒ}ƒl[iWebMoneyABitcashj
+
+Šñ•t‚ğ‚µ‚½‚­‚È‚¢‚ªAˆÀ‚¢‚à‚Ì‚ğ”ƒ‚¢•¨‚µ‚½‚¢
+@ŒƒˆÀ–â‰®I‚©‚¢‚à‚Ì.jp
+@http://shop.daiba.cx/ ihttp://‚©‚¢‚à‚Ì.jp/)
+
+
+Šñ•t‹àŠz‚ÉŠÖ‚µ‚Ä‚ÍA‚¢‚­‚ç‚Å‚à\‚¢‚Ü‚¹‚ñB
+‚½‚¾‚µAvectorƒVƒFƒAƒŒƒW‚Å‚ÍAƒVƒXƒeƒ€ãA1000‰~
+‚Ü‚½‚ÍA3000‰~‚Æİ’è‚µ‚Ä‚¢‚Ü‚·B
+
+Šñ•t‚ÉŠÖ‚µ‚Ä‚ÌURL‚ÍAˆÈ‰º‚Æ‚È‚è‚Ü‚·B
+http://www.daiba.cx/%3a%e5%af%84%e4%bb%98%e3%81%8a%e6%8c%af%e8%be%bc%e5%85%88/
+
+Šñ•t‚Ì‚¤‚¿A‹âsU‚è‚İAEdy to EdyAvector ƒVƒFƒA
+ƒŒƒW‚©‚çó‚¯æ‚Á‚½‹àŠz‚Ì‚¤‚¿A‚T“‚ğA­‚È‚¢‚È‚ª‚ç‚à
+“Œ“ú–{‘åkĞ‚Ö‚ÌŠñ•t‹à‚Æ‚µ‚Ä€”õ’v‚µ‚Ü‚·B
+
+-------------------------------------------------
 ¡“®ìŠÂ‹«
 -------------------------------------------------
 PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
+
+EƒT[ƒo[‚Æ‚µ‚ÄALinux‚Ü‚½‚ÍFreeBSDASolaris“™ *NIXŠÂ‹«
+@MacOS X (–¢ŒŸØ)
+@Windows iˆê•”§ŒÀ‚ª‚ ‚è‚Ü‚·j
+
+ECGI‚Ì“®ì‚µAPerl5.8.1i‚È‚é‚¾‚¯jˆÈ~‚ª“®ì‚·‚éWebƒT[ƒo[
+@‚È‚¨APerl 5.0004‚ÉŠÖ‚µ‚Ä‚ÍŒ»ƒo[ƒWƒ‡ƒ“‚Å‚Í–¢ƒTƒ|[ƒg‚Å‚·B
+@ÅV‚ÌPerl5.10Œn‹y‚Ñ5.12ŒnA5.14Œn‚Å‚à“®ìŠm”FÏ‚İ‚Å‚·B
 
 Efull”Å‚ÍƒCƒ“ƒXƒg[ƒ‹‚É2MƒoƒCƒgAcompact”Å‚Í
 @ƒCƒ“ƒXƒg[ƒ‹‚É1MƒoƒCƒg•K—v‚Å‚·B
@@ -95,10 +172,6 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 Ecompact”Å‚ÍAˆÈ‰º‚Ìƒ‚ƒWƒ…[ƒ‹‚ªƒT[ƒo[‚ÉƒCƒ“ƒXƒg[ƒ‹
 @‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B
 @Jcode.pmATime::Local
-
-ECGI‚Ì“®ì‚µAPerl5.8.1i‚È‚é‚¾‚¯jˆÈ~‚ª“®ì‚·‚éWebƒT[ƒo[
-@‚È‚¨APerl 5.0004‚ÉŠÖ‚µ‚Ä‚ÍŒ»ƒo[ƒWƒ‡ƒ“‚Å‚Í–¢ƒTƒ|[ƒg‚Å‚·B
-@ÅV‚ÌPerl5.10Œn‹y‚Ñ5.12Œn‚Å‚à“®ìŠm”FÏ‚İ‚Å‚·B
 
 -------------------------------------------------
 ¡ƒpƒbƒP[ƒW‚É‚Â‚¢‚Ä
@@ -160,6 +233,8 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 -------------------------------------------------
 ¡ƒtƒ@ƒCƒ‹ˆê——
 -------------------------------------------------
+‚±‚±‚Å‚Ìƒtƒ@ƒCƒ‹ˆê——‚ÍAÅV‚Ìˆê——‚ªãÀ‚¢‚³‚ê‚Ä‚¢‚È‚¢‰Â”\«‚ª
+‚ ‚è‚Ü‚·
 
 œà–¾•¶
 
@@ -325,12 +400,14 @@ index.cgi‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ 701 (rwx-----x) ‚É‚·‚é‚±‚Æ‚Å“®ì‚µ‚Ü‚·B
 @Äˆ³k‚·‚é‚É‚ÍA‚±‚¿‚çi‰pŒêj‚ğ‚²——‰º‚³‚¢B
 @http://developer.yahoo.com/yui/compressor/
 @http://joliclic.free.fr/php/javascript-packer/en/index.php
+@JavaScriptƒtƒ@ƒCƒ‹‚ÍAˆê•”ƒtƒ@ƒCƒ‹‚ğœ‚«Ayuicompressor‚Åˆ³kŒãA‚»‚Ì‚Ü‚Ü
+@javascript-packer‚ÅƒpƒbƒN‰»‚µ‚ÄX‚ÉƒTƒCƒYŒyŒ¸‚ğs‚È‚Á‚Ä‚¢‚Ü‚·B
 
 -------------------------------------------------
 ¡‚à‚µ“®‚©‚È‚¯‚ê‚ÎH
 -------------------------------------------------
 Eƒp[ƒ~ƒbƒVƒ‡ƒ“‚ª³‚µ‚¢‚©‚Ç‚¤‚©Šm”F‚µ‚Ä‰º‚³‚¢B
-@ƒvƒƒoƒCƒ_§—ã‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ‚È‚é‚¾‚¯—Dæ‚µ‚Ä‰º‚³‚¢B
+@ƒT[ƒo[’ñ‹Ÿ‰ïĞAƒvƒƒoƒCƒ_§—ã‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ‚È‚é‚¾‚¯—Dæ‚µ‚Ä‰º‚³‚¢B
 
 E‚»‚ê‚Å‚à‚¾‚ß‚È‚ç.htaccess‚ğ‚Ü‚¸íœ‚µ‚Ä‚İ‚Ä‰º‚³‚¢B
 @“Á‚ÉAattach/.htaccess, image/.htaccess, skin/.htaccess‚Ìíœ‚ğ–Y‚ê‚È‚¢‚Å‰º‚³‚¢B
@@ -367,6 +444,13 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 EPyukiWiki‚ÌìÒ‚ª•Ï‚Á‚½‚Ì‚Å‚·‚©H
 @‚¢‚¢‚¦A•Ï‚Á‚½‚Ì‚Å‚Í‚È‚­’Ç‰Á‚Å‚·B
 @‚Æ‚Í‚¢‚¦AŒ´ìÒ‚ÌNekyo‚ÍAŒ»İŠJ”­‚ğ’â~‚µ‚Ä‚¢‚é–Í—l‚Å‚·B
+
+EPyukiWiki‚Ì“®ì‚ªd‚¢‚Ì‚Å‚·‚ª
+@compact”Å‚É‚·‚é‚Æ‘½­‚ÍŒy‚­‚È‚è‚Ü‚·‚ªAX‚ÉŒy‚­‚·‚éê‡ANekyo‚ÌƒIƒŠƒWƒiƒ‹
+@”Å‚ğ‚²—˜—p‚É‚È‚é‚Æ‚æ‚¢‚Å‚µ‚å‚¤B‚½‚¾‚µA‘½‚­‚Ì‹@”\‚ª§ŒÀ‚³‚ê‚Ü‚·B
+@http://nekyo.qp.land.to/
+@ÅVƒoƒOFix‘Î‰”Å‚ÍA‚±‚¿‚ç‚©‚ç
+@http://sourceforge.jp/projects/pyukiwiki/releases/?package_id=4436
 
 EŠù‘¶‚Ìƒvƒ‰ƒOƒCƒ“‚ª“®‚©‚È‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚½‚Ì‚Å‚·‚ªH
 @‰Â”\‚ÈŒÀ‚èA‰ß‹ƒo[ƒWƒ‡ƒ“Œü‚¯‚Ìƒvƒ‰ƒOƒCƒ“‚ğ“®ì‚Å‚«‚é‚æ‚¤•ÏX‚Í‚µ‚Ä‚¢‚Ü‚·‚ªA
@@ -408,6 +492,25 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @‚Ü‚½AƒCƒ“ƒ‰ƒCƒ“ƒvƒ‰ƒOƒCƒ“(&plugin(...);)‚É‚¨‚¢‚ÄAu;v‚ÅI—¹‚µ‚Ä‚¢‚È‚¢‚ÆA
 @•s‹ï‡‚ª‹N‚«‚Ü‚·BƒlƒXƒg‰Â”\‚É‚·‚éˆ×‚ÉŒµŠi‚É•¶–@ƒ`ƒFƒbƒN‚ğs‚È‚Á‚Ä‚¢‚Ü‚·‚Ì‚ÅA
 @•Â‚¶‚Ä‚¢‚È‚¢ê‡‚ÍAuGv‚Å•Â‚¶‚é‚æ‚¤‚É‚µ‚Ä‰º‚³‚¢B
+
+Eƒvƒ‰ƒOƒCƒ“‚ğì¬‚µ‚Ä‚İ‚½‚¢H
+@sample/ ƒfƒBƒŒƒNƒgƒŠ‚ÌAstationary.inc.plA‹y‚ÑAstationary_explugin.inc.pl‚ğ
+@Ql‚É‚µ‚Ä‰º‚³‚¢B
+@ExPlugin‚ÍA–{—ˆƒvƒƒOƒ‰ƒ~ƒ“ƒO‚Å‚Í‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢AŠÖ”‚Ìd•¡‚ğ‹t‚É—˜—p‚µ‚Ä
+@ÀŒ»‚µ‚Ä‚¢‚é‹@”\‚Å‚·‚Ì‚ÅAd•¡‚³‚¹‚éŠÖ”‚ğİ’è‚·‚é‚É‚ÍA\•ª’ˆÓ‚µ‚Ä
+@‰º‚³‚¢B
+
+-------------------------------------------------
+¡0.2.0-p2‚©‚ç‚Ìå‚È•ÏX“_
+-------------------------------------------------
+EƒZƒLƒ…ƒŠƒeƒB[ƒz[ƒ‹Fix
+Eping Exƒvƒ‰ƒOƒCƒ“ (weblogXVping)ì¬i‚Ü‚¾ƒeƒXƒg”Åj
+Etrackback Exƒvƒ‰ƒOƒCƒ“Atb.inc.pl ƒvƒ‰ƒOƒCƒ“ (ƒgƒ‰ƒbƒNƒoƒbƒNjì¬ióM‚Ì‚İj
+Eextend edit ‚Ì‰ü—ÇiIE‚Å‚Íˆê‰“®ì‚µ‚Ü‚·‚ªA‚Ü‚¾³í‚É“®ì‚µ‚Ü‚¹‚ñj
+Ejquery.js‚ğcompact”ÅˆÈŠO“¯••
+EPukiWiki Plus‚ÌŠç•¶š‚ğ’Ç‰Á
+EJavaScript‚Ìˆ³k•û–@‚Ì•ÏX
+Elinktrack.inc.cgi‚ÌHTMLo—Í—Ê‚ğíŒ¸
 
 -------------------------------------------------
 ¡0.2.0-p1‚©‚ç‚Ìå‚È•ÏX“_
@@ -537,7 +640,7 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 E•”•ª•ÒW‚É‘Î‰‚µ‚Ü‚µ‚½B
 @‹‘å‚Èƒy[ƒW‚Å‚àA•ÒW‚µ‚â‚·‚­‚È‚è‚Ü‚µ‚½B
 
-EŒŸõƒGƒ“ƒWƒ“SEO‘Îô‚ğ‚µ‚Ü‚µ‚½B
+ESEO‘Îô‚ğ‚µ‚Ü‚µ‚½B
 @EURL‚©‚çu?v“™‚ğÈ‚­Aurlhack.inc.cgiƒvƒ‰ƒOƒCƒ“‚Ì’Ç‰Á
 @E•ÒW‰æ–Ê“™‚Å‚ÍAƒƒ{ƒbƒg‚ªƒNƒ[ƒ‹‚µ‚È‚¢‚æ‚¤‚ÉMETAƒ^ƒO‚ğİ’è‚µ‚½
 
@@ -709,10 +812,20 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @EEUC•¶šŠÖŒW‚Ìˆ—
 @EƒŠƒl[ƒ€ƒƒbƒN
 @E‰üsƒR[ƒh‚ğ“ˆê‚·‚é
+@E‚»‚Ì‘¼
 
 Etwitteræ“¾—pJavaScript
 @http://twitstat.us/
 @ƒIƒŠƒWƒiƒ‹ƒ\[ƒX‚Í http://twitstat.us/twitstat.js
+
+EjQuery
+@http://jquery.com/
+
+EjqModal (instag.js‚ÉŒ‹‡Ï)
+@http://dev.iceburg.net/jquery/jqModal/
+
+EFarbtastic Color Picker
+@http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/
 
 EAWStatsiƒAƒNƒZƒXƒƒO‰ğÍj
 
@@ -762,7 +875,8 @@ Copyright (C) 2002-2007 by Hiroshi Yuki
 http://www.hyuki.com/
 
 Copyright (C) 2005-2012 by ‚È‚È‚İ (‚È‚È‚±‚Á‚¿š)
-http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
+http://nanakochi.daiba.cx/ http://www.daiba.cx/ http://chat.daiba.cx/
+http://pyu.be/
 http://twitter.com/nanakochi123456/
 http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 

@@ -1,8 +1,8 @@
 ######################################################################
 # listfrozen.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: listfrozen.inc.pl,v 1.311 2012/03/01 10:39:25 papu Exp $
+# $Id: listfrozen.inc.pl,v 1.339 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

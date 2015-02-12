@@ -1,4 +1,4 @@
-#$Id: search.inc.pl.ja.pod,v 1.466 2012/03/01 10:39:21 papu Exp $
+#$Id: search.inc.pl.ja.pod,v 1.493 2012/03/18 11:23:51 papu Exp $
 
 __END__
 =encoding euc-jp

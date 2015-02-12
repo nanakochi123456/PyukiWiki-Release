@@ -5,9 +5,9 @@
 #!c:\perl64\bin\perl.exe
 ######################################################################
 # v.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: v.cgi,v 1.81 2012/03/01 10:39:23 papu Exp $
+# $Id: v.cgi,v 1.109 2012/03/18 11:23:54 papu Exp $
 #
-# "playvideo" version 2.2a $$
+# "playvideo" ver 2.2a $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

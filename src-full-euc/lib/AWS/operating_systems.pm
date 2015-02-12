@@ -1,8 +1,8 @@
 ######################################################################
 # operating_systems.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: operating_systems.pm,v 1.160 2012/03/01 10:39:20 papu Exp $
+# $Id: operating_systems.pm,v 1.188 2012/03/18 11:23:50 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
 # http://awstats.sf.net/

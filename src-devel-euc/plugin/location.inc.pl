@@ -1,8 +1,8 @@
 ######################################################################
 # location.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: location.inc.pl,v 1.397 2012/03/01 10:39:21 papu Exp $
+# $Id: location.inc.pl,v 1.425 2012/03/18 11:23:51 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

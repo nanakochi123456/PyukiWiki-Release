@@ -1,8 +1,8 @@
 ######################################################################
 # Lock.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Lock.pm,v 1.462 2012/03/01 10:39:20 papu Exp $
+# $Id: Lock.pm,v 1.490 2012/03/18 11:23:51 papu Exp $
 #
-# "Nana::Lock" version 0.2 $$
+# "Nana::Lock" ver 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

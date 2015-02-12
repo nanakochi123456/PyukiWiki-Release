@@ -1,8 +1,8 @@
-#######################################################################
+######################################################################
 # edit.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: edit.inc.pl,v 1.309 2012/03/01 10:39:25 papu Exp $
+# $Id: edit.inc.pl,v 1.339 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -59,12 +59,18 @@ sub plugin_edit_editform {
 	my $frozen = &is_frozen($::form{mypage});
 	my $body = '';
 
-	if ($::extend_edit) {
-		$::IN_HEAD.=qq(<script type="text/javascript" src="$::skin_url/instag.js"></script>\n);
+	# 0.2.0-p3 split to edit_extend.inc.pl					# comment
+	if ($::extend_edit && -f "$::plugin_dir/edit_extend.inc.pl") {
+		require "$::plugin_dir/edit_extend.inc.pl";
+		&plugin_edit_extend_edit_init;
+	} else {
+		$::extend_edit=0;
 	}
 
 	my $edit = $mode{admin} ? 'adminedit' : 'edit';
-	if($edit eq 'adminedit') {
+	$edit = $mode{blog} && $::newpage_auth eq 1 ? 'adminedit' : $edit;
+
+	if($edit eq 'adminedit' || $mode{blog} && $::newpage_auth eq 1) {
 		%auth=&authadminpassword("input",$::resource{admin_passwd_prompt_msg},"frozen");
 	}
 	if($::pukilike_edit > 1 && $::form{template} ne '') {
@@ -102,11 +108,14 @@ sub plugin_edit_editform {
 		}
 	}
 	my $escapedmypage = &htmlspecialchars($::form{mypage});
-	$body.=&plugin_edit_extend_edit if ($::extend_edit);
 
 	$body.=$::pukilike_edit >0
-		? &plugin_edit_editform_pukilike($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$edit eq 'adminedit' ? $auth{crypt} : 0,%mode)
-		: &plugin_edit_editform_pyukiwiki($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$edit eq 'adminedit' ? $auth{crypt} : 0,%mode);
+		? &plugin_edit_editform_pukilike(
+			$mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,
+			$edit eq 'adminedit' || $::newpage_auth eq 1 ? $auth{crypt} : 0,%mode)
+		: &plugin_edit_editform_pyukiwiki(
+			$mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,
+			$edit eq 'adminedit' || $::newpage_auth eq 1 ? $auth{crypt} : 0,%mode);
 
 	unless ($mode{conflict}) {
 		if(&is_exist_page($::resource{rulepage})) {
@@ -153,16 +162,38 @@ sub plugin_edit_editform_pukilike {
 	}
 
 	# changed 0.2.0 Javascript crypt password					# comment
+	# changed 0.2.0-p3 support blog								# comment
+	my $category_array;
+	if($mode{category} ne '') {
+		$category_array=<<EOM;
+<select name="selcategory" onchange="addcategory()">
+<option value="">$::resource{blog_plugin_error_msg_selcategory}</option>
+EOM
+		foreach(split(/\t/,$mode{category})) {
+			$category_array.=<<EOM;
+<option value="$_">$_</option>
+EOM
+		}
+		$category_array.=<<EOM;
+</select>
+EOM
+	}
+	my $blog=$mode{blog} ? "blog_" : "";
 	my $body = <<"EOD";
 <form action="$::script" method="post" id="editform" name="editform">
-  @{[$mode{admin} ? "$auth{html}<br />" : ""]}
+  @{[$mode{admin} || $mode{blog} && $::newpage_auth ? "$auth{html}<br />" : ""]}
   <input type="hidden" name="myConflictChecker" value="$conflictchecker" />
   <input type="hidden" name="mypage" value="$escapedmypage" />
   <input type="hidden" name="refer" value="$::form{refer}" />
   <input type="hidden" name="refercmd" value="$edit" />
+  @{[$mode{blog} ? qq($::resource{blog_plugin_input_subject} : <input name="subject" value="" size="$blog::subjectcols" /><br />) : ""]}
+  @{[$mode{blog} ? qq($::resource{blog_plugin_input_category} : <input name="category" value="" size="$blog::categorycols" /> $category_array ) : ""]}
+  @{[$mode{blog} ? qq(<input type="hidden" name="basepage" value="$::form{basepage}" />) : ""]}
+  @{[$mode{blog} ? qq(<input type="hidden" name="catepage" value="$::form{catepage}" />) : ""]}
+  @{[$::extend_edit ? &plugin_edit_extend_edit : ""]}
   $partfield
   $loadlist
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg" id="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
@@ -176,20 +207,20 @@ sub plugin_edit_editform_pukilike {
   qq(
     <span id="submitbutton"></span>
     <script type="text/javascript"><!--
-	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_$edit" value="" /><input type="hidden" name="mypreviewjs_write" value="" /><input type="hidden" name="mypreviewjs_cancel" value="" /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<input type="button" name="mypreviewjs_button_cancel" value="$::resource{edit_plugin_cancelbutton}" onclick="editpost(2);" onkeypress="editpost(2,event);" />';
+	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_$blog$edit" value="" /><input type="hidden" name="mypreviewjs_@{[$blog]}write" value="" /><input type="hidden" name="mypreviewjs_@{[$blog]}cancel" value="" /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<input type="button" name="mypreviewjs_button_cancel" value="$::resource{edit_plugin_cancelbutton}" onclick="editpost(2);" onkeypress="editpost(2,event);" />';
 //--></script>
   <noscript>
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
-    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+    <input type="submit" name="mypreview_$blog$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
     <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}
-    <input type="submit" name="mypreview_cancel" value="$::resource{edit_plugin_cancelbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}cancel" value="$::resource{edit_plugin_cancelbutton}" />
   </noscript>
   ) :
   qq(
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
-    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+    <input type="submit" name="mypreview_$blog$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
     <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}
-    <input type="submit" name="mypreview_cancel" value="$::resource{edit_plugin_cancelbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}cancel" value="$::resource{edit_plugin_cancelbutton}" />
   )
 ]}
 </form>
@@ -280,15 +311,37 @@ sub plugin_edit_editform_pyukiwiki {
 	}
 
 	# changed 0.2.0 Javascript crypt password					# comment
+	# changed 0.2.0-p3 support blog								# comment
+	my $category_array;
+	if($mode{category} ne '') {
+		$category_array=<<EOM;
+<select name="selcategory" onchange="addcategory()">
+<option value="">$::resource{blog_plugin_error_msg_selcategory}</option>
+EOM
+		foreach(split(/\t/,$mode{category})) {
+			$category_array.=<<EOM;
+<option value="$_">$_</option>
+EOM
+		}
+		$category_array.=<<EOM;
+</select>
+EOM
+	}
+	my $blog=$mode{blog} ? "blog_" : "";
 	my $body= <<"EOD";
 <form action="$::script" method="post" id="editform" name="editform">
-  @{[ $mode{admin} ? "$auth{html}<br />" : ""]}
+  @{[$mode{admin} || $mode{blog} && $::newpage_auth ? "$auth{html}<br />" : ""]}
   <input type="hidden" name="myConflictChecker" value="$conflictchecker" />
   <input type="hidden" name="mypage" value="$escapedmypage" />
   <input type="hidden" name="refer" value="$::form{refer}" />
   <input type="hidden" name="refercmd" value="$edit" />
+  @{[$mode{blog} ? qq($::resource{blog_plugin_input_subject} : <input name="subject" value="" size="$blog::subjectcols" /><br />) : ""]}
+  @{[$mode{blog} ? qq($::resource{blog_plugin_input_category} : <input name="category" value="" size="$blog::categorycols" /> $category_array ) : ""]}
+  @{[$mode{blog} ? qq(<input type="hidden" name="basepage" value="$::form{basepage}" />) : ""]}
+  @{[$mode{blog} ? qq(<input type="hidden" name="catepage" value="$::form{catepage}" />) : ""]}
+  @{[$::extend_edit ? &plugin_edit_extend_edit : ""]}
   $partfield
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg" id="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
@@ -302,53 +355,21 @@ sub plugin_edit_editform_pyukiwiki {
   qq(
     <span id="submitbutton"></span>
     <script type="text/javascript"><!--
-	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_$edit" value="" /><input type="hidden" name="mypreviewjs_write" value="" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" />';
+	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_@{[$blog]}$edit" value="" /><input type="hidden" name="mypreviewjs_@{[$blog]}write" value="" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" />';
 //--></script>
   <noscript>
     <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br />
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
-    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+    <input type="submit" name="mypreview_$blog$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
   </noscript>
   ) :
   qq(
     <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br />
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
-    <input type="submit" name="mypreview_write" value="$::resource{edit_plugin_savebutton}" /><br />
+    <input type="submit" name="mypreview_$blog$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_@{[$blog]}write" value="$::resource{edit_plugin_savebutton}" /><br />
   )
 ]}
 </form>
-EOD
-	return $body;
-}
-
-sub plugin_edit_extend_edit {
-	my $body;
-	$body = <<"EOD";
-<div>
-<a href="javascript:insTag('\\'\\'','\\'\\'','bold');"><b>B</b></a>
-<a href="javascript:insTag('\\'\\'\\'','\\'\\'\\'','italic');"><i>I</i></a>
-<a href="javascript:insTag('%%%','%%%','underline');"><ins>U</ins></a>
-<a href="javascript:insTag('%%','%%','delline');"><del>D</del></a>
-<a href="javascript:insTag('\\n-','','list');">
-<img src="$::image_url/list_ex.png" alt="list" border="0" vspace="0"
-  hspace="1" /></a>
-<a href="javascript:insTag('\\n+','','list');">
-<img src="$::image_url/numbered.png" alt="list" border="0" vspace="0"
-  hspace="1" /></a>
-<a href="javascript:insTag('\\nCENTER:','\\n','centering');">
-<img src="$::image_url/center.png" alt="center" border="0" vspace="0"
-  hspace="1" /></a>
-<a href="javascript:insTag('\\nLEFT:','\\n','left');">
-<img src="$::image_url/left_just.png" alt="left" border="0" vspace="0"
-  hspace="1" /></a>
-<a href="javascript:insTag('\\nRIGHT:','\\n','right');">
-<img src="$::image_url/right_just.png" alt="right" border="0" vspace="0"
-  hspace="1" /></a>
-<a href="javascript:insTag('\\n*','','title');"><b>H</b></a>
-<a href="javascript:insTag('[[',']]','wikipage');">[[]]</a>
-<a href="javascript:insTag('','~\\n','');">&lt;br&gt;</a>
-<a href="javascript:insTag('\\n----\\n','','');"><b>--</b></a>
-</div>
 EOD
 	return $body;
 }

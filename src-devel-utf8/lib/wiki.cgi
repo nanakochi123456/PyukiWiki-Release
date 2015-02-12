@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.344 2012/03/01 10:39:24 papu Exp $
+# $Id: wiki.cgi,v 1.382 2012/03/18 11:23:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -33,7 +33,7 @@ $::use_exists = 1;	# If you can use 'exists' method for your DB.	# comment
 
 ##############################									# comment
 $::package = 'PyukiWiki';
-$::version = '0.2.0-p2';
+$::version = '0.2.0-p3';
  $::version.="-utf8";
 
 # 2005.12.19 pochi: mod_perlで実行可能に			# comment
@@ -218,38 +218,60 @@ $::info_AdminPassword = 'AdminPassword';
 );
 
 	# 顔文字のテーブル											# comment
+
 %::_facemark = (
-	' :)'		=> 'smile',
-	' (^^)'		=> 'smile',
-	' :D'		=> 'bigsmile',
-	' (^-^)'	=> 'bigsmile',
-	' :p'		=> 'huh',
-	' :d'		=> 'huh',
-	' XD'		=> 'oh',
-	' X('		=> 'oh',
-	' ;)'		=> 'oh',
-	' (;'		=> 'wink',
-	' (^_-)'	=> 'wink',
-	' ;('		=> 'sad',
-	' :('		=> 'sad',
-	' (--;)'	=> 'sad',
-	' (^^;)'	=> 'worried',
-	'&heart;'	=> 'heart',
-	'&bigsmile;'=> 'bigsmile',
-	'&huh;'		=> 'huh',
-	'&oh;'		=> 'oh',
-	'&sad;'		=> 'sad',
-	'&smile;'	=> 'smile',
-	'&wink;'	=> 'wink',
-	'&worried;' => 'worried',
+	' :)'		=> 'smile.png',
+	' (^^)'		=> 'smile.png',
+	' :D'		=> 'bigsmile.png',
+	' (^-^)'	=> 'bigsmile.png',
+	' :p'		=> 'huh.png',
+	' :d'		=> 'huh.png',
+	' XD'		=> 'oh.png',
+	' X('		=> 'oh.png',
+	' ;)'		=> 'oh.png',
+	' (;'		=> 'wink.png',
+	' (^_-)'	=> 'wink.png',
+	' ;('		=> 'sad.png',
+	' :('		=> 'sad.png',
+	' (--;)'	=> 'sad.png',
+	' (^^;)'	=> 'worried.png',
+	'&heart;'	=> 'heart.png',
+
+# pukiwiki_style					# comment
+	'&bigsmile;'=> 'bigsmile.png',
+	'&huh;'		=> 'huh.png',
+	'&oh;'		=> 'oh.png',
+	'&sad;'		=> 'sad.png',
+	'&smile;'	=> 'smile.png',
+	'&wink;'	=> 'wink.png',
+	'&worried;' => 'worried.png',
+
+# 以下 PukiWiki Plusより			# comment
+	'&big;'			=> 'extend_bigsmile.png',
+	'&big_plus;'	=> 'extend_bigsmile.png',
+	'&heart2;'		=> 'extend_heart.png',
+	'&heartplus;'	=> 'extend_heart.png',
+	'&oh2;'			=> 'extend_oh.png',
+	'&ohplus;'		=> 'extend_oh.png',
+	'&sad2;'		=> 'extend_sad.png',
+	'&sadplus;'		=> 'extend_sad.png',
+	'&smile2;'		=> 'extend_smile.png',
+	'&smileplus;'	=> 'extend_smile.png',
+	'&wink2;'		=> 'extend_wink.png',
+	'&winkplus;'	=> 'extend_wink.png',
+	'&worried2;'	=> 'extend_worried.png',
+	'&worriedplus;'	=> 'extend_worried.png',
+	'&ummr;'		=> 'umm.png',
+	'&star;'		=> 'star.gif',
+	'&tear;'		=> 'tear.png',
 );
 
 	# 顔文字の正規表現											# comment
-$::_facemark=q{(\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;)};
-$::_facemark.=q{(|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;)} if($::usePukiWikiStyle eq 1);
+$::_facemark=q{\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^\_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;};
+$::_facemark.=q{|\&big\;|\&big\_plus\;|\&bigsmile\;|\&heart2\;|\&heartplus\;|\&huh\;|\&oh2\;|\&oh\;|\&ohplus\;|\&sad2\;|\&sad\;|\&sadplus\;|\&smile2\;|\&smile\;|\&smileplus\;|\&star\;|\&tear\;|\&ummr\;|\&wink2\;|\&wink\;|\&winkplus\;|\&worried2\;|\&worried\;|\&worriedplus\;} if($::usePukiWikiStyle eq 1);
 
 	# SGMLの顔文字のエスケープコードの実体参照の正規表現		# comment
-$::_sgmlescape=q{amp|nbsp|iexcl|cent|pound|curren|yen|brvbar|sect|uml|copy|ordf|laquo|not|shy|reg|macr|deg|plusmn|sup2|sup3|acute|micro|para|middot|cedil|sup1|ordm|raquo|frac14|frac12|frac34|iquest|Agrave|Aacute|Acirc|Atilde|Auml|Aring|AElig|Ccedil|Egrave|Eacute|Ecirc|Euml|Igrave|Iacute|Icirc|Iuml|ETH|Ntilde|Ograve|Oacute|Ocirc|Otilde|Oumltimes|Oslash|Ugrave|Uacute|Ucirc|Uuml|Yacute|THORN|szlig|agrave|aacute|acirc|atilde|auml|aring|aelig|ccedil|egrave|eacute|ecirc|euml|igrave|iacute|icirc|iuml|eth|ntilde|ograve|oacute|ocirc|otilde|ouml|divide|oslash|ugrave|uacute|ucirc|uuml|yacute|thorn|yuml|euro|dagger|Dagger|bull|trade|permil|lsquo|rsquo|sbquo|ldquo|rdquo|bdquo|mdash|ndash|smile|bigsmile|huh|oh|wink|sad|worried|heart};
+$::_sgmlescape=q{aelig|aacute|acirc|agrave|aring|atilde|auml|ccedil|eth|eacute|ecirc|egrave|euml|iacute|icirc|igrave|iuml|ntilde|oacute|ocirc|ograve|oslash|otilde|oumltimes|thorn|uacute|ucirc|ugrave|uuml|yacute|acute|amp|bdquo|big|big_plus|bigsmile|brvbar|bull|cedil|cent|copy|curren|dagger|deg|divide|euro|frac12|frac14|frac34|heart|heart2|heartplus|huh|iexcl|iquest|laquo|ldquo|lsquo|macr|mdash|micro|middot|nbsp|ndash|not|oh|oh2|ohplus|ordf|ordm|ouml|para|permil|plusmn|pound|raquo|rdquo|reg|rsquo|sad|sad2|sadplus|sbquo|sect|shy|smile|smile2|smileplus|star|sup1|sup2|sup3|szlig|tear|trade|uml|ummr|wink|wink2|winkplus|worried|worried2|worriedplus|yen|yuml};
 
 	# 内部コマンド												# comment
 my %command_do = (
@@ -1086,7 +1108,7 @@ sub skinex {
 		$editable = 1;
 		if(!&is_exist_page($page) && $is_page) {
 			$page=$pagename=$::FrontPage;
-			if($::form{mypreview_cancel} ne '') {
+			if($::form{mypreview_cancel} ne '' || $::form{mypreview_blogcancel} ne '') {
 				if(&is_exist_page($::form{refer}) && $::form{refer} ne '') {
 					$page=$pagename=$::form{refer};
 				}
@@ -1379,7 +1401,8 @@ sub meta_robots {
 	my $keyword;
 	if($cmd=~/edit|admin|diff|attach|backup/
 		|| $::form{mypage} eq '' && $cmd!~/list|sitemap|recent/
-		|| $::form{mypage}=~/SandBox|$::resource{help}|$::resource{rulepage}|$::MenuBar|$::non_list/
+		|| $::form{mypage}=~/$::resource{help}|$::resource{rulepage}|$::RecentChanges|$::MenuBar|$::SideBar|$::TitleHeader|$::Header|$::Footer$::BodyHeader$::BodyFooter|$::SkinFooter|$::SandBox|$::InterWikiName|$::InterWikiSandBox|$::non_list/
+		|| $::meta_keyword eq "" || lc $::meta_keyword eq "disable"
 		|| &is_readable($::form{mypage}) eq 0) {
 		$robots.=<<EOD;
 <meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE" />
@@ -1807,7 +1830,7 @@ EOM
 
 =item 入力値
 
-&spam_filter(なし 文字列指定, レベル, URIカウント, メールカウント);
+&spam_filter(なし 文字列指定, レベル, URIカウント, メールカウント, リターンフラグ);
 
 レベル
 
@@ -1834,7 +1857,7 @@ EOM
 =cut
 
 sub spam_filter {
-	my ($chk_str, $level, $uricount, $mailcount) = @_;
+	my ($chk_str, $level, $uricount, $mailcount, $retflg) = @_;
 	return if ($::filter_flg != 1);	# フィルターオフなら何もしない。 # comment
 	return if ($chk_str eq '');		# 文字列が無ければ何もしない。	 # comment
 	# v 0.2.0 fix													 # comment
@@ -1850,18 +1873,22 @@ sub spam_filter {
 	# changed by nanami and v 0.2.0-p2 fix
 	if (($level ne  1) && ($uricount > 0) && (($chk_str =~ s/https?:\/\///g) >= $uricount)) {
 		&snapshot('Over http');
+		return "Over http" if($retflg+0 eq 1);
 	# Over Mailチェックを行う。
 	} elsif (($level ne  1) && ($mailcount+0 > 0) && (($chk_str =~ s/$::ismail//g) >= $uricount)) {
-		&snapshot('Over mail');
+		&snapshot('Over Mail', $retflg+0);
+		return "Over Mail" if($retflg+0 eq 1);
 	# レベルが 1 の時のみ 日本語チェックを行う。					# comment
 	# changed by nanami and v 0.2.0 fix
 	} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /$chk_jp_regex/)) {
-		&snapshot('No Japanese');
+		&snapshot('No Japanese', $retflg+0);
+		return "No Japanese" if($retflg+0 eq 1);
 	} else {
 		return;
 	}
 	&skinex($::form{mypage}, &message($::resource{auth_writefobidden}), 0);
 	&close_db;
+	return "spam" if($retflg+0 eq 1);
 	exit;
 }
 
@@ -1881,7 +1908,7 @@ sub spam_filter {
 
 =item オーバーライド
 
-可
+不可
 
 =item 概要
 
@@ -1987,9 +2014,11 @@ sub do_write {
 		if(&is_exist_page($::form{mypage})) {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "Modify");
+			&do_write_after($::form{mypage}, "Modify");
 		} else {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "New");
+			&do_write_after($::form{mypage}, "New");
 		}
 		&open_info_db;
 		&set_info($::form{mypage}, $::info_ConflictChecker, '' . localtime);
@@ -2049,8 +2078,39 @@ sub do_write {
 		&close_info_db;
 		&close_db;
 		&skinex($::form{mypage}, &message($::resource{deleted}), 0);
+		&do_write_after($::form{mypage}, "Delete");
 	}
 	return 0;
+}
+
+=lang ja
+
+=head2 do_write_after
+
+=over 4
+
+=item 入力値
+
+&do_write_after(ページ名, 挙動を示す文字列);
+
+=item 出力
+
+なし
+
+=item オーバーライド
+
+不可
+
+=item 概要
+
+ページを書き込みの後処理をするダミー関数
+
+=back
+
+=cut
+
+sub do_write_after {
+	my($page, $mode)=@_;
 }
 
 =lang ja
@@ -2809,7 +2869,7 @@ sub inline {
 	$line =~ s|\[\#(.*)\]|<a class="anchor_super" id="$1" href="#$1" title="$1">$::_symbol_anchor</a>|g;
 	# 顔文字													# comment
 	if ($::usefacemark == 1) {
-		$line=~s!($::_facemark)!<img src="$::image_url/face/$::_facemark{$1}.png" alt="@{[htmlspecialchars($1,1)]}" />!go;
+		$line=~s!($::_facemark)!<img src="$::image_url/face/$::_facemark{$1}" alt="@{[htmlspecialchars($1,1)]}" />!go;
 	}
 	return $line;
 }
@@ -3305,7 +3365,7 @@ sub make_link_target {
 	if($target eq '') {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 	} elsif($::is_xhtml) {
-		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
+		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou(this.href, '@{[$target eq "_blank" ? "b" : $target]}');">);
 	} else {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 	}
@@ -3513,16 +3573,28 @@ sub init_form {
 		$::form{cmd} = 'read';
 		$::form{mypage} = $query;
 	}
-	# mypreview_edit        -> do_edit, with preview.			# comment
-	# mypreview_adminedit   -> do_adminedit, with preview.		# comment
-	# mypreview_write       -> do_write, without preview.		# comment
+	# mypreview_edit			-> do_edit, with preview.			# comment
+	# mypreview_adminedit		-> do_adminedit, with preview.		# comment
+	# mypreview_write			-> do_write, without preview.		# comment
+	# mypreview_blogedit		-> do_edit, with preview.			# comment
+	# mypreview_blogadminedit	-> do_adminedit, with preview.		# comment
+	# mypreview_blogwrite		-> do_write, without preview.		# comment
 
-	# mypreviewjs_edit        -> do_edit, with preview.			# comment
-	# mypreviewjs_adminedit   -> do_adminedit, with preview.	# comment
-	# mypreviewjs_write       -> do_write, without preview.		# comment
+	# mypreviewjs_edit			-> do_edit, with preview.			# comment
+	# mypreviewjs_adminedit		-> do_adminedit, with preview.		# comment
+	# mypreviewjs_write			-> do_write, without preview.		# comment
+	# mypreviewjs_blogedit		-> do_edit, with preview.			# comment
+	# mypreviewjs_blogadminedit	-> do_adminedit, with preview.		# comment
+	# mypreviewjs_blogwrite		-> do_write, without preview.		# comment
 
 	foreach (keys %::form) {
-		if (/^mypreview_(.*)$/ || /^mypreviewjs_(.*)$/) {
+		if (/^mypreview_blog(.*)$/ || /^mypreviewjs_blog(.*)$/) {
+			if($::form{$_} ne '') {
+				$::form{cmd} = "blog";
+				$::form{mode} = $1;
+				$::form{mypreview} = 1;
+			}
+		} elsif (/^mypreview_(.*)$/ || /^mypreviewjs_(.*)$/) {
 			if($::form{$_} ne '') {
 				$::form{cmd} = $1;
 				$::form{mypreview} = 1;
@@ -4864,22 +4936,25 @@ sub exist_plugin {
 	my ($plugin) = @_;
 
 	if (!$_plugined{$plugin}) {
-		my $path = "$::plugin_dir/$plugin" . '.inc.pl';
-		if (-e $path) {
-			require $path;
-			$::debug.=$@;
-			$_plugined{$1} = 1;	# Pyuki
-			#v0.1.6										# comment
-			$path="$::res_dir/$plugin.$::lang.txt";
-			%::resource = &read_resource($path,%::resource) if(-r $path);
-			return 1;
-		} else {
-			$path = "$::plugin_dir/$plugin" . '.pl';
+		# bug fix 0.2.0-p3								# comment
+		if($plugin=~/^\w{1,64}$/) {
+			my $path = "$::plugin_dir/$plugin" . '.inc.pl';
 			if (-e $path) {
 				require $path;
 				$::debug.=$@;
-				$_plugined{$1} = 2;	# Yuki
-				return 2;
+				$_plugined{$1} = 1;	# Pyuki
+				#v0.1.6										# comment
+				$path="$::res_dir/$plugin.$::lang.txt";
+				%::resource = &read_resource($path,%::resource) if(-r $path);
+				return 1;
+			} else {
+				$path = "$::plugin_dir/$plugin" . '.pl';
+				if (-e $path) {
+					require $path;
+					$::debug.=$@;
+					$_plugined{$1} = 2;	# Yuki
+					return 2;
+				}
 			}
 		}
 		return 0;
@@ -4917,14 +4992,17 @@ sub exist_explugin {
 	my ($explugin) = @_;
 
 	if (!$_exec_plugined{$explugin}) {
-		my $path = "$::explugin_dir/$explugin" . '.inc.cgi';
-		if (-e $path) {
-			require $path;
-			$::debug.=$@;
-			$_exec_plugined{$1} = 1;	# Loaded		# comment
-			$path="$::res_dir/$explugin.$::lang.txt";
-			%::resource = &read_resource($path,%::resource) if(-r $path);
-			return 1;
+		# bug fix 0.2.0-p3								# comment
+		if($explugin=~/^\w{1,64}$/) {
+			my $path = "$::explugin_dir/$explugin" . '.inc.cgi';
+			if (-e $path) {
+				require $path;
+				$::debug.=$@;
+				$_exec_plugined{$1} = 1;	# Loaded		# comment
+				$path="$::res_dir/$explugin.$::lang.txt";
+				%::resource = &read_resource($path,%::resource) if(-r $path);
+				return 1;
+			}
 		}
 		return 0;
 	}
@@ -5104,14 +5182,18 @@ Perlモジュールを読み込む
 sub load_module{
 	my $mod = shift;
 	return $mod if $::_module_loaded{$mod}++;
-	eval qq( require $mod; );
-	unless($@) {						# debug
-		$::debug.="$mod Loaded\n"		# debug
-	} else {							# debug
-		$::debug.="$mod Load failed\n"	# debug
-	}									# debug
-	$mod=undef if($@);
-	return $mod;
+	# bug fix 0.2.0-p3								# comment
+	if($mod=~/^[\w\:]{1,64}$/) {
+		eval qq( require $mod; );
+		unless($@) {						# debug
+			$::debug.="$mod Loaded\n"		# debug
+		} else {							# debug
+			$::debug.="$mod Load failed\n"	# debug
+		}									# debug
+		$mod=undef if($@);
+		return $mod;
+	}
+	return undef;
 }
 
 =lang ja
@@ -5326,7 +5408,7 @@ sub htmlspecialchars {
 	$s=~s/([<>"&])/$::_htmlspecial{$1}/g;
 	return $s if($flg eq 1);
 	# 顔文字、SGML実体参照を戻す						# comment
-	$s=~s/&amp;($::_sgmlescape);/&$1;/g;
+	$s=~s/&amp;($::_sgmlescape);/&$1;/ig;
 	# 10進、16進実態参照を戻す							# comment
 	$s=~s/&amp;#([0-9A-Fa-fXx]+)?;/&#$1;/g;
 	return $s;
@@ -5594,7 +5676,7 @@ EOM
 				$body.=<<EOM;
 <span id="submitbutton"></span>
 <script type="text/javascript"><!--
-	getid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
+	gid("submitbutton").innerHTML='<input type="button" value="$::resource{admin_passwd_button}" onclick="fsubmit(\\'adminpasswordform\\',\\'$type\\');" onkeypress="fsubmit(\\'adminpasswordform\\',\\'$type\\',event);" />';
 //--></script>
 <noscript><input type="submit" value="$::resource{admin_passwd_button}" /></noscript>
 EOM

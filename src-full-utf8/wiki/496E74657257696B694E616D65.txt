@@ -1,7 +1,7 @@
 #freeze
 #metarobots(disable)
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
-//$Id: 496E74657257696B694E616D65.txt,v 1.302 2012/03/01 10:39:28 papu Exp $
+//$Id: 496E74657257696B694E616D65.txt,v 1.329 2012/03/18 11:24:00 papu Exp $
 
   [URL サーバ名] タイプ
 の形式で記述してください。

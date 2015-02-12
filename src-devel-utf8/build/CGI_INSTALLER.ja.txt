@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0-p2 $$ CGIインストーラ版
+	"PyukiWiki" ver 0.2.0-p3 $$ CGIインストーラ版　追記マニュアル
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
@@ -14,9 +14,9 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ�
 	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
+		ななみ <nanami (at) daiba (dot) cx> (注：バーチャル女の子です)
 
-	$Id: CGI_INSTALLER.ja.txt,v 1.71 2012/03/01 10:39:24 papu Exp $
+	$Id: CGI_INSTALLER.ja.txt,v 1.101 2012/03/18 11:23:55 papu Exp $
 
 	このテキストファイルはUTF-8、TAB4で記述されています。
 
@@ -135,7 +135,8 @@ PyukiWikiの動作環境は以下のとおりです。
 (3)ブラウザー上で、サーバー上にあるインストーラのURLにアクセスします。
 
 (4)通常、セキュアインストールを選択します。それで動作しない場合、
-　通常のインストールを選択して下さい。
+　一度サーバー上のファイルを全て削除してから、再びアップロードしなおして
+　通常のインストールを行なってください。
 
 (5)index.cgi にアクセスして、問題なく動作したら、インストーラファイルを
 　必ず削除して下さい。
@@ -169,14 +170,11 @@ PyukiWikiの動作環境は以下のとおりです。
 
 ・それでもだめなら.htaccessをまず削除してみて下さい。
 　特に、attach/.htaccess, image/.htaccess, skin/.htaccessの削除を忘れないで下さい。
+　（インストーラで削除できる機能があります）
 
 ・一部のプロバイダーでは、設定に工夫が必要です。
 
 ・OSがWindows系の場合は、このインストーラは実行できません。
-
-・Digest::MD5が導入されていないサーバーでは、以下のように変更して下さい。
-　attach.inc.plのuse Digest::MD5 qw(md5_hex);をコメントアウトし、
-　#use Digest::Perl::MD5 qw(md5_hex);のコメントをはずす
 
 ・CGI.pmが導入されていないサーバーでは、別途配布されているCGI.pm.zipを解凍して
 　lib 以下に置いて下さい。
@@ -186,6 +184,10 @@ PyukiWikiの動作環境は以下のとおりです。
 　perl5.8.0以前のバージョンでかつサーバー上にJcodeがインストールされていません。
 　代替のJcode.pm 0.88をインストールして下さい。
 　http://pyukiwiki.sfjp.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
+
+・一部の無料サーバーでは、EUC版、UTF8版、もしくは双方とも文字化けする可能性が
+　あります。サーバーに仕様とも考えられますので、新たに別の無料サーバーをご利用
+　されることをお勧めします。
 
 -------------------------------------------------
 ■アップデート版においての追記
@@ -285,11 +287,12 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 Copyright (C) 2004-2012 by Nekyo
 http://nekyo.qp.land.to/
 
-Copyright (C) 2002-2007 by Hiroshi Yuki
+	Copyright (C) 2002-2007 by Hiroshi Yuki
 http://www.hyuki.com/
 
 Copyright (C) 2005-2012 by ななみ (ななこっち★)
-http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
+http://nanakochi.daiba.cx/ http://www.daiba.cx/ http://chat.daiba.cx/
+http://pyu.be/
 http://twitter.com/nanakochi123456/
 http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 

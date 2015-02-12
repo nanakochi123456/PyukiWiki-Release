@@ -1,0 +1,89 @@
+/* jqModal base Styling courtesy of;
+	Brice Burgess <bhb (at) iceburg (dot) net> */
+
+/* The Window's CSS z-index value is respected (takes priority). If none is supplied,
+	the Window's z-index value will be set to 3000 by default (via jqModal.js). */
+
+/* for edit.inc.pl color picker */
+
+
+.editcolorpicker {
+    display: none;
+	position: absolute;
+	margin: 20px 0 0 -100px;
+	background-color: #ffffff;
+	border-bottom:  3px solid #DDEEFF;
+	border-top:     1px solid #DDEEFF;
+	border-left:   10px solid #DDEEFF;
+	border-right:   5px solid #DDEEFF;
+}
+
+input.colortext {
+	width: 100%;
+}
+
+.editpanel {
+	background-color: #ffffff;
+	border-bottom:  3px solid #DDEEFF;
+	border-top:     1px solid #DDEEFF;
+	border-left:   10px solid #DDEEFF;
+	border-right:   5px solid #DDEEFF;
+}
+
+.editsizepanel {
+    display: none;
+	position: absolute;
+	margin: 20px 0 0 -100px;
+	width: 270px;
+}
+
+.editfontpanel {
+    display: none;
+	position: absolute;
+	margin: 20px 0 0 -100px;
+	width: 350px;
+}
+
+.editfacepanel {
+    display: none;
+	position: absolute;
+	margin: 20px 0 0 -100px;
+	width: 200px;
+}
+
+.sizesample,
+a.sizesample,
+.fontesample,
+a.fontsample,
+.faceesample,
+a.facesample {
+	color: #000000;
+	background-color: #ffffff;
+	text-decoration:none;
+}
+
+
+/*
+.jqmWindow {
+    display: none;
+
+    position: fixed;
+    top: 10%;
+    left: 50%;
+
+
+    margin-left: -100px;
+    width: 200px;
+
+    background-color: #FFF;
+    color: #333;
+    border: 1px solid black;
+    padding: 12px;
+}
+
+.jqmNotice {
+	display: none;
+}
+
+.jqmOverlay { background-color: #eee; }
+*/

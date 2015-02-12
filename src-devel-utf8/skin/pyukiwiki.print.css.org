@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0-p2 $$ */
-/* $Id: pyukiwiki.print.css.org,v 1.307 2012/03/01 10:39:27 papu Exp $ */
+/* "PyukiWiki" ver 0.2.0-p3 $$ */
+/* $Id: pyukiwiki.print.css.org,v 1.335 2012/03/18 11:23:59 papu Exp $ */
 /* Code=UTF-8 */
 
 @import url("pyukiwiki.default.css");

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: compactmagic.pl,v 1.396 2012/03/01 10:39:19 papu Exp $
+# $Id: compactmagic.pl,v 1.423 2012/03/18 11:23:49 papu Exp $
 
 $header="#----------------------------------------------------------------------\n";
 print $header;

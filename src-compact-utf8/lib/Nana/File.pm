@@ -1,8 +1,8 @@
 ######################################################################
 # File.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: File.pm,v 1.305 2012/03/01 10:39:25 papu Exp $
+# $Id: File.pm,v 1.333 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::File" version 0.1 $$
+# "Nana::File" ver 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

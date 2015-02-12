@@ -1,0 +1,20 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: trackback.en.txt,v 1.27 2012/03/18 11:23:53 papu Exp $
+#
+
+# trackback.inc.pl
+trackback_plugin_title=Received trackback
+trackback_plugin_notload=<span class="error">trackback.inc.cgi not loaded.</span>
+trackbackplugin_allpagelist=Trackback list of all pages
+trackbackplugin_pagelist=Trackback list of $PAGE
+trackbackplugin_notcompatible=<span class="error">Trackback data is abnormal.</span>
+trackbackplugin_nodata=No trackback of $PAGE.
+trackback_plugin_parmerr=<span class="error">Syntax error</span>
+
+trackback_plugin_link_MSIE=<hr /><h5 class="trackback">Trackback URL</h5><a class="trackback" href="$URL" title="$URL" onclick="clipboardData.setData('Text', '$URL');alert('Copied trackback URL $URL.');return false;">$URL</a>
+trackback_plugin_link=<hr /><h5 class="trackback">Trackback URL</h5><a class="trackback" href="$URL" title="$URL" onclick="return false;">$URL</a>
+
+trackback_plugin_linklist=<h5 class="trackback">Referer</h5><span class="trackback">$LINK</span>
+trackback_plugin_cantdisplay=<span class="error">Cant display this page of trackback.</span>

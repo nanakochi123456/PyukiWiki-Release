@@ -1,44 +1,63 @@
 ##################################################################
-# $Id: facemark.regex,v 1.19 2012/03/01 10:39:24 papu Exp $
+# $Id: facemark.regex,v 1.48 2012/03/18 11:23:55 papu Exp $
 ##################################################################
 # 顔文字
 ##################################################################
 
 %::_facemark = (
-	' :)'		=> 'smile',
-	' (^^)'		=> 'smile',
-	' :D'		=> 'bigsmile',
-	' (^-^)'	=> 'bigsmile',
-	' :p'		=> 'huh',
-	' :d'		=> 'huh',
-	' XD'		=> 'oh',
-	' X('		=> 'oh',
-	' ;)'		=> 'oh',
-	' (;'		=> 'wink',
-	' (^_-)'	=> 'wink',
-	' ;('		=> 'sad',
-	' :('		=> 'sad',
-	' (--;)'	=> 'sad',
-	' (^^;)'	=> 'worried',
-	'&heart;'	=> 'heart',
+	' :)'		=> 'smile.png',
+	' (^^)'		=> 'smile.png',
+	' :D'		=> 'bigsmile.png',
+	' (^-^)'	=> 'bigsmile.png',
+	' :p'		=> 'huh.png',
+	' :d'		=> 'huh.png',
+	' XD'		=> 'oh.png',
+	' X('		=> 'oh.png',
+	' ;)'		=> 'oh.png',
+	' (;'		=> 'wink.png',
+	' (^_-)'	=> 'wink.png',
+	' ;('		=> 'sad.png',
+	' :('		=> 'sad.png',
+	' (--;)'	=> 'sad.png',
+	' (^^;)'	=> 'worried.png',
+	'&heart;'	=> 'heart.png',
 );
 %::_facemark_puki = (
-	'&bigsmile;'=> 'bigsmile',
-	'&huh;'		=> 'huh',
-	'&oh;'		=> 'oh',
-	'&sad;'		=> 'sad',
-	'&smile;'	=> 'smile',
-	'&wink;'	=> 'wink',
-	'&worried;' => 'worried',
+	'&bigsmile;'=> 'bigsmile.png',
+	'&huh;'		=> 'huh.png',
+	'&oh;'		=> 'oh.png',
+	'&sad;'		=> 'sad.png',
+	'&smile;'	=> 'smile.png',
+	'&wink;'	=> 'wink.png',
+	'&worried;' => 'worried.png',
+
+# 以下 PukiWiki Plusより
+	'&big;'			=> 'extend_bigsmile.png',
+	'&big_plus;'	=> 'extend_bigsmile.png',
+	'&heart2;'		=> 'extend_heart.png',
+	'&heartplus;'	=> 'extend_heart.png',
+	'&oh2;'			=> 'extend_oh.png',
+	'&ohplus;'		=> 'extend_oh.png',
+	'&sad2;'		=> 'extend_sad.png',
+	'&sadplus;'		=> 'extend_sad.png',
+	'&smile2;'		=> 'extend_smile.png',
+	'&smileplus;'	=> 'extend_smile.png',
+	'&wink2;'		=> 'extend_wink.png',
+	'&winkplus;'	=> 'extend_wink.png',
+	'&worried2;'	=> 'extend_worried.png',
+	'&worriedplus;'	=> 'extend_worried.png',
+	'&ummr;'		=> 'umm.png',
+	'&star;'		=> 'star.gif',
+	'&tear;'		=> 'tear.png',
 );
 
 $::_facemark=join('|',sort keys %::_facemark);
-$::_facemark=~s/([&;^;:() ])/\\$1/g;
-$::_facemark="($::_facemark)";
-$::_facemark_puki=join('|',sort keys %::_facemark_puki);
-$::_facemark_puki=~s/([&;^;:() ])/\\$1/g;
-$::_facemark_puki="($::_facemark_puki)";
+$::_facemark=~s/([\.&;^;:() \_])/\\$1/g;
+$::_facemark="$::_facemark";
+$::_facemark_puki='|' . join('|',sort keys %::_facemark_puki);
+$::_facemark_puki=~s/([\.&;^;:() \_])/\\$1/g;
+$::_facemark_puki="$::_facemark_puki";
 
 #print '$::_facemark=q{' . $::_facemark . "};\n";
-print $::_facemark;
 #print '$::_facemark.=q{' . $::_facemark_puki . "} if(\$::usePukiWikiStyle eq 1);\n";
+print $::_facemark;

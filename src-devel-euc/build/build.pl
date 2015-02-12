@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.512 2012/03/01 10:39:19 papu Exp $
+# $Id: build.pl,v 1.541 2012/03/18 11:23:49 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
@@ -19,12 +19,12 @@ $releasepatch="./releasepatch";
 $binary_files='(\.(jpg|png|gif|dat|key|zip|sfx|swf)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
-$all_ignore='\.sum$|\.sign$|setup.ini.cgi|\.bak$|\.lk$|^kanato';
+$all_ignore='\.sum$|\.sign$|setup.ini.cgi|\.bak$|\.lk$|^kanato|blog';
 $common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^sh\.|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v\.cgi|^playvideo|^powerusage|setup.ini.cgi|flowplayer|video-js.css.org|video-js.css|video.js|video.js.src|videoresize.js|videoresize.js.src|video-js.swf|video-js.png|videoresize.js|videoresize.js.src|^head\.inc|^html\.inc|^sh\.inc|^v\_css\.css|video';
 $release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$|\.inc\.js|^v\_css\.css|video';
 $update_ignore=$common_ignore . '|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd|\.inc\.js|^v\_css\.css|video';
-$compact_ignore='|^agent|^aguse|^xframe|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^pathmenu|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP|\.inc\.js|^v\_css\.css|video|';
-$compact_ignore.='^lang\_|^hinad|^lirs|^copy';
+$compact_ignore='|^agent|^aguse|^xframe|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^pathmenu|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP|\.inc\.js|^v\_css\.css|video|jquery\.js|marker.png|mask.png|wheel.png|';
+$compact_ignore.='^lang\_|^hinad|^lirs|^copy|^ping|^tb|^trackback';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
 $updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
 #$compact_filter="./build/obfuscator.pl";

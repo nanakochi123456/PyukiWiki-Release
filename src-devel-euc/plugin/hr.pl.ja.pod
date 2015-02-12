@@ -1,4 +1,4 @@
-#$Id: hr.pl.ja.pod,v 1.431 2012/03/01 10:39:21 papu Exp $
+#$Id: hr.pl.ja.pod,v 1.458 2012/03/18 11:23:51 papu Exp $
 
 __END__
 =encoding euc-jp

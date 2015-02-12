@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0-p2 $$
-# $Id: resource.ja.txt,v 1.487 2012/03/01 10:39:22 papu Exp $
+# "PyukiWiki" ver 0.2.0-p3 $$
+# $Id: resource.ja.txt,v 1.516 2012/03/18 11:23:53 papu Exp $
 #
 resource_loaded=1
 top=トップ
@@ -73,3 +73,5 @@ date_weekday_en_short=Sun,Mon,Tue,Wed,Thu,Fri,Sat
 date_ampm_ja=午前,午後
 date_weekday_ja=日曜日,月曜日,火曜日,水曜日,木曜日,金曜日,土曜日
 date_weekday_ja_short=日,月,火,水,木,金,土
+# trackback.inc.cgi / tb.inc.pl
+trackbackbutton=トラックバック($COUNT)

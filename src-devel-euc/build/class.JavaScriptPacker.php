@@ -1,6 +1,6 @@
 <?php
 // http://joliclic.free.fr/php/javascript-packer/en/index.php
-// $Id: class.JavaScriptPacker.php,v 1.11 2012/03/01 10:39:19 papu Exp $
+// $Id: class.JavaScriptPacker.php,v 1.38 2012/03/18 11:23:49 papu Exp $
 /* 9 April 2008. version 1.1
  *
  * This is the php version of the Dean Edwards JavaScript's Packer,

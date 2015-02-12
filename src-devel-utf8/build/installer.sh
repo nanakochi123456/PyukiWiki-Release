@@ -1,7 +1,7 @@
 #!/bin/sh
 ######################################################################
 # PyukiWiki Installer CGI version 0.2
-# $Id: installer.sh,v 1.65 2012/03/01 10:39:24 papu Exp $
+# $Id: installer.sh,v 1.92 2012/03/18 11:23:55 papu Exp $
 # PyukiWiki __PYUKIWIKIVERSION____BUILD__ (__CODE__)
 ######################################################################
 export PATH="/bin:/usr/bin:/usr/local/bin:/opt/bin:/usr/opt/bin:/usr/opt/sbin:/bin:/usr/sbin:/usr/local/sbin:/usr/games:/usr/games/bin:$PATH"

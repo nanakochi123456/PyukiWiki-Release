@@ -1,0 +1,71 @@
+#$Id: tb.inc.pl.ja.pod,v 1.24 2012/03/18 11:23:57 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+tb.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ ?cmd=tb&tb_id=(trackback id page) [ & __mode=(view|rss)] [ & lang=(language)]
+ #tb
+ #tb(show)
+ #tb(all)
+ #tb(showall)
+
+=head1 説明
+
+トラックバックの処理をします。、
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/tb
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/tb/>
+
+=item PyukiWiki/Plugin/Explugin/trackback
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Explugin/trackback/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/tb.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/tb.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/trackback.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/trackback.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

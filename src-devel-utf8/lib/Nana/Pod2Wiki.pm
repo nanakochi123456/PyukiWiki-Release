@@ -1,8 +1,8 @@
 ######################################################################
 # Pod2Wiki.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Pod2Wiki.pm,v 1.305 2012/03/01 10:39:25 papu Exp $
+# $Id: Pod2Wiki.pm,v 1.333 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::Pod2Wiki" version 0.1 $$
+# "Nana::Pod2Wiki" ver 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

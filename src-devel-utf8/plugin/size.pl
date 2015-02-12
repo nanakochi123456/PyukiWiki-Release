@@ -1,8 +1,8 @@
 ######################################################################
 # size.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: size.pl,v 1.308 2012/03/01 10:39:26 papu Exp $
+# $Id: size.pl,v 1.337 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -27,6 +27,7 @@ sub plugin_inline {
 	}
 	return "<span style=\"font-size:" . $size . "px;display:inline-block;line-height:130%;text-indent:0px\">$body</span>";
 }
+
 1;
 __END__
 

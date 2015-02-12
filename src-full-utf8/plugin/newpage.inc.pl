@@ -1,8 +1,8 @@
 ######################################################################
 # newpage.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: newpage.inc.pl,v 1.308 2012/03/01 10:39:25 papu Exp $
+# $Id: newpage.inc.pl,v 1.338 2012/03/18 11:23:57 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -22,6 +22,46 @@ sub plugin_newpage_action {
 	my $upperlist;
 	if($::newpage_auth eq 1) {
 		%auth=&authadminpassword("input",$::resource{admin_passwd_prompt_msg},"frozen");
+	}
+ 	if($auth{authed} eq 1 || $::form{refer} ne '') {
+ 		my $refer=$::form{refer};
+		my @path_array = split($::separator, $refer);
+		my $flg=0;
+		my $pathname;
+		my $basepage;
+		my $catepage;
+		foreach my $pagename(@path_array) {
+			if($pathname ne "") {
+				$pathname .= $::separator . $pagename;
+			} else {
+				$pathname = $pagename;
+			}
+			if(0) {
+				if($::database{$pathname}=~/(^#blog|\n#blog)/) {
+					$flg=1;
+					$basepage=$pathname;
+					my $tmp=$database{$pathname};
+					$tmp=~/\#blog\(([^\,\)]+)\,([^\,\)]+)/;
+					if($2 ne '') {
+						$basepage=&trim($2);
+					}
+					$tmp=~/\#blog\(([^\,\)]+)\,([^\,\)]+)\,([^\,\)]+)/;
+					if($3 ne '') {
+						$basepage=&trim($2);
+						$catepage=&trim($3);
+					}
+				}
+			}
+		}
+		if(0) {
+			if($flg eq 1 && 1 == &exist_plugin('blog')) {
+				if($catepage ne '') {
+					return &plugin_blog_edit_new($pathname, $catepage);
+				} else {
+					return &plugin_blog_edit_new($pathname);
+				}
+			}
+		}
 	}
 	if($auth{authed} eq 1 && $::form{mypage} ne '') {
 		if (1 == &exist_plugin('adminedit')) {

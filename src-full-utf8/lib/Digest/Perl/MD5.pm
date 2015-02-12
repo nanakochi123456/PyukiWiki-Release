@@ -1,7 +1,7 @@
 #! /usr/bin/false
 #
 # Id: MD5.pm,v 1.23 2004/08/27 20:28:25 lackas Exp
-# $Id: MD5.pm,v 1.303 2012/03/01 10:39:25 papu Exp $
+# $Id: MD5.pm,v 1.330 2012/03/18 11:23:56 papu Exp $
 #
 # "Digest::Perl::MD5" version 1.8 $$
 # original MD5: Neil Winton <N (dot) Winton (at) axion (dot) bt (dot) co (dot) uk>

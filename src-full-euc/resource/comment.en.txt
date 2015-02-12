@@ -1,6 +1,6 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 #
 comment_plugin_yourname=Name:
 comment_plugin_commentbutton=Post Comment

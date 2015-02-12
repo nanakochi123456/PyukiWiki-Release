@@ -1,8 +1,8 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.306 2012/03/01 10:39:25 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.334 2012/03/18 11:23:56 papu Exp $
 #
-# "Nana::YukiWikiDB" version 0.6 $$
+# "Nana::YukiWikiDB" ver 0.6 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo

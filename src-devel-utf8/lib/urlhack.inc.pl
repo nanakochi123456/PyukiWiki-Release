@@ -1,8 +1,8 @@
 ######################################################################
 # urlhack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: urlhack.inc.pl,v 1.309 2012/03/01 10:39:24 papu Exp $
+# $Id: urlhack.inc.pl,v 1.341 2012/03/18 11:23:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -67,6 +67,13 @@ $urlhack::shortdb="./wikidb"
 #
 ## 短縮URLのDB（言語考慮不要）
 #$urlhack::shortdb="./wikidb";
+
+# robots.txt 書き換え
+$urlhack::robots_txt=<<EOM	if(!defined($urlhack::robots_txt));
+User-agent: *
+Allow: /
+Crawl-delay: 10
+EOM
 
 #
 ######################################################################
@@ -144,6 +151,7 @@ sub plugin_urlhack_init_path_info {
 		}
 	}
 	$req=&plugin_urlhack_decode($req);
+
 	# URIが空の時の処理											# comment
 	if($req eq '') {
 		# 通常のエンコードの場合の処理							# comment
@@ -311,6 +319,11 @@ sub make_cookedurl {
 
 sub plugin_urlhack_decode {
 	my($str)=@_;
+	if($str eq "robots.txt") {
+		print &http_header("Content-type: text/plain");
+		print $urlhack::robots_txt;
+		exit;
+	}
 	if($str=~/xn\-/) {
 		&plugin_urlhack_usepuny;
 		$str=~s/\_/\//g;
@@ -361,6 +374,7 @@ sub plugin_urlhack_encode {
 	} elsif($enc eq 2) {
 		$str=&encode(&code_convert(\$str, 'utf8', $::defaultcode));
 #		$str=~s!%20!+!g;	# comment
+		$str=~s!\+!%20!g;	# fixed 0.2.0-p3	# comment
 		$str=~s!%2d!-!g;
 		$str=~s!%2[Ff]!/!g;
 	} elsif($enc eq 3) {
@@ -572,7 +586,6 @@ In the case of the page name which consists of only specified characters, it doe
 =head1 OVERRIDE
 
 make_cookedurl was overrided.
-
 
 =head1 SEE ALSO
 

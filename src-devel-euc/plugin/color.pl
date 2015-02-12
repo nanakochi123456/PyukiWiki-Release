@@ -1,8 +1,8 @@
 ######################################################################
 # color.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: color.pl,v 1.475 2012/03/01 10:39:21 papu Exp $
+# $Id: color.pl,v 1.504 2012/03/18 11:23:51 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -14,7 +14,12 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
-# Return:LF Code=EUC-JP 1TAB=4Spaces
+# Return:LF Code=Shift-JIS 1TAB=4Spaces
+######################################################################
+# Usage: &color(color,bgcolor) { body };
+# Usage: &color(color) { body };
+# Usage: &color(,bgcolor) { body };
+# v0.2.0-p3 : îwåiêFÇÃÇ›ÇÃê›íËÇÇ≈Ç´ÇÈÇÊÇ§Ç…ÇµÇΩÅB
 ######################################################################
 
 use strict;
@@ -22,7 +27,6 @@ package color;
 
 sub plugin_inline {
 	my @args = split(/,/, shift);
-	my $bgcolor = '';
 	my ($color, $bgcolor, $body);
 
 	if (@args == 3) {
@@ -39,14 +43,16 @@ sub plugin_inline {
 	} else {
 		return '';
 	}
-	if ($color eq '' or $body eq '') {
+	if ($color eq '' && $bgcolor eq '' || $body eq '') {
 		return '';
 	}
-	if ($bgcolor ne '') {
-		$color .= ';background-color:'.$bgcolor;
-	}
-	return "<span style=\"color:$color\">$body</span>";
+	my $style;
+	$style="color:$color" if($color ne '');
+	$style="background-color:$bgcolor" if($bgcolor ne '');
+
+	return "<span style=\"$style\">$body</span>";
 }
+
 1;
 __END__
 
@@ -59,6 +65,7 @@ color.pl - PyukiWiki / YukiWiki Plugin
  &color(color, [background-color]){text};
  &color(red){Sample Text};
  &color(#ff0000,#000000){Sample Text};
+ &color(,white){Sample Text};
 
 =head1 DESCRIPTION
 

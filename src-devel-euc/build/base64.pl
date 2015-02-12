@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #--------------------------------------------------------------
 # PyukiWiki Installer CGI Maker
-# $Id: base64.pl,v 1.59 2012/03/01 10:39:19 papu Exp $
+# $Id: base64.pl,v 1.86 2012/03/18 11:23:49 papu Exp $
 #--------------------------------------------------------------
 
 $base64_alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
@@ -58,7 +58,7 @@ if($ARGV[0] eq "b64decode") {
 #!/usr/bin/perl
 # base64.pl -- A perl package to handle MIME-style BASE64 encoding
 # A. P. Barrett <barrett (at) ee (dot) und (dot) ac (dot) za>, October 1993
-# $Revision: 1.59 $$Date: 2012/03/01 10:39:19 $
+# $Revision: 1.86 $$Date: 2012/03/18 11:23:49 $
 
 
 # Synopsis:

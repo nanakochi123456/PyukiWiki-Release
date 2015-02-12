@@ -1,8 +1,8 @@
 ######################################################################
 # punyurl.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: punyurl.inc.pl,v 1.470 2012/03/01 10:39:20 papu Exp $
+# $Id: punyurl.inc.pl,v 1.498 2012/03/18 11:23:50 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p2 $$
+# "PyukiWiki" ver 0.2.0-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

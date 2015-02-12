@@ -1,4 +1,4 @@
-#$Id: ruby.inc.pl.ja.pod,v 1.464 2012/03/01 10:39:21 papu Exp $
+#$Id: ruby.inc.pl.ja.pod,v 1.491 2012/03/18 11:23:51 papu Exp $
 
 __END__
 =encoding euc-jp

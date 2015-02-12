@@ -1,7 +1,7 @@
 #!/bin/sh
 #--------------------------------------------------------------
 # PyukiWiki Installer CGI Maker
-# $Id: makeinstaller.sh,v 1.62 2012/03/01 10:39:24 papu Exp $
+# $Id: makeinstaller.sh,v 1.91 2012/03/18 11:23:55 papu Exp $
 #--------------------------------------------------------------
 ZIPCMD=$1
 P7ZCMD=$2
@@ -173,8 +173,15 @@ cat ./build/installer2.sh \
 	| sed -e "s/__BUILD__/$PREFIX/g" \
 	| sed -e "s/__CODE__/$CODE/g">> $TOFILE
 
+# convert crlf document
+perl -pe 's/\n/\r\n/' ./build/CGI_INSTALLER.ja.txt > ./temp/CGI_INSTALLER.ja.txt
+perl -pe 's/\n/\r\n/' ./README.txt > ./temp/README.txt
+perl -pe 's/\n/\r\n/' ./COPYRIGHT.txt > ./temp/COPYRIGHT.txt
+perl -pe 's/\n/\r\n/' ./COPYRIGHT.ja.txt > ./temp/COPYRIGHT.ja.txt
+
 # make zip file
-$ZIPCMD $ZIPFILE $TOFILE ./build/CGI_INSTALLER.*.txt ./README.txt ./COPYRIGHT.*.txt ./COPYRIGHT.txt >/dev/null 2>/dev/null
+$ZIPCMD $ZIPFILE $TOFILE ./temp/CGI_INSTALLER.*.txt ./temp/README.txt ./temp/COPYRIGHT.*.txt ./temp/COPYRIGHT.txt >/dev/null 2>/dev/null
+rm -rf ./temp/*
 
 # remove installer
 rm $TOFILE

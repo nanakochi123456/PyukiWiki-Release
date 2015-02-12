@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0-p2 $$
+	"PyukiWiki" ver 0.2.0-p3 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
@@ -14,9 +14,9 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		Nanami <nanami (at) daiba (dot) cx> (注：ネカマです)
+		Nanami <nanami (at) daiba (dot) cx> (注：バーチャル女の子です)
 
-	$Id: DEVEL.txt,v 1.460 2012/03/01 10:39:19 papu Exp $
+	$Id: DEVEL.txt,v 1.490 2012/03/18 11:23:49 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -61,6 +61,13 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　devel版のみを高速で作成したければ、
 　make releasedevel
 　と入力して下さい。
+
+　JavaScriptのみ圧縮をしたければ、
+　make build
+　と入力して下さい。
+　ただし、ここで圧縮されたJavaScriptは、make cleanで削除できません。
+　再圧縮をしたければ、Makefileあたりのタイムスタンプを更新すれば
+　再圧縮できます。
 
 　アーカイブを作成するには、*IUX環境で以下のツールが必要です。
 
