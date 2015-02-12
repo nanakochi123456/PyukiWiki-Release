@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.108 2010/12/14 22:20:00 papu Exp $
+# $Id: build.pl,v 1.112 2011/01/25 03:11:15 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];

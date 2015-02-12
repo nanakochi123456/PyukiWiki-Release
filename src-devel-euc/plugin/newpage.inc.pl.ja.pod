@@ -1,4 +1,4 @@
-#$Id: newpage.inc.pl.ja.pod,v 1.70 2010/12/14 22:20:00 papu Exp $
+#$Id: newpage.inc.pl.ja.pod,v 1.74 2011/01/25 03:11:15 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -61,9 +61,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 ライセンス
 
-Copyright (C) 2004-2010 by Nekyo.
+Copyright (C) 2004-2011 by Nekyo.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2011 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

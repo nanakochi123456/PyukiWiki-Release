@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.1.8 $$ */
-/* $Id: common.utf8.ja.js,v 1.109 2010/12/14 22:20:00 papu Exp $ */
+/* "PyukiWiki" version 0.1.8-p2 $$ */
+/* $Id: common.utf8.ja.js,v 1.113 2011/01/25 03:11:15 papu Exp $ */
 /* Code=EUC-JP */
 
 var d=document;
@@ -69,6 +69,9 @@ function getScrollY(){
 	if(typeof window.pageYOffset != "undefined"){
 		return window.pageYOffset;
 	} else if(d.body && typeof d.body.scrollTop != "undefined"){
+		if(d.compatMode == 'CSS1Compat'){
+			return d.documentElement.scrollTop;;
+		}
 		return d.body.scrollTop;
 	} else if(d.documentElement && typeof d.documentElement.scrollTop != "undefined"){
 		return d.documentElement.scrollTop;

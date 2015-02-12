@@ -1,4 +1,4 @@
-#$Id: lang.inc.pl.ja.pod,v 1.42 2010/12/14 22:20:00 papu Exp $
+#$Id: lang.inc.pl.ja.pod,v 1.46 2011/01/25 03:11:15 papu Exp $
 
 __END__
 =encoding euc-jp

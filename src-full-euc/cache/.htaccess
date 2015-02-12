@@ -1,7 +1,7 @@
 ######################################################################
 # Apache cache/.htaccess for PyukiWiki
-# $Id: .htaccess,v 1.72 2010/12/14 22:20:00 papu Exp $
-# "PyukiWiki" version 0.1.8 $$
+# $Id: .htaccess,v 1.76 2011/01/25 03:11:15 papu Exp $
+# "PyukiWiki" version 0.1.8-p2 $$
 ######################################################################
 
 Order deny,allow

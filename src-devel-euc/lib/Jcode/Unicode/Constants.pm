@@ -1,5 +1,5 @@
 #
-# $Id: Constants.pm,v 1.73 2010/12/14 22:20:00 papu Exp $
+# $Id: Constants.pm,v 1.77 2011/01/25 03:11:15 papu Exp $
 # Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp 
 #
 
@@ -39,8 +39,8 @@ Copyright (c) 1991-1994 Unicode, Inc.
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: Constants.pm,v 1.73 2010/12/14 22:20:00 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.73 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Constants.pm,v 1.77 2011/01/25 03:11:15 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.77 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 

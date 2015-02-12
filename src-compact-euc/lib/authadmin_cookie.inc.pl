@@ -1,12 +1,12 @@
 ######################################################################
 # authadmin_cookie.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: authadmin_cookie.inc.pl,v 1.78 2010/12/14 22:20:00 papu Exp $
+# $Id: authadmin_cookie.inc.pl,v 1.82 2011/01/25 03:11:15 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -36,6 +36,7 @@ sub plugin_authadmin_cookie_init {
 
 	my %passwdcookie;
 	%passwdcookie=&getcookie("PyukiWikiAdminPass",%passwdcookie);
+
 	if(&valid_password($passwdcookie{"admin"},"admin")) {
 		if($::navi{"admin_url"} eq '') {
 			push(@::addnavi,"admin:help");
@@ -87,6 +88,7 @@ sub authadminpassword {
 			 && &valid_password($::form{mypassword},"admin")) {
 			$passwdcookie{admin}=$::form{mypassword};
 		}
+
 		&setcookie("PyukiWikiAdminPass",0,%passwdcookie);
 		$auth=1;
 	}

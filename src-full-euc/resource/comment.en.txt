@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.8 $$
-# $Id: comment.en.txt,v 1.71 2010/12/14 22:20:00 papu Exp $
+# "PyukiWiki" version 0.1.8-p2 $$
+# $Id: comment.en.txt,v 1.75 2011/01/25 03:11:15 papu Exp $
 #
 
 # comment.inc.pl

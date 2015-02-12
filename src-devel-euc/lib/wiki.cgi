@@ -1,11 +1,11 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.234 2010/12/14 22:20:00 papu Exp $
+# $Id: wiki.cgi,v 1.238 2011/01/25 03:11:15 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
-# Copyright (C) 2004-2010 by Nekyo.
+# "PyukiWiki" version 0.1.8-p2 $$
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -20,6 +20,9 @@ $|=1;	# debug
 # Setting Database Type
 #use Yuki::YukiWikiDB;
 use Nana::YukiWikiDB;
+
+# changed 0.1.9
+use Time::Local;
 
 #$::modifier_dbtype = 'Yuki::YukiWikiDB';
 $::modifier_dbtype = 'Nana::YukiWikiDB';
@@ -40,7 +43,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.8';
+$::version = '0.1.8-p2';
 
 	# 2005.12.19 pochi: mod_perlで実行可能に
 	# グローバル関数の定義
@@ -281,9 +284,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2010 by Nekyo.
+Copyright (C) 2004-2011 by Nekyo.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2011 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 
@@ -1579,7 +1582,8 @@ sub do_write {
 	$::form{mymsg}=~s/\x0D\x0A|\x0D|\x0A/\n/g;
 
 	# スパムフィルター
-	&spam_filter($::form{mymsg}, 2) if ($::chk_write_jp_only eq 1);
+	&spam_filter($::form{mymsg}, 0) if ($::chk_wiki_uri_count eq 1);
+	&spam_filter($::form{mymsg}, 1) if ($::chk_write_jp_only eq 1);
 
 	# Making diff
 	if (1) {
@@ -2134,6 +2138,7 @@ sub pageanchorname {
 	return 'r' if($page eq $::RightBar && $::RightBar ne '');
 	return 'h' if($page eq $::Header && $::Header ne '');
 	return 'f' if($page eq $::Footer && $::Footer ne '');
+	return 's' if($page eq $::SkinFooter && $::SkinFooter ne '');
 	return 'i';
 }
 
@@ -4724,9 +4729,9 @@ GMTとの差を時間(hour)で返す。
 my $_tz='';
 sub gettz {
 	if($_tz eq '') {
-		$_tz=(localtime(time))[2]+(localtime(time))[3]*24+(localtime(time))[4]*24
-			+(localtime(time))[5]*24-(gmtime(time))[2]-(gmtime(time))[3]*24
-			-(gmtime(time))[4]*24-(gmtime(time))[5]*24;
+		# changed 0.1.9
+		my $now=time();
+		$_tz=(timegm(localtime($now))-timegm(gmtime($now)))/3600;
 	}
 	return $_tz;
 }
