@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0-p1 $$ */
-/* $Id: pyukiwiki.default.css.org,v 1.254 2012/01/31 10:12:06 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p2 $$ */
+/* $Id: pyukiwiki.default.css.org,v 1.310 2012/03/01 10:39:27 papu Exp $ */
 /* Code=UTF-8 */
 /* base */
 pre, dl, ol, ul, p, blockquote {
@@ -128,10 +128,19 @@ pre {
 	padding:.5em;
 	margin-left:1em;
 	margin-right:2em;
-	white-space:pre;
+/*	white-space:pre;*/
 	color:black;
 	background-color:#F0F8FF;
-	/* force br ? */
+	/* force br */
+	white-space:	pre;			 /* CSS 2.0 */
+	white-space:	pre-wrap;		 /* CSS 2.1 */
+	white-space:	pre-line;		 /* CSS 3.0 */
+	white-space:	-pre-wrap;		 /* Opera 4-6 */
+	white-space:	-o-pre-wrap;	 /* Opera 7 */
+	white-space:	-moz-pre-wrap;	 /* Mozilla */
+	white-space:	-hp-pre-wrap;	 /* HP Printers */
+	word-wrap:		break-all;		 /* IE 5+ */
+	word-wrap:		break-word;		 /* IE */
 }
 img {
 	border:none;
@@ -245,7 +254,7 @@ dl.list2,dl.list3 {
 	margin-left:16px;
 }
 /* list for PukiWikiStyle=1 */
-ul.plist1 {
+ul.list1 {
 	list-style-type:disc;
 }
 ul.plist2 {
@@ -367,8 +376,7 @@ span.size7 {
 	display:inline;
 }
 */
-/* set color (nonuse) */
-/*
+/* set color */
 strong.word0 {
 	background-color:#FFFF66;
 	color:black;
@@ -409,7 +417,6 @@ strong.word9 {
 	background-color:#990099;
 	color:white;
 }
-*/
 /* pyukiwiki.skin.cgi */
 div#header {
 	padding:0px;
@@ -690,6 +697,13 @@ ul.recent_list {
 div.img_margin {
 	margin-left:32px;
 	margin-right:32px;
+}
+.ref_info {
+	color: #222222;
+	font-size: 70%;
+}
+.ref_counter {
+	font-size: 70%;
 }
 /* vote.inc.pl */
 td.vote_label {

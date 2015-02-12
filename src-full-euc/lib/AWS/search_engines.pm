@@ -1,8 +1,8 @@
 ######################################################################
 # search_engines.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: search_engines.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
+# $Id: search_engines.pm,v 1.160 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
 # http://awstats.sf.net/
@@ -25,7 +25,8 @@
 # SearchEnginesHashLib.
 # An entry if known in SearchEnginesKnownUrl is also welcome.
 #------------------------------------------------------------------------------
-# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
+# Revision: 1.52 - Author: eldy - Date: 2010/05/30 21:29:55
+# Edited by papu
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
 #            added minor italian search engines
 #                  arianna http://arianna.libero.it/

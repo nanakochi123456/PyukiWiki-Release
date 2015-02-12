@@ -1,4 +1,4 @@
-#$Id: Search.pm.ja.pod,v 1.412 2012/01/31 10:11:57 papu Exp $
+#$Id: Search.pm.ja.pod,v 1.463 2012/03/01 10:39:20 papu Exp $
 
 __END__
 =encoding euc-jp

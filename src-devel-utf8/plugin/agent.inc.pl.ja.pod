@@ -1,0 +1,86 @@
+#$Id: agent.inc.pl.ja.pod,v 1.29 2012/03/01 10:39:25 papu Exp $
+=head1 NAME
+
+agent.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ #agent(ブラウザ名、OS名、またはロボット名の正規表現、 マッチした時のページ、 [、 マッチしなかった時のページ)
+
+=head1 説明
+
+ユーザーエイジェントに基づいて、表示するページを指定する。
+
+=head1 注意
+
+各ページで画像をattach等でアップロードする場合、このプラグインを設置するページにアップロードしなければなりません。
+
+=head1 使用方法
+
+ #agent(msie,Internet Explorer Page,Sorry)
+ #agent(msie32,Internet Explorer 32bit Page,Sorry) on pure 32bit OS of IE
+ #agent(msiex86/9,Internet Explorer 32bit Page,Sorry) is 32bit browser on 64bit OS of IE
+ #agent(msiex64/10.0,Internet Explorer 64bit Page,Sorry) on pure 64bit browser of IE
+ #agent(firefox/3+,FireFox or later Page,Sorry)
+ #agent(win,Windows Page,Sorry)
+ #agent(mac,Mac Only!,Sorry)
+ #agent(bot,Sorry bot)
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/agent
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/agent/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/agent.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/agent.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/AWS/browsers.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/AWS/browsers.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/AWS/domains.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/AWS/domains.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/AWS/operating_systems.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/AWS/operating_systems.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/AWS/robots.pm?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/AWS/robots.pm?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

@@ -1,8 +1,8 @@
 ######################################################################
 # xframe.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: xframe.inc.pl,v 1.24 2012/01/31 10:12:02 papu Exp $
+# $Id: xframe.inc.pl,v 1.77 2012/03/01 10:39:24 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

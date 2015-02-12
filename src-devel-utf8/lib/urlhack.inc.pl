@@ -1,8 +1,8 @@
 ######################################################################
 # urlhack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: urlhack.inc.pl,v 1.255 2012/01/31 10:12:02 papu Exp $
+# $Id: urlhack.inc.pl,v 1.309 2012/03/01 10:39:24 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -32,7 +32,7 @@ $urlhack::use_path_info=1
 $urlhack::fake_extention="/"		# only "/"
 	if(!defined($urlhack::fake_extention));
 #
-# use puny url 0:16進エンコード 1:punyエンコード 2:UTF8エンコード
+# use puny url 0:16進エンコード 1:punyエンコード 2:UTF8エンコード 3:短縮URL
 $urlhack::use_puny=1
 	if(!defined($urlhack::use_puny));
 #
@@ -43,15 +43,49 @@ $urlhack::noconvert_marks=2	# 0:NO / 1:Alpha&Number / 2:AlphaNumber and mark
 # force url hack (non extention .cgi)
 $urlhack::force_exec=0			# PATH_INFOを使わない場合で、拡張子CGIでない場合、1を設定
 	if(!defined($urlhack::force_exec));
+
+# 短縮URLのDB（言語考慮不要）
+$urlhack::shortdb="./wikidb"
+	if(!defined($urlhack::shortdb));
+
+###################
+# sample of shorted wiki url
+## PATH_INFO を使う（0の場合File not foundを補足する)
+#$urlhack::use_path_info=0;
+##
+## fake extension 拡張子偽装
+#$urlhack::fake_extention="";	# use path_info, only "/"
+##
+## use puny url 0:16進エンコード 1:punyエンコード 2:UTF8エンコード 3:短縮URL
+#$urlhack::use_puny=3;
+##
+## not convert Alphabet or Number ( or dot and slash) page
+#$urlhack::noconvert_marks=0; # 0:NO / 1:Alpha&Number / 2:AlphaNumber and mark
+##
+## force url hack (non extention .cgi)
+#$urlhack::force_exec=1;	# PATH_INFOを使わない場合で、拡張子CGIでない場合1を設定
+#
+## 短縮URLのDB（言語考慮不要）
+#$urlhack::shortdb="./wikidb";
+
 #
 ######################################################################
 
 use strict;
+use Nana::MD5;
+my %urldb;
 
 # Initlize														# comment
 
 sub plugin_urlhack_init {
 	&exec_explugin_sub("lang");
+
+	if($urlhack::use_puny eq 3) {
+		my $err=&writechk($urlhack::shortdb);
+		&print_error($err)  if($err ne '');
+		&dbopen($urlhack::shortdb,\%urldb);
+	}
+
 	unless($::form{mypage} eq '' || $::form{mypage} eq $::FrontPage) {
 		return('init'=>0
 			,'func'=>'make_cookedurl',
@@ -83,10 +117,12 @@ sub plugin_urlhack_init_path_info {
 		$req=~s/$regex$//g;
 	}
 	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
-	if(&is_exist_page($req)) {
-		$::form{cmd}='read';
-		$::form{mypage}=$req;
-		return 0;
+	if($urlhack::use_puny ne 3) {
+		if(&is_exist_page($req)) {
+			$::form{cmd}='read';
+			$::form{mypage}=$req;
+			return 0;
+		}
 	}
 
 	# 前後の不要なスラッシュを削除								# comment
@@ -100,10 +136,12 @@ sub plugin_urlhack_init_path_info {
 		$req=~s/$regex$//g;
 	}
 	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
-	if(&is_exist_page($req)) {
-		$::form{cmd}='read';
-		$::form{mypage}=$req;
-		return 0;
+	if($urlhack::use_puny ne 3) {
+		if(&is_exist_page($req)) {
+			$::form{cmd}='read';
+			$::form{mypage}=$req;
+			return 0;
+		}
 	}
 	$req=&plugin_urlhack_decode($req);
 	# URIが空の時の処理											# comment
@@ -158,12 +196,11 @@ sub plugin_urlhack_init_notfound {
 	} else {
 		return 0;
 	}
-
 	# ?以降は無視する											# comment
 	$req=~s/\?.*//g;
 
 	# dot(.)とslash(/)が有効の場合								# comment
-	if($urlhack::noconvert_marks eq 2) {
+	if($urlhack::noconvert_marks eq 2 || 1) {
 		my $uri;
 		# 自URIを取得し、削除する
 		if($req ne '') {
@@ -203,11 +240,13 @@ sub plugin_urlhack_init_notfound {
 		$req=~s/$regex$//g;
 	}
 	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
-	$req=~s/%([A-Fa-f0-9][A-Fa-f0-9])/chr(hex($1))/eg;
-	if(&is_exist_page($req)) {
-		$::form{cmd}='read';
-		$::form{mypage}=$req;
-		return 0;
+	if($urlhack::use_puny ne 3) {
+		$req=~s/%([A-Fa-f0-9][A-Fa-f0-9])/chr(hex($1))/eg;
+		if(&is_exist_page($req)) {
+			$::form{cmd}='read';
+			$::form{mypage}=$req;
+			return 0;
+		}
 	}
 	$req=&plugin_urlhack_decode($req);
 
@@ -235,11 +274,11 @@ sub plugin_urlhack_init_notfound {
 		return 1;
 	# でなければ、404 Not foundで返す							# comment
 	} else {
-		$::form{cmd}='servererror';
-		$ENV{REDIRECT_STATUS}=404;
-		$ENV{REDIRECT_URL}=$ENV{REQUEST_URI};
-		$ENV{REDIRECT_REQUEST_METHOD}="GET";
-		return 0;
+#		$::form{cmd}='servererror';
+#		$ENV{REDIRECT_STATUS}=404;
+#		$ENV{REDIRECT_URL}=$ENV{REQUEST_URI};
+#		$ENV{REDIRECT_REQUEST_METHOD}="GET";
+#		return 0;
 	}
 }
 
@@ -283,6 +322,14 @@ sub plugin_urlhack_decode {
 <link rel="canonical" href="$::basehref@{[&plugin_urlhack_encode($str,$urlhack::use_puny)]}" />
 EOM
 		}
+	} elsif(&urldb_decode($str) ne '') {
+		$str=&urldb_decode($str);
+		if($urlhack::use_puny ne 3) {
+			&getbasehref;
+			$::IN_HEAD.=<<EOM;
+<link rel="canonical" href="$::basehref@{[&plugin_urlhack_encode($str,$urlhack::use_puny)]}" />
+EOM
+		}
 	} elsif($str=~/^[0-9A-Fa-f]+/) {
 		$str=~s/([A-Fa-f0-9][A-Fa-f0-9])/pack("C", hex($1))/eg;
 		if($urlhack::use_puny ne 0) {
@@ -316,6 +363,8 @@ sub plugin_urlhack_encode {
 #		$str=~s!%20!+!g;	# comment
 		$str=~s!%2d!-!g;
 		$str=~s!%2[Ff]!/!g;
+	} elsif($enc eq 3) {
+		$str=&urldb_encode($str);
 	} else {
 		&plugin_urlhack_usepuny;
 		$str=~s/\+/!2b/g;
@@ -330,6 +379,57 @@ sub plugin_urlhack_encode {
 		$str=~s!%2d!-!g;
 	}
 	return $str;
+}
+
+sub urldb_decode {
+	my($str)=shift;
+	&dbopen($urlhack::shortdb,\%urldb);
+	my $str=$urldb{"p$::lang" . $str};
+	return $str;
+}
+
+sub urldb_encode {
+	my($str)=shift;
+	my $try=62;
+	my $chk=$urldb{"c$::lang" . $str};
+	if($chk ne '') {
+		return $chk;
+	}
+	my $count=$urldb{"sys-count"}+0;
+	my $keylen;
+	my $tmp=1;
+	for(my $i=1; $i<=30; $i++) {
+		$keylen=$i;
+		$tmp=$tmp * $try;
+			last if($count < $tmp);
+	}
+	my $c=0;
+	my $hashedurl;
+	my $cmpedurl;
+	do {
+		$hashedurl=Nana::MD5::md5($c . time . $c . $str);
+		$c++;
+		$cmpedurl=substr(&trip($hashedurl),0, $keylen);
+		if($urldb{"p$::lang" . $cmpedurl} eq '') {
+			$urldb{"c$::lang" . $str}=$cmpedurl;
+			$urldb{"p$::lang" . $cmpedurl}=$str;
+			$urldb{"sys-count"}=($count+1);
+			$str=$cmpedurl;
+			return $str;
+		}
+	} while($c<1000);
+	return $str;
+}
+
+sub trip {
+	my ($tripkey)=shift;
+	$tripkey = substr($tripkey,1);
+	my $salt = substr($tripkey.'H.',1,2);
+	$salt =~ s/[^\.-z]/\./go;
+	$salt =~ tr/:;<=>?@[\\]^_`/ABCDEFGabcdef/;
+	my $trip = crypt($tripkey,$salt);
+	$trip =~ tr/\/:;<=>?@[\\]^_`./ABCDEFGHabcdefgh/;
+	return $trip;
 }
 
 sub plugin_urlhack_usepuny {
@@ -456,6 +556,8 @@ Sorry. this option is '/' only ;;
 
  0:Hex encode
  1:Puny encode
+ 2:UTF8 encode
+ 3:shorted encode (use Dictionary Database)
 
 =item $urlhack::noconvert_marks
 

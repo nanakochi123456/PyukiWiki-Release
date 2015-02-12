@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: resource.ja.txt,v 1.254 2012/01/31 10:12:05 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: resource.ja.txt,v 1.311 2012/03/01 10:39:27 papu Exp $
 #
 
 resource_loaded=1
@@ -32,6 +32,7 @@ prevbutton=前のページへ
 nextbutton=次のページへ
 
 searchthispage=このページを検索
+msg_word=これらのキーワードがハイライトされています：
 
 profile_page=自己紹介
 comment_page=コメント
@@ -64,7 +65,6 @@ admin_passwd_prompt_msg=管理者パスワード：
 admin_passwd_prompt_error=パスワードが誤っています。
 admin_passwd_button=送信
 
-
 # write
 auth_writefobidden=このページへの書き込みが認められていません
 
@@ -76,6 +76,12 @@ searchpage=単語検索
 searchbutton=検索
 searchand=AND検索
 searchor=OR検索
+msg_word=これらのキーワードがハイライトされています：
+
+# ref.inc.pl
+ref_total=TOTAL
+ref_today=TODAY
+ref_yesterday=YERSTERDAY
 
 # sub date
 date_ampm_en=am,pm

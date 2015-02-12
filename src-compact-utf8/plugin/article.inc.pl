@@ -1,8 +1,8 @@
 ######################################################################
 # article.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: article.inc.pl,v 1.255 2012/01/31 10:12:03 papu Exp $
+# $Id: article.inc.pl,v 1.310 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -72,9 +72,9 @@ $article::no_subject = "no subject"
 $article::no = 0;
 my $_no_name = "";
 sub plugin_article_action {
-	&::spam_filter($::form{msg}, 2);
-	&::spam_filter($::form{myname}, 0);
-	&::spam_filter($::form{subject}, 0);
+	&::spam_filter($::form{msg}, 2, $::chk_article_uri_count, $::chk_article_mail_count);
+	&::spam_filter($::form{myname}, 0, $::chk_article_uri_count, $::chk_article_mail_count);
+	&::spam_filter($::form{subject}, 0, $::chk_article_uri_count, $::chk_article_mail_count);
 	if (($::form{msg} =~ /^\s*$/)
 	 || ($::form{myname} =~ /^\s*$/ && $article::noname eq 1)
 	 || ($::form{subject} =~ /^\s*$/ && $article::nosubject eq 1)) {

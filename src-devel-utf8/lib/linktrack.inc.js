@@ -1,8 +1,8 @@
 /*/////////////////////////////////////////////////////////////////////
 # linktrack.inc.js - This is PyukiWiki, yet another Wiki clone.
-# $Id: linktrack.inc.js,v 1.255 2012/01/31 10:12:02 papu Exp $
+# $Id: linktrack.inc.js,v 1.309 2012/03/01 10:39:24 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -24,7 +24,7 @@ function Ck(link,tg) {
 		d.location=lk;
 		return true;
 	} else if(tg != '') {
-		openURI(lk,tg);
+		ou(lk,tg);
 	} else {
 		d.location=lk;
 	}

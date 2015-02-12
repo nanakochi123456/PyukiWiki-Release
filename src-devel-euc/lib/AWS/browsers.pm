@@ -1,8 +1,8 @@
 ######################################################################
 # browsers.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: browsers.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
+# $Id: browsers.pm,v 1.160 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
 # http://awstats.sf.net/
@@ -23,8 +23,9 @@
 # If you want to add a Browser to extend AWStats database detection capabilities,
 # you must add an entry in BrowsersSearchIDOrder and in BrowsersHashIDLib.
 #-------------------------------------------------------
-# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
-
+# Revision: 1.66  - Author: manolamancha  - Date: 2010/05/17 12:35:58
+# Edited by papu
+#
 # 2006-05-15 Sean Carlos http://www.antezeta.com/awstats.html
 # 				akregator (rss)
 #				AppleSyndication  (rss)
@@ -41,29 +42,38 @@
 #				Potu Rss-Reader http://www.potu.com/
 #				OSSProxy http://www.marketscore.com/FAQ.Aspx
 
-
 #package AWSUA;
 
 # Relocated from main file for easier editing
 %BrowsersFamily = (
-	'msie'      => 1,
-	'firefox'   => 2,
-	'netscape'  => 3,
-	'svn'       => 4,
-	'opera'     => 5,
-	'safari'    => 6,
-	'chrome'    => 7,
-	'konqueror' => 8,
-	'mozilla'	=> 9
+
+	'msiex64'   => 1,
+	'msiex86'   => 2,
+	'msie32'    => 3,
+	'msie'      => 4,
+	'firefox'   => 5,
+	'netscape'  => 6,
+	'svn'       => 7,
+	'opera'     => 8,
+	'safari'    => 9,
+	'chrome'    =>10,
+	'konqueror' =>11,
+	'mozilla'	=>12
 );
 
 # add browser family detect hash by papu
+# add IE 64bit and 32bit by papu
+# msiex64 = Pure x64, msiex86 = WOW64, msie32 = Pure x86
+
 @BrowsersFamily = (
+	'opera',
+	'msiex64',
+	'msiex86',
+	'msie32',
+	'msie',
 	'firefox',
 	'netscape',
 	'svn',
-	'msie',
-	'opera',
 	'chrome',
 	'konqueror',
 	'safari',
@@ -72,6 +82,9 @@
 
 # add browser version detect hash by papu
 %BrowsersVersionHashIDLib = (
+	'msiex64'	,'msie([+_ ]|)([\d\.]*).*x64\;',
+	'msiex86'	,'msie([+_ ]|)([\d\.]*).*wow64\;',
+	'msie32'	,'msie([+_ ]|)([\d\.]*)(?!.*wow64)(?!.*x64)',
 	'msie'		,'msie([+_ ]|)([\d\.]*)',
 	'netscape'	,'netscape.?\/([\d\.]*)',
 	'firefox'	,'firefox\/([\d\.]*)',
@@ -321,6 +334,9 @@
 'konqueror','Konqueror',
 'svn', 'Subversion client',
 'msie','MS Internet Explorer',
+'msiex86','MS Internet Explorer (32bit on 64bitOS)',
+'msiex64','MS Internet Explorer (64bit)',
+'msie32','MS Internet Explorer (32bit)',
 'netscape','Netscape',
 
 # Japanese Browsers
@@ -573,6 +589,8 @@
 'konqueror','konqueror',
 'svn','subversion',
 'msie','msie',
+'msiex64','msiex64',
+'msiex86','msiex86',
 'netscape','netscape',
 
 # Japanese Browsers

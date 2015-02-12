@@ -1,7 +1,7 @@
 #!/bin/sh
 #--------------------------------------------------------------
 # PyukiWiki Installer CGI Maker
-# $Id: makeinstaller.sh,v 1.10 2012/01/31 10:11:53 papu Exp $
+# $Id: makeinstaller.sh,v 1.62 2012/03/01 10:39:19 papu Exp $
 #--------------------------------------------------------------
 ZIPCMD=$1
 P7ZCMD=$2
@@ -175,3 +175,6 @@ cat ./build/installer2.sh \
 
 # make zip file
 $ZIPCMD $ZIPFILE $TOFILE ./build/CGI_INSTALLER.*.txt ./README.txt ./COPYRIGHT.*.txt ./COPYRIGHT.txt >/dev/null 2>/dev/null
+
+# remove installer
+rm $TOFILE

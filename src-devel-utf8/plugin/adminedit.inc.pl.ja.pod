@@ -1,4 +1,4 @@
-#$Id: adminedit.inc.pl.ja.pod,v 1.253 2012/01/31 10:12:03 papu Exp $
+#$Id: adminedit.inc.pl.ja.pod,v 1.304 2012/03/01 10:39:25 papu Exp $
 
 __END__
 =encoding utf-8

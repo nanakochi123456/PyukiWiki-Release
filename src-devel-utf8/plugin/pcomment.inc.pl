@@ -1,8 +1,8 @@
 ######################################################################
 # pcomment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: pcomment.inc.pl,v 1.255 2012/01/31 10:12:04 papu Exp $
+# $Id: pcomment.inc.pl,v 1.310 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -17,8 +17,7 @@
 # Return:LF Code=UTF-8 1TAB=4Spaces
 ######################################################################
 
-use Digest::MD5;
-#use Digest::Perl::MD5;
+use Nana::MD5;
 
 ######################################################################
 # コメント欄の全体フォーマット
@@ -81,8 +80,8 @@ $pcomment::frozencommentpage=1
 use strict;
 
 sub plugin_pcomment_action {
-	&::spam_filter($::form{mymsg}, 2);
-	&::spam_filter($::form{myname}, 0);
+	&::spam_filter($::form{mymsg}, 2, $::chk_article_uri_count, $::chk_article_mail_count);
+	&::spam_filter($::form{myname}, 0, $::chk_article_uri_count, $::chk_article_mail_count);
 
 	if (($::form{mymsg} =~ /^\s*$/ && $pcomment::nodata eq 1)
 	 || ($::form{myname} =~ /^\s*$/ && $pcomment::noname eq 1)

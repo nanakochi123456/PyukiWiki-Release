@@ -1,0 +1,72 @@
+##################################################################
+# $Id: url_puny.regex,v 1.27 2012/03/01 10:39:19 papu Exp $
+##################################################################
+# Puny URL regex
+##################################################################
+
+$::isurl=q{(\b(?:https?|ftp|news)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*@)?(?:(?:(?:[a-zA-Z0-9](?:[-_a-zA-Z0-9]*[a-zA-Z0-9])?|[-_0-9a-zA-Z\x80-\xfd](?:[-_0-9a-zA-Z\x80-\xfd]*[-_0-9a-zA-Z\x80-\xfd])?)\.)*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)*)?(?:\?(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?(?:\x23(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?)};
+
+print $::isurl;
+exit;
+
+$digit = q{[0-9]};
+$alpha = q{[a-zA-Z]};
+$alphanum = q{[a-zA-Z0-9]};
+$hex = q{[0-9A-Fa-f]};
+$escaped = qq{%$hex$hex};
+$uric = q{(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]} . qq{|$escaped)};
+#$uric = q{(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]} . qq{|$escaped)};
+$fragment = qq{$uric*};
+$query = qq{$uric*};
+$pchar = q{(?:[-_.!~*'a-zA-Z0-9:@&=+$,]} . qq{|$escaped)};
+#$pchar = q{(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]} . qq{|$escaped)};
+$param = qq{$pchar*};
+$segment = qq{$pchar*(?:;$param)*};
+$path_segments = qq{$segment(?:/$segment)*};
+$abs_path = qq{/$path_segments};
+$port = qq{$digit*};
+$IPv4address = qq{$digit+\\.$digit+\\.$digit+\\.$digit+};
+$toplabel = qq{$alpha(?:} . q{[-a-zA-Z0-9]*} . qq{$alphanum)?};
+$domainlabel = qq{$alphanum(?:} . q{[-_a-zA-Z0-9]*} . qq{$alphanum)?};
+$domainlabel_rfc3490_class= q{[-_0-9a-zA-Z\xa1-\xfe]};
+$domainlabel_rfc3490_punyonly_class= q{[\xa1-\xfe]};
+$domainlabel_rfc3490=qq{$domainlabel_rfc3490_class(?:} . qq{$domainlabel_rfc3490_class*} . qq{$domainlabel_rfc3490_class)?};
+$domainlabel_rfc3490_punyonly=
+		qq{$domainlabel_rfc3490_class(?:}
+		 . qq{$domainlabel_rfc3490_class*}
+			 . qq{$domainlabel_rfc3490_punyonly_class)?} .
+ '|' .
+		qq{$domainlabel_rfc3490_punyonly_class(?:}
+		 . qq{$domainlabel_rfc3490_class*}
+			 . qq{$domainlabel_rfc3490_class)?};# .
+# '|' .
+#		qq{$domainlabel_rfc3490_class(?:}
+#		 . qq{$domainlabel_rfc3490_punyonly_class?};
+#			 . qq{$domainlabel_rfc3490_class)*};
+$hostname = qq{(?:(?:$domainlabel|$domainlabel_rfc3490)\\.)*$toplabel\\.?};
+$hostname_punyonly = qq{(?:(?:$domainlabel_rfc3490_punyonly)\\.)+$toplabel\\.?};
+#$hostname = qq{(?:$domainlabel\\.)*$toplabel\\.?};
+$host = qq{(?:$hostname|$IPv4address)};
+$host_punyonly = qq{(?:$hostname_punyonly)};
+$hostport = qq{$host(?::$port)?};
+$hostport_punyonly = qq{$host_punyonly(?::$port)?};
+$userinfo = q{(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|} . qq{$escaped)*};
+$server = qq{(?:$userinfo\@)?$hostport};
+$server_punyonly = qq{(?:$userinfo\@)?$hostport_punyonly};
+$authority = qq{$server};
+$authority_punyonly = qq{$server_punyonly};
+#$scheme = q{(?:https?|shttp)};
+$scheme = q{(?:https?|ftp|news)};
+$net_path = qq{//$authority(?:$abs_path)?};
+$net_path_punyonly = qq{//$authority_punyonly(?:$abs_path)?};
+$hier_part = qq{$net_path(?:\\?$query)?};
+$hier_part_punyonly = qq{$net_path_punyonly(?:\\?$query)?};
+$absoluteURI = qq{$scheme:$hier_part};
+$absoluteURI_punyonly = qq{$scheme:$hier_part_punyonly};
+$URI_reference = qq{$absoluteURI(?:\\x23$fragment)?};
+$URI_reference_punyonly = qq{$absoluteURI_punyonly(?:\\x23$fragment)?};
+$http_URL_regex = q{\b} . $URI_reference;
+$http_URL_regex_punyonly = q{\b} . $URI_reference_punyonly;
+
+print $::http_URL_regex;
+#$::http_URL_regex_punyonly;

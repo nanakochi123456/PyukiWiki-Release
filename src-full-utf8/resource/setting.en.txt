@@ -1,11 +1,11 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: setting.en.txt,v 1.254 2012/01/31 10:12:05 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: setting.en.txt,v 1.309 2012/03/01 10:39:27 papu Exp $
 #
 # setting.inc.pl
 plugin_setting_title=Setting
-plugin_setting_list=gzip,style,fontsize,popup,savename
+plugin_setting_list=gzip,style,font,fontsize,popup,savename,escapeoff
 plugin_setting_button=Change
 plugin_setting_gzip=GZIP Compress
 plugin_setting_gzip_check=sub { return 1 }
@@ -27,5 +27,5 @@ plugin_setting_popup_list=0:Link to same browser,1:Popup Link or same browser of
 plugin_setting_popup_default=sub{$::use_popup eq 0 ? 0 : 1};
 plugin_setting_escapeoff=Clear input text on ESC key press disable<br />(Internet Explorer Only)
 plugin_setting_escapeoff_check=sub{return ($::use_escapeoff ne 0 && $ENV{HTTP_USER_AGENT}=~/MSIE/ && $ENV{HTTP_USER_AGENT}!~/Opera/) ? 1 : 0;};
-plugin_setting_escapeoff_list=0:無効,1:有効
+plugin_setting_escapeoff_list=0:Disable1:Enable
 plugin_setting_escapeoff_default=sub{$::use_escapeoff eq 2 ? 1 : 0};

@@ -1,8 +1,8 @@
 ######################################################################
 # server.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: server.inc.pl,v 1.434 2012/01/31 10:11:58 papu Exp $
+# $Id: server.inc.pl,v 1.491 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -21,6 +21,11 @@
 # Perl詳細情報は、可能な限りのperlモジュールを検索するので、場合に
 # よっては、タイムアウトでInternal Server Errorになる可能性があります。
 ######################################################################
+# 0.2.0-p2 :
+# ベンチマークの所要時間を１／４にした
+# ベンチマークを分割実行できるようにした
+######################################################################
+use Time::HiRes qw(gettimeofday tv_interval);
 my @info_envs=(
 	":server",
 	"OSNAME:1",
@@ -62,6 +67,9 @@ my @info_envs=(
 	"REMOTE_HOST:1",
 	"REMOTE_PORT:1",
 	"HTTP_USER_AGENT:1",
+	"HTTP_USER_AGENT_BROWSERNAME:1",
+	"HTTP_USER_AGENT_BROWSERVERSION:1",
+	"HTTP_USER_AGENT_UAOS:1",
 	"HTTP_ACCEPT_LANGUAGE:0",
 	"HTTP_ACCEPT_ENCODING:0",
 	":request",
@@ -77,6 +85,18 @@ my @bench_envs=(
 	"MATHCOUNT:1",
 	"PROCCOUNT:1",
 	"FILECOUNT:1",
+	"REGCOUNT:1"
+);
+my @bench1_envs=(
+	"MATHCOUNT:1",
+);
+my @bench2_envs=(
+	"PROCCOUNT:1",
+);
+my @bench3_envs=(
+	"FILECOUNT:1",
+);
+my @bench4_envs=(
 	"REGCOUNT:1"
 );
 my @perl_envs=(
@@ -141,53 +161,70 @@ sub plugin_server_bench_powermod {
 	return(&plugin_server_bench_powermod_exec($x, $e, $n));
 }
 sub plugin_server_bench {
-	$BENCH=(times)[0];
-	$mathcount=0;
-	while((times)[0]<$BENCH+1) {
-		$p=5557;
-		$q=5563;
-		$e=395131;
-		for($i=2;$i<$p;$i++) { $pp=$p%$i; }
-		for($i=2;$i<$q;$i++) { $qq=$q%$i; }
-		$n=$p*$q; $nn=($p-1)*($q-1);
-		&plugin_server_bench_gcd($nn,$e);
-		$a=&plugin_server_bench_euler($nn);
-		&plugin_server_bench_powermod($e,$a-1,$nn);
-		$mathcount++;
-	}
-	$BENCH=(times)[0];
-	$regcount=0;
-		open(R,"$::skin_file");
-	foreach(<R>) { $DATA.=$r; } close(R);
-	while((times)[0]<$BENCH+1) {
-		$test=$DATA;
-		for($i=0;$i<1000;$i++) {
-			$test=~s/\#/\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#/g;
+	my($mode)=@_;
+	if($mode eq 0 || $mode eq 1) {
+		$BENCH1=[gettimeofday];
+		$BENCH2=[gettimeofday];
+		$mathcount=0;
+		while(sprintf("%.8f",tv_interval $BENCH1, $BENCH2)+0<=0.25) {
+			$p=5557;
+			$q=5563;
+			$e=395131;
+			for($i=2;$i<$p;$i++) { $pp=$p%$i; }
+			for($i=2;$i<$q;$i++) { $qq=$q%$i; }
+			$n=$p*$q; $nn=($p-1)*($q-1);
+			&plugin_server_bench_gcd($nn,$e);
+			$a=&plugin_server_bench_euler($nn);
+			&plugin_server_bench_powermod($e,$a-1,$nn);
+			$mathcount++;
+			$BENCH2=[gettimeofday];
 		}
-		$test=~s/\#.*//g;
-		$regcount++;
 	}
-	$BENCH=(times)[0];
-	$filecount=0;
-	while((times)[0]<$BENCH+1) {
+	if($mode eq 0 || $mode eq 4) {
+		$regcount=0;
 		open(R,"$::skin_file");
-		foreach(<R>) { $DATA=$r; } close(R);
-		$filecount++;
-	}
-	$BENCH=(times)[0];
-	$proccount=0;
-	while((times)[0]<$BENCH+1) {
-		open(PROC,"$0");
-		foreach(<PROC>) {
-			$r=$_;
+		foreach(<R>) { $DATA.=$r; } close(R);
+		$BENCH1=[gettimeofday];
+		$BENCH2=[gettimeofday];
+		while(sprintf("%.8f",tv_interval $BENCH1, $BENCH2)+0<=0.25) {
+			$test=$DATA;
+			for($i=0;$i<1000;$i++) {
+				$test=~s/\#/\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#/g;
+			}
+			$test=~s/\#.*//g;
+			$regcount++;
+			$BENCH2=[gettimeofday];
 		}
-		close(PROC);
-		$proccount++;
 	}
-	$ENV{MATHCOUNT}=$mathcount;
-	$ENV{PROCCOUNT}=$proccount;
-	$ENV{FILECOUNT}=$filecount;
-	$ENV{REGCOUNT}=$regcount;
+	if($mode eq 0 || $mode eq 3) {
+		$BENCH1=[gettimeofday];
+		$BENCH2=[gettimeofday];
+		$filecount=0;
+		while(sprintf("%.8f",tv_interval $BENCH1, $BENCH2)+0<=0.25) {
+			open(R,"$::skin_file");
+			foreach(<R>) { $DATA=$r; } close(R);
+			$filecount++;
+			$BENCH2=[gettimeofday];
+		}
+	}
+	if($mode eq 0 || $mode eq 2) {
+		$BENCH1=[gettimeofday];
+		$BENCH2=[gettimeofday];
+		$proccount=0;
+		while(sprintf("%.8f",tv_interval $BENCH1, $BENCH2)+0<=0.25) {
+			open(PROC,"$0");
+			foreach(<PROC>) {
+				$r=$_;
+			}
+			close(PROC);
+			$proccount++;
+			$BENCH2=[gettimeofday];
+		}
+	}
+	$ENV{MATHCOUNT}=$mathcount*4;
+	$ENV{PROCCOUNT}=$proccount*4;
+	$ENV{FILECOUNT}=$filecount*4;
+	$ENV{REGCOUNT}=$regcount*4;
 }
 sub uptime {
 	my $path;
@@ -323,7 +360,57 @@ sub plugin_server_pathchk() {
 	$r=~s/\~\n$//g;
 	return $r;
 }
+sub getagent {
+	require "$::explugin_dir/AWS/browsers.pm";
+	require "$::explugin_dir/AWS/domains.pm";
+	require "$::explugin_dir/AWS/operating_systems.pm";
+	require "$::explugin_dir/AWS/robots.pm";
+	require "$::explugin_dir/AWS/search_engines.pm";
+	push(@RobotsSearchIDOrder, @RobotsSearchIDOrder_list1);
+	push(@RobotsSearchIDOrder, @RobotsSearchIDOrder_list2);
+	push(@RobotsSearchIDOrder, @RobotsSearchIDOrder_listgen);
+	my $uabrowser;
+	my $uabrowserver;
+	my($checkbrowser, $checkver)=split(/\//,lc $checkname);
+	my $browser=lc $ENV{HTTP_USER_AGENT};
+	foreach my $id(@BrowsersFamily) {
+		if($browser=~/$BrowsersVersionHashIDLib{$id}/) {
+			my $version=$2 eq '' ? $1 : $2;
+			if($id eq "safari") {
+				$version=$BrowsersSafariBuildToVersionHash{$version};
+			}
+			$uaid=$id;
+			$uabrowser=$BrowsersHashIDLib{$id};
+			$uabrowserver=$version;
+			$ENV{HTTP_USER_AGENT_BROWSERNAME}=$uabrowser;
+			$ENV{HTTP_USER_AGENT_BROWSERVERSION}=$uabrowserver;
+			last;
+		}
+	}
+	foreach my $regex(@OSSearchIDOrder) {
+		if($browser=~/$regex/) {
+			$uaos=&plugin_server_htmlcut($OSHashLib{$OSHashID{$regex}});
+			$ENV{HTTP_USER_AGENT_UAOS}=$uaos;
+			last;
+		}
+	}
+	foreach(@RobotsSearchIDOrder) {
+		if($browser =~ /$_/) {
+			$uabrowser='robot';
+			$uabrowserver=&plugin_server_htmlcut($RobotsHashIDLib{$_});
+			$ENV{HTTP_USER_AGENT_BROWSERNAME}=$uabrowser;
+			$ENV{HTTP_USER_AGENT_BROWSERVERSION}=$uabrowserver;
+			last;
+		}
+	}
+}
+sub plugin_server_htmlcut {
+	my($text)=shift;
+	$text=~s/<([^<>]+)>//g;
+	return $text;
+}
 sub plugin_server_infomation {
+	&getagent;
 	$ENV{UPTIME}=&uptime;
 	$ENV{OSNAME}=&uname;
 	if($ENV{OSNAME} eq '') {
@@ -545,6 +632,10 @@ $authed
 <input type="submit" name="perlinfo" value="$::resource{server_plugin_perlinfo_button}" />
 </td><td>
 <input type="submit" name="benchmark" value="$::resource{server_plugin_benchmark_button}" />
+<input type="submit" name="benchmark1" value="$::resource{server_plugin_benchmark1_button}" />
+<input type="submit" name="benchmark2" value="$::resource{server_plugin_benchmark2_button}" />
+<input type="submit" name="benchmark3" value="$::resource{server_plugin_benchmark3_button}" />
+<input type="submit" name="benchmark4" value="$::resource{server_plugin_benchmark4_button}" />
 @{[&linuxbutton]}
 @{[&freebsdbutton]}
 </td></tr></table></form>
@@ -586,8 +677,24 @@ sub plugin_server_action {
 		@envs=@perl_envs;
 	} elsif($::form{benchmark} ne '') {
 		$mode="benchmark";
-		&plugin_server_bench;
+		&plugin_server_bench(0);
 		@envs=@bench_envs;
+	} elsif($::form{benchmark1} ne '') {
+		$mode="benchmark";
+		&plugin_server_bench(1);
+		@envs=@bench1_envs;
+	} elsif($::form{benchmark2} ne '') {
+		$mode="benchmark";
+		&plugin_server_bench(2);
+		@envs=@bench2_envs;
+	} elsif($::form{benchmark3} ne '') {
+		$mode="benchmark";
+		&plugin_server_bench(3);
+		@envs=@bench3_envs;
+	} elsif($::form{benchmark4} ne '') {
+		$mode="benchmark";
+		&plugin_server_bench(4);
+		@envs=@bench4_envs;
 	} elsif($::form{linux} ne '') {
 		$mode="linux";
 		@envs=@linux_info;

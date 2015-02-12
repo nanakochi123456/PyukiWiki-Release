@@ -1,8 +1,8 @@
 ######################################################################
 # linktrack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: linktrack.inc.pl,v 1.295 2012/01/31 10:11:55 papu Exp $
+# $Id: linktrack.inc.pl,v 1.352 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -32,7 +32,7 @@ $linktrack::ignoredomain = $ENV{HTTP_HOST}
 sub plugin_linktrack_init {
 	my $header=<<EOM;
 <script type="text/javascript"><!--
-function Ck(c,f){var b="&amp;",e="?cmd=ck"+b,g=e+c,a;if(f=="r"){g=e+"r=y"+b+c;d.location=g;return true}else{if(f!=""){openURI(g,f)}else{d.location=g}}return false};
+function Ck(c,f){var b="&amp;",e="?cmd=ck"+b,g=e+c,a;if(f=="r"){g=e+"r=y"+b+c;d.location=g;return true}else{if(f!=""){ou(g,f)}else{d.location=g}}return false};
 //--></script>
 EOM
 	return ('init'=>1 ,  'header'=>$header
@@ -77,7 +77,7 @@ sub make_link_target {
 		if($target eq '') {
 			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 		} elsif($::is_xhtml) {
-			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return openURI('$url','$target');">);
+			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
 		} else {
 			return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 		}

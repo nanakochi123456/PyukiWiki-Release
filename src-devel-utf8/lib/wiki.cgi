@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.258 2012/01/31 10:12:02 papu Exp $
+# $Id: wiki.cgi,v 1.344 2012/03/01 10:39:24 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -17,38 +17,27 @@
 ######################################################################
 $|=1;	# debug
 ##############################									# comment
-
 use Nana::YukiWikiDB;
 use Nana::YukiWikiDB_GZIP;										#nocompact
 $::modifier_dbtype = 'Nana::YukiWikiDB';
-
 ##############################
-
 use CGI qw(:standard);
 use CGI::Carp qw(fatalsToBrowser);								# debug
-
 use Time::Local;
-
-# Check if the server can use 'AnyDBM_File' or not.				# comment
-# eval 'use AnyDBM_File';										# comment
-# my $error_AnyDBM_File = $@;									# comment
-
 ##############################									# comment
 # 2005.10.27 pochi: 自動リンク機能を拡張 ('?' | 'this' | '')	# comment
 $::editchar = '?';
-
 ##############################									# comment
 $::subject_delimiter = ' - ';
-$::use_autoimg = 1;	# automatically convert image URL into <img> tag.# comment
-$::use_exists = 0;	# If you can use 'exists' method for your DB.	# comment
+$::use_exists = 1;	# If you can use 'exists' method for your DB.	# comment
 
 ##############################									# comment
 $::package = 'PyukiWiki';
-$::version = '0.2.0-p1';
+$::version = '0.2.0-p2';
  $::version.="-utf8";
 
-	# 2005.12.19 pochi: mod_perlで実行可能に			# comment
-	# グローバル関数の定義								# comment
+# 2005.12.19 pochi: mod_perlで実行可能に			# comment
+# グローバル関数の定義								# comment
 %::functions = (
 	"dbmname" => \&dbmname,
 	"undbmname" => \&undbmname,
@@ -126,67 +115,67 @@ $explugin_last;			# Ex Plugin Last Exec Module			# comment
 $::lfmode;
 $::escapeoff_exec;		# Disable ESC key for IE				# comment
 
+$::highlight_exec=0;											#nocompact
+
+$::linesave=0;			# save lines for plugin flag			# comment
+$::linedata;			# save lines for plugin					# comment
+$::eom_string;			# end of message for plugin				# comment
+$::exec_inlinefunc;		# exec inline func						# comment
+
 @::notes = ();
 
-	# iniファイル読み込み										# comment
-$::ini_file = 'pyukiwiki.ini.cgi' if($::ini_file eq '');
-require $::ini_file;
-require $::setup_file if (-r $::setup_file);
+# iniファイル読み込み											# comment
+#$::ini_file = 'pyukiwiki.ini.cgi' if($::ini_file eq '');		# comment
+#require $::ini_file;											# comment
+#require $::setup_file if (-r $::setup_file);					# comment
 
-	# スキンファイルの初期化									# comment
+# スキンファイルの初期化										# comment
 &skin_init;
 
 ##############################									# comment
-	# WikiName													# comment
-#$::wiki_name = '\b([A-Z][a-z]+([A-Z][a-z]+)+)\b';				# comment
+# WikiName														# comment
 $::wiki_name = '\b([A-Z][a-z]+[A-Z][a-z]+)\b';
 
-	# [[BracketName]]											# comment
-#my $bracket_name = '\[\[([^\]]+?)\]\]';						# comment
+# [[BracketName]]												# comment
 $::bracket_name ='\[\[((?!\[)[^\]]+?)\]\]';
 
-	# InterWiki定義												# comment
-$::interwiki_definition = '\[((?!\[)\S+?)\ (\S+?)\](?!\])';	# ? \[\[(\S+) +(\S+)\]\]
+# InterWiki定義													# comment
+$::interwiki_definition = '\[((?!\[)\S+?)\ (\S+?)\](?!\])';
 $::interwiki_definition2 = '\[((?!\[)\S+?)\ (\S+?)\](?!\])\ (utf8|euc|sjis|yw|asis|raw|moin)';
 
-	# InterWikiのリンク											# comment
+# InterWikiのリンク												# comment
 $::interwiki_name1 = '([^:]+):([^:].*)';
 $::interwiki_name2 = '([^:]+):([^:#].*?)(#.*)?';
 
-	# URLの正規表現												# comment
+# URLの正規表現													# comment
 if($::useFileScheme eq 1) {
-	$::isurl=q(s?(?:(?:(?:https?|ftp|news)://)|(?:file:[/\x5c][/\x5c]))(?:[-\x5c_.!~*'a-zA-Z0-9;/?:@&=+$,%#]+));
+	$::isurl=qq(s?(?:(?:(?:https?|ftp|news)://)|(?:file:[/\][/\]))(?:[-\_.!~*'a-zA-Z0-9;/?:@&=+%#]+));
 } else {
-	$::isurl=qq(s?(?:https?|ftp|news)://[-_.!~*'a-zA-Z0-9;/?:@&=+$,%#]+);
+	$::isurl=qq(s?(?:https?|ftp|news)://[-_.!~*'a-zA-Z0-9;/?:@&=+%#]+);
 }
 
-	# メールアドレスの正規表現									# comment
-$::ismail=q((?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff](?:[^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])*(?![^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])|["'][^\\\x80-\xff\n\015"]*(?:\\[^\x80-\xff][^\\\x80-\xff\n\015"]*)*["'])(?:\.(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff](?:[^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])*(?![^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])|["'][^\\\x80-\xff\n\015"]*(?:\\[^\x80-\xff][^\\\x80-\xff\n\015"]*)*["']))*\.?@(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\x80-\xff\n\015\[\]]|\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\x80-\xff\n\015\[\]]|\\[^\x80-\xff])*\])));
+# メールアドレスの正規表現										# comment
+$::ismail=q{(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*")(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*"))*@(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\]))+};
+$::ismail=q{(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*")(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*"))*@(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\]))*} if($::IntraMailAddr>0);
 
-	# イントラ用に dot が存在しないドメイン用					# comment
-$::ismail.=$::IntraMailAddr eq 0 ? '+' : '*';
-
-	# 画像拡張子の正規表現										# comment
+# 画像拡張子の正規表現											# comment
 $::image_extention=qq(([Gg][Ii][Ff]|[Pp][Nn][Gg]|[Jj][Pp](?:[Ee])?[Gg]));
-
 ##############################									# comment
+# IPV4アドレスの正規表現										# comment
+$::ipv4address_regex=qq(^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+);
 
-	# IPV4アドレスの正規表現									# comment
-$ipv4address_regex='^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
-	# IPV6アドレスの正規表現									# comment
-$ipv6address_regex='((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
+# IPV6アドレスの正規表現										# comment
+$::ipv6address_regex=qq(^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*\$);		#nocompact
 
-##############################									# comment
-	# ブロック型プラグイン										# comment
+# ブロック型プラグイン											# comment
 $::embed_plugin = '^\#([^\(]+)(\((.*)\))?';
 $::embedded_name = '(\#.+?)';
-	# インライン型プラグイン									# comment
-#	$::embed_inline = '(&amp;[^;&]+;|&amp;[^)]+\))';			# comment
-	$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';
-	$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';													# comment
+
+# インライン型プラグイン										# comment
+$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';
 
 ##############################									# comment
-	# InfoBasの項目名											# comment
+# InfoBasの項目名												# comment
 $::info_ConflictChecker = 'ConflictChecker';
 $::info_LastModified = 'LastModified';
 $::info_CreateTime='CreateTime';
@@ -195,8 +184,7 @@ $::info_UpdateTime='UpdateTime';
 $::info_IsFrozen = 'IsFrozen';
 $::info_AdminPassword = 'AdminPassword';
 ##############################									# comment
-
-	# 固定ページ名												# comment
+# 固定ページ名													# comment
 %::fixedpage = (
 	$::AdminPage => 'admin',
 	$::ErrorPage => '',
@@ -257,8 +245,8 @@ $::info_AdminPassword = 'AdminPassword';
 );
 
 	# 顔文字の正規表現											# comment
-$::_facemark=q{\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;};
-$::_facemark.=q{|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;} if($::usePukiWikiStyle eq 1);
+$::_facemark=q{(\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;)};
+$::_facemark.=q{(|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;)} if($::usePukiWikiStyle eq 1);
 
 	# SGMLの顔文字のエスケープコードの実体参照の正規表現		# comment
 $::_sgmlescape=q{amp|nbsp|iexcl|cent|pound|curren|yen|brvbar|sect|uml|copy|ordf|laquo|not|shy|reg|macr|deg|plusmn|sup2|sup3|acute|micro|para|middot|cedil|sup1|ordm|raquo|frac14|frac12|frac34|iquest|Agrave|Aacute|Acirc|Atilde|Auml|Aring|AElig|Ccedil|Egrave|Eacute|Ecirc|Euml|Igrave|Iacute|Icirc|Iuml|ETH|Ntilde|Ograve|Oacute|Ocirc|Otilde|Oumltimes|Oslash|Ugrave|Uacute|Ucirc|Uuml|Yacute|THORN|szlig|agrave|aacute|acirc|atilde|auml|aring|aelig|ccedil|egrave|eacute|ecirc|euml|igrave|iacute|icirc|iuml|eth|ntilde|ograve|oacute|ocirc|otilde|ouml|divide|oslash|ugrave|uacute|ucirc|uuml|yacute|thorn|yuml|euro|dagger|Dagger|bull|trade|permil|lsquo|rsquo|sbquo|ldquo|rdquo|bdquo|mdash|ndash|smile|bigsmile|huh|oh|wink|sad|worried|heart};
@@ -444,9 +432,7 @@ sub writablecheck {
 	$err.=&writechk($::counter_dir);
 	$err.=&writechk($::backup_dir);#nocompact
 	$err.=&writechk($::upload_dir);
-	if($err ne '') {
-		&print_error($err);
-	}
+	&print_error($err) if($err ne '');
 }
 
 =lang ja
@@ -583,7 +569,7 @@ sub gzip_init {
 
 =item 概要
 
-speedy_cgiで実行可能にするための初期化。
+speedy_cgiで実行可能にするため等の初期化。
 
 ただし、現在speedy_cgiでの動作はサポートされていない。
 
@@ -609,12 +595,12 @@ sub init_global {
 	%::_exec_plugined_value=();
 	%::_module_loaded=();
 	# 0〜255のテーブル生成
-	# 0〜255のテーブル生成
 	foreach my $i (0x00 .. 0xFF) {
 		$::_urlescape{chr($i)} = sprintf('%%%02x', $i);
 		$::_dbmname_encode{chr($i)} = sprintf('%02X', $i);
 		$::_dbmname_decode{sprintf('%02X', $i)} = chr($i);
 	}
+	$::_urlescape{chr(32)} ='+';
 }
 
 =lang ja
@@ -688,6 +674,7 @@ sub init_dtd {
 		"xhtml10"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" lang="$::lang" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
 		"xhtml10t"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" lang="$::lang" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
 		"xhtmlbasic10"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
+		"html5_plugin"=>qq(<!doctype html>\n<html lang="$::lang">\n<head>\n<meta http-equiv="content-type" content="text/html; charset=$::charset" /><meta http-equiv="Content-Style-Type" content="text/css" />\n<meta http-equiv="Content-Script-Type" content="text/javascript" />),
 	);
 
 	$::dtd=$::dtd{$::htmlmode};
@@ -1006,10 +993,12 @@ sub skin_init {
 =cut
 
 sub skin_check {
-	my($file)=@_;
-	foreach(@_) {
-		my $f=sprintf($file,$_);
-		return $f if(-f "$::skin_dir/$f");
+	my($fmt)=shift;
+	my(@arg)=@_;
+	foreach(@arg) {
+		my $f=sprintf($fmt,$_);
+		next if($f eq '');
+		return $f if(-r "$::skin_dir/$f");
 	}
 	die sprintf("$file not found","");
 	exit;
@@ -1779,16 +1768,18 @@ sub snapshot {
 	if ($::deny_log) {
 		&getremotehost;
 		open $fp, ">>$::deny_log";
-		print $fp "<<" . $title . ' ' . date("Y-m-d H:i:s") . ">>\n";
-		print $fp "HTTP_USER_AGENT:"      . $::ENV{'HTTP_USER_AGENT'}      . "\n";
-		print $fp "HTTP_REFERER:"         . $::ENV{'HTTP_REFERER'}         . "\n";
-		print $fp "REMOTE_ADDR:"          . $::ENV{'REMOTE_ADDR'}          . "\n";
-		print $fp "REMOTE_HOST:"          . $::ENV{'REMOTE_HOST'}          . "\n";
-		print $fp "REMOTE_IDENT:"         . $::ENV{'REMOTE_IDENT'}         . "\n";
-		print $fp "HTTP_ACCEPT_LANGUAGE:" . $::ENV{'HTTP_ACCEPT_LANGUAGE'} . "\n";
-		print $fp "HTTP_ACCEPT:"          . $::ENV{'HTTP_ACCEPT'}          . "\n";
-		print $fp "HTTP_HOST:"            . $::ENV{'HTTP_HOST'}            . "\n";
-		print $fp "\n";
+		print $fp <<EOM;
+<<$title @{[date("Y-m-d H:i:s")]}>>
+HTTP_USER_AGENT:$::ENV{'HTTP_USER_AGENT'}
+HTTP_REFERER:$::ENV{'HTTP_REFERER'}
+REMOTE_ADDR:$::ENV{'REMOTE_ADDR'}
+REMOTE_HOST:$::ENV{'REMOTE_HOST'}
+REMOTE_IDENT:$::ENV{'REMOTE_IDENT'}
+HTTP_ACCEPT_LANGUAGE:$::ENV{'HTTP_ACCEPT_LANGUAGE'}
+HTTP_ACCEPT:$::ENV{'HTTP_ACCEPT'}
+HTTP_HOST:$::ENV{'HTTP_HOST'}
+
+EOM
 		close $fp;
 	}
 	if ($::filter_flg == 1) {
@@ -1816,7 +1807,7 @@ sub snapshot {
 
 =item 入力値
 
-&spam_filter(なし 文字列指定, レベル);
+&spam_filter(なし 文字列指定, レベル, URIカウント, メールカウント);
 
 レベル
 
@@ -1843,15 +1834,25 @@ sub snapshot {
 =cut
 
 sub spam_filter {
-	my ($chk_str, $level) = @_;
+	my ($chk_str, $level, $uricount, $mailcount) = @_;
 	return if ($::filter_flg != 1);	# フィルターオフなら何もしない。 # comment
 	return if ($chk_str eq '');		# 文字列が無ければ何もしない。	 # comment
 	# v 0.2.0 fix													 # comment
 
-	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x8E\xA1-\xFE]';
+	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x80-\xFE]';
+
+	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x80-\xFE]';
+	if($uricount+0 eq 0 || $uricount+0 > $::chk_uri_count+0) {
+		$uricount=$::chk_uri_count;
+	}
+
 	# レベル 2　を除きOver Httpチェックを行う。						# comment
-	if (($level ne  1) && ($::chk_uri_count > 0) && (($chk_str =~ s/https?:\/\///g) > $::chk_uri_count)) {
+	# changed by nanami and v 0.2.0-p2 fix
+	if (($level ne  1) && ($uricount > 0) && (($chk_str =~ s/https?:\/\///g) >= $uricount)) {
 		&snapshot('Over http');
+	# Over Mailチェックを行う。
+	} elsif (($level ne  1) && ($mailcount+0 > 0) && (($chk_str =~ s/$::ismail//g) >= $uricount)) {
+		&snapshot('Over mail');
 	# レベルが 1 の時のみ 日本語チェックを行う。					# comment
 	# changed by nanami and v 0.2.0 fix
 	} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /$chk_jp_regex/)) {
@@ -1957,7 +1958,8 @@ sub do_write {
 	$::form{mymsg}=~s/\x0D\x0A|\x0D|\x0A/\n/g;
 
 	# スパムフィルター									# comment
-	&spam_filter($::form{mymsg}, 0) if ($::chk_wiki_uri_count eq 1);
+	&spam_filter($::form{mymsg}, 0, $::chk_wiki_uri_count)
+		if ($::chk_wiki_uri_count >= 1);
 	&spam_filter($::form{mymsg}, 1) if ($::chk_write_jp_only eq 1);
 
 	# Making diff										# comment
@@ -1982,7 +1984,7 @@ sub do_write {
 
 	# 書き込み動作										# comment
 	if ($::form{mymsg}) {
-		if(exists $::database{$::form{mypage}}) {
+		if(&is_exist_page($::form{mypage})) {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "Modify");
 		} else {
@@ -2208,9 +2210,15 @@ sub maketitle {
 				$title_tag="$escapedpage - $title";
 			}
 		} else {
-			$title_tag=$::IN_TITLE;
+			if($::IN_TITLE=~/\t/) {
+				$::IN_TITLE=~s/\t//;
+				$title_tag="$escapedpage - $::IN_TITLE - $title";
+			} else {
+				$title_tag="$::IN_TITLE - $title";
+			}
 		}
 	}
+
 	return($title, $title_tag);
 }
 
@@ -2252,6 +2260,9 @@ sub text_to_html {
 	unshift(@saved, "</p>");
 	push(@result, "<p>");
 
+	# add 0.2.0-p2
+	return if($txt eq '');
+
 	# 2006.1.30 pochi: 改行モードを設置						# comment
 	$::lfmode=$::line_break;
 
@@ -2288,7 +2299,20 @@ sub text_to_html {
 		$lines--;
 		next if($_ eq '#freeze');
 		@col_style=() if(!/^(\,|\|)/);
-		chomp;
+#		chomp;
+		# add 0.2.0-p2
+		if($::linesave ne 0) {
+			if($_ eq $::eom_string) {
+				$::linesave=0;
+				$::eom_string="";
+				$::linedata=~s/\n$//g;
+				push(@result, &$::exec_inlinefunc($::linedata));
+				$::linedata="";
+				next;
+			}
+			$::linedata.="$_\n";
+			next;
+		}
 
 		# backline
 		if($backline ne '') {
@@ -2363,7 +2387,8 @@ sub text_to_html {
 			my $class = "";
 			my $level = length($1);
 			if ($::form{mypage} ne $::MenuBar) {
-				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"";
+				$class = " class=\"list" . length($1) . "\"";
+#				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"
 			}
 			&back_push('ul', length($1), \@saved, \@result, $class);
 			push(@result, '<li>' . &inline($2) . '</li>');
@@ -2507,8 +2532,8 @@ sub text_to_html {
 			$_="";
 			next;
 		# ブロックプラグイン							# comment
-		} elsif (/^$embedded_name$/o) {
-			s/^$embedded_name$/&embedded_to_html($1)/gexo;
+		} elsif (/^$::embedded_name$/o) {
+			s/^$::embedded_name$/&embedded_to_html($1)/gexo;
 			&back_push('div', 1, \@saved, \@result);
 			push(@result,$_);
 		} else {
@@ -2524,8 +2549,95 @@ sub text_to_html {
 	}
 	my $body=join("\n",@result);
 	$body=~s/edit\&mypage/edit\&amp;mypage/g;
-	return $body;
+
+	# add 0.2.0-p2
+	if($::use_Highlight eq 1) {#nocompact
+		$body=&highlight($body, $::form{word}) if($::form{word} ne '');#nocompact
+	}#nocompact
+	return $body if($::usePukiWikiStyle eq 0);
+	my $tmp=$body;
+	$tmp=~s/(<p>|<\/p>|\n)//g;
+	return $body if($tmp ne '');
+	return '';
 }
+
+=lang ja
+
+=head2 highlight
+
+=over 4
+
+=item 入力値
+
+HTML
+
+=item 出力
+
+HTML
+
+=item オーバーライド
+
+可
+
+=item 概要
+
+検索結果に対して、ハイライトを付加する。
+
+=item 参考
+
+compact版には、この関数はありません。
+
+=back
+
+=cut
+
+sub highlight {#nocompact
+	my ($text, $wd)=@_;#nocompact
+	my $spc="";#nocompact
+	if($::highlight_exec eq 0 && $::pushedpage eq '') {#nocompact
+		$::highlight_exec=1;#nocompact
+		my $msg=$::resource{msg_word};#nocompact
+		my $cwd=&highlight($wd, $wd);	# 検索ワードを再帰	#nocompact
+		$::bodyheaderbody="<div><strong>$msg</strong>&nbsp;$cwd</div>";#nocompact
+	}#nocompact
+	my $spc;#nocompact
+	if ($wd) {#nocompact
+		if($::lang eq "ja") {#nocompact
+			if($::defaultcode eq 'utf8') {#nocompact
+				$spc="\xe3\x80\x80";#nocompact
+			} else {#nocompact
+				$spc="\xa1\xa1";#nocompact
+			}#nocompact
+		}#nocompact
+	}#nocompact
+	if($spc ne "") {#nocompact
+		foreach(" ", $spc) {#nocompact
+			$wd=~s/$_/\t/g;#nocompact
+		}#nocompact
+	}#nocompact
+	$wd=~s/(\t+)/\t/g;#nocompact
+	my @wd=split(/\t/,$wd);#nocompact
+	my $searchcount=0;#nocompact
+	if(&load_module("Nana::Search")) {#nocompact
+		foreach(@wd) {#nocompact
+			next if($_ eq '');
+			$_=~s/[\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]//g;
+			$text=Nana::Search::SearchRe(#nocompact
+				$text, $_	#nocompact
+			, '<strong class="word' . $searchcount . '">'	#nocompact
+			, '</strong>');#nocompact
+			$searchcount=($searchcount + 1) % 10;#nocompact
+		}#nocompact
+	} else {#nocompact
+		foreach(@wd) {#nocompact
+			next if($_ eq '');
+			my $strong='<strong class="word' . $searchcount . '">';#nocompact
+			$text=~s/(?^:((?:\G|>)[^<]*?))($_)/$1$strong$2<\/strong>/g;#nocompact
+			$searchcount=($searchcount + 1) % 10;#nocompact
+		}#nocompact
+	}#nocompact
+	return $text;#nocompact;
+}#nocompact
 
 =lang ja
 
@@ -2667,7 +2779,7 @@ sub inline {
 	}
 	#2006.1.30 pochi: 改行モードを設置				# comment
 	if ($option{"lfmode"}) {
-		if ($line !~ /^$embedded_name$/o) {
+		if ($line !~ /^$::embedded_name$/o) {
 			if (!($line =~ s/\\$//o)) {
 				$line .= "<br />";
 			}
@@ -2730,6 +2842,7 @@ sub inline {
 
 sub note {
 	my ($msg) = @_;
+	$msg=&highlight($msg, $::form{word}) if($::form{word} ne '');#nocompact
 	push(@::notes, $msg);
 	# thanks to Ayase
 	return "<a @{[$::is_xhtml ? 'id' : 'name']}=\"notetext_" . @::notes . "\" "
@@ -3192,7 +3305,7 @@ sub make_link_target {
 	if($target eq '') {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 	} elsif($::is_xhtml) {
-		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return openURI('$url','$target');">);
+		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
 	} else {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 	}
@@ -3295,26 +3408,25 @@ sub make_link_image {
 
 sub get_fullname {
 	my ($name, $refer) = @_;
-
 	return $refer if ($name eq '');
-	if ($name eq '/') {
+	if ($name eq $::separator) {
 		$name = substr($name,1);
 		return ($name eq '') ? $::FrontPage : $name;
 	}
-	return $refer if ($name eq './');
-	if (substr($name,0,2) eq './') {
-		return ($1) ? $refer . '/' . $1 : $refer;
+	return $refer if ($name eq "$::dot$::separator");
+	if (substr($name,0,2) eq "$::dot$::separator") {
+		return ($1) ? $refer . "$::separator" . $1 : $refer;
 	}
-	if (substr($name,0,3) eq '../') {
-		my @arrn = split('/', $name);
-		my @arrp = split('/', $refer);
+	if (substr($name,0,3) eq "$::dot$::dot$::separator") {
+		my @arrn = split($::separator, $name);
+		my @arrp = split($::separator, $refer);
 
-		while (@arrn > 0 and $arrn[0] eq '..') {
+		while (@arrn > 0 and $arrn[0] eq "$::dot$::dot") {
 			shift(@arrn);
 			pop(@arrp);
 		}
-		$name = @arrp ? join('/',(@arrp,@arrn)) :
-			(@arrn ? "$::FrontPage/".join('/',@arrn) : $::FrontPage);
+		$name = @arrp ? join($::separator,(@arrp,@arrn)) :
+			(@arrn ? "$::FrontPage$::separator".join($::separator,@arrn) : $::FrontPage);
 	}
 	return $name;
 }
@@ -3419,6 +3531,7 @@ sub init_form {
 	}
 
 	$::form{mymsg} = &code_convert(\$::form{mymsg},   $::defaultcode,$::kanjicode) if($::form{mymsg});
+	$::form{word} = &code_convert(\$::form{word},   $::defaultcode,$::kanjicode) if($::form{word});
 	$::form{myname} = &code_convert(\$::form{myname}, $::defaultcode,$::kanjicode) if($::form{myname});
 	$::form{mypage} = &code_convert(\$::form{mypage}, $::defaultcode) if($::form{mypage});
 	$::form{page} = &code_convert(\$::form{page}, $::defaultcode) if($::form{page});
@@ -4075,7 +4188,7 @@ sub is_editable {
 	my ($page) = @_;
 	return 0 if($fixedpage{$page} || $fixedplugin{$::form{cmd}});
 	return 0 if(
-		$page=~/([\xa\xd\f\t\[\]])|(\.{1,3}\/)|^\s|\s$|^\#|^\/|\/$|^$|^$interwiki_name1$|^$::ismail$/o);
+		$page=~/([\xa\xd\f\t\[\]])|(\.{1,3}\/)|^\s|\s$|^\#|^\/|\/$|^$|^$::ismail$/o);
 	return 0 if (not &is_readable($page));
 	return 1;
 }
@@ -5081,7 +5194,9 @@ sub is_exist_page {
 			return 1;
 		}
 	}
-	return ($use_exists) ? exists($::database{$name}) : $::database{$name};
+	return ($use_exists) ?
+		 exists($::database{$name}) ? 1 : 0
+		: $::database{$name} ne '' ? 1 : 0;
 }
 
 =lang ja

@@ -1,4 +1,4 @@
-#$Id: antispamwiki.inc.pl.ja.pod,v 1.252 2012/01/31 10:12:01 papu Exp $
+#$Id: antispamwiki.inc.pl.ja.pod,v 1.304 2012/03/01 10:39:24 papu Exp $
 
 __END__
 =encoding utf-8
@@ -44,7 +44,9 @@ L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/gzip.inc.pl?view=lo
 
 =over 4
 
+=item ななみ
 
+L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 

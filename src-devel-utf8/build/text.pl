@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.253 2012/01/31 10:12:01 papu Exp $
+# $Id: text.pl,v 1.305 2012/03/01 10:39:24 papu Exp $
 
 use Jcode;
 
@@ -33,7 +33,7 @@ EOM
 $text{BASEHEAD4}=<<EOM;
 Copyright(C)2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
 # \@\@AWSTATS_URL\@\@
-Copyright(C) 2005-$year PyukiWiki Developers Team/2004-$year Nekyo
+# Copyright(C) 2005-$year PyukiWiki Developers Team/2004-$year Nekyo
 # \@\@PYUKI_URL\@\@  \@\@NEKYO_URL\@\@
 # @\@CRLF\@\@ \@\@CODE\@\@ 4Spaces GPL3 and/or Artistic License
 EOM
@@ -226,6 +226,34 @@ $text{HEADEREXPLUGIN_NANAMI}=<<EOM;
 # \@\@PLUGINVERSION\@\@
 # Author: \@\@NANAMI\@\@ \@\@NANAMI_URL\@\@
 # $text{BASEHEAD2}
+EOM
+
+$text{HEADERPLUGIN_SYNTAXHIGHLIGHTER_NANAMI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PLUGINVERSION\@\@
+#
+# SyntaxHighlighter
+# http://alexgorbatchev.com/SyntaxHighlighter
+#
+# SyntaxHighlighter is donationware. If you are using it, please donate.
+# http://alexgorbatchev.com/SyntaxHighlighter/donate.html
+#
+# Version 3.0.83 (July 02 2010)
+# Copyright (C) 2004-2010 Alex Gorbatchev.
+#
+# Author: \@\@NANAMI\@\@ \@\@NANAMI_URL\@\@
+# Copyright (C) 2004-$year Nekyo
+# \@\@NEKYO_URL\@\@
+# Copyright (C) 2005-$year PyukiWiki Developers Team
+# \@\@PYUKI_URL\@\@
+# Based on YukiWiki \@\@YUKIWIKI_URL\@\@
+# Powerd by PukiWiki \@\@PUKIWIKI_URL\@\@
+# License: GPL3 and MIT  each later version
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
 EOM
 
 #############################################################

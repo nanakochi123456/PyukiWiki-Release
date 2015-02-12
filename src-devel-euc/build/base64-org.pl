@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #--------------------------------------------------------------
-# $Id: base64-org.pl,v 1.7 2012/01/31 10:11:53 papu Exp $
+# $Id: base64-org.pl,v 1.58 2012/03/01 10:39:19 papu Exp $
 #--------------------------------------------------------------
 #Article 7465 of comp.lang.perl:
 #Xref: feenix.metronet.com comp.lang.perl:7465
@@ -29,7 +29,7 @@
 #!/usr/bin/perl
 # base64.pl -- A perl package to handle MIME-style BASE64 encoding
 # A. P. Barrett <barrett (at) ee (dot) und (dot) ac (dot) za>, October 1993
-# $Revision: 1.7 $$Date: 2012/01/31 10:11:53 $
+# $Revision: 1.58 $$Date: 2012/03/01 10:39:19 $
 
 package base64;
 

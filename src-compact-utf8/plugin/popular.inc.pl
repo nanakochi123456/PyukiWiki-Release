@@ -1,8 +1,8 @@
 ######################################################################
 # popular.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: popular.inc.pl,v 1.156 2012/01/31 10:12:04 papu Exp $
+# $Id: popular.inc.pl,v 1.209 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: YashiganiModoki
 #         http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
 # Copyright (C) 2004-2012 Nekyo

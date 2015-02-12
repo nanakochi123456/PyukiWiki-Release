@@ -1,10 +1,10 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0-p1 $$
+	"PyukiWiki" version 0.2.0-p2 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
-	License: GPL version 2 or (at your option) any later version
+	License: GPL version 3 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/
 	and PukiWiki http://pukiwiki.sfjp.jp/
@@ -16,7 +16,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ�
 	MAIL:
 		Nanami <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.249 2012/01/31 10:12:00 papu Exp $
+	$Id: README.txt,v 1.304 2012/03/01 10:39:23 papu Exp $
 
 	このテキストファイルはUTF-8、TAB4で記述されています。
 
@@ -54,7 +54,7 @@ modify it under the same terms as Perl itself.
 >このプログラムはフリーソフトウェアです。それを再配布し、かつ、
 >またはPerl自体と同じ条件の下でそれを修正することができます。
 
-PyukiWikiは、GPL2もしくはArtisticライセンスの元で配布されます。
+PyukiWikiは、GPL3もしくはArtisticライセンスの元で配布されます。
 自由に利用し、自由に配布し、自由に改造し、それを再配布して構いません。
 ただし、原版と同名のパッケージとして名乗ることを禁止します。
 詳しくは、下記のURL，または、インストール済のPyukiWikiのwiki文から
@@ -112,10 +112,12 @@ PyukiWikiの動作環境は以下のとおりです。
 　・あいまい検索,sitemap,showrss,bugtrack,perlpod,settingがない
 　・管理プラグイン(listfrozen,server,servererror,versionlist)がない
 　・PukiWiki互換ダミープラグインがない
-　・Explugin lang, setting, urlhack, punyurlがない
+　・Explugin lang, setting, urlhack, punyurl等多数ない
 　・添付ファイルは一部の圧縮ファイル、画像以外できません。
 　・英語関係ファイルがない
+　・バックアップができない
 　・Jcode.pm、Time::Localがサーバーにインストールされている必要がある
+　・その他、多くの制限事項がある
 
 ・-update-full, -update-compact
 　アップデート用のファイルです。
@@ -316,11 +318,13 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作し
 -------------------------------------------------
 ■JavaScriptを編集したければ？
 -------------------------------------------------
-・JavaScriptもyuicompressorで圧縮されています。
+・JavaScriptは、yuicompressor、または、Packer Javascript en PHPで
+　圧縮されています。
 　その為、編集しずらいと思いますので、-devel 版をダウンロードの上
 　*.js.srcを参照して下さい。
 　再圧縮するには、こちら（英語）をご覧下さい。
 　http://developer.yahoo.com/yui/compressor/
+　http://joliclic.free.fr/php/javascript-packer/en/index.php
 
 -------------------------------------------------
 ■もし動かなければ？
@@ -335,9 +339,7 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作し
 
 ・もしかしたら、OSがWindows系の場合がありますので、適切な設定をして下さい。
 
-・Digest::MD5が導入されていないサーバーでは、以下のように変更して下さい。
-　attach.inc.plのuse Digest::MD5 qw(md5_hex);をコメントアウトし、
-　#use Digest::Perl::MD5 qw(md5_hex);のコメントをはずす
+・MD5の設定変更については、このバージョンで解消されています。
 
 ・CGI.pmが導入されていないサーバーでは、別途配布されているCGI.pm.zipを解凍して
 　lib 以下に置いて下さい。
@@ -396,7 +398,7 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 ・ライセンスがかわったのですか？
 　「you can redistribute it and/or modify it under the same terms as Perl itself.」
 　「＝Perlと同じライセンスで再配布できます。」
-　の文面を明確にすると、GPL2とArtisticライセンスが適用されることになります。
+　の文面を明確にすると、GPL3とArtisticライセンスが適用されることになります。
 　SourceForge.jpプロジェクト登録のため、ライセンスをはっきりさせるために
 　明記したのであり、基本的にはYukiWikiからのライセンスを継承しているものと考えています。
 
@@ -406,6 +408,58 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 　また、インラインプラグイン(&plugin(...);)において、「;」で終了していないと、
 　不具合が起きます。ネスト可能にする為に厳格に文法チェックを行なっていますので、
 　閉じていない場合は、「；」で閉じるようにして下さい。
+
+-------------------------------------------------
+■0.2.0-p1からの主な変更点
+-------------------------------------------------
+・compact版できちんとビルドできていなかったのを修正
+・index.cgi wrapperの変更（重要）
+・スキンファイルの存在の確認方法の変更
+・JavaScriptの見直し
+・CSSの見直し
+・正規表現の見直し
+・ページ名/MenuBar 等、階層下専用のMenuBar等を設定できるようにするプラグイン pathmenu.inc.cgiを追加
+・pyukiwiki.skin.cgiの変更
+・sub encodeが規則通り動作していなかったのを修正
+・UTF8メールを送信できるようにした。ただし、MIME::Base64が必要
+・検索をすると、検索キーワードをハイライトするように修正
+・Nana::Search.pm の追加
+・search.inc.pl、search_fuzzy.inc.pl の変更
+・title.inc.plの変更
+・attach.inc.pl、ref.inc.plの変更 - ファイルサイズ、登録日を読みやすくした。また、マウスをリンクに合わせなくても表示するオプションを追記
+・server.inc.plの変更　−　ベンチマーク時間を短縮し、更に短い時間でベンチマークを取得できるようにした。
+・location.inc.plの変更
+・adminchangepasswordinc.plの変更
+・agent.inc.plの追加
+・ls2.inc.plのオプション追加
+・topicpath.inc.plの変更
+・edit.inc.plの変更
+・rss10page.inc.plの変更
+・rss10.inc.plの変更
+・vote.inc.plの仕様変更（従来通り動くモードもあります）
+・spam_filterの挙動の追加及び変更（pyukiwiki.ini.cgiに変更があります）
+・Digest::MD5、Digest::Perl::MD5を切り替える必要のないように、Nana:MD5を作成した。
+・urlhack.inc.cgi 短縮アドレスのwikiページに対応
+・twitter.jsの不具合修正
+・ごく軽度のXSS脆弱性を修正（凍結ページでのみ起きます）
+
+インストーラの変更点 (0.2)
+・update のものを、アップデータの名乗るように変更した。
+・インストーラ内で、全ページを凍結できる設定を追加した。
+・外部CSS参照していたのを取り込んだ。
+
+-------------------------------------------------
+■0.2.0からの主な変更点
+-------------------------------------------------
+・ライセンスの変更（GPL2からGPL3にバージョンアップ）、Artsticは変更なし
+・自分でも把握しきれないぐらいの、多くのバグフィックス
+・評価用に、CGIインストーラの作成
+・smedia.inc.pl
+　ページによって、リンクはきちんとされるものの、リンクが異なることを修正した。
+・Nana/Logs/Logs.pm
+　負荷が重すぎる為、一時的に、１か月おきだけでなく、１日おきの一覧を出力
+　できるようにした。
+　アクセスログのキャッシュ化をした。
 
 -------------------------------------------------
 ■0.1.9からの主な変更点
@@ -714,9 +768,11 @@ http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 
 Copyright (C) 2004-2007 by やしがにもどき
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
+（リンク切れ）
 
 Copyright (C) 2005-2007 by Junichi
 http://www.re-birth.com/
+（コンテンツなし）
 
 Copyright (C) 2005-2012 PukiWiki Developers Team
 http://pyukiwiki.sfjp.jp/

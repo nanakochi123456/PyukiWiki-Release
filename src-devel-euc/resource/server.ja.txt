@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: server.ja.txt,v 1.417 2012/01/31 10:11:59 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: server.ja.txt,v 1.473 2012/03/01 10:39:22 papu Exp $
 #
 
 # server.inc.pl
@@ -12,6 +12,10 @@ server_plugin_passwdsubmit=送信
 server_plugin_infomation_button=基本情報
 server_plugin_perlinfo_button=Perl詳細情報
 server_plugin_benchmark_button=ベンチマーク
+server_plugin_benchmark1_button=（ステップ１）
+server_plugin_benchmark2_button=（ステップ２）
+server_plugin_benchmark3_button=（ステップ３）
+server_plugin_benchmark4_button=（ステップ４）
 server_plugin_linux_button=Linux専用
 server_plugin_freebsd_button=FreeBSD専用
 
@@ -59,6 +63,9 @@ server_plugin_REMOTE_ADDR=クライアントのIPアドレス
 server_plugin_REMOTE_HOST=クライアントのホスト名
 server_plugin_REMOTE_PORT=クライアントのポート番号
 server_plugin_HTTP_USER_AGENT=クライアントのブラウザ名
+server_plugin_HTTP_USER_AGENT_BROWSERNAME=識別されたブラウザーの名前
+server_plugin_HTTP_USER_AGENT_BROWSERVERSION=識別されたブラウザのバージョン
+server_plugin_HTTP_USER_AGENT_UAOS=識別されたオペレーティングシステム
 server_plugin_HTTP_ACCEPT_LANGUAGE=許可された言語
 server_plugin_HTTP_ACCEPT_ENCODING=許可されたエンコーディング
 

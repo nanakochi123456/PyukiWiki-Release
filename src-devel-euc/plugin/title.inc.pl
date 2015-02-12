@@ -1,8 +1,8 @@
 ######################################################################
 # title.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: title.inc.pl,v 1.325 2012/01/31 10:11:58 papu Exp $
+# $Id: title.inc.pl,v 1.378 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -16,17 +16,23 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v0.2.0-p2 add option
 # v0.2.0 First Release
 #
 #*Usage
 # #title(title tag string)
+# #title(title tag string,add)
 ######################################################################
 
-
 sub plugin_title_convert {
-	my ($title) = shift;
+	my ($arg) = shift;
 	return if(!&is_frozen($::form{mypage}));
-	$::IN_TITLE=&htmlspecialchars($title);
+	my($title,$flg)=split(/,/,$arg);
+	if($flg ne '') {
+		$::IN_TITLE=&htmlspecialchars($title) . "\t";
+	} else {
+		$::IN_TITLE=&htmlspecialchars($title);
+	}
 	return ' ';
 }
 1;

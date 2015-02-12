@@ -1,5 +1,5 @@
 #
-# $Id: H2Z.pm,v 1.413 2012/01/31 10:11:56 papu Exp $
+# $Id: H2Z.pm,v 1.464 2012/03/01 10:39:20 papu Exp $
 # Id: H2Z.pm,v 2.0 2005/05/16 19:07:57 dankogai Exp
 # "Jcode.pm" version 2.7 $$
 #
@@ -9,8 +9,8 @@ package Jcode::H2Z;
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: H2Z.pm,v 1.413 2012/01/31 10:11:56 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.413 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: H2Z.pm,v 1.464 2012/03/01 10:39:20 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.464 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 

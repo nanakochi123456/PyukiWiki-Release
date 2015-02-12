@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: Jcode-convert.pl,v 1.249 2012/01/31 10:12:01 papu Exp $
+# $Id: Jcode-convert.pl,v 1.300 2012/03/01 10:39:24 papu Exp $
 
 use Jcode;
 

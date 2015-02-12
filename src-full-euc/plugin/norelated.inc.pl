@@ -1,8 +1,8 @@
 ######################################################################
 # norelated.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: norelated.inc.pl,v 1.421 2012/01/31 10:11:58 papu Exp $
+# $Id: norelated.inc.pl,v 1.474 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

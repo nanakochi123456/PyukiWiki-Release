@@ -5,9 +5,9 @@
 #!c:\perl64\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.249 2012/01/31 10:12:00 papu Exp $
+# $Id: index.cgi,v 1.303 2012/03/01 10:39:23 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -20,35 +20,31 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=UTF-8 1TAB=4Spaces
 ######################################################################
-
-use strict;
-
-##############################
 # You MUST modify following initial file.
-$::ini_file = 'pyukiwiki.ini.cgi';
-
-##############################
-# optional
-#$::setup_file='';
-
-# if you can use lib is ../lib then swap this comment
-
 BEGIN {
-	push @INC, 'lib';
-	push @INC, 'lib/CGI';
+	$::ini_file = "pyukiwiki.ini.cgi";
+######################################################################
 	$::_conv_start = (times)[0];
+
+	$::ini_file = "pyukiwiki.ini.cgi" if($::ini_file eq "");
+	require $::ini_file;
+	require $::setup_file if (-r $::setup_file);
+
+	push @INC, "$::sys_dir";
+	push @INC, "$::sys_dir/CGI";
 }
 
-	# If Windows NT Server, use sample it
-	#BEGIN {
-	#	chdir('C:/inetpub/cgi-bin/pyuki');
-	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/';
-	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/lib/CGI';
-	#	push @INC, 'C:/inetpub/cgi-bin/pyuki/';
-	#	$::_conv_start = (times)[0];
-	#}
+######################################################################
+# If Windows NT Server, use sample it
+#BEGIN {
+#	chdir("C:/inetpub/cgi-bin/pyuki");
+#	push @INC, "C:/inetpub/cgi-bin/pyuki/lib/";
+#	push @INC, "C:/inetpub/cgi-bin/pyuki/lib/CGI";
+#	push @INC, "C:/inetpub/cgi-bin/pyuki/";
+#	$::_conv_start = (times)[0];
+#}
 
-require 'lib/wiki.cgi';
+require "$::sys_dir/wiki.cgi";
 
 __END__
 

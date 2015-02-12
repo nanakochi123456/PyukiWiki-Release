@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.255 2012/01/31 10:12:06 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.316 2012/03/01 10:39:27 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -60,6 +60,7 @@ $::image_dir   = "$::data_pub/image";		# 画像用
 $::image_url   = "$::data_url/image";		# 画像用URL
 $::info_dir    = "$::data_home/info";		# 情報用
 $::res_dir     = "$::data_home/resource";	# リソース
+$::sys_dir	   = $::explugin_dir;			# システム用
 
 # スキン名称
 $::skin_name   = "pyukiwiki";
@@ -117,7 +118,7 @@ $::BodyHeader		= ':BodyHeader';
 $::BodyFooter		= ':BodyFooter';
 $::SkinFooter		= ':SkinFooter';					# PyukiWikiの
 														# (c)に載せる
-#$::rule_page		= "整形ルール";						# to resource
+
 $::InterWikiName	= 'InterWikiName';
 $::ErrorPage		= "ErrorPage";
 $::AdminPage		= "AdminPage";
@@ -193,6 +194,9 @@ $::time_format = 'H:i:s'; 			# replace &time; to this format,
 $::now_format="Y-m-d(lL) H:i:s";	# replace &now; to this format.
 $::lastmod_format="Y-m-d(lL) H:i:s";# lastmod format
 $::recent_format="Y-m-d(lL) H:i:s";	# RecentChanges(?cmd=recent) format
+$::attach_format="Y-m-d(lL) H:i:s";	# attach info
+$::ref_format="Y-m-d(lL) H:i:s";	# ref info
+
 #$::lastmod_format="y年n月j日(lL) ALg時k分S秒";	# 日本語表示の例
 
 	# 年  :Y:西暦(4桁)/y:西暦(2桁)
@@ -251,6 +255,8 @@ $::autourllink = 1;		# URLの自動リンク ([[ ]] で明示的に指定され�
 $::automaillink = 0;	# メールアドレスの自動リンク ([[ ]] で明示的に指定されたものはのぞく)
 $::useFileScheme=0;		# 0:通常, 1:file:// のスキーマを有効にする（イントラネット向け）
 $::IntraMailAddr = 0;	# 1:イントラネット向けのドメインなしメールアドレスを有効
+$::use_autoimg = 1;		# URLが画像であれば、無条件に imgタグを張る
+
 # クッキー
 $::cookie_expire=3*30*86400;	# 保存cookieの有効期限(3ヶ月)
 $::cookie_refresh=86400;		# 保存cookieのリフレッシュ間隔(１日)
@@ -292,6 +298,12 @@ $::naviindex=1;			# 0:リロード〜 / 1:トップ〜
 $::useTopicPath=0;		# 0:使用しない / 1:使用する
 						# ページからのプラグイン呼び出しには影響されません
 
+# セパレータ			# 階層指定用
+$::separator='/';
+
+# ドット
+$::dot='.';
+
 # 下の画像ツールバー
 $::toolbar=1;			# 0:表示しない 1:RSS等のみ 2:すべて表示（部分編集のアイコンも）
 
@@ -305,7 +317,8 @@ $::_symbol_anchor = '&dagger;';
 $::maxrecent = 50;
 
 # 一覧・更新一覧に含めないページ名(正規表現で)
-$::non_list = qq((^\:));
+$::non_list = qq((^\:|$::separator\:));
+#$::non_list = qq((^\:));
 #$::non_list = qq((^\:|$::MenuBar\$)); # example of MenuBar
 
 # 添付ファイルの全ページの一覧を上記正規表現で指定したページを除く
@@ -332,6 +345,9 @@ EOM
 # Wiki更新通知を管理人に知らせる場合 1
 $::sendmail_to_admin = 0;
 
+# UTF-8メールの送信  MIME::Base64が必要
+$::send_utf8_mail=0;
+
 # P3Pのコンパクトポリシー http://fs.pics.enc.or.jp/p3pwiz/p3p_ja.html
 # 必要であれば /w3c以下ディレクトリにも適切にファイルを設置し、有効にします
 #$::P3P="NON DSP COR CURa ADMa DEVa IVAa IVDa OUR SAMa PUBa IND ONL UNI COM NAV INT CNT STA";
@@ -348,10 +364,13 @@ $::sendmail_to_admin = 0;
 
 # フィルター関連
 $::filter_flg = 1;					# 1でフィルター機能を有効にする。
-$::chk_uri_count = 10;				# 1つの掲示板等投稿ホームページアドレスが
-									# 10個以上あるとスパムとみなす。
-$::chk_wiki_uri_count = 0;			# 編集画面でホームページアドレスが
-									# 上記個数以上になるとスパムとみなす。
+$::chk_uri_count = 10;				# 旧オプション
+$::chk_wiki_uri_count = 10;			# 編集画面でホームページアドレスが
+									# 10個以上になるとスパムとみなす。
+$::chk_article_uri_count = 1;		# 掲示板等でホームページアドレスが
+									# １つ（個数）でもあるとスパムとみなす。
+$::chk_article_mail_count = 1;		# 掲示板等でメールアドレスが
+									# １つ（個数）でもあるとスパムとみなす。
 $::chk_write_jp_only = 0;			# 編集画面で日本語が一字も入ってないと
 									# スパムとみなす。
 									# なお、デフォルトはプラグインだけや

@@ -1,4 +1,4 @@
-#$Id: location.inc.pl.ja.pod,v 1.340 2012/01/31 10:11:58 papu Exp $
+#$Id: location.inc.pl.ja.pod,v 1.391 2012/03/01 10:39:21 papu Exp $
 
 __END__
 =encoding euc-jp

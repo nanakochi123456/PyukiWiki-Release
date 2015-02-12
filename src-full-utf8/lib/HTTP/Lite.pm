@@ -1,5 +1,5 @@
 #! /usr/bin/false
-# $Id: Lite.pm,v 1.247 2012/01/31 10:12:03 papu Exp $
+# $Id: Lite.pm,v 1.298 2012/03/01 10:39:25 papu Exp $
 #
 # "HTTP::Lite" version 2.3 $$
 package HTTP::Lite;

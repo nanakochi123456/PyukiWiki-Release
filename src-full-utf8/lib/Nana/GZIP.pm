@@ -1,8 +1,8 @@
 ######################################################################
 # GZIP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: GZIP.pm,v 1.155 2012/01/31 10:12:03 papu Exp $
+# $Id: GZIP.pm,v 1.207 2012/03/01 10:39:25 papu Exp $
 #
-# "Nana::GZIP" version 0.1 $$
+# "Nana::GZIP" version 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
@@ -24,14 +24,21 @@
 # see
 # http://suika.fam.cx/~wakaba/wiki/sw/n/Perl%E3%81%A7%E3%81%AEgzip%E3%81%AE%E5%9C%A7%E7%B8%AE%E3%83%BB%E5%B1%95%E9%96%8B
 package Nana::GZIP;
-$VERSION="0.1";
+$VERSION="0.2";
 use strict;
-use Compress::Zlib;
-sub gzipcompress($) {
+$GZIP::INIT=0;
+sub init {
+	if(&load_module("Compress::Zlib")) {
+		$GZIP::INIT=0;
+		return 1;
+	}
+	return 0;
+}
+sub gzipcompress {
 	my($data)=shift;
 	return Compress::Zlib::memGzip($data);
 }
-sub gzipuncompress($) {
+sub gzipuncompress {
 	my ($data)=shift;
 	my ($s)=$data;
 	my $flags = unpack('C', substr($s, 3, 1));
@@ -49,5 +56,9 @@ sub gzipuncompress($) {
 	} else {
 		return 'Bad compressed data';
 	}
+}
+sub load_module {
+	my $funcp = $::functions{"load_module"};
+	return &$funcp(@_);
 }
 1;

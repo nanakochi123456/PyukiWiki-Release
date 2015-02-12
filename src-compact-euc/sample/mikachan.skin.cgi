@@ -1,8 +1,8 @@
 ######################################################################
-# mikachan.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: mikachan.skin.cgi,v 1.193 2012/01/31 10:12:00 papu Exp $
+# pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
+# $Id: pyukiwiki.skin.cgi,v 1.464 2012/03/01 10:39:23 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -35,27 +35,32 @@ sub skin {
 <link rel="stylesheet" href="$::skin_url/blosxom.css" type="text/css" media="screen"$csscharset />
 EOD
 	}
-	my($title, $title_tag)=&maketitle($page, $message);
+	$::pushedpage = $::form{mypage};
 	if($is_page || $::allview eq 1) {
-		$headerbody=&print_content($::database{$::Header}, $::form{mypage})
+		$::form{mypage}=$::Header;
+		$headerbody=$::headerbody . &print_content($::database{$::Header}, $::form{mypage})
 			if(&is_exist_page($::Header));
-		$::pushedpage = $::form{mypage};
 		$::form{mypage}=$::MenuBar;
-		$menubarbody=&print_content($::database{$::MenuBar}, $::pushedpage)
+		$menubarbody=$::menubarbody . &print_content($::database{$::MenuBar}, $::pushedpage)
 			if(&is_exist_page($::MenuBar));
-		$sidebarbody=&print_content($::database{$::SideBar}, $::pushedpage)
+		$::form{mypage}=$::SideBar;
+		$sidebarbody=$::sidebarbody . &print_content($::database{$::SideBar}, $::pushedpage)
 			if(&is_exist_page($::SideBar));
-		$::form{mypage}=$::pushedpage;
-		$::pushedpage="";
-		$bodyheaderbody=&print_content($::database{$::BodyHeader}, $::form{mypage})
+		$::form{mypage}=$::BodyHeader;
+		$bodyheaderbody=$::bodyheaderbody . &print_content($::database{$::BodyHeader}, $::form{mypage})
 			if(&is_exist_page($::BodyHeader));
-		$bodyfooterbody=&print_content($::database{$::BodyFooter}, $::form{mypage})
+		$::form{mypage}=$::BodyFooter;
+		$bodyfooterbody=$::bodyfooterbody . &print_content($::database{$::BodyFooter}, $::form{mypage})
 			if(&is_exist_page($::BodyFooter));
-		$footerbody=&print_content($::database{$::Footer}, $::form{mypage})
+		$::form{mypage}=$::Footer;
+		$footerbody=$::footerbody . &print_content($::database{$::Footer}, $::form{mypage})
 			if(&is_exist_page($::Footer));
 	}
+	$::form{mypage}=$::TitleHeader;
 	$titleheaderbody=&print_content($::database{$::TitleHeader}, $::form{mypage})
 			if(&is_exist_page($::TitleHeader));
+	$::form{mypage}=$::pushedpage;
+	$::pushedpage="";
 	$skinfooterbody=$::database{$::SkinFooter}
 		if(&is_exist_page($::SkinFooter));
 	if (@::notes) {
@@ -74,6 +79,7 @@ EOD
 		}
 		$notesbody.="</div>\n";
 	}
+	my($title, $title_tag)=&maketitle($page, $message);
 	$htmlbody=<<"EOD";
 $::dtd
 <title>$title_tag</title>

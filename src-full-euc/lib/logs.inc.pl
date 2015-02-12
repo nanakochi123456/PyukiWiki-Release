@@ -1,8 +1,8 @@
 ######################################################################
 # logs.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: logs.inc.pl,v 1.134 2012/01/31 10:11:55 papu Exp $
+# $Id: logs.inc.pl,v 1.188 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

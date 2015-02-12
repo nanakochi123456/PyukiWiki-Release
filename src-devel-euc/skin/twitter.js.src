@@ -1,8 +1,14 @@
-// "PyukiWiki" version 0.2.0-p1 $$
-// $Id: twitter.js.src,v 1.338 2012/01/31 10:12:00 papu Exp $
+// "PyukiWiki" version 0.2.0-p2 $$
+// $Id: twitter.js.src,v 1.397 2012/03/01 10:39:23 papu Exp $
 
 /* Copyright 2009 Brandon Leonardo (http://twitter.com/shiftb) & Ryan McGrath (http://twitter.com/ryanmcgrath) - Released under an MIT style license (http://media.twitstat.us/license.txt) */
 /* Changed by papu (@nanakochi123456) */
+
+var tu="http://twitter.com/",
+	qs='"',
+	hs=' href="',
+	as='<a',
+	os=' onclick="return ou(';
 
 var twitstat = {
     lol: false,
@@ -55,16 +61,21 @@ var twitstat = {
     },
 
     loop: function(results, hidden) {
+		var	t=tu,
+			q=qs,
+			h=hs;
+			a=as;
+			o=os;
 		popup=twitter_popup(0);
-		jspopup=twitter_popup(1);
+		j=twitter_popup(1);
         var resultListArr = [];
         for(var i = 0; i < results.length; i++) {
 			var liStr = '<li style="margin: 5px; font: normal 12px/14px helvetica, sans-serif; min-height: 54px; height: auto !important; height: 54px;">';
 			liStr += '<img src="' + results[i].profile_image_url + '" style="float: left; margin: 0 5px 10px 0; width: 48px; height: 48px;">';
 			liStr += '<div>';
-			liStr += '<a' + popup + ' href="http://www.twitter.com/' + results[i].from_user + '"';
-			liStr += ' onclick="return openURI(' + "'" + 'http://www.twitter.com/' + results[i].from_user + "','" + jspopup + "'";
-			liStr += ');"  style="color: ' + twitstat.props.link_color + '">' + results[i].from_user + '</a>: ';
+			liStr += a + popup + h + t  + results[i].from_user + '"';
+			liStr += o + "'" + t + results[i].from_user + "','" + j + "'";
+			liStr += ');"  style="color: ' + twitstat.props.link_color + '">' + results[i].from_user + '</a>:';
 			liStr += '<span>' + twitstat.convertUrls(results[i].text) + '</span></div></li>';
 			resultListArr[i] = liStr;
 		}
@@ -95,12 +106,11 @@ var twitstat = {
         '; -moz-border-radius-bottomright: 2px; -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; -webkit-border-bottom-right-radius: 2px;background-color: '
         + twitstat.props.header_background + '; margin: 0; padding: 4px; text-align: right;"></div>';
 
-		innerhtml = "<div>" + badge_header + list_container + resultListArr + "</ul>" + badge_footer + "</div>";
-//alert(innerhtml);
+//		innerhtml = "<div>" + badge_header + list_container + resultListArr + "</ul>" + badge_footer + "</div>";
 resultListArr= resultListArr.replace(/<img (.+?)>/g,"<img $1 />");
 
-//alert(resultListArr);
         twitstat.holder.innerHTML = "<div>" + badge_header + list_container + resultListArr + "</ul>" + badge_footer + "</div>";
+//        twitstat.holder.innerHTML = innerhtml;
         frag.appendChild(twitstat.holder.firstChild);
 
         badge_container.appendChild(frag);
@@ -124,13 +134,19 @@ resultListArr= resultListArr.replace(/<img (.+?)>/g,"<img $1 />");
 //    },
 
     convertUrls: function(text) {
+		var	t=tu,
+			q=qs,
+			h=hs,
+			a=as,
+			o=os;
 		popup=twitter_popup(0);
-		jspopup=twitter_popup(1);
+		j=twitter_popup(1);
+		tc=twitstat.props.link_color;
+		tc=tc.replace(twitstat.linkcolorfromRE,'_C_$1');
         text = text.replace(twitstat.urlRE, function(t){ return twitstat.replaceUrl(t); });
-//        return text.replace(twitstat.twitterUsernameRE, '<a' + popup + ' style="color: '+twitstat.props.link_color+'" href="http://twitter.com/$1">@$1</a>');
-        text= text.replace(twitstat.twitterHashRE, '<a' + popup + ' title="#$1" style="color: '+twitstat.props.link_color+'" href="http://twitter.com/search/%23$1"  onclick="return openURI(' + "'" + 'http://twitter.com/search/%23$1' + "','" + jspopup + "'" + ');">#$1</a>');
-        text=text.replace(twitstat.twitterUsernameRE, '<a' + popup + ' title="@$1" style="color: '+twitstat.props.link_color+'" href="http://twitter.com/$1"  onclick="return openURI(' + "'" + 'http://twitter.com/$1' + "','" + jspopup + "'" + ');">@$1</a>');
-
+//        return text.replace(twitstat.twitterUsernameRE, a + popup + ' style="color: ' + tc + q + h + t + '$1">@$1</a>');
+        text= text.replace(twitstat.twitterHashRE, a + popup + ' title="#$1" style="color: '+ tc +  q + h + t + 'search/%23$1"' + o + "'" + t + 'search/%23$1' + "','" + j + "'" + ');">#$1</a>');
+        text=text.replace(twitstat.twitterUsernameRE, a + popup + ' title="@$1" style="color: ' + tc + q + h + t + '$1"' + o + "'" + t + '$1' + "','" + j + "'" + ');">@$1</a>');
         text= text.replace(twitstat.linkcolortoRE, '#$1');
 		return text;
     },
@@ -140,13 +156,16 @@ resultListArr= resultListArr.replace(/<img (.+?)>/g,"<img $1 />");
     urlRE: /((((ht|f){1}(tp:[/][/]){1})|((www.){1}))[-a-zA-Z0-9@:;%_\+.~#?\&//=]+)/gm,
     linkcolorfromRE: /\#([A-Za-z0-9]+)/gm,
     linkcolortoRE: /_C_([A-Za-z0-9]+)/gm,
-
     replaceUrl: function(t) {
-		popup=twitter_popup(0);
-		jspopup=twitter_popup(1);
+		var	q=qs,
+			h=hs,
+			a=as,
+			o=os;
+		p=twitter_popup(0);
+		j=twitter_popup(1);
 		tc=twitstat.props.link_color;
 		tc=tc.replace(twitstat.linkcolorfromRE,'_C_$1');
-		return '<a' + popup + ' href="' + t + '" onclick="return openURI(' + "'" + t + "','" + jspopup + "'" + ');" title="'+t+'" style="color: '+tc +'">'+ ((t.length > 34) ? (t.substring(0, 20) + '&hellip;') : t) +'</a>'; },
+		return a + p + h + t + '"' + o + "'" + t + "','" + j + "'" + ');" title="'+t+'" style="color: '+tc +'">'+ ((t.length > 34) ? (t.substring(0, 20) + '&hellip;') : t) +'</a>'; },
     badge: { init: function(props) { twitstat.init(props); } },
     props: {},
     url: "",

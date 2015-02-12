@@ -1,10 +1,10 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0-p1 $$ CGIインストーラ版
+	"PyukiWiki" version 0.2.0-p2 $$ CGIインストーラ版
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
-	License: GPL version 2 or (at your option) any later version
+	License: GPL version 3 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/
 	and PukiWiki http://pukiwiki.sfjp.jp/
@@ -16,7 +16,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ�
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: CGI_INSTALLER.ja.txt,v 1.17 2012/01/31 11:01:56 papu Exp $
+	$Id: CGI_INSTALLER.ja.txt,v 1.71 2012/03/01 10:39:24 papu Exp $
 
 	このテキストファイルはUTF-8、TAB4で記述されています。
 
@@ -45,7 +45,7 @@ modify it under the same terms as Perl itself.
 >このプログラムはフリーソフトウェアです。それを再配布し、かつ、
 >またはPerl自体と同じ条件の下でそれを修正することができます。
 
-PyukiWikiは、GPL2もしくはArtisticライセンスの元で配布されます。
+PyukiWikiは、GPL3もしくはArtisticライセンスの元で配布されます。
 自由に利用し、自由に配布し、自由に改造し、それを再配布して構いません。
 ただし、原版と同名のパッケージとして名乗ることを禁止します。
 詳しくは、下記のURL，または、インストール済のPyukiWikiのwiki文から
@@ -235,7 +235,7 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 ・ライセンスがかわったのですか？
 　「you can redistribute it and/or modify it under the same terms as Perl itself.」
 　「＝Perlと同じライセンスで再配布できます。」
-　の文面を明確にすると、GPL2とArtisticライセンスが適用されることになります。
+　の文面を明確にすると、GPL3とArtisticライセンスが適用されることになります。
 　SourceForge.jpプロジェクト登録のため、ライセンスをはっきりさせるために
 　明記したのであり、基本的にはYukiWikiからのライセンスを継承しているものと考えています。
 

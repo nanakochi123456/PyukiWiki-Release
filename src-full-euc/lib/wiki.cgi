@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.614 2012/01/31 10:11:55 papu Exp $
+# $Id: wiki.cgi,v 1.700 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -23,10 +23,9 @@ use CGI qw(:standard);
 use Time::Local;
 $::editchar = '?';
 $::subject_delimiter = ' - ';
-$::use_autoimg = 1;
-$::use_exists = 0;
+$::use_exists = 1;
 $::package = 'PyukiWiki';
-$::version = '0.2.0-p1';
+$::version = '0.2.0-p2';
 %::functions = (
 	"dbmname" => \&dbmname,
 	"undbmname" => \&undbmname,
@@ -89,10 +88,12 @@ $explugin_last;
 @::loaded_explugin;
 $::lfmode;
 $::escapeoff_exec;
+$::highlight_exec=0;
+$::linesave=0;
+$::linedata;
+$::eom_string;
+$::exec_inlinefunc;
 @::notes = ();
-$::ini_file = 'pyukiwiki.ini.cgi' if($::ini_file eq '');
-require $::ini_file;
-require $::setup_file if (-r $::setup_file);
 &skin_init;
 $::wiki_name = '\b([A-Z][a-z]+[A-Z][a-z]+)\b';
 $::bracket_name ='\[\[((?!\[)[^\]]+?)\]\]';
@@ -101,19 +102,18 @@ $::interwiki_definition2 = '\[((?!\[)\S+?)\ (\S+?)\](?!\])\ (utf8|euc|sjis|yw|as
 $::interwiki_name1 = '([^:]+):([^:].*)';
 $::interwiki_name2 = '([^:]+):([^:#].*?)(#.*)?';
 if($::useFileScheme eq 1) {
-	$::isurl=q(s?(?:(?:(?:https?|ftp|news)://)|(?:file:[/\x5c][/\x5c]))(?:[-\x5c_.!~*'a-zA-Z0-9;/?:@&=+$,%#]+));
+	$::isurl=qq(s?(?:(?:(?:https?|ftp|news)://)|(?:file:[/\][/\]))(?:[-\_.!~*'a-zA-Z0-9;/?:@&=+%#]+));
 } else {
-	$::isurl=qq(s?(?:https?|ftp|news)://[-_.!~*'a-zA-Z0-9;/?:@&=+$,%#]+);
+	$::isurl=qq(s?(?:https?|ftp|news)://[-_.!~*'a-zA-Z0-9;/?:@&=+%#]+);
 }
-$::ismail=q((?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff](?:[^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])*(?![^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])|["'][^\\\x80-\xff\n\015"]*(?:\\[^\x80-\xff][^\\\x80-\xff\n\015"]*)*["'])(?:\.(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff](?:[^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])*(?![^(\040)<>@,;:&#".\\\[\]\000-\037\x80-\xff])|["'][^\\\x80-\xff\n\015"]*(?:\\[^\x80-\xff][^\\\x80-\xff\n\015"]*)*["']))*\.?@(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\x80-\xff\n\015\[\]]|\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:&#"'.\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\x80-\xff\n\015\[\]]|\\[^\x80-\xff])*\])));
-$::ismail.=$::IntraMailAddr eq 0 ? '+' : '*';
+$::ismail=q{(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*")(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*"))*@(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\]))+};
+$::ismail=q{(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*")(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*"))*@(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\]))*} if($::IntraMailAddr>0);
 $::image_extention=qq(([Gg][Ii][Ff]|[Pp][Nn][Gg]|[Jj][Pp](?:[Ee])?[Gg]));
-$ipv4address_regex='^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
-$ipv6address_regex='((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
+$::ipv4address_regex=qq(^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+);
+$::ipv6address_regex=qq(^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*\$);
 $::embed_plugin = '^\#([^\(]+)(\((.*)\))?';
 $::embedded_name = '(\#.+?)';
-	$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';
-	$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';
+$::embedded_inline='&amp;(?:([^(;{]+)(?:[()\s?]*?)\s?\{\s?([^&}]*?)\s?\}|([^(;{]+)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)|([^(;{]+)\s?\(\s?([^)]*?)\s?\)\s?\{\s?([^&}]*?)\s?\});';
 $::info_ConflictChecker = 'ConflictChecker';
 $::info_LastModified = 'LastModified';
 $::info_CreateTime='CreateTime';
@@ -171,8 +171,8 @@ $::info_AdminPassword = 'AdminPassword';
 	'&wink;'	=> 'wink',
 	'&worried;' => 'worried',
 );
-$::_facemark=q{\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;};
-$::_facemark.=q{|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;} if($::usePukiWikiStyle eq 1);
+$::_facemark=q{(\ \(--\;\)|\ \(\;|\ \(\^-\^\)|\ \(\^\^\)|\ \(\^\^\;\)|\ \(\^_-\)|\ \:\(|\ \:\)|\ \:D|\ \:d|\ \:p|\ \;\(|\ \;\)|\ X\(|\ XD|\&heart\;)};
+$::_facemark.=q{(|\&bigsmile\;|\&huh\;|\&oh\;|\&sad\;|\&smile\;|\&wink\;|\&worried\;)} if($::usePukiWikiStyle eq 1);
 $::_sgmlescape=q{amp|nbsp|iexcl|cent|pound|curren|yen|brvbar|sect|uml|copy|ordf|laquo|not|shy|reg|macr|deg|plusmn|sup2|sup3|acute|micro|para|middot|cedil|sup1|ordm|raquo|frac14|frac12|frac34|iquest|Agrave|Aacute|Acirc|Atilde|Auml|Aring|AElig|Ccedil|Egrave|Eacute|Ecirc|Euml|Igrave|Iacute|Icirc|Iuml|ETH|Ntilde|Ograve|Oacute|Ocirc|Otilde|Oumltimes|Oslash|Ugrave|Uacute|Ucirc|Uuml|Yacute|THORN|szlig|agrave|aacute|acirc|atilde|auml|aring|aelig|ccedil|egrave|eacute|ecirc|euml|igrave|iacute|icirc|iuml|eth|ntilde|ograve|oacute|ocirc|otilde|ouml|divide|oslash|ugrave|uacute|ucirc|uuml|yacute|thorn|yuml|euro|dagger|Dagger|bull|trade|permil|lsquo|rsquo|sbquo|ldquo|rdquo|bdquo|mdash|ndash|smile|bigsmile|huh|oh|wink|sad|worried|heart};
 my %command_do = (
 	read => \&do_read,
@@ -221,9 +221,7 @@ sub writablecheck {
 	$err.=&writechk($::counter_dir);
 	$err.=&writechk($::backup_dir);
 	$err.=&writechk($::upload_dir);
-	if($err ne '') {
-		&print_error($err);
-	}
+	&print_error($err) if($err ne '');
 }
 sub writechk {
 	my($dir)=shift;
@@ -297,6 +295,7 @@ sub init_global {
 		$::_dbmname_encode{chr($i)} = sprintf('%02X', $i);
 		$::_dbmname_decode{sprintf('%02X', $i)} = chr($i);
 	}
+	$::_urlescape{chr(32)} ='+';
 }
 sub init_lang {
 	if ($::lang eq 'ja') {
@@ -332,6 +331,7 @@ sub init_dtd {
 		"xhtml10"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" lang="$::lang" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
 		"xhtml10t"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" lang="$::lang" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
 		"xhtmlbasic10"=>qq(<?xml version="1.0" encoding="$::charset" ?>\n<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$::lang">\n<head>\n<meta http-equiv="Content-Language" content="$::lang" />\n<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=$::charset" />),
+		"html5_plugin"=>qq(<!doctype html>\n<html lang="$::lang">\n<head>\n<meta http-equiv="content-type" content="text/html; charset=$::charset" /><meta http-equiv="Content-Style-Type" content="text/css" />\n<meta http-equiv="Content-Script-Type" content="text/javascript" />),
 	);
 	$::dtd=$::dtd{$::htmlmode};
 	$::dtd=$::dtd{html4} if($::dtd eq '') || &is_no_xhtml(0);
@@ -462,10 +462,12 @@ sub skin_init {
 	$::skin{common_js}=&skin_check("common%s.js",".$::kanjicode.$::lang",".$::lang");
 }
 sub skin_check {
-	my($file)=@_;
-	foreach(@_) {
-		my $f=sprintf($file,$_);
-		return $f if(-f "$::skin_dir/$f");
+	my($fmt)=shift;
+	my(@arg)=@_;
+	foreach(@arg) {
+		my $f=sprintf($fmt,$_);
+		next if($f eq '');
+		return $f if(-r "$::skin_dir/$f");
 	}
 	die sprintf("$file not found","");
 	exit;
@@ -836,16 +838,17 @@ sub snapshot {
 	if ($::deny_log) {
 		&getremotehost;
 		open $fp, ">>$::deny_log";
-		print $fp "<<" . $title . ' ' . date("Y-m-d H:i:s") . ">>\n";
-		print $fp "HTTP_USER_AGENT:"      . $::ENV{'HTTP_USER_AGENT'}      . "\n";
-		print $fp "HTTP_REFERER:"         . $::ENV{'HTTP_REFERER'}         . "\n";
-		print $fp "REMOTE_ADDR:"          . $::ENV{'REMOTE_ADDR'}          . "\n";
-		print $fp "REMOTE_HOST:"          . $::ENV{'REMOTE_HOST'}          . "\n";
-		print $fp "REMOTE_IDENT:"         . $::ENV{'REMOTE_IDENT'}         . "\n";
-		print $fp "HTTP_ACCEPT_LANGUAGE:" . $::ENV{'HTTP_ACCEPT_LANGUAGE'} . "\n";
-		print $fp "HTTP_ACCEPT:"          . $::ENV{'HTTP_ACCEPT'}          . "\n";
-		print $fp "HTTP_HOST:"            . $::ENV{'HTTP_HOST'}            . "\n";
-		print $fp "\n";
+		print $fp <<EOM;
+<<$title @{[date("Y-m-d H:i:s")]}>>
+HTTP_USER_AGENT:$::ENV{'HTTP_USER_AGENT'}
+HTTP_REFERER:$::ENV{'HTTP_REFERER'}
+REMOTE_ADDR:$::ENV{'REMOTE_ADDR'}
+REMOTE_HOST:$::ENV{'REMOTE_HOST'}
+REMOTE_IDENT:$::ENV{'REMOTE_IDENT'}
+HTTP_ACCEPT_LANGUAGE:$::ENV{'HTTP_ACCEPT_LANGUAGE'}
+HTTP_ACCEPT:$::ENV{'HTTP_ACCEPT'}
+HTTP_HOST:$::ENV{'HTTP_HOST'}
+EOM
 		close $fp;
 	}
 	if ($::filter_flg == 1) {
@@ -865,12 +868,18 @@ sub snapshot {
 	}
 }
 sub spam_filter {
-	my ($chk_str, $level) = @_;
+	my ($chk_str, $level, $uricount, $mailcount) = @_;
 	return if ($::filter_flg != 1);
 	return if ($chk_str eq '');
 	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x8E\xA1-\xFE]';
-	if (($level ne  1) && ($::chk_uri_count > 0) && (($chk_str =~ s/https?:\/\///g) > $::chk_uri_count)) {
+	my $chk_jp_regex=$::chk_jp_hiragana ? '[あ-んア-ン]' : '[\x80-\xFE]';
+	if($uricount+0 eq 0 || $uricount+0 > $::chk_uri_count+0) {
+		$uricount=$::chk_uri_count;
+	}
+	if (($level ne  1) && ($uricount > 0) && (($chk_str =~ s/https?:\/\///g) >= $uricount)) {
 		&snapshot('Over http');
+	} elsif (($level ne  1) && ($mailcount+0 > 0) && (($chk_str =~ s/$::ismail//g) >= $uricount)) {
+		&snapshot('Over mail');
 	} elsif (($level >= 1) && ($::chk_jp_only == 1) && ($chk_str !~ /$chk_jp_regex/)) {
 		&snapshot('No Japanese');
 	} else {
@@ -936,7 +945,8 @@ sub do_write {
 		$::form{mymsg} =~ s/&page;/$tmp/g;
 	}
 	$::form{mymsg}=~s/\x0D\x0A|\x0D|\x0A/\n/g;
-	&spam_filter($::form{mymsg}, 0) if ($::chk_wiki_uri_count eq 1);
+	&spam_filter($::form{mymsg}, 0, $::chk_wiki_uri_count)
+		if ($::chk_wiki_uri_count >= 1);
 	&spam_filter($::form{mymsg}, 1) if ($::chk_write_jp_only eq 1);
 	&open_diff;
 	my @msg1 = split(/\n/, $::database{$::form{mypage}});
@@ -955,7 +965,7 @@ sub do_write {
 		&close_backup;
 	}
 	if ($::form{mymsg}) {
-		if(exists $::database{$::form{mypage}}) {
+		if(&is_exist_page($::form{mypage})) {
 			$::database{$::form{mypage}} = $::form{mymsg};
 			&send_mail_to_admin($::form{mypage}, "Modify");
 		} else {
@@ -1065,7 +1075,12 @@ sub maketitle {
 				$title_tag="$escapedpage - $title";
 			}
 		} else {
-			$title_tag=$::IN_TITLE;
+			if($::IN_TITLE=~/\t/) {
+				$::IN_TITLE=~s/\t//;
+				$title_tag="$escapedpage - $::IN_TITLE - $title";
+			} else {
+				$title_tag="$::IN_TITLE - $title";
+			}
 		}
 	}
 	return($title, $title_tag);
@@ -1080,6 +1095,7 @@ sub text_to_html {
 	my @col_style;
 	unshift(@saved, "</p>");
 	push(@result, "<p>");
+	return if($txt eq '');
 	$::lfmode=$::line_break;
 	my $editpart = "";
 	if($::partedit > 0) {
@@ -1111,7 +1127,19 @@ sub text_to_html {
 		$lines--;
 		next if($_ eq '#freeze');
 		@col_style=() if(!/^(\,|\|)/);
-		chomp;
+#		chomp;
+		if($::linesave ne 0) {
+			if($_ eq $::eom_string) {
+				$::linesave=0;
+				$::eom_string="";
+				$::linedata=~s/\n$//g;
+				push(@result, &$::exec_inlinefunc($::linedata));
+				$::linedata="";
+				next;
+			}
+			$::linedata.="$_\n";
+			next;
+		}
 		if($backline ne '') {
 			$_=$backline . $_;
 			$backline="";
@@ -1173,7 +1201,8 @@ sub text_to_html {
 			my $class = "";
 			my $level = length($1);
 			if ($::form{mypage} ne $::MenuBar) {
-				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"";
+				$class = " class=\"list" . length($1) . "\"";
+#				$class = " class=\"list" . length($1) . "\" style=\"padding-left:16px;margin-left:16px;\"
 			}
 			&back_push('ul', length($1), \@saved, \@result, $class);
 			push(@result, '<li>' . &inline($2) . '</li>');
@@ -1300,8 +1329,8 @@ sub text_to_html {
 			$::lfmode = $1;
 			$_="";
 			next;
-		} elsif (/^$embedded_name$/o) {
-			s/^$embedded_name$/&embedded_to_html($1)/gexo;
+		} elsif (/^$::embedded_name$/o) {
+			s/^$::embedded_name$/&embedded_to_html($1)/gexo;
 			&back_push('div', 1, \@saved, \@result);
 			push(@result,$_);
 		} else {
@@ -1314,7 +1343,61 @@ sub text_to_html {
 	}
 	my $body=join("\n",@result);
 	$body=~s/edit\&mypage/edit\&amp;mypage/g;
-	return $body;
+	if($::use_Highlight eq 1) {
+		$body=&highlight($body, $::form{word}) if($::form{word} ne '');
+	}
+	return $body if($::usePukiWikiStyle eq 0);
+	my $tmp=$body;
+	$tmp=~s/(<p>|<\/p>|\n)//g;
+	return $body if($tmp ne '');
+	return '';
+}
+sub highlight {
+	my ($text, $wd)=@_;
+	my $spc="";
+	if($::highlight_exec eq 0 && $::pushedpage eq '') {
+		$::highlight_exec=1;
+		my $msg=$::resource{msg_word};
+		my $cwd=&highlight($wd, $wd);
+		$::bodyheaderbody="<div><strong>$msg</strong>&nbsp;$cwd</div>";
+	}
+	my $spc;
+	if ($wd) {
+		if($::lang eq "ja") {
+			if($::defaultcode eq 'utf8') {
+				$spc="\xe3\x80\x80";
+			} else {
+				$spc="\xa1\xa1";
+			}
+		}
+	}
+	if($spc ne "") {
+		foreach(" ", $spc) {
+			$wd=~s/$_/\t/g;
+		}
+	}
+	$wd=~s/(\t+)/\t/g;
+	my @wd=split(/\t/,$wd);
+	my $searchcount=0;
+	if(&load_module("Nana::Search")) {
+		foreach(@wd) {
+			next if($_ eq '');
+			$_=~s/[\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]//g;
+			$text=Nana::Search::SearchRe(
+				$text, $_
+			, '<strong class="word' . $searchcount . '">'
+			, '</strong>');
+			$searchcount=($searchcount + 1) % 10;
+		}
+	} else {
+		foreach(@wd) {
+			next if($_ eq '');
+			my $strong='<strong class="word' . $searchcount . '">';
+			$text=~s/(?^:((?:\G|>)[^<]*?))($_)/$1$strong$2<\/strong>/g;
+			$searchcount=($searchcount + 1) % 10;
+		}
+	}
+	return $text;#nocompact;
 }
 sub pageanchorname {
 	my ($page)=@_;
@@ -1367,7 +1450,7 @@ sub inline {
 		}
 	}
 	if ($option{"lfmode"}) {
-		if ($line !~ /^$embedded_name$/o) {
+		if ($line !~ /^$::embedded_name$/o) {
 			if (!($line =~ s/\\$//o)) {
 				$line .= "<br />";
 			}
@@ -1397,6 +1480,7 @@ sub inline {
 }
 sub note {
 	my ($msg) = @_;
+	$msg=&highlight($msg, $::form{word}) if($::form{word} ne '');
 	push(@::notes, $msg);
 	return "<a @{[$::is_xhtml ? 'id' : 'name']}=\"notetext_" . @::notes . "\" "
 		. "href=\"" . &make_cookedurl(&encode($::form{mypage})) . "#notefoot_" . @::notes . "\" class=\"note_super\">*"
@@ -1625,7 +1709,7 @@ sub make_link_target {
 	if($target eq '') {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk">);
 	} elsif($::is_xhtml) {
-		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return openURI('$url','$target');">);
+		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} title="$escapedchunk" onclick="return ou('$url','$target');">);
 	} else {
 		return qq(<a href="$url" @{[$class eq '' ? '' : qq(class="$class")]} target="$target" title="$escapedchunk">);
 	}
@@ -1648,23 +1732,23 @@ sub make_link_image {
 sub get_fullname {
 	my ($name, $refer) = @_;
 	return $refer if ($name eq '');
-	if ($name eq '/') {
+	if ($name eq $::separator) {
 		$name = substr($name,1);
 		return ($name eq '') ? $::FrontPage : $name;
 	}
-	return $refer if ($name eq './');
-	if (substr($name,0,2) eq './') {
-		return ($1) ? $refer . '/' . $1 : $refer;
+	return $refer if ($name eq "$::dot$::separator");
+	if (substr($name,0,2) eq "$::dot$::separator") {
+		return ($1) ? $refer . "$::separator" . $1 : $refer;
 	}
-	if (substr($name,0,3) eq '../') {
-		my @arrn = split('/', $name);
-		my @arrp = split('/', $refer);
-		while (@arrn > 0 and $arrn[0] eq '..') {
+	if (substr($name,0,3) eq "$::dot$::dot$::separator") {
+		my @arrn = split($::separator, $name);
+		my @arrp = split($::separator, $refer);
+		while (@arrn > 0 and $arrn[0] eq "$::dot$::dot") {
 			shift(@arrn);
 			pop(@arrp);
 		}
-		$name = @arrp ? join('/',(@arrp,@arrn)) :
-			(@arrn ? "$::FrontPage/".join('/',@arrn) : $::FrontPage);
+		$name = @arrp ? join($::separator,(@arrp,@arrn)) :
+			(@arrn ? "$::FrontPage$::separator".join($::separator,@arrn) : $::FrontPage);
 	}
 	return $name;
 }
@@ -1703,6 +1787,7 @@ sub init_form {
 		}
 	}
 	$::form{mymsg} = &code_convert(\$::form{mymsg},   $::defaultcode,$::kanjicode) if($::form{mymsg});
+	$::form{word} = &code_convert(\$::form{word},   $::defaultcode,$::kanjicode) if($::form{word});
 	$::form{myname} = &code_convert(\$::form{myname}, $::defaultcode,$::kanjicode) if($::form{myname});
 	$::form{mypage} = &code_convert(\$::form{mypage}, $::defaultcode) if($::form{mypage});
 	$::form{page} = &code_convert(\$::form{page}, $::defaultcode) if($::form{page});
@@ -1860,7 +1945,7 @@ sub is_editable {
 	my ($page) = @_;
 	return 0 if($fixedpage{$page} || $fixedplugin{$::form{cmd}});
 	return 0 if(
-		$page=~/([\xa\xd\f\t\[\]])|(\.{1,3}\/)|^\s|\s$|^\#|^\/|\/$|^$|^$interwiki_name1$|^$::ismail$/o);
+		$page=~/([\xa\xd\f\t\[\]])|(\.{1,3}\/)|^\s|\s$|^\#|^\/|\/$|^$|^$::ismail$/o);
 	return 0 if (not &is_readable($page));
 	return 1;
 }
@@ -2148,7 +2233,9 @@ sub is_exist_page {
 			return 1;
 		}
 	}
-	return ($use_exists) ? exists($::database{$name}) : $::database{$name};
+	return ($use_exists) ?
+		 exists($::database{$name}) ? 1 : 0
+		: $::database{$name} ne '' ? 1 : 0;
 }
 sub trim {
 	my ($s) = @_;

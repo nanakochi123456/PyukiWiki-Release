@@ -1,10 +1,10 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0-p1 $$
+	"PyukiWiki" version 0.2.0-p2 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
-	License: GPL version 2 or (at your option) any later version
+	License: GPL version 3 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/
 	and PukiWiki http://pukiwiki.sfjp.jp/
@@ -14,9 +14,9 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
+		Nanami <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.407 2012/01/31 10:11:51 papu Exp $
+	$Id: DEVEL.txt,v 1.460 2012/03/01 10:39:19 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -69,5 +69,6 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　　http://sevenzip.sfjp.jp/
 　・yuicompressor JavaScript, CSSの圧縮に必要です。(Javaでできています）
 　　http://developer.yahoo.com/yui/compressor/
+　・php5 JavaScriptの別の方法の圧縮に必要です。
 
-　p.s.Makefileの書き方がガチガチになっています。汗
+　p.s.Makefileの書き方が更に異常にガチガチになっています。汗

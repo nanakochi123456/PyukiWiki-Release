@@ -1,9 +1,13 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: vote.en.txt,v 1.416 2012/01/31 10:11:59 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: vote.en.txt,v 1.470 2012/03/01 10:39:22 papu Exp $
 #
 
 # vote.inc.pl
-vote_plugin_choice=Selection
+vote_plugin_choice=Choices
 vote_plugin_votes=Vote
+vote_plugin_addinput=Enter the votes
+vote_plugin_votecount=Votes
+vote_plugin_voteper=%
+vote_plugin_totalvote=Total votes

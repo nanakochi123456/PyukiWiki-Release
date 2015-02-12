@@ -1,8 +1,8 @@
 ######################################################################
 # mikachan.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: mikachan.skin.cgi,v 1.194 2012/01/31 10:12:06 papu Exp $
+# $Id: mikachan.skin.cgi,v 1.249 2012/03/01 10:39:27 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
@@ -40,33 +40,36 @@ sub skin {
 EOD
 	}
 
-	# changed on v0.2.0
-	# <title>タグの生成
-	my($title, $title_tag)=&maketitle($page, $message);
-
 	# MenuBar, :Header, :Footer, :BodyHeader, :BodyFooter
 	# , :Sidebar, :SkinFooter:のHTML生成
+	$::pushedpage = $::form{mypage};	# push;
 	if($is_page || $::allview eq 1) {
-		$headerbody=&print_content($::database{$::Header}, $::form{mypage})
+		$::form{mypage}=$::Header;
+		$headerbody=$::headerbody . &print_content($::database{$::Header}, $::form{mypage})
 			if(&is_exist_page($::Header));
-		$::pushedpage = $::form{mypage};	# push;
 		$::form{mypage}=$::MenuBar;
-		$menubarbody=&print_content($::database{$::MenuBar}, $::pushedpage)
+		$menubarbody=$::menubarbody . &print_content($::database{$::MenuBar}, $::pushedpage)
 			if(&is_exist_page($::MenuBar));
-		$sidebarbody=&print_content($::database{$::SideBar}, $::pushedpage)
+		$::form{mypage}=$::SideBar;
+		$sidebarbody=$::sidebarbody . &print_content($::database{$::SideBar}, $::pushedpage)
 			if(&is_exist_page($::SideBar));
-		$::form{mypage}=$::pushedpage;	# pop;
-		$::pushedpage="";
-		$bodyheaderbody=&print_content($::database{$::BodyHeader}, $::form{mypage})
+		$::form{mypage}=$::BodyHeader;
+		$bodyheaderbody=$::bodyheaderbody . &print_content($::database{$::BodyHeader}, $::form{mypage})
 			if(&is_exist_page($::BodyHeader));
-		$bodyfooterbody=&print_content($::database{$::BodyFooter}, $::form{mypage})
+		$::form{mypage}=$::BodyFooter;
+		$bodyfooterbody=$::bodyfooterbody . &print_content($::database{$::BodyFooter}, $::form{mypage})
 			if(&is_exist_page($::BodyFooter));
-		$footerbody=&print_content($::database{$::Footer}, $::form{mypage})
+		$::form{mypage}=$::Footer;
+		$footerbody=$::footerbody . &print_content($::database{$::Footer}, $::form{mypage})
 			if(&is_exist_page($::Footer));
 	}
 	# :TitleHeader
+	$::form{mypage}=$::TitleHeader;
 	$titleheaderbody=&print_content($::database{$::TitleHeader}, $::form{mypage})
 			if(&is_exist_page($::TitleHeader));
+
+	$::form{mypage}=$::pushedpage;	# pop;
+	$::pushedpage="";
 
 	# add v 0.1.9
 	$skinfooterbody=$::database{$::SkinFooter}
@@ -90,7 +93,12 @@ EOD
 		$notesbody.="</div>\n";
 	}
 
-	# HTML <head>〜</head> から、画像リンクまで
+
+	# changed on v0.2.0 moved on v0.2.0-p2
+	# <title>タグの生成
+	my($title, $title_tag)=&maketitle($page, $message);
+
+	# HTML <head>丫</head> から、画像リンクまで
 	$htmlbody=<<"EOD";
 $::dtd
 <title>$title_tag</title>

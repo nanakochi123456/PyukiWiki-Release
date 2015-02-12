@@ -1,8 +1,8 @@
 ######################################################################
 # ref.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: ref.inc.pl,v 1.255 2012/01/31 10:12:04 papu Exp $
+# $Id: ref.inc.pl,v 1.310 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -54,6 +54,10 @@
 # #ref(hoge.png,,zoom)のようにタイトルの前にカンマを余分に入れる
 ######################################################################
 #
+
+$ref::displayinfo=0			# 添付ファイルの詳細をカーソルあわせなくても表示
+	if(!defined($ref::displayinfo));
+
 $ref::file_icon =<<EOM
 <img src="$::image_url/file.png" width="20" height="20" alt="file" style="border-width:0px" />
 EOM
@@ -352,14 +356,17 @@ sub plugin_ref_body {
 			$url2 = $url;
 			$url = $file2;
 		} else {
-			my ($sec, $min, $hour, $day, $mon, $year) = localtime((stat($file))[10]);
-			$info = sprintf("%d/%02d/%02d %02d:%02d:%02d %01.1fK",
-				$year + 1900, $mon + 1, $day, $hour, $min, $sec,
-				(-s $file) / 1000
-			);
+			$info=&date($::ref_format,(stat($file))[10])
+				. "&nbsp;" . &plugin_ref_bytes(-s $file);
+#			my ($sec, $min, $hour, $day, $mon, $year) = localtime((stat($file))[10]);
+#			$info = sprintf("%d/%02d/%02d %02d:%02d:%02d %s",
+#				$year + 1900, $mon + 1, $day, $hour, $min, $sec,
+#				$tmp
+#			);
 		}
 		my $tmp=lc $name;
-		$target=($name=~/\.$ref::popup_regex$/oi) ? 1 : 0;
+#		$target=($name=~/\.$ref::popup_regex$/oi) ? 1 : 0;
+		$target=($name=~/\.$ref::popup_regex$/) ? 1 : 0;
 		if($is_image) {
 			$class="image";
 			$popupmode=$ref::imagepopup;
@@ -443,6 +450,10 @@ sub plugin_ref_body {
 		my $icon = $params{noicon} ? '' : $ref::file_icon;
 		$params{_body} = &make_link_target($url,$class,"_target",$info,$target)
 			. "$icon$title</a>\n";
+		# add 0.2.0-p2
+		$params{_body} .= <<EOM if($ref::displayinfo eq 1);
+<span class="ref_info">$info</span>
+EOM
 		# add 0.1.8										# comment
 		if($::AttachCounter eq 2) {
 			require "plugin/counter.inc.pl";
@@ -468,6 +479,24 @@ EOM
 #		$params{_body} = "<a href=\"$url\" title=\"$info\">$icon$title</a>\n";	# comment
 #	}														# comment
 #	return %params;											# comment
+}
+
+sub plugin_ref_bytes {
+	my ($size)=@_;
+	my $kb = $size . " bytes";
+	if($size>1024) {
+		$kb = sprintf("%.1f KB", $size / 1024);
+	}
+	if($size>1024 * 1024) {
+		$kb = sprintf("%.1f MB", $size / 1024 / 1024);
+	}
+	if($size>1024 * 1024 * 1024) {
+		$kb = sprintf("%.1f GB", $size / 1024 / 1024 / 1024);
+	}
+	if($size>1024 * 1024 * 1024 * 1024) {
+		$kb = sprintf("%.1f TB", $size / 1024 / 1024 / 1024 / 1024);
+	}
+	return $kb;
 }
 
 1;

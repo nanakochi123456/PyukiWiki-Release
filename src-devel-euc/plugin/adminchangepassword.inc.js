@@ -1,8 +1,8 @@
 /*/////////////////////////////////////////////////////////////////////
 # adminchangepassword.inc.js - This is PyukiWiki, yet another Wiki clone.
-# $Id: adminchangepassword.inc.js,v 1.214 2012/01/31 10:11:58 papu Exp $
+# $Id: adminchangepassword.inc.js,v 1.268 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -18,6 +18,10 @@
 /////////////////////////////////////////////////////////////////////*/
 
 function ViewPassForm(id,mode){
+	var	obj,
+		block="block",
+		none="none";
+
 	if(d.all || d.getElementById){	//IE4, NN6 or later
 		if(d.all){
 			obj = d.all(id).style;
@@ -25,13 +29,13 @@ function ViewPassForm(id,mode){
 			obj = d.getElementById(id).style;
 		}
 		if(mode == "view") {
-			obj.display = "block";
-		} else if(mode == "none") {
-			obj.display = "none";
-		} else if(obj.display == "block"){
-			obj.display = "none";		//hidden
-		}else if(obj.display == "none"){
-			obj.display = "block";		//view
+			obj.display = block;
+		} else if(mode == none) {
+			obj.display = none;
+		} else if(obj.display == block){
+			obj.display = none;		//hidden
+		}else if(obj.display == none){
+			obj.display = block;		//view
 		}
 	}
 }

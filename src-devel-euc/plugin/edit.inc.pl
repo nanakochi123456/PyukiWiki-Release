@@ -1,8 +1,8 @@
 #######################################################################
 # edit.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: edit.inc.pl,v 1.432 2012/01/31 10:11:58 papu Exp $
+# $Id: edit.inc.pl,v 1.486 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -162,7 +162,7 @@ sub plugin_edit_editform_pukilike {
   <input type="hidden" name="refercmd" value="$edit" />
   $partfield
   $loadlist
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg,1)]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
@@ -288,7 +288,7 @@ sub plugin_edit_editform_pyukiwiki {
   <input type="hidden" name="refer" value="$::form{refer}" />
   <input type="hidden" name="refercmd" value="$edit" />
   $partfield
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg,1)]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&plugin_edit_crlfconv(&htmlspecialchars($mymsg,1))]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
@@ -353,6 +353,11 @@ EOD
 	return $body;
 }
 
+sub plugin_edit_crlfconv {
+	my ($msg)=shift;
+	$msg=~s/\x0D\x0A|\x0D|\x0A/\&\#13;\&\#10;/g;
+	$msg;
+}
 1;
 __END__
 

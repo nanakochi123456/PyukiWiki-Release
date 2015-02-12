@@ -1,8 +1,8 @@
 ######################################################################
 # aname.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: aname.inc.pl,v 1.424 2012/01/31 10:11:58 papu Exp $
+# $Id: aname.inc.pl,v 1.477 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

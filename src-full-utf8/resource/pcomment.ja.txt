@@ -1,6 +1,6 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 #
 pcomment_plugin_yourname=あなたの名前:
 pcomment_plugin_pcommentbutton=コメント追加

@@ -1,12 +1,12 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: compactmagic.pl,v 1.344 2012/01/31 10:11:53 papu Exp $
+# $Id: compactmagic.pl,v 1.396 2012/03/01 10:39:19 papu Exp $
 
 $header="#----------------------------------------------------------------------\n";
 print $header;
 print "# " . '$' . "Id" . '$' . "\n";
 print <<EOM;
-# "magic file for File::MMagic" version 1.7 \$\$
+# "magic file for File::MMagic" version 1.27 \$\$
 EOM
 $output=0;
 $chk=0;

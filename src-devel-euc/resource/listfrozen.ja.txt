@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: listfrozen.ja.txt,v 1.411 2012/01/31 10:11:59 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: listfrozen.ja.txt,v 1.465 2012/03/01 10:39:22 papu Exp $
 #
 
 # listfrozen.inc.pl
@@ -24,4 +24,3 @@ listfrozen_plugin_exec_frozen=凍結されています。
 listfrozen_plugin_exec_unfrozen_change=<strong>凍結解除しました。</strong>
 listfrozen_plugin_exec_frozen_change=<strong>凍結しました。</strong>
 listfrozen_plugin_execmsg=実行しました。下記のログにて実行結果を確認して下さい。
-

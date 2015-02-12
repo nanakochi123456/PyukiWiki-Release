@@ -1,6 +1,6 @@
 <?php
 // PyukiWiki PHP wrapper sample
-// $Id: index.php,v 1.278 2012/01/31 10:12:00 papu Exp $
+// $Id: index.php,v 1.329 2012/03/01 10:39:22 papu Exp $
 // Code: EUC-JP
 
 // URL¤òÊÑ¹¹

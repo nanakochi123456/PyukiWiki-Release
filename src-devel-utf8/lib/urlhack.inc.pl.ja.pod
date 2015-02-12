@@ -1,4 +1,4 @@
-#$Id: urlhack.inc.pl.ja.pod,v 1.253 2012/01/31 10:12:02 papu Exp $
+#$Id: urlhack.inc.pl.ja.pod,v 1.304 2012/03/01 10:39:24 papu Exp $
 
 __END__
 =encoding utf-8
@@ -97,7 +97,7 @@ PATH_INFO環境変数を使用する場合は１、404 Not found エラーを利
 
 =item $urlhack::fake_extention
 
-現在、申し訳ありませんが、偽装できるのは「/」のみです。
+PATH_INFO使用時、偽装できるのは「/」のみです。
 拡張子等をつけて、偽装します。
 
  $::fake_extention='/';
@@ -109,6 +109,9 @@ PATH_INFO環境変数を使用する場合は１、404 Not found エラーを利
 
  0:16進エンコードを使用します。
  1:punyエンコードを使用します。少しURLが短くなります。
+ 2:UTF8エンコードを使用します。ブラウザーや検索結果に母国語が表示されます。
+ 3:短縮URLロジックを用いたエンコードを使用します。別途短縮用データベースの
+   ディレクトリが必要です。
 
 =item $urlhack::noconvert_marks
 

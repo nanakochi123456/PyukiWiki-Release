@@ -1,8 +1,8 @@
 ######################################################################
 # newpage.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: newpage.inc.pl,v 1.255 2012/01/31 10:12:04 papu Exp $
+# $Id: newpage.inc.pl,v 1.308 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

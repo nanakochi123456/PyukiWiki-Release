@@ -1,13 +1,13 @@
 #
-# $Id: Constants.pm,v 1.252 2012/01/31 10:12:03 papu Exp $
+# $Id: Constants.pm,v 1.303 2012/03/01 10:39:25 papu Exp $
 # Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp
 # "Jcode.pm" version 2.7 $$
 #
 package Jcode::Unicode::Constants;
 use strict;
 use vars qw($RCSID $VERSION);
-$RCSID = q$Id: Constants.pm,v 1.252 2012/01/31 10:12:03 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.252 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Constants.pm,v 1.303 2012/03/01 10:39:25 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.303 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 use Carp;
 # Exporter is not used to optimize speed
 package Jcode::Unicode::Constants;

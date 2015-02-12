@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # yuicompressor script
-# $Id: compressfile.pl,v 1.251 2012/01/31 10:12:01 papu Exp $
+# $Id: compressfile.pl,v 1.304 2012/03/01 10:39:24 papu Exp $
 
 $mode=$ARGV[0];
 $output=$ARGV[1];
@@ -8,6 +8,8 @@ $input=$ARGV[2];
 $nohead=$ARGV[3];
 print "compress $input -> $output\n";
 $compress{js}="yuicompressor --type js --charset utf8 -o";
+$compress{js21}="yuicompressor --type js --charset utf8 -o";
+$compress{js22}="php ./build/example-file.php ";
 $compress{css}="yuicompressor --type css --charset utf8 -o";
 $convert{utf8}="perl ./build/Jcode-convert.pl utf8";
 $convert{euc}="perl ./build/Jcode-convert.pl euc";
@@ -36,7 +38,12 @@ close(W);
 close(R);
 
 &shell("$convert{utf8} $input.tmp $input.commentcut");
-&shell("$compress{$mode} $input.tmp2 $input.tmp");
+if($mode eq "js2") {
+	&shell("$compress{js21} $input.tmp21 $input.tmp");
+	&shell("$compress{js22} $input.tmp21 $input.tmp2");
+} else {
+	&shell("$compress{$mode} $input.tmp2 $input.tmp");
+}
 &shell("$convert{euc} $input.tmp $input.tmp2");
 
 open(R,"$input.tmp");
@@ -50,6 +57,7 @@ close(R);
 unlink("$input.commentcut");
 unlink("$input.tmp");
 unlink("$input.tmp2");
+unlink("$input.tmp21");
 
 sub shell {
 	my($shell)=@_;

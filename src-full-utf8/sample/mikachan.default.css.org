@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0-p1 $$ */
-/* $Id: mikachan.default.css.org,v 1.193 2012/01/31 10:12:06 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p2 $$ */
+/* $Id: mikachan.default.css.org,v 1.247 2012/03/01 10:39:27 papu Exp $ */
 /* Code=UTF-8 */
 /* Mikachan Japanese font - http://mikachan.sourceforge.jp/ */
 /* Convert Tips - http://www.adobe.com/jp/joc/devnet/dreamweaver/articles/html5pack_css3_part4.html */
@@ -17,6 +17,9 @@
 			url('./mikachan.ttf')	format('truetype'),
 			url('./mikachan.otf')	format('opentype');
 }
+/* "PyukiWiki" version 0.2.0-p2 $$ */
+/* $Id: mikachan.default.css.org,v 1.247 2012/03/01 10:39:27 papu Exp $ */
+/* Code=UTF-8 */
 /* base */
 pre, dl, ol, ul, p, blockquote {
 	line-height:130%;
@@ -27,7 +30,8 @@ body,td {
 	margin-left:2%;
 	margin-right:2%;
 	font-size:90%;
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
+	/* force br ? */
 }
 blockquote {
 	margin-left:32px;
@@ -63,7 +67,7 @@ a:hover {
 /* Headers */
 /* h1, h2, h3, h4, h5, h6 { */ /* for old style h3~h6 */
 h1, h2 {
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
 	color:inherit;
  	background-color:#DDEEFF;
 	padding:.3em;
@@ -71,7 +75,7 @@ h1, h2 {
 	margin:0px 0px .5em 0px;
 }
 h3 {
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
 	border-bottom:  3px solid #DDEEFF;
 	border-top:     1px solid #DDEEFF;
 	border-left:   10px solid #DDEEFF;
@@ -82,7 +86,7 @@ h3 {
 	margin:0px 0px .5em 0px;
 }
 h4 {
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
 	border-left:   18px solid #DDEEFF;
 	color:inherit;
 	background-color:#FFFFFF;
@@ -92,7 +96,7 @@ h4 {
 h5, h6,
 #menubar h2, #menubar h3, #menubar h4,
 #sidebar h2, #sidebar h3, #sidebar h4 {
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
 	color:inherit;
 	background-color:#DDEEFF;
 	padding:.3em;
@@ -108,6 +112,15 @@ h1.title, h1.error {
 	padding: 12px 0px 0px 0px;
 	border: 0px;
 	margin: 12px 0px 0px 0px;
+}
+/* Only exist :TitleHeader Page */
+.headermain {
+	width: 50%;
+	text-align: left;
+}
+.headerbody {
+	width: 50%;
+	text-align: right;
 }
 h1.error {
 	color: red;
@@ -134,9 +147,19 @@ pre {
 	padding:.5em;
 	margin-left:1em;
 	margin-right:2em;
-	white-space:pre;
+/*	white-space:pre;*/
 	color:black;
 	background-color:#F0F8FF;
+	/* force br */
+	white-space:	pre;			 /* CSS 2.0 */
+	white-space:	pre-wrap;		 /* CSS 2.1 */
+	white-space:	pre-line;		 /* CSS 3.0 */
+	white-space:	-pre-wrap;		 /* Opera 4-6 */
+	white-space:	-o-pre-wrap;	 /* Opera 7 */
+	white-space:	-moz-pre-wrap;	 /* Mozilla */
+	white-space:	-hp-pre-wrap;	 /* HP Printers */
+	word-wrap:		break-all;		 /* IE 5+ */
+	word-wrap:		break-word;		 /* IE */
 }
 img {
 	border:none;
@@ -147,11 +170,13 @@ thead td.style_td,
 tfoot td.style_td {
 	color:inherit;
 	background-color:#D0D8E0;
+	/* force br ? */
 }
 thead th.style_th,
 tfoot th.style_th {
 	color:inherit;
 	background-color:#E0E8F0;
+	/* force br ? */
 }
 .style_table {
 	padding:0px;
@@ -169,12 +194,14 @@ tfoot th.style_th {
 	text-align:center;
 	color:inherit;
 	background-color:#EEEEEE;
+	/* force br ? */
 }
 .style_td {
 	padding:5px;
 	margin:1px;
 	color:inherit;
 	background-color:#EEF5FF;
+	/* force br ? */
 }
 /* logs_viewer graph bar */
 /* graph CSS sample */
@@ -188,7 +215,7 @@ tfoot th.style_th {
 	float:left;
 /*	background-color:#cecece;	*/
 	position:relative;
-	width:999px;				/* 適当な数字。汗 */
+	width:600px;				/* 適当な数字。汗 */
 	border:#80a0ff 1px solid;	/* 追加 */
 	padding:0
 }
@@ -203,7 +230,7 @@ tfoot th.style_th {
 	text-align:center;
 	color:#fff;
 	height:25px;
-	font-family:mikachan, Arial, Helvetica, sans-serif;
+	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	line-height:1.9em
 }
@@ -246,7 +273,7 @@ dl.list2,dl.list3 {
 	margin-left:16px;
 }
 /* list for PukiWikiStyle=1 */
-ul.plist1 {
+ul.list1 {
 	list-style-type:disc;
 }
 ul.plist2 {
@@ -324,6 +351,7 @@ hr.note_hr {
 	margin:1em auto 0em auto;
 }
 /* font-size (nonuse) */
+/*
 span.size1 {
 	font-size:xx-small;
 	line-height:130%;
@@ -366,7 +394,8 @@ span.size7 {
 	text-indent:0px;
 	display:inline;
 }
-/* set color (nonuse) */
+*/
+/* set color */
 strong.word0 {
 	background-color:#FFFF66;
 	color:black;
@@ -438,7 +467,6 @@ div#menubar {
 	width: 10em;
 	padding:0px;
 	margin:4px;
-	word-break:break-all;
 	font-size:90%;
 	overflow:hidden;
 }
@@ -446,7 +474,6 @@ div#sidebar {
 	width: 12em;
 	padding:0px;
 	margin:4px;
-	word-break:break-all;
 	font-size:90%;
 	overflow:hidden;
 }
@@ -506,15 +533,16 @@ div#lastmodified {
 	padding:0px;
 	margin:0px;
 }
+/* nouse */
 /*
-div#related { /* nonuse */
+div#related {
 	font-size:80%;
 	padding:0px;
 	margin:16px 0px 0px 0px;
 }
 */
 div#footer {
-	font-family:mikachan, verdana, arial, helvetica, Sans-Serif;
+	font-family:verdana, arial, helvetica, Sans-Serif;
 	font-size:90%;
 	padding:0px;
 	margin:16px 0px 0px 0px;
@@ -524,8 +552,10 @@ div#preview {
 	background-color:#F5F8FF;
 }
 /* aname.inc.pl */
+/*
 .anchor {
 }
+*/
 .anchor_super {
 	font-size:xx-small;
 	vertical-align:super;
@@ -670,8 +700,7 @@ ul.popular_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 1em;
-	word-wrap:break-word;
-	word-break:break-all;
+	force br ?
 }
 */
 /* recent.inc.pl,showrss.inc.pl */
@@ -680,14 +709,20 @@ ul.recent_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 31em;
-	word-wrap:break-word;
-	word-break:break-all;
+	force br ?
 }
 */
 /* ref.inc.pl */
 div.img_margin {
 	margin-left:32px;
 	margin-right:32px;
+}
+.ref_info {
+	color: #222222;
+	font-size: 70%;
+}
+.ref_counter {
+	font-size: 70%;
 }
 /* vote.inc.pl */
 td.vote_label {
@@ -708,7 +743,7 @@ p.thumbnail {
 	margin: 15px 32px 0px 32px;
 	padding: 15px 8px 15px 15px;
 	border-style: solid;
-	border-color: #ddaa77; /*#215DC6; */
+	border-color: #ddaa77; #215DC6;
 	border-width: 1px;
 	font-size: 80%;
 	vertical-align: middle;
@@ -774,3 +809,13 @@ a.partedit {
 /*	text-decoration:none;*/
 	text-decoration:underline;
 }
+/* force br code */
+/*	white-space:	pre;			 CSS 2.0 */
+/*	white-space:	pre-wrap;		 CSS 2.1 */
+/*	white-space:	pre-line;		 CSS 3.0 */
+/*	white-space:	-pre-wrap;		 Opera 4-6 */
+/*	white-space:	-o-pre-wrap;	 Opera 7 */
+/*	white-space:	-moz-pre-wrap;	 Mozilla */
+/*	white-space:	-hp-pre-wrap;	 HP Printers */
+/*	word-wrap:		break-all;		 IE 5+ */
+/*	word-wrap:		break-word;		 IE */

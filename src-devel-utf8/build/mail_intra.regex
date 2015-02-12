@@ -1,0 +1,52 @@
+##################################################################
+# $Id: mail_intra.regex,v 1.27 2012/03/01 10:39:24 papu Exp $
+##################################################################
+# http://www.din.or.jp/~ohzaki/mail_regex.htm
+##################################################################
+#
+# my $quoted_pair = qq{\\\\[\\x09 -~]};
+#
+# my $atext = qq{[-!#-'*+/-9=?A-Z^-~]};
+# my $dot_atom_text = qq{$atext+(?:\\.$atext+)*};
+# my $dot_atom = $dot_atom_text;
+#
+# my $not_dot_atom_text = qq{$atext+(?:$atext+)*};
+# my $not_dot_atom = $not_dot_atom_text;
+#
+# my $qtext = qq{[!#-\\[\\]-~]};
+# my $qcontent = qq{(?:$qtext|$quoted_pair)};
+# my $quoted_string = qq{"$qcontent*"};
+#
+# my $local_part = qq{(?:$dot_atom|$quoted_string)};
+# my $domain = qq{($dot_atom|$not_dot_atom)};
+# my $addr_spec = qq{$local_part\@$domain};
+# my $mail_regex = $addr_spec;
+#
+# print $mail_regex;
+
+# old mail regex use this.
+# http://www.din.or.jp/~ohzaki/perl.htm#Mail
+
+$esc         = '\\\\';               $Period      = '\.';
+$space       = '\040';
+$OpenBR      = '\[';                 $CloseBR     = '\]';
+$NonASCII    = '\x80-\xff';          $ctrl        = '\000-\037';
+$CRlist      = '\n\015';
+$qtext       = qq/[^$esc$NonASCII$CRlist\"]/;
+$dtext       = qq/[^$esc$NonASCII$CRlist$OpenBR$CloseBR]/;
+$quoted_pair = qq<${esc}[^$NonASCII]>;
+$atom_char   = qq/[^($space)<>\@,;:\".$esc$OpenBR$CloseBR$ctrl$NonASCII]/;
+$atom        = qq<$atom_char+(?!$atom_char)>;
+$quoted_str  = qq<\"$qtext*(?:$quoted_pair$qtext*)*\">;
+$word        = qq<(?:$atom|$quoted_str)>;
+$domain_ref  = $atom;
+$domain_lit  = qq<$OpenBR(?:$dtext|$quoted_pair)*$CloseBR>;
+$sub_domain  = qq<(?:$domain_ref|$domain_lit)>;
+#$domain      = qq<$sub_domain(?:$Period$sub_domain)*>;
+$domain      = qq<$sub_domain(?:$Period$sub_domain)*>;
+$local_part  = qq<$word(?:$Period$word)*>;
+$addr_spec   = qq<$local_part\@$domain>;
+$mail_regex  = $addr_spec;
+
+$mail_regex=~s/\\\\/\\\\\\\\/g;
+print $mail_regex;

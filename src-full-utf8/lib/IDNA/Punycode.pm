@@ -1,4 +1,4 @@
-#$Id: Punycode.pm,v 1.252 2012/01/31 10:12:03 papu Exp $
+#$Id: Punycode.pm,v 1.303 2012/03/01 10:39:25 papu Exp $
 # "IDNA::Punycode.pm" version 0.03 $$
 package IDNA::Punycode;
 use strict;

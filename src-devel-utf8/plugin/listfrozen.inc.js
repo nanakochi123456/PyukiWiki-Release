@@ -1,8 +1,8 @@
 /*/////////////////////////////////////////////////////////////////////
 # listfrozen.inc.js - This is PyukiWiki, yet another Wiki clone.
-# $Id: listfrozen.inc.js,v 1.255 2012/01/31 10:12:04 papu Exp $
+# $Id: listfrozen.inc.js,v 1.309 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -18,17 +18,19 @@
 /////////////////////////////////////////////////////////////////////*/
 
 function allcheckbox(v) {
-	f=d.getElementById("sel");
-	len=f.elements.length;
+	var	f=d.getElementById("sel"),
+		len=f.elements.length;
+
 	for(i=0;i<len;i++) {
-		if(f.elements[i].type == "checkbox") {
+		l=f.elements[i];
+		if(l.type == "checkbox") {
 			if(v == 1) {
-				if(!f.elements[i].checked) {
-					f.elements[i].click();
+				if(!l.checked) {
+					l.click();
 				}
 			} else {
-				if(f.elements[i].checked) {
-					f.elements[i].click();
+				if(l.checked) {
+					l.click();
 				}
 			}
 		}

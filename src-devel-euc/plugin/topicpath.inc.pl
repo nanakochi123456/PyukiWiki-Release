@@ -1,8 +1,8 @@
 ######################################################################
 # topicpath.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: topicpath.inc.pl,v 1.396 2012/01/31 10:11:58 papu Exp $
+# $Id: topicpath.inc.pl,v 1.449 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Junichi http://www.re-birth.com/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -25,7 +25,7 @@
 ######################################################################
 # Re-Birth Original
 #$topicpath::AutoLoad=1					if(!defined($topicpath::AutoLoad));
-#$topicpath::SEPARATOR = '/'			if(!defined($topicpath::SEPARATOR));
+#$topicpath::SEPARATOR = $::separator	if(!defined($topicpath::SEPARATOR));
 #$topicpath::FRONTMARK = ' ¡§ '			if(!defined($topicpath::FRONTMARK));
 #$topicpath::ARROW = ' &gt; '			if(!defined($topicpath::ARROW));
 #$topicpath::FRONTPAGE = $::FrontPage	if(!defined($topicpath::FRONTPAGE));
@@ -35,7 +35,7 @@
 ######################################################################
 # PukiWiki Like
 $topicpath::AutoLoad=1					if(!defined($topicpath::AutoLoad));
-$topicpath::SEPARATOR = '/'				if(!defined($topicpath::SEPARATOR));
+$topicpath::SEPARATOR = $::separator	if(!defined($topicpath::SEPARATOR));
 $topicpath::FRONTMARK = ' /  '			if(!defined($topicpath::FRONTMARK));
 $topicpath::ARROW = ' / '				if(!defined($topicpath::ARROW));
 $topicpath::FRONTPAGE = $::FrontPage	if(!defined($topicpath::FRONTPAGE));

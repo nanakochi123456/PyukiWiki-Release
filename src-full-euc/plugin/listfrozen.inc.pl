@@ -1,8 +1,8 @@
 ######################################################################
 # listfrozen.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: listfrozen.inc.pl,v 1.419 2012/01/31 10:11:58 papu Exp $
+# $Id: listfrozen.inc.pl,v 1.475 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -25,7 +25,7 @@ sub plugin_listfrozen_action {
 		if($auth{authed} eq 0);
 	$::IN_HEAD.=<<EOM;
 <script type="text/javascript"><!--
-function allcheckbox(a){f=d.getElementById("sel");len=f.elements.length;for(i=0;i<len;i++){if(f.elements[i].type=="checkbox"){if(a==1){if(!f.elements[i].checked){f.elements[i].click()}}else{if(f.elements[i].checked){f.elements[i].click()}}}}};
+function allcheckbox(b){var c=d.getElementById("sel"),a=c.elements.length;for(i=0;i<a;i++){l=c.elements[i];if(l.type=="checkbox"){if(b==1){if(!l.checked){l.click()}}else{if(l.checked){l.click()}}}}};
 //--></script>
 EOM
 	foreach my $pages (keys %::database) {
@@ -112,12 +112,11 @@ EOM
 					next;
 				}
 			}
-			my $pg2=$page;
 			$body.=<<EOM;
 <input type="checkbox" name="frozen_$hex" value="1"@{[$frozen eq 0 ? '' : ' checked="checked"']} />
 <input type="hidden" name="check_$hex" value="$frozen" />
 <input type="hidden" name="exist_$hex" value="1" />
-@{[&make_link($pg2)]}
+<a href="$::script?cmd=read;mypage=@{[&encode($page)]}">$page</a>
 &nbsp;(<a href="$::script?cmd=adminedit&amp;mypage=@{[&encode($page)]}">$::resource{editbutton}</a>)&nbsp;
 $date<br />
 EOM

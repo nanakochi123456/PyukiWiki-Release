@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: resource.en.txt,v 1.430 2012/01/31 10:11:59 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: resource.en.txt,v 1.486 2012/03/01 10:39:22 papu Exp $
 #
 
 resource_loaded=1
@@ -63,7 +63,6 @@ admin_passwd_prompt_msg=Password:
 admin_passwd_prompt_error=Invalid Password
 admin_passwd_button=Send
 
-
 # for feauture, authble wiki
 auth_readfobidden=Deny for read this page
 
@@ -75,6 +74,12 @@ searchpage=Search Word
 searchbutton=Search
 searchand=AND
 searchor=OR
+msg_word=These search terms have been highlighted:
+
+# ref.inc.pl
+ref_total=TOTAL
+ref_today=TODAY
+ref_yesterday=YERSTERDAY
 
 # sub date
 date_ampm_en=am,pm

@@ -1,8 +1,8 @@
 ######################################################################
 # antispam.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: antispam.inc.pl,v 1.427 2012/01/31 10:11:55 papu Exp $
+# $Id: antispam.inc.pl,v 1.480 2012/03/01 10:39:19 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

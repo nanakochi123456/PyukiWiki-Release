@@ -1,8 +1,8 @@
 ######################################################################
 # location.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: location.inc.pl,v 1.343 2012/01/31 10:11:58 papu Exp $
+# $Id: location.inc.pl,v 1.397 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -42,8 +42,7 @@ sub plugin_location_convert {
 <meta http-equiv="Refresh" content="$::location::move_time;url=$url" />
 EOM
 	my $body=$::resource{location_plugin_message};
-	$body=~s/\@\@URL\@\@/$url/g;
-
+	$body=~s/\$URL/$url/g;
 	return $body;
 }
 

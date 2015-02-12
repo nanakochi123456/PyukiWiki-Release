@@ -1,8 +1,8 @@
 ######################################################################
 # adminchangepassword.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: adminchangepassword.inc.pl,v 1.255 2012/01/31 10:12:03 papu Exp $
+# $Id: adminchangepassword.inc.pl,v 1.312 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -42,24 +42,7 @@ sub plugin_adminchangepassword_action {
 
 	my $in_head=<<EOM;
 <script type="text/javascript"><!--
-function ViewPassForm(id,mode){
-	if(d.all || d.getElementById){	//IE4, NN6 or later
-		if(d.all){
-			obj = d.all(id).style;
-		}else if(d.getElementById){
-			obj = d.getElementById(id).style;
-		}
-		if(mode == "view") {
-			obj.display = "block";
-		} else if(mode == "none") {
-			obj.display = "none";
-		} else if(obj.display == "block"){
-			obj.display = "none";		//hidden
-		}else if(obj.display == "none"){
-			obj.display = "block";		//view
-		}
-	}
-}
+function ViewPassForm(f,e){var b,c="block",a="none";if(d.all||d.getElementById){if(d.all){b=d.all(f).style}else{if(d.getElementById){b=d.getElementById(f).style}}if(e=="view"){b.display=c}else{if(e==a){b.display=a}else{if(b.display==c){b.display=a}else{if(b.display==a){b.display=c}}}}}};
 @{[$h ne '' ? "\nfunction SetPass(e){$h}" : ""]}
 //--></script>
 EOM
@@ -112,7 +95,7 @@ $::resource{adminchangepassword_plugin_msg_complete}<br />
 EOM
 	} else {
 		my $msg=$::resource{adminchangepassword_plugin_err_write};
-		$msg=~s/FILE/$adminchangepassword::setupinicgi/g;
+		$msg=~s/\$FILE/$adminchangepassword::setupinicgi/g;
 		$body=<<EOM;
 <div class="error">$msg<br />
 <form action="$::script" method="POST" id="adminchangepasswd" name="adminchangepasswd">
@@ -144,8 +127,8 @@ EOM
 	|| length($::form{"passwd_" . $form}) > $adminchangepassword::maxlength) {
 		$stat=1;
 		my $msg=$::resource{adminchangepassword_plugin_err_strmin};
-		$msg=~s/MIN/$adminchangepassword::minlength/g;
-		$msg=~s/MAX/$adminchangepassword::maxlength/g;
+		$msg=~s/\$MIN/$adminchangepassword::minlength/g;
+		$msg=~s/\$MAX/$adminchangepassword::maxlength/g;
 		$body.=<<EOM;
 <div class="error">
 $::resource{"adminchangepassword_plugin_" . $form}$msg

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: server.en.txt,v 1.254 2012/01/31 10:12:05 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: server.en.txt,v 1.310 2012/03/01 10:39:27 papu Exp $
 #
 # server.inc.pl
 server_plugin_title=Server Infomation Viewer
@@ -10,6 +10,10 @@ server_plugin_passwdsubmit=Send
 server_plugin_infomation_button=Basic Infomation
 server_plugin_perlinfo_button=Perl Detailed Information
 server_plugin_benchmark_button=Bench Mark
+server_plugin_benchmark1_button=(Step1)
+server_plugin_benchmark2_button=(Step2)
+server_plugin_benchmark3_button=(Step3)
+server_plugin_benchmark4_button=(Step4)
 server_plugin_linux_button=Linux Only
 server_plugin_freebsd_button=FreeBSD Only
 server_plugin_server_title=Server Infomation
@@ -52,6 +56,9 @@ server_plugin_REMOTE_ADDR=Client IP Address
 server_plugin_REMOTE_HOST=Client Hostname
 server_plugin_REMOTE_PORT=Client port number
 server_plugin_HTTP_USER_AGENT=Client Browser Name (user agent)
+server_plugin_HTTP_USER_AGENT_BROWSERNAME=Detect client browser name
+server_plugin_HTTP_USER_AGENT_BROWSERVERSION=Detect client browser version
+server_plugin_HTTP_USER_AGENT_UAOS=Detect client operatiung system
 server_plugin_HTTP_ACCEPT_LANGUAGE=Accept Language
 server_plugin_HTTP_ACCEPT_ENCODING=Accept Encoding
 server_plugin_request_title=Request Infomation

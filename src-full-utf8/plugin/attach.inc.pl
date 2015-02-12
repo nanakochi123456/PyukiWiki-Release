@@ -1,8 +1,8 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.255 2012/01/31 10:12:03 papu Exp $
+# $Id: attach.inc.pl,v 1.310 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -32,8 +32,7 @@
 ######################################################################
 #use strict;
 use CGI qw(:standard);
-use Digest::MD5 qw(md5_hex);
-#use Digest::Perl::MD5 qw(md5_hex);
+use Nana::MD5 qw(md5_hex);
 use File::MMagic;
 require "plugin/counter.inc.pl";
 @magic_files=(
@@ -89,8 +88,12 @@ my %mime = (
 	'\.tiff?'			=> "image/tiff|TIFF",
 	'\.mpe?g'			=> "video/mpeg|MPEG|Microsoft|ASF|AVI|Div|video",
 	'\.(avi|asf|wmv)'	=> "video/x-msvideo|Microsoft|ASF",
-	'\.rmm?'			=> "application/vnd.rn-realmedia|Real",
-	'\.(qt|mov)'		=> "video/quicktime|Apple|QuickTime",
+	'\.rmm?'			=> "application/vnd.rn-realmedia|Real|Video",
+	'\.(qt|mov)'		=> "video/quicktime|Apple|QuickTime|Video",
+	'\.mp4'				=> "video/mp4|MP4|Video",
+	'\.ogv'				=> "video/ogv|Ogg|Vorbis|Video",
+	'\.webm'			=> "video/webm|webm|Video",
+	'\.flv'				=> "video/x-flv|Flash|Video",
 	'\.txt'				=> "text/plain|text",
 	'\.([ch]p?p?)'		=> "text/plain|text",
 	'\.(js)'			=> "text/x-javascript|text",
@@ -578,9 +581,10 @@ sub getstatus
 {
 	my $this = shift;
 	return 0 if (!$this->{exist});
-	my ($sec, $min, $hour, $day, $mon, $year) = localtime($this->{time});
-	$this->{time_str} = sprintf("%d/%02d/%02d %02d:%02d:%02d",
-			$year + 1900, $mon + 1, $day, $hour, $min, $sec);
+#	my ($sec, $min, $hour, $day, $mon, $year) = localtime($this->{time});
+#	$this->{time_str} = sprintf("%d/%02d/%02d %02d:%02d:%02d",
+#			$year + 1900, $mon + 1, $day, $hour, $min, $sec);
+	$this->{time_str} = &date($::attach_format,$this->{time});
 	$this->{size} = -s $this->{filename};
 	$this->{size_str} = &plugin_attach_bytes($this->{size});
 	$this->{type} = &attach_mime_content_type($this->{file});

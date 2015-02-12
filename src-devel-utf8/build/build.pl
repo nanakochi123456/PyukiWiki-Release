@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.252 2012/01/31 10:12:01 papu Exp $
+# $Id: build.pl,v 1.311 2012/03/01 10:39:24 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
@@ -16,24 +16,19 @@ require 'build/text.pl';
 
 $releasepatch="./releasepatch";
 
-$binary_files='(\.(jpg|png|gif|dat|key|zip|sfx)$)|(^unicode\.pl|favicon\.ico$)';
+$binary_files='(\.(jpg|png|gif|dat|key|zip|sfx|swf)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
 $all_ignore='\.sum$|\.sign$|setup.ini.cgi|\.bak$|\.lk$|^kanato';
-$common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v\.cgi|^playvideo|setup.ini.cgi$';
-$release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$|\.inc\.js$|\.inc.\.css';
-$update_ignore=$common_ignore . '|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
-$compact_ignore='^aguse|^xframe|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP';
+$common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^sh\.|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v\.cgi|^playvideo|^powerusage|setup.ini.cgi|flowplayer|video-js.css.org|video-js.css|video.js|video.js.src|videoresize.js|videoresize.js.src|video-js.swf|video-js.png|videoresize.js|videoresize.js.src|^head\.inc|^html\.inc|^sh\.inc|^v\_css\.css|video';
+$release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$|\.inc\.js|^v\_css\.css|video';
+$update_ignore=$common_ignore . '|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd|\.inc\.js|^v\_css\.css|video';
+$compact_ignore='|^agent|^aguse|^xframe|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^pathmenu|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP|\.inc\.js|^v\_css\.css|video|';
 $compact_ignore.='^lang\_|^hinad|^lirs|^copy';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
 $updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
 #$compact_filter="./build/obfuscator.pl";
 
-if($ALLFLG eq 'all') {
-	$devel_ignore=$all_ignore . '|\.zip$';
-} else {
-	$devel_ignore=$common_ignore . '|\.zip$';
-}
 $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 
 $ignore_crlfcut='README.txt|DEVEL.txt|COPYRIGHT.txt|COPYRIGHT.ja.txt|\.htaccess|.htpasswd|pyukiwiki.ini.cgi|wiki\/(.+)?\.txt$';
@@ -240,6 +235,14 @@ $ignore_codecheck="build.pl";
 #	"releasepatch/sample::0755:0644",
 #	"releasepatch/skin::0755:0644"
 );
+
+if($ALLFLG eq 'all') {
+	$devel_ignore=$all_ignore . '|\.zip$';
+	push(@devel_dirs,"skin/syntaxhighlighter::0755:0644");
+	push(@updated_dirs,"skin/syntaxhighlighter::0755:0644");
+} else {
+	$devel_ignore=$common_ignore . '|\.zip$';
+}
 
 @cvs_dirs=@devel_dirs;
 
@@ -496,6 +499,7 @@ sub copyascii {
 		$oldfile="utf8.tmp";
 	}
 	open(R,"$oldfile");
+print "$oldfile\n";
 	open(W,">$new");
 	my $cut=0;
 	foreach(<R>) {
@@ -524,11 +528,23 @@ sub copyascii {
 			open(YUI,"/tmp/compressfile") || die;
 			my $yui="";
 			foreach(<YUI>) {
-				print $yui.=$_;
+				$yui.=$_;
 			}
 			close(YUI);
 			unlink("/tmp/compressfile");
 			s/\@\@yuicompressor\_(.+)\=\"(.+)\"\@\@/$yui/;
+		}
+
+		# for direct exec file
+		if(/\@\@exec\=\"(.+)\"\@\@/) {
+			my $execfile=$1;
+			$execbuf="";
+			open(PIPE,"perl $execfile|");
+			foreach(<PIPE>) {
+				$execbuf.=$_;
+			}
+			close(PIPE);
+			s/\@\@exec\=\"(.+)\"\@\@/$execbuf/;
 		}
 
 		# for compact source (release v0.2.0 ?)
@@ -617,7 +633,7 @@ sub copyascii {
 	close(W);
 	close(R);
 	# for compact
-	if(0) {
+if(0) {
 	if($TYPE=~/compact/ && $new=~/\.pl$|\.cgi$/ && $new!~/\.ini\.cgi$/) {
 		open(R,"$new");
 		my $all;

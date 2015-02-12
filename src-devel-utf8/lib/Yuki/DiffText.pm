@@ -1,6 +1,6 @@
 ######################################################################
 # DiffText.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: DiffText.pm,v 1.254 2012/01/31 10:12:03 papu Exp $
+# $Id: DiffText.pm,v 1.305 2012/03/01 10:39:25 papu Exp $
 #
 # "Yuki::DiffText" version 0.1 $$
 # Author: Hiroshi Yuki

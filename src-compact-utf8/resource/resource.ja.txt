@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: resource.ja.txt,v 1.254 2012/01/31 10:12:05 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: resource.ja.txt,v 1.311 2012/03/01 10:39:27 papu Exp $
 #
 resource_loaded=1
 top=トップ
@@ -27,6 +27,7 @@ backbutton=戻る
 prevbutton=前のページへ
 nextbutton=次のページへ
 searchthispage=このページを検索
+msg_word=これらのキーワードがハイライトされています：
 profile_page=自己紹介
 comment_page=コメント
 editthispage=このページを編集します
@@ -60,6 +61,11 @@ searchpage=単語検索
 searchbutton=検索
 searchand=AND検索
 searchor=OR検索
+msg_word=これらのキーワードがハイライトされています：
+# ref.inc.pl
+ref_total=TOTAL
+ref_today=TODAY
+ref_yesterday=YERSTERDAY
 # sub date
 date_ampm_en=am,pm
 date_weekday_en=Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday

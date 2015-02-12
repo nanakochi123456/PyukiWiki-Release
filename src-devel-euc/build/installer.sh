@@ -1,12 +1,11 @@
 #!/bin/sh
 ######################################################################
-# PyukiWiki Installer CGI
-# $Id: installer.sh,v 1.13 2012/01/31 10:11:53 papu Exp $
-# Installer version 0.1
+# PyukiWiki Installer CGI version 0.2
+# $Id: installer.sh,v 1.66 2012/03/01 10:39:19 papu Exp $
 # PyukiWiki __PYUKIWIKIVERSION____BUILD__ (__CODE__)
 ######################################################################
-export PATH="/bin:/usr/bin:/usr/local/bin:/opt/bin:/usr/opt/bin/sbin:/bin:/usr/sbin:/usr/local/sbin:/usr/games:/usr/games/bin:$PATH"
-export INSTALLERVER=0.1
+export PATH="/bin:/usr/bin:/usr/local/bin:/opt/bin:/usr/opt/bin:/usr/opt/sbin:/bin:/usr/sbin:/usr/local/sbin:/usr/games:/usr/games/bin:$PATH"
+export IVER=0.2
 export SH=sh
 export TARCMD=tar
 export TAROPT=xvf
@@ -22,10 +21,12 @@ export S=".installertarball"
 export I=".installimagetarball"
 export httpheader="Content-type: text/html;charset=utf-8"
 export TMPPL="/tmp/tmp.$REMOTE_ADDR"
+export QS=$QUERY_STRING
+export LN=$HTTP_ACCEPT_LANGUAGE
 
 err() {
 	if [ $CGI = 1 ]; then
-		if [ "`echo $HTTP_ACCEPT_LANGUAGE | grep ja`" != "" ]; then
+		if [ "`echo $LN | grep ja`" != "" ]; then
 			cat <<EOF
 $httpheader
 
@@ -66,7 +67,7 @@ wrc() {
 		return 0;
 	fi
 	rm -rf $test_file
-	if [ "`echo $HTTP_ACCEPT_LANGUAGE | grep ja`" != "" ]; then
+	if [ "`echo $LN | grep ja`" != "" ]; then
 		err "CGIがユーザー権限で実行されていないので、インストールできません"
 	else
 		err "It is not running on the user rights CGI, you can not install"
@@ -82,7 +83,7 @@ cmdc() {
 	if [ "$CMD" != "" ]; then
 		return 0;
 	else
-		if [ "`echo $HTTP_ACCEPT_LANGUAGE | grep ja`" != "" ]; then
+		if [ "`echo $LN | grep ja`" != "" ]; then
 			err "コマンド $1 がありません"
 		else
 			err "Not found command $1"
@@ -97,6 +98,7 @@ chk() {
 	cmdc sed
 	cmdc cp
 	cmdc rm
+	cmdc mv
 	cmdc cat
 	cmdc grep
 	cmdc $TARCMD
@@ -120,22 +122,22 @@ $httpheader
 EOF
 	chk
 	SHELLEXEC=cgistart
-	if [ "`echo $QUERY_STRING|grep license`" != "" ]; then
+	if [ "`echo $QS|grep license`" != "" ]; then
 		SHELLEXEC=license
 	fi
-	if [ "`echo $QUERY_STRING|grep step1`" != "" ]; then
+	if [ "`echo $QS|grep step1`" != "" ]; then
 		SHELLEXEC=gpl
 	fi
-	if [ "`echo $QUERY_STRING|grep step2`" != "" ]; then
+	if [ "`echo $QS|grep step2`" != "" ]; then
 		SHELLEXEC=art
 	fi
-	if [ "`echo $QUERY_STRING|grep step3`" != "" ]; then
+	if [ "`echo $QS|grep step3`" != "" ]; then
 		SHELLEXEC=cgititle
 	fi
-	if [ "`echo $QUERY_STRING|grep install`" != "" ]; then
+	if [ "`echo $QS|grep install`" != "" ]; then
 		SHELLEXEC=cgiinstall
 	fi
 else
 	chk
 	SHELLEXEC=shell
-	fi
+fi

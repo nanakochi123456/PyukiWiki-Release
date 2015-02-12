@@ -1,8 +1,8 @@
 ######################################################################
 # search_fuzzy.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: search_fuzzy.inc.pl,v 1.426 2012/01/31 10:11:58 papu Exp $
+# $Id: search_fuzzy.inc.pl,v 1.483 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -21,18 +21,40 @@
 # $::use_FuzzySearch=1;
 # を記述
 ######################################################################
+# 0.2.0-p2 PukiWiki互換の引数にした。
+#          バグ修正
+######################################################################
 
 use Nana::Search;
 
 sub plugin_fuzzy_search {
 	my $body = "";
-	my $word=&escape(&code_convert(\$::form{mymsg}, $::defaultcode));
+	my $word=&escape(&code_convert(\$::form{word}, $::defaultcode));
+	$word=&escape(&code_convert(\$::form{mymsg}, $::defaultcode))
+		if($word eq '');
 	if ($word) {
-		@words = split(/\s+/, $word);
+		my $spc;
+		if ($word) {
+			if($::lang eq "ja") {
+				if($::defaultcode eq 'utf8') {
+					$spc="\xe3\x80\x80";
+				} else {
+					$spc="\xa1\xa1";
+				}
+			}
+		}
+		if($spc ne "") {
+			foreach(" ", $spc) {
+				$wd=~s/$_/\t/g;
+			}
+		}
+		$wd=~s/(\t+)/\t/g;
+		my @words=split(/\t/,$word);
 		my $total = 0;
 		if ($::form{type} eq 'OR') {
+			$total = 0;
 			foreach my $wd (@words) {
-				$total = 0;
+				next if($wd eq '');
 				foreach my $page (sort keys %::database) {
 					next if(
 						$page eq $::RecentChanges
@@ -52,6 +74,7 @@ sub plugin_fuzzy_search {
 					|| !&is_readable($page));
 				my $exist = 1;
 				foreach my $wd (@words) {
+					next if($wd eq '');
 					if (!(Nana::Search::Search($::database{$page}, $wd) eq 1 or Nana::Search::Search($page, $wd) eq 1)) {
 						$exist = 0;
 					}
@@ -65,7 +88,11 @@ sub plugin_fuzzy_search {
 		my $counter = 0;
 		foreach my $page (sort keys %found) {
 			$body .= qq|<ul>| if ($counter == 0);
-			$body .= qq(<li><a href ="$::script?@{[&htmlspecialchars(&encode($page))]}">@{[&htmlspecialchars($page)]}</a>@{[&htmlspecialchars(&get_subjectline($page))]}</li>);
+			if($::use_Highlight eq 1) {
+				$body .= qq(<li><a href ="$::script?cmd=read&amp;mypage=@{[&encode($page)]}&amp;word=@{[&encode($word)]}">@{[&htmlspecialchars($page)]}</a>@{[&htmlspecialchars(&get_subjectline($page))]}</li>);
+			} else {
+				$body .= qq(<li><a href ="$::script?@{[&htmlspecialchars(&encode($page))]}">@{[&htmlspecialchars($page)]}</a>@{[&htmlspecialchars(&get_subjectline($page))]}</li>);
+			}
 			$counter++;
 		}
 		$body .= ($counter == 0) ? $::resource{notfound} : qq|</ul>|;

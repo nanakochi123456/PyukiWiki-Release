@@ -1,8 +1,8 @@
 ######################################################################
 # metarobots.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: metarobots.inc.pl,v 1.318 2012/01/31 10:11:58 papu Exp $
+# $Id: metarobots.inc.pl,v 1.372 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -16,6 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v0.2.0-p2 Bugfix
 # v0.2.0 First Release
 #
 #*Usage
@@ -30,7 +31,7 @@ sub plugin_metarobots_convert {
 	my $keyword;
 	my $noarchiveflg=0;
 	my $disableflg=0;
-	foreach my $word (split(/,/,"$::meta_keyword,$arg")) {
+	foreach my $word (split(/,/,"$::meta_keyword,@{[&htmlspecialchars($arg)]}")) {
 		if($word eq "noarchive") {
 			$noarchiveflg=1;
 			next;

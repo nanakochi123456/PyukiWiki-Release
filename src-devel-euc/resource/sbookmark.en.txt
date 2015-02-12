@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0-p1 $$
-# $Id: sbookmark.en.txt,v 1.372 2012/01/31 10:11:59 papu Exp $
+# "PyukiWiki" version 0.2.0-p2 $$
+# $Id: sbookmark.en.txt,v 1.425 2012/03/01 10:39:22 papu Exp $
 #
 
 # sbookmark.inc.pl

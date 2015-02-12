@@ -1,8 +1,8 @@
 ######################################################################
 # comment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: comment.inc.pl,v 1.426 2012/01/31 10:11:58 papu Exp $
+# $Id: comment.inc.pl,v 1.481 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nekyo http://nekyo.qp.land.to/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -56,8 +56,8 @@ $comment::format_now = "Y-m-d(lL) H:i:s"
 use strict;
 
 sub plugin_comment_action {
-	&::spam_filter($::form{mymsg}, 2);
-	&::spam_filter($::form{myname}, 0);
+	&::spam_filter($::form{mymsg}, 2, $::chk_article_uri_count, $::chk_article_mail_count);
+	&::spam_filter($::form{myname}, 0, $::chk_article_uri_count, $::chk_article_mail_count);
 
 	if (($::form{mymsg} =~ /^\s*$/ && $comment::nodata eq 1)
 	 || ($::form{myname} =~ /^\s*$/ && $comment::noname eq 1)

@@ -1,8 +1,8 @@
 ######################################################################
 # domains.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: domains.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
+# $Id: domains.pm,v 1.160 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
 # http://awstats.sf.net/
@@ -23,8 +23,8 @@
 # If you want to add a new domain to extend AWStats database detection capabilities,
 # you must add an entry in DomainsHashIDLib.
 #-------------------------------------------------------
-# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
-
+# Revision: 1.14 - Author: eldy - Date: 2009/09/28 00:00:17
+# Edited by papu
 
 #package AWSDOM;
 

@@ -1,8 +1,8 @@
 ######################################################################
 # operating_systems.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: operating_systems.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
+# $Id: operating_systems.pm,v 1.160 2012/03/01 10:39:20 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
 # http://awstats.sf.net/
@@ -23,7 +23,9 @@
 # If you want to add an OS to extend AWStats database detection capabilities,
 # you must add an entry in OSSearchIDOrder, in OSHashID and in OSHashLib.
 #-------------------------------------------------------
-# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
+# Revision: 1.31 - Author: eldy - Date: 2010/08/04 10:55:08
+# Edited by papu
+#
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
 #              - added specific Linux distributions in addition to
 #              the generic Linux.

@@ -1,8 +1,8 @@
 ######################################################################
 # YukiWikiDB_GZIP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB_GZIP.pm,v 1.158 2012/01/31 10:11:57 papu Exp $
+# $Id: YukiWikiDB_GZIP.pm,v 1.210 2012/03/01 10:39:20 papu Exp $
 #
-# "Nana::YukiWikiDB_GZIP" version 0.6 $$
+# "Nana::YukiWikiDB_GZIP" version 0.7 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
@@ -19,7 +19,7 @@
 ######################################################################
 
 package Nana::YukiWikiDB_GZIP;
-$VERSION="0.6";
+$VERSION="0.7";
 use strict;
 use Nana::File;
 use Nana::GZIP;
@@ -41,6 +41,7 @@ sub TIEHASH {
 	my $self = {
 		dir => $dbname,
 		keys => [],
+		gzip => Nana::GZIP::init(),
 	};
 	if (not -d $self->{dir}) {
 		if (!mkdir($self->{dir}, 0777)) {
@@ -56,9 +57,12 @@ sub STORE {
 	my ($self, $key, $value) = @_;
 	my ($mode, $filename) = &make_filename($self, $key);
 	my ($mode, $filename_gz) = &make_filename_gz($self, $key);
-	Nana::File::lock_delete($filename);
-	return Nana::File::lock_store($filename_gz,
-		Nana::GZIP::gzipcompress($value));
+	if($self->{gzip} eq 1) {
+		Nana::File::lock_delete($filename);
+		return Nana::File::lock_store($filename_gz,
+			Nana::GZIP::gzipcompress($value));
+	}
+	return Nana::File::lock_store($filename,$value);
 }
 
 # Fetch												# comment
@@ -66,10 +70,12 @@ sub FETCH {
 	my ($self, $key) = @_;
 	my ($mode, $filename) = &make_filename($self, $key);
 	my ($mode, $filename_gz) = &make_filename_gz($self, $key);
-	if(-e $filename_gz) {
-		return (stat($filename_gz))[9] if($mode eq "update");
-		my $data=Nana::File::lock_fetch($filename_gz);
-		return Nana::GZIP::gzipuncompress($data);
+	if($self->{gzip} eq 1) {
+		if(-e $filename_gz) {
+			return (stat($filename_gz))[9] if($mode eq "update");
+			my $data=Nana::File::lock_fetch($filename_gz);
+			return Nana::GZIP::gzipuncompress($data);
+		}
 	}
 	return (stat($filename))[9] if($mode eq "update");
 	return Nana::File::lock_fetch($filename);

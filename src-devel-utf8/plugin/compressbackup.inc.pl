@@ -1,8 +1,8 @@
 ######################################################################
 # compressbackup.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: compressbackup.inc.pl,v 1.157 2012/01/31 10:12:03 papu Exp $
+# $Id: compressbackup.inc.pl,v 1.210 2012/03/01 10:39:25 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

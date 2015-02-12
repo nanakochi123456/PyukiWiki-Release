@@ -1,8 +1,8 @@
 ######################################################################
 # verb.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: verb.pl,v 1.255 2012/01/31 10:12:04 papu Exp $
+# $Id: verb.pl,v 1.308 2012/03/01 10:39:26 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Hiroshi Yuki http://www.hyuki.com/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/

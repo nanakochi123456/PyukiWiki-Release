@@ -1,8 +1,8 @@
 ######################################################################
 # smedia.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: smedia.inc.pl,v 1.148 2012/01/31 10:11:58 papu Exp $
+# $Id: smedia.inc.pl,v 1.202 2012/03/01 10:39:21 papu Exp $
 #
-# "PyukiWiki" version 0.2.0-p1 $$
+# "PyukiWiki" version 0.2.0-p2 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
@@ -126,7 +126,7 @@ EOM
 
 # livedoor clip!
 $smedia::livedoor_html=<<EOM;
-<div id="bmicon"><span><a href="javascript:void(0);" onclick="openURI('http://clip.livedoor.com/clip/add?link='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(d.title),'_target');"><img src="http://clip.livedoor.com/img/icon/bm_clip.gif" width="47" height="24" alt="clip!" title="clip!"></a></span></div>
+<div id="bmicon"><span><a href="javascript:void(0);" onclick="ou('http://clip.livedoor.com/clip/add?link='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(d.title),'_target');"><img src="http://clip.livedoor.com/img/icon/bm_clip.gif" width="47" height="24" alt="clip!" title="clip!"></a></span></div>
 EOM
 
 # gree

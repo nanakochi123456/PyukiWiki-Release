@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------
-# $Id: magic_compact.txt,v 1.390 2012/01/31 10:11:56 papu Exp $
-# "magic file for File::MMagic" version 1.7 $$
+# $Id: magic_compact.txt,v 1.442 2012/03/01 10:39:20 papu Exp $
+# "magic file for File::MMagic" version 1.27 $$
 #----------------------------------------------------------------------
 # archive:  file(1) magic for archive formats (see also "msdos" for self-
 #	extracting compressed archives)
@@ -13,19 +13,17 @@
 0	string	070707	ASCII cpio archive (pre-SVR4 or odc)
 0	string	070701	ASCII cpio archive (SVR4 with no CRC)
 0	string	070702	ASCII cpio archive (SVR4 with CRC)
-0	string	!<arch>\ndebian
+0	string	=!<arch>\ndebian
 >8	string	debian-split	part of multipart Debian package
 >8	string	debian-binary	Debian binary package
 >68	string	>\0	(format %s)
->81	string	bz2	\b, uses bzip2 compression
->84	string	gz	\b, uses gzip compression
 0	long	0177555	very old archive
 0	short	0177555	very old PDP-11 archive
 0	long	0177545	old archive
 0	short	0177545	old PDP-11 archive
 0	long	0100554	apl workspace
 0	string	=<ar>	archive
-0	string	!<arch>\n__________E	MIPS archive
+0	string	=!<arch>\n__________E	MIPS archive
 >20	string	U	with MIPS Ucode members
 >21	string	L	with MIPSEL members
 >21	string	B	with MIPSEB members
@@ -33,7 +31,7 @@
 >19	string	B	and an EB hash table
 >22	string	X	-- out of date
 0	string	-h-	Software Tools format archive text
-0	string	!<arch>	current ar archive
+0	string	=!<arch>	current ar archive
 >8	string	__.SYMDEF	random library
 >0	belong	=65538	- pre SR9.5
 >0	belong	=65539	- post SR9.5
@@ -60,8 +58,159 @@
 0	lelong&0x8080ffff	0x0000031a	ARC archive data, packed
 0	lelong&0x8080ffff	0x0000041a	ARC archive data, squeezed
 0	lelong&0x8080ffff	0x0000061a	ARC archive data, crunched
-0	string	\032	RISC OS archive (spark format)
+0	lelong&0x8080ffff	0x00000a1a	PAK archive data
+0	lelong&0x8080ffff	0x0000141a	ARC+ archive data
+0	lelong&0x8080ffff	0x0000481a	HYP archive data
+0	string	\032archive	RISC OS archive (ArcFS format)
 0	string	Archive\000	RISC OS archive (ArcFS format)
+0	string	CRUSH Crush archive data
+0	string	HLSQZ Squeeze It archive data
+0	string	SQWEZ SQWEZ archive data
+0	string	HPAK HPack archive data
+0	string	\x91\x33HF HAP archive data
+0	string	MDmd MDCD archive data
+0	string	LIM\x1a LIM archive data
+3	string	LH5 SAR archive data
+0	string	\212\3SB \0 BSArc/BS2 archive data
+2	string	=-ah MAR archive data
+0	belong&0x00f800ff	0x00800000 ACB archive data
+0	string	JRchive JRC archive data
+0	string	DS\0 Quantum archive data
+0	string	PK\3\6 ReSOF archive data
+0	string	7\4 QuArk archive data
+14	string	YC YAC archive data
+0	string	X1 X1 archive data
+0	string	XhDr X1 archive data
+0	belong&0xffffe000	0x76ff2000 CDC Codec archive data
+0	string	\xad6" AMGC archive data
+0	string	NõFélå NuLIB archive data
+0	string	LEOLZW PAKLeo archive data
+0	string	SChF ChArc archive data
+0	string	PSA PSA archive data
+0	string	DSIGDCC CrossePAC archive data
+0	string	\x1f\x9f\x4a\x10\x0a Freeze archive data
+0	string	¨MP¨ KBoom archive data
+0	string	\x76\xff NSQ archive data
+0	string	Dirk\ Paehl DPA archive data
+0	string	\0\6 TTComp archive data
+0	string	ESP ESP archive data
+0	string	\1ZPK\1 ZPack archive data
+0	string	\xbc\x40 Sky archive data
+0	string	UFA UFA archive data
+0	string	=-H2O DRY archive data
+0	string	FOXSQZ FoxSQZ archive data
+0	string	,AR7 AR7 archive data
+0	string	PPMZ PPMZ archive data
+4	string	\x88\xf0\x27 MS Compress archive data
+>9	string	\0
+>>0	string	KWAJ
+>>>7	string	\321\003	MS Compress archive data
+>>>>14	ulong	>0	\b, original size: %ld bytes
+>>>>18	ubyte	>0x65
+>>>>>18	string	x	\b, was %.8s
+>>>>>(10.b-4)	string	x	\b.%.3s
+0	string	MP3\x1a MP3-Archiver archive data
+0	string	OZÝ ZET archive data
+0	string	\x65\x5d\x13\x8c\x08\x01\x03\x00 TSComp archive data
+0	string	gW\4\1 ARQ archive data
+3	string	OctSqu Squash archive data
+0	string	\5\1\1\0 Terse archive data
+0	string	\x01\x08\x0b\x08\xef\x00\x9e\x32\x30\x36\x31 PUCrunch archive data
+0	string	UHA UHarc archive data
+0	string	\2AB ABComp archive data
+0	string	\3AB2 ABComp archive data
+0	string	CO\0 CMP archive data
+0	string	\x93\xb9\x06 Splint archive data
+0	string	\x13\x5d\x65\x8c InstallShield Z archive Data
+1	string	GTH Gather archive data
+0	string	BOA BOA archive data
+0	string	ULEB\xa RAX archive data
+0	string	ULEB\0 Xtreme archive data
+0	string	@â\1\0 Pack Magic archive data
+0	belong&0xfeffffff	0x1a034465 BTS archive data
+0	string	Ora\	ELI 5750 archive data
+0	string	\x1aFC\x1a QFC archive data
+0	string	\x1aQF\x1a QFC archive data
+0	string	RNC PRO-PACK archive data
+0	string	777 777 archive data
+0	string	sTaC LZS221 archive data
+0	string	HPA HPA archive data
+0	string	LG Arhangel archive data
+0	string	0123456789012345BZh EXP1 archive data
+0	string	IMP\xa IMP archive data
+0	string	\x00\x9E\x6E\x72\x76\xFF NRV archive data
+0	string	\x73\xb2\x90\xf4 Squish archive data
+0	string	PHILIPP Par archive data
+0	string	PAR Par archive data
+0	string	UB HIT archive data
+0	belong&0xfffff000	0x53423000 SBX archive data
+0	string	NSK NaShrink archive data
+0	string	#\ CAR\ archive\ header SAPCAR archive data
+0	string	CAR\ 2.00RG SAPCAR archive data
+0	string	DST Disintegrator archive data
+0	string	ASD ASD archive data
+0	string	ISc( InstallShield CAB
+0	string	T4\x1a TOP4 archive data
+0	string	BH\5\7 BlakHole archive data
+0	string	BIX0 BIX archive data
+0	string	ChfLZ ChiefLZA archive data
+0	string	Blink Blink archive data
+0	string	\xda\xfa Logitech Compress archive data
+1	string	(C)\ STEPANYUK ARS-Sfx archive data
+0	string	AKT32 AKT32 archive data
+0	string	AKT AKT archive data
+0	string	MSTSM NPack archive data
+0	string	\0\x50\0\x14 PFT archive data
+0	string	SEM SemOne archive data
+0	string	\x8f\xaf\xac\x84 PPMD archive data
+0	string	FIZ FIZ archive data
+0	belong&0xfffff0f0	0x4d530000 MSXiE archive data
+0	belong&0xfffffff0	0x797a3030 DeepFreezer archive data
+0	string	=<DC- DC archive data
+0	string	\4TPAC\3 TPac archive data
+0	string	Ai\1\1\0 Ai archive data
+0	string	Ai\1\0\0 Ai archive data
+0	string	Ai\2\0 Ai32 archive data
+0	string	Ai\2\1 Ai32 archive data
+0	string	SBC SBC archive data
+0	string	YBS Ybs archive data
+0	string	\x9e\0\0 DitPack archive data
+0	string	DMS! DMS archive data
+0	string	\x8f\xaf\xac\x8c EPC archive data
+0	string	VS\x1a VSARC archive data
+0	string	PDZ PDZ archive data
+0	string	rdqx ReDuq archive data
+0	string	GCAX GCA archive data
+0	string	pN PPMN archive data
+3	string	WINIMAGE WinImage archive data
+0	string	CMP0CMP Compressia archive data
+0	string	UHB UHBC archive data
+0	string	\x61\x5C\x04\x05 WinHKI archive data
+0	string	WWP WWPack archive data
+0	string	\xffBSG BSN archive data
+1	string	\xffBSG BSN archive data
+3	string	\xffBSG BSN archive data
+1	string	\0\xae\2 BSN archive data
+1	string	\0\xae\3 BSN archive data
+1	string	\0\xae\7 BSN archive data
+0	string	\x33\x18 AIN archive data
+0	string	\x33\x17 AIN archive data
+0	string	xpa\0\1 XPA32 archive data
+0	string	SZ\x0a\4 SZip archive data
+0	string	jm XPack DiskImage archive data
+0	string	xpa XPack archive data
+0	string	Í\ jm XPack single archive data
+0	string	DZ Dzip archive data
+>2	byte	x \b, version %i
+>3	byte	x \b.%i
+0	string	ZZ\ \0\0 ZZip archive data
+0	string	ZZ0 ZZip archive data
+0	string	\xaa\x40\x5f\x77\x1f\xe5\x82\x0d PAQ archive data
+0	string	PAQ PAQ archive data
+>3	byte&0xf0	0x30
+>>3	byte	x (v%c)
+0xe	string	\x1aJar\x1b JAR (ARJ Software, Inc.) archive data
+0	string	JARCS JAR (ARJ Software, Inc.) archive data
 0	leshort	0xea60	ARJ archive data
 >5	byte	x	\b, v%d,
 >8	byte	&0x04	multi-volume,
@@ -79,6 +228,15 @@
 >7	byte	8	os: NeXT
 >7	byte	9	os: VAX/VMS
 >3	byte	>0	%d]
+2	leshort	0xea60	ARJ archive data
+0	belong&0xffff00fc 0x48410000 HA archive data
+>2	leshort	=1	1 file,
+>2	leshort	>1	%u files,
+>4	byte&0x0f	=0	first is type CPY
+>4	byte&0x0f	=1	first is type ASC
+>4	byte&0x0f	=2	first is type HSC
+>4	byte&0x0f	=0x0e	first is type DIR
+>4	byte&0x0f	=0x0f	first is type SPECIAL
 0	string	HPAK	HPACK archive data
 0	string	\351,\001JAM\	JAM archive,
 >7	string	>\0	version %.4s
@@ -86,11 +244,11 @@
 >>0x2b	string	>\0	label %.11s,
 >>0x27	lelong	x	serial %08x,
 >>0x36	string	>\0	fstype %.8s
-2	string	-lh0-	LHarc 1.x archive data [lh0]
-2	string	-lh1-	LHarc 1.x archive data [lh1]
+2	string	-lh0-	LHarc 1.x/ARX archive data [lh0]
+2	string	-lh1-	LHarc 1.x/ARX archive data [lh1]
 2	string	-lz4-	LHarc 1.x archive data [lz4]
 2	string	-lz5-	LHarc 1.x archive data [lz5]
-2	string	-lzs-	LHa 2.x? archive data [lzs]
+2	string	-lzs-	LHa/LZS archive data [lzs]
 2	string	-lh\40-	LHa 2.x? archive data [lh ]
 2	string	-lhd-	LHa 2.x? archive data [lhd]
 2	string	-lh2-	LHa 2.x? archive data [lh2]
@@ -98,21 +256,69 @@
 2	string	-lh4-	LHa (2.x) archive data [lh4]
 2	string	-lh5-	LHa (2.x) archive data [lh5]
 2	string	-lh6-	LHa (2.x) archive data [lh6]
-2	string	-lh7-	LHa (2.x) archive data [lh7]
+2	string	-lh7-	LHa (2.x)/LHark archive data [lh7]
 >20	byte	x	- header level %d
+2	string	-lZ	PUT archive data
+2	string	-lz	LZS archive data
+2	string	-sw1-	Swag archive data
 0	string	Rar!	RAR archive data,
 >44	byte	x	v%0x,
 >35	byte	0	os: MS-DOS
 >35	byte	1	os: OS/2
 >35	byte	2	os: Win32
 >35	byte	3	os: Unix
+0	string	RE\x7e\x5e	RAR archive data
 0	string	SQSH	squished archive data (Acorn RISCOS)
 0	string	UC2\x1a	UC2 archive data
-0	string	PK\003\004	Zip archive data
->4	byte	0x09	\b, at least v0.9 to extract
->4	byte	0x0a	\b, at least v1.0 to extract
->4	byte	0x0b	\b, at least v1.1 to extract
->4	byte	0x14	\b, at least v2.0 to extract
+0	string	PK\003\004
+>4	byte	0x09	Zip archive data, at least v0.9 to extract
+>4	byte	0x0a	Zip archive data, at least v1.0 to extract
+>4	byte	0x0b	Zip archive data, at least v1.1 to extract
+>4	byte	0x14
+>>30	ubelong	!0x6d696d65	Zip archive data, at least v2.0 to extract
+>>30	string	mimetype
+>>>50	string	vnd.kde.	KOffice (>=1.2)
+>>>>58	string	karbon	Karbon document
+>>>>58	string	kchart	KChart document
+>>>>58	string	kformula	KFormula document
+>>>>58	string	kivio	Kivio document
+>>>>58	string	kontour	Kontour document
+>>>>58	string	kpresenter	KPresenter document
+>>>>58	string	kspread	KSpread document
+>>>>58	string	kword	KWord document
+>>>50	string	vnd.sun.xml.	OpenOffice.org 1.x
+>>>>62	string	writer	Writer
+>>>>>68	byte	!0x2e	document
+>>>>>68	string	.template	template
+>>>>>68	string	.global	global document
+>>>>62	string	calc	Calc
+>>>>>66	byte	!0x2e	spreadsheet
+>>>>>66	string	.template	template
+>>>>62	string	draw	Draw
+>>>>>66	byte	!0x2e	document
+>>>>>66	string	.template	template
+>>>>62	string	impress	Impress
+>>>>>69	byte	!0x2e	presentation
+>>>>>69	string	.template	template
+>>>>62	string	math	Math document
+>>>50	string	vnd.oasis.opendocument.	OpenDocument
+>>>>73	string	text
+>>>>>77	byte	!0x2d	Text
+>>>>>77	string	-template	Text Template
+>>>>>77	string	-web	HTML Document Template
+>>>>>77	string	-master	Master Document
+>>>>73	string	graphics	Drawing
+>>>>>81	string	-template	Template
+>>>>73	string	presentation	Presentation
+>>>>>85	string	-template	Template
+>>>>73	string	spreadsheet	Spreadsheet
+>>>>>84	string	-template	Template
+>>>>73	string	chart	Chart
+>>>>>78	string	-template	Template
+>>>>73	string	formula	Formula
+>>>>>80	string	-template	Template
+>>>>73	string	database	Database
+>>>>73	string	image	Image
 20	lelong	0xfdc4a7dc	Zoo archive data
 >4	byte	>48	\b, v%c.
 >>6	byte	>47	\b%c
@@ -146,7 +352,7 @@
 >6	beshort x	\b, starting track: %d
 >8	beshort x	\b, ending track: %d
 0	string	PK00PK\003\004	Zip archive data
-7	string	**ACE**	ACE compressed archive
+7	string	**ACE**	ACE archive data
 >15	byte	>0	version %d
 >16	byte	=0x00	\b, from MS-DOS
 >16	byte	=0x01	\b, from OS/2
@@ -168,7 +374,7 @@
 >5	leshort	&0x0400	\b, small dictionary
 >5	leshort	&0x0800	\b, multi-volume
 >5	leshort	&0x1000	\b, contains AV-String
->>30	string\x16*UNREGISTERED\x20VERSION*	(unregistered)
+>>30	string	\x16*UNREGISTERED\x20VERSION*	(unregistered)
 >5	leshort &0x2000	\b, with recovery record
 >5	leshort &0x4000	\b, locked
 >5	leshort &0x8000	\b, solid
@@ -176,6 +382,9 @@
 >0x15	string	2
 >>0x1	string	>\0	Version %s
 >>0x2A	string	>\0	: %s
+0	string	Packed\ File\	Personal NetWare Packed File
+>12	string	x	\b, was "%.12s"
+0	belong	0x1ee7ff00	EET archive
 #----------------------------------------------------------------------
 # compress:  file(1) magic for pure-compression formats (no archives)
 # compress, gzip, pack, compact, huf, squeeze, crunch, freeze, yabba, etc.
@@ -189,21 +398,28 @@
 >2	byte	<8	\b, reserved method
 >2	byte	>8	\b, unknown method
 >3	byte	&0x01	\b, ASCII
->3	byte	&0x02	\b, continuation
+>3	byte	&0x02	\b, has CRC
 >3	byte	&0x04	\b, extra field
 >3	byte&0xC	=0x08
 >>10	string	x	\b, was "%s"
->9	byte	=0x00	\b, from MS-DOS
+>3	byte	&0x10	\b, has comment
+>9	byte	=0x00	\b, from FAT filesystem (MS-DOS, OS/2, NT)
 >9	byte	=0x01	\b, from Amiga
 >9	byte	=0x02	\b, from VMS
 >9	byte	=0x03	\b, from Unix
+>9	byte	=0x04	\b, from VM/CMS
 >9	byte	=0x05	\b, from Atari
->9	byte	=0x06	\b, from OS/2
+>9	byte	=0x06	\b, from HPFS filesystem (OS/2, NT)
 >9	byte	=0x07	\b, from MacOS
->9	byte	=0x0A	\b, from Tops/20
->9	byte	=0x0B	\b, from Win/32
+>9	byte	=0x08	\b, from Z-System
+>9	byte	=0x09	\b, from CP/M
+>9	byte	=0x0A	\b, from TOPS/20
+>9	byte	=0x0B	\b, from NTFS filesystem (NT)
+>9	byte	=0x0C	\b, from QDOS
+>9	byte	=0x0D	\b, from Acorn RISCOS
 >3	byte	&0x10	\b, comment
 >3	byte	&0x20	\b, encrypted
+>4	ledate	>0	\b, last modified: %s
 >8	byte	2	\b, max compression
 >8	byte	4	\b, max speed
 0	string	\037\036	packed data
@@ -279,100 +495,14 @@
 >4	belong	0x090A0B0B	good compression
 >4	belong	0x090A0C0C	very good compression
 >4	belong	0x090A0C0D	best compression
-0	string	7z\274\257\047\034	7z archive data,
+0	string	7z\274\257\047\034	7-zip archive data,
 >6	byte	x	version %d
 >7	byte	x	\b.%d
 2	string	-afx-	AFX compressed file data
-#----------------------------------------------------------------------
-# JPEG images
-# SunOS 5.5.1 had
-#	0	string	\377\330\377\340	JPEG file
-#	0	string	\377\330\377\356	JPG file
-# both of which turn into "JPEG image data" here.
-0	beshort	0xffd8	JPEG image data
->6	string	JFIF	\b, JFIF standard
->>11	byte	x	\b %d.
->>12	byte	x	\b%02d
->>18	byte	!0	\b, thumbnail %dx
->>>19	byte	x	\b%d
->6	string	Exif	\b, EXIF standard
->>12	string	II
->>>70	leshort	0x8769
->>>>(78.l+14)	leshort	0x9000
->>>>>(78.l+23)	byte	x	%c
->>>>>(78.l+24)	byte	x	\b.%c
->>>>>(78.l+25)	byte	!0x30	\b%c
->>>118	leshort	0x8769
->>>>(126.l+38)	leshort	0x9000
->>>>>(126.l+47)	byte	x	%c
->>>>>(126.l+48)	byte	x	\b.%c
->>>>>(126.l+49)	byte	!0x30	\b%c
->>>130	leshort	0x8769
->>>>(138.l+38)	leshort	0x9000
->>>>>(138.l+47)	byte	x	%c
->>>>>(138.l+48)	byte	x	\b.%c
->>>>>(138.l+49)	byte	!0x30	\b%c
->>>>(138.l+50)	leshort	0x9000
->>>>>(138.l+59)	byte	x	%c
->>>>>(138.l+60)	byte	x	\b.%c
->>>>>(138.l+61)	byte	!0x30	\b%c
->>>>(138.l+62)	leshort	0x9000
->>>>>(138.l+71)	byte	x	%c
->>>>>(138.l+72)	byte	x	\b.%c
->>>>>(138.l+73)	byte	!0x30	\b%c
->>>142	leshort	0x8769
->>>>(150.l+38)	leshort	0x9000
->>>>>(150.l+47)	byte	x	%c
->>>>>(150.l+48)	byte	x	\b.%c
->>>>>(150.l+49)	byte	!0x30	\b%c
->>>>(150.l+50)	leshort	0x9000
->>>>>(150.l+59)	byte	x	%c
->>>>>(150.l+60)	byte	x	\b.%c
->>>>>(150.l+61)	byte	!0x30	\b%c
->>>>(150.l+62)	leshort	0x9000
->>>>>(150.l+71)	byte	x	%c
->>>>>(150.l+72)	byte	x	\b.%c
->>>>>(150.l+73)	byte	!0x30	\b%c
->>12	string	MM
->>>118	beshort	0x8769
->>>>(126.L+14)	beshort	0x9000
->>>>>(126.L+23)	byte	x	%c
->>>>>(126.L+24)	byte	x	\b.%c
->>>>>(126.L+25)	byte	!0x30	\b%c
->>>>(126.L+38)	beshort	0x9000
->>>>>(126.L+47)	byte	x	%c
->>>>>(126.L+48)	byte	x	\b.%c
->>>>>(126.L+49)	byte	!0x30	\b%c
->>>130	beshort	0x8769
->>>>(138.L+38)	beshort	0x9000
->>>>>(138.L+47)	byte	x	%c
->>>>>(138.L+48)	byte	x	\b.%c
->>>>>(138.L+49)	byte	!0x30	\b%c
->>>>(138.L+62)	beshort	0x9000
->>>>>(138.L+71)	byte	x	%c
->>>>>(138.L+72)	byte	x	\b.%c
->>>>>(138.L+73)	byte	!0x30	\b%c
->>>142	beshort	0x8769
->>>>(150.L+50)	beshort	0x9000
->>>>>(150.L+59)	byte	x	%c
->>>>>(150.L+60)	byte	x	\b.%c
->>>>>(150.L+61)	byte	!0x30	\b%c
->(4.S+5)	byte	0xFE
->>(4.S+8)	string	>\0	\b, comment: "%s"
->(4.S+5)	byte	0xC0	\b, baseline
->>(4.S+6)	byte	x	\b, precision %d
->>(4.S+7)	beshort	x	\b, %dx
->>(4.S+9)	beshort	x	\b%d
->(4.S+5)	byte	0xC1	\b, extended sequential
->>(4.S+6)	byte	x	\b, precision %d
->>(4.S+7)	beshort	x	\b, %dx
->>(4.S+9)	beshort	x	\b%d
->(4.S+5)	byte	0xC2	\b, progressive
->>(4.S+6)	byte	x	\b, precision %d
->>(4.S+7)	beshort	x	\b, %dx
->>(4.S+9)	beshort	x	\b%d
-0	string	hsi1	JPEG image data, HSI proprietary
-0	string	\x00\x00\x00\x0C\x6A\x50\x20\x20\x0D\x0A\x87\x0A	JPEG 2000 image data
+0	string	RZIP	rzip compressed data
+>4	byte	x	- version %d
+>5	byte	x	\b.%d
+>6	belong	x	(%d bytes)
 #----------------------------------------------------------------------
 # iff:	file(1) magic for Interchange File Format (see also "audio" & "images")
 # Daniel Quinlan (<quinlan (at) yggdrasil (dot) com>) -- IFF was designed by Electronic
@@ -384,19 +514,40 @@
 >8	string	AIFF	\b, AIFF audio
 >8	string	AIFC	\b, AIFF-C compressed audio
 >8	string	8SVX	\b, 8SVX 8-bit sampled sound voice
+>8	string	16SV	\b, 16SV 16-bit sampled sound voice
 >8	string	SAMP	\b, SAMP sampled audio
->8	string	DTYP	\b, DTYP datatype description
->8	string	PTCH	\b, PTCH binary patch
+>8	string	MAUD	\b, MAUD MacroSystem audio
+>8	string	SMUS	\b, SMUS simple music
+>8	string	CMUS	\b, CMUS complex music
 >8	string	ILBMBMHD	\b, ILBM interleaved image
 >>20	beshort	x	\b, %d x
 >>22	beshort	x	%d
 >8	string	RGBN	\b, RGBN 12-bit RGB image
 >8	string	RGB8	\b, RGB8 24-bit RGB image
+>8	string	DEEP	\b, DEEP TVPaint/XiPaint image
 >8	string	DR2D	\b, DR2D 2-D object
 >8	string	TDDD	\b, TDDD 3-D rendering
+>8	string	LWOB	\b, LWOB 3-D object
+>8	string	LWO2	\b, LWO2 3-D object, v2
+>8	string	LWLO	\b, LWLO 3-D layered object
+>8	string	REAL	\b, REAL Real3D rendering
+>8	string	MC4D	\b, MC4D MaxonCinema4D rendering
+>8	string	ANIM	\b, ANIM animation
+>8	string	YAFA	\b, YAFA animation
+>8	string	SSA\	\b, SSA super smooth animation
+>8	string	ACBM	\b, ACBM continuous image
+>8	string	FAXX	\b, FAXX fax image
 >8	string	FTXT	\b, FTXT formatted text
 >8	string	CTLG	\b, CTLG message catalog
 >8	string	PREF	\b, PREF preferences
+>8	string	DTYP	\b, DTYP datatype description
+>8	string	PTCH	\b, PTCH binary patch
+>8	string	AMFF	\b, AMFF AmigaMetaFile format
+>8	string	WZRD	\b, WZRD StormWIZARD resource
+>8	string	DOC\	\b, DOC desktop publishing document
+>8	string	IFRS	\b, Blorb Interactive Fiction
+>>24	string	Exec	with executable chunk
+>8	string	IFZS	\b, Z-machine or Glulx saved game file (Quetzal)
 #----------------------------------------------------------------------
 # images:  file(1) magic for image formats (see also "iff")
 # originally from <jef (at) helios (dot) ee (dot) lbl (dot) gov> (Jef Poskanzer),
@@ -553,7 +704,7 @@
 >107	string	-32	\b, 32-bit, floating point, single precision
 >107	string	-64	\b, 64-bit, floating point, double precision
 0	string	This\ is\ a\ BitMap\ file	Lisp Machine bit-array-file
-0	string	!!	Bennet Yee's "face" format
+0	string	=!!	Bennet Yee's "face" format
 0	beshort	0x1010	PEX Binary Archive
 03000	string	Visio\ (TM)\ Drawing	%s
 0	string	\%TGIF\ x	Tgif file version %s
@@ -575,3 +726,93 @@
 0	string	pM86	Atari ST STAD bitmap image data (vert)
 >5	byte	0x00	(white background)
 >5	byte	0xFF	(black background)
+#----------------------------------------------------------------------
+# JPEG images
+# SunOS 5.5.1 had
+#	0	string	\377\330\377\340	JPEG file
+#	0	string	\377\330\377\356	JPG file
+# both of which turn into "JPEG image data" here.
+0	beshort	0xffd8	JPEG image data
+>6	string	JFIF	\b, JFIF standard
+>>11	byte	x	\b %d.
+>>12	byte	x	\b%02d
+>>18	byte	!0	\b, thumbnail %dx
+>>>19	byte	x	\b%d
+>6	string	Exif	\b, EXIF standard
+>>12	string	II
+>>>70	leshort	0x8769
+>>>>(78.l+14)	leshort	0x9000
+>>>>>(78.l+23)	byte	x	%c
+>>>>>(78.l+24)	byte	x	\b.%c
+>>>>>(78.l+25)	byte	!0x30	\b%c
+>>>118	leshort	0x8769
+>>>>(126.l+38)	leshort	0x9000
+>>>>>(126.l+47)	byte	x	%c
+>>>>>(126.l+48)	byte	x	\b.%c
+>>>>>(126.l+49)	byte	!0x30	\b%c
+>>>130	leshort	0x8769
+>>>>(138.l+38)	leshort	0x9000
+>>>>>(138.l+47)	byte	x	%c
+>>>>>(138.l+48)	byte	x	\b.%c
+>>>>>(138.l+49)	byte	!0x30	\b%c
+>>>>(138.l+50)	leshort	0x9000
+>>>>>(138.l+59)	byte	x	%c
+>>>>>(138.l+60)	byte	x	\b.%c
+>>>>>(138.l+61)	byte	!0x30	\b%c
+>>>>(138.l+62)	leshort	0x9000
+>>>>>(138.l+71)	byte	x	%c
+>>>>>(138.l+72)	byte	x	\b.%c
+>>>>>(138.l+73)	byte	!0x30	\b%c
+>>>142	leshort	0x8769
+>>>>(150.l+38)	leshort	0x9000
+>>>>>(150.l+47)	byte	x	%c
+>>>>>(150.l+48)	byte	x	\b.%c
+>>>>>(150.l+49)	byte	!0x30	\b%c
+>>>>(150.l+50)	leshort	0x9000
+>>>>>(150.l+59)	byte	x	%c
+>>>>>(150.l+60)	byte	x	\b.%c
+>>>>>(150.l+61)	byte	!0x30	\b%c
+>>>>(150.l+62)	leshort	0x9000
+>>>>>(150.l+71)	byte	x	%c
+>>>>>(150.l+72)	byte	x	\b.%c
+>>>>>(150.l+73)	byte	!0x30	\b%c
+>>12	string	MM
+>>>118	beshort	0x8769
+>>>>(126.L+14)	beshort	0x9000
+>>>>>(126.L+23)	byte	x	%c
+>>>>>(126.L+24)	byte	x	\b.%c
+>>>>>(126.L+25)	byte	!0x30	\b%c
+>>>>(126.L+38)	beshort	0x9000
+>>>>>(126.L+47)	byte	x	%c
+>>>>>(126.L+48)	byte	x	\b.%c
+>>>>>(126.L+49)	byte	!0x30	\b%c
+>>>130	beshort	0x8769
+>>>>(138.L+38)	beshort	0x9000
+>>>>>(138.L+47)	byte	x	%c
+>>>>>(138.L+48)	byte	x	\b.%c
+>>>>>(138.L+49)	byte	!0x30	\b%c
+>>>>(138.L+62)	beshort	0x9000
+>>>>>(138.L+71)	byte	x	%c
+>>>>>(138.L+72)	byte	x	\b.%c
+>>>>>(138.L+73)	byte	!0x30	\b%c
+>>>142	beshort	0x8769
+>>>>(150.L+50)	beshort	0x9000
+>>>>>(150.L+59)	byte	x	%c
+>>>>>(150.L+60)	byte	x	\b.%c
+>>>>>(150.L+61)	byte	!0x30	\b%c
+>(4.S+5)	byte	0xFE
+>>(4.S+8)	string	>\0	\b, comment: "%s"
+>(4.S+5)	byte	0xC0	\b, baseline
+>>(4.S+6)	byte	x	\b, precision %d
+>>(4.S+7)	beshort	x	\b, %dx
+>>(4.S+9)	beshort	x	\b%d
+>(4.S+5)	byte	0xC1	\b, extended sequential
+>>(4.S+6)	byte	x	\b, precision %d
+>>(4.S+7)	beshort	x	\b, %dx
+>>(4.S+9)	beshort	x	\b%d
+>(4.S+5)	byte	0xC2	\b, progressive
+>>(4.S+6)	byte	x	\b, precision %d
+>>(4.S+7)	beshort	x	\b, %dx
+>>(4.S+9)	beshort	x	\b%d
+0	string	hsi1	JPEG image data, HSI proprietary
+0	string	\x00\x00\x00\x0C\x6A\x50\x20\x20\x0D\x0A\x87\x0A	JPEG 2000 image data

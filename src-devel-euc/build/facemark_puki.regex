@@ -1,0 +1,44 @@
+##################################################################
+# $Id: facemark_puki.regex,v 1.19 2012/03/01 10:39:19 papu Exp $
+##################################################################
+# Šç•¶Žš
+##################################################################
+
+%::_facemark = (
+	' :)'		=> 'smile',
+	' (^^)'		=> 'smile',
+	' :D'		=> 'bigsmile',
+	' (^-^)'	=> 'bigsmile',
+	' :p'		=> 'huh',
+	' :d'		=> 'huh',
+	' XD'		=> 'oh',
+	' X('		=> 'oh',
+	' ;)'		=> 'oh',
+	' (;'		=> 'wink',
+	' (^_-)'	=> 'wink',
+	' ;('		=> 'sad',
+	' :('		=> 'sad',
+	' (--;)'	=> 'sad',
+	' (^^;)'	=> 'worried',
+	'&heart;'	=> 'heart',
+);
+%::_facemark_puki = (
+	'&bigsmile;'=> 'bigsmile',
+	'&huh;'		=> 'huh',
+	'&oh;'		=> 'oh',
+	'&sad;'		=> 'sad',
+	'&smile;'	=> 'smile',
+	'&wink;'	=> 'wink',
+	'&worried;' => 'worried',
+);
+
+$::_facemark=join('|',sort keys %::_facemark);
+$::_facemark=~s/([&;^;:() ])/\\$1/g;
+$::_facemark="($::_facemark)";
+$::_facemark_puki='|' . join('|',sort keys %::_facemark_puki);
+$::_facemark_puki=~s/([&;^;:() ])/\\$1/g;
+$::_facemark_puki="($::_facemark_puki)";
+
+#print '$::_facemark=q{' . $::_facemark . "};\n";
+#print '$::_facemark.=q{' . $::_facemark_puki . "} if(\$::usePukiWikiStyle eq 1);\n";
+print $::_facemark_puki;

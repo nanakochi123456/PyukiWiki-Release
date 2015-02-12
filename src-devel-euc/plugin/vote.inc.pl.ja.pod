@@ -1,4 +1,4 @@
-#$Id: vote.inc.pl.ja.pod,v 1.413 2012/01/31 10:11:58 papu Exp $
+#$Id: vote.inc.pl.ja.pod,v 1.466 2012/03/01 10:39:21 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -10,10 +10,26 @@ vote.inc.pl - PyukiWiki プラグイン
 =head1 概要
 
  #vote(選択肢１,選択肢２,選択肢３[投票数],[[WikiName]][投票数]…)
+ #vote(選択肢１,選択肢２,選択肢３[投票数],[[WikiName]][投票数]…,add)
+ #vote(選択肢１,選択肢２,選択肢３[投票数],[[WikiName]][投票数]…,complete)
 
 =head1 説明
 
 選択肢と投票ボタンが並んだフォームを表示する。。
+
+=head1 使い方
+
+=over 4
+
+=item add
+
+訪問者が自由に選択肢を入力できるようにする。
+
+=item complete
+
+投票を終了する。
+
+=back
 
 =head1 参考
 
