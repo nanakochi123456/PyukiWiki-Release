@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.8 $$
-# $Id: ls2.ja.txt,v 1.71 2010/12/14 22:20:00 papu Exp $
+# "PyukiWiki" version 0.1.8-p1 $$
+# $Id: ls2.ja.txt,v 1.72 2010/12/29 06:21:06 papu Exp $
 #
 
 # ls2.inc.pl

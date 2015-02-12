@@ -4,9 +4,9 @@
 #!c:\perl\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.81 2010/12/14 22:20:00 papu Exp $
+# $Id: index.cgi,v 1.82 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2010 PyukiWiki Developers Team

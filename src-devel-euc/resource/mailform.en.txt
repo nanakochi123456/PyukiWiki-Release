@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.8 $$
-# $Id: mailform.en.txt,v 1.25 2010/12/14 22:20:00 papu Exp $
+# "PyukiWiki" version 0.1.8-p1 $$
+# $Id: mailform.en.txt,v 1.26 2010/12/29 06:21:06 papu Exp $
 #
 
 # mailform.inc.pl

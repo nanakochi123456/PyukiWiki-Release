@@ -1,6 +1,6 @@
 ######################################################################
 # Cache.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Cache.pm,v 1.66 2010/12/14 22:20:00 papu Exp $
+# $Id: Cache.pm,v 1.67 2010/12/29 06:21:06 papu Exp $
 #
 # "Nana::Cache" version 0.2 $$
 # Author: Nanami

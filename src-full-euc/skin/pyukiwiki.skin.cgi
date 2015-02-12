@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.61 2010/12/14 22:20:00 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.62 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2010 PyukiWiki Developers Team
