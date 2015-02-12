@@ -1,8 +1,8 @@
 ######################################################################
 # recent.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: recent.inc.pl,v 1.84 2011/01/25 03:11:15 papu Exp $
+# $Id: recent.inc.pl,v 1.85 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Author: Nekyo
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/

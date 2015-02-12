@@ -1,5 +1,5 @@
 ** テキスト整形のルール
-//$Id: C0B0B7C1A5EBA1BCA5EB.txt,v 1.59 2011/01/25 03:11:15 papu Exp $	# debug
+//$Id: C0B0B7C1A5EBA1BCA5EB.txt,v 1.60 2011/02/22 20:59:12 papu Exp $	# debug
 
 通常は入力した文章がそのまま出力されます。
 

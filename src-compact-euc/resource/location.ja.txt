@@ -1,0 +1,8 @@
+#
+# PyukiWiki Resource file (Japanese EUC)
+# "PyukiWiki" version 0.1.8-p3 $$
+# $Id: location.ja.txt,v 1.1 2011/02/22 20:59:12 papu Exp $
+#
+
+# location.inc.pl
+location_plugin_message=このページは移動しました。もし移動をしなければ<strong><a href="">こちら</a></strong>をクリックして下さい。

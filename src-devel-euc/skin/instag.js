@@ -1,6 +1,6 @@
 /* edit navi javascript */
-/* "PyukiWiki" version 0.1.8-p2 $$ */
-/* $Id: instag.js,v 1.68 2011/01/25 03:11:15 papu Exp $ */
+/* "PyukiWiki" version 0.1.8-p3 $$ */
+/* $Id: instag.js,v 1.69 2011/02/22 20:59:12 papu Exp $ */
 
 var noOverwrite=false;
 var alertText;

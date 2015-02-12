@@ -1,8 +1,8 @@
 ######################################################################
 # showrss.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: showrss.inc.pl,v 1.95 2011/01/25 03:11:15 papu Exp $
+# $Id: showrss.inc.pl,v 1.96 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Author: Nekyo
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
@@ -28,7 +28,7 @@ sub plugin_showrss_inline
 }
 
 sub plugin_showrss_convert {
-	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag) = split(/,/, shift);
+	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag,$domain) = split(/,/, shift);
 	return if($rssuri eq '');
 
 	my $expire = $usecache * 3600;
@@ -49,10 +49,10 @@ sub plugin_showrss_convert {
 	my $buf=$cache->read($cachefile,1);
 
 	if($rssuri!~/$::isurl/) {
-		return &makebody($buf,$tmplname,$dateflag,$discflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
 	if($cache->read($cachefile) ne '') {
-		return &makebody($buf,$tmplname,$dateflag,$discflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
 	my $pid;
 	if($buf ne '') {
@@ -68,7 +68,7 @@ sub plugin_showrss_convert {
 		if($result ne 0) {
 			return qq(#showrss: $stream : $rssuri);
 		}
-		return &makebody($stream,$tmplname,$dateflag,$discflag);
+		return &makebody($stream,$tmplname,$dateflag,$discflag,$domain);
 	} else {
 		if($pid) {
 
@@ -79,9 +79,9 @@ sub plugin_showrss_convert {
 				alerm(0);
 			};
 			if ($@ =~ /time out/) {
-				return &makebody($buf,$tmplname,$dateflag,$discflag);
+				return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 			} else {
-				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag);
+				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag,$domain);
 			}
 		} else {
 
@@ -94,7 +94,7 @@ sub plugin_showrss_convert {
 }
 
 sub makebody {
-	my($stream,$tmplname,$dateflag,$discflag)=@_;
+	my($stream,$tmplname,$dateflag,$discflag,$domain)=@_;
 	my $body;
 	my %xml = &xmlParser($stream);
 	my @title = split(/\n/,
@@ -172,13 +172,26 @@ EOD
 		}
 
 		if($discflag) {
-			$body .=<<"EOD";
+			$domain=$ENV{HTTP_HOST} if($domain eq '');
+			if($link[$count]=~/https?\:\/\/$domain\//) {
+				$body .=<<"EOD";
 $ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}<br />$desc[$count]$lr
 EOD
+			} else {
+				$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_blank")]}<br />$desc[$count]$lr
+EOD
+			}
 		} else {
-			$body .=<<"EOD";
+			if($link[$count]=~/https?\:\/\/$domain\//) {
+				$body .=<<"EOD";
 $ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}$lr
 EOD
+			} else {
+				$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_blank")]}$lr
+EOD
+			}
 		}
 		$count++;
 	}
@@ -189,7 +202,6 @@ EOD
 sub plugin_showrss_sub {
 	my($rssuri)=@_;
 	my $code = 'utf8';
-
 	my ($result, $stream);
 	my $http=new Nana::HTTP('plugin'=>"showrss");
 	($result, $stream) = $http->get($rssuri);
@@ -207,9 +219,6 @@ sub plugin_showrss_sub {
 	$stream = &replace(&code_convert(\$stream,$::defaultcode, $code));
 	return ($result,$stream);
 }
-
-#sub get_rss {
-#}
 
 sub replace {
 	my ($xmlStream) = @_;

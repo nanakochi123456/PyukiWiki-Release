@@ -1,4 +1,4 @@
-#$Id: popular.inc.pl.ja.pod,v 1.67 2011/01/25 03:11:15 papu Exp $
+#$Id: popular.inc.pl.ja.pod,v 1.68 2011/02/22 20:59:12 papu Exp $
 
 __END__
 =encoding euc-jp

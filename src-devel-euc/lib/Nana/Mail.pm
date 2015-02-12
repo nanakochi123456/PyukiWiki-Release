@@ -1,6 +1,6 @@
 ######################################################################
 # Mail.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Mail.pm,v 1.30 2011/01/25 03:11:15 papu Exp $
+# $Id: Mail.pm,v 1.31 2011/02/22 20:59:12 papu Exp $
 #
 # "Nana::Mail" version 0.1 $$
 # Author: Nanami

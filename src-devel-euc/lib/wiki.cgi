@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.238 2011/01/25 03:11:15 papu Exp $
+# $Id: wiki.cgi,v 1.240 2011/02/22 21:44:16 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -20,8 +20,6 @@ $|=1;	# debug
 # Setting Database Type
 #use Yuki::YukiWikiDB;
 use Nana::YukiWikiDB;
-
-# changed 0.1.9
 use Time::Local;
 
 #$::modifier_dbtype = 'Yuki::YukiWikiDB';
@@ -43,7 +41,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.8-p2';
+$::version = '0.1.8-p3';
 
 	# 2005.12.19 pochi: mod_perlで実行可能に
 	# グローバル関数の定義
@@ -4726,14 +4724,12 @@ GMTとの差を時間(hour)で返す。
 
 =cut
 
-my $_tz='';
 sub gettz {
-	if($_tz eq '') {
-		# changed 0.1.9
+	if($::TZ eq '') {
 		my $now=time();
-		$_tz=(timegm(localtime($now))-timegm(gmtime($now)))/3600;
+		$::TZ=(timegm(localtime($now))-timegm(gmtime($now)))/3600;
 	}
-	return $_tz;
+	return $::TZ;
 }
 
 =lang ja

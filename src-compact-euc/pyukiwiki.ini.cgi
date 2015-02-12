@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.144 2011/01/25 03:11:15 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.145 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -334,23 +334,21 @@ $::chk_jp_only = 1;					# 掲示板、コメント等に日本語が一字も
 									# 入っていないとスパムとみなす。
 $::deny_log = "$::cache_dir/deny.log";
 									# ログファイル。
-									#指定されているとログを取る。
+									# 指定されているとログを取る。
 									# 無くても問題ない。
 
 $::black_log = "$::cache_dir/black.lst";
 									# フィルターフラグが付いているときの
 									# ログ出力先
 
+# タイムゾーン設定
+
+$::TZ='';							# 自動取得
+#$::TZ='9';							# こちらのが処理はやいかも？（日本用）
+
 # 書き込み禁止キーワード
 $::disablewords=<<EOM;
-zhangweijp.com
-linjp.net
-1102213.com
-bibi520.com
-dj5566.org
-webnow.biz
-oulianyong.com
-yzlin.com
+example.com
 EOM
 1;
 
