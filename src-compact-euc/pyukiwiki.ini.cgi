@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.145 2011/02/22 20:59:12 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.150 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -297,13 +297,15 @@ $::non_list = qq((^\:));
 #$::gzip_path = '';
 
 # sendmailパスの指定 $::modifier_mail宛てにメール通知
-$::modifier_sendmail = '';
-#$::modifier_sendmail=<<EOM;
-#/usr/sbin/sendmail -t
-#/usr/bin/sendmail -t
-#/usr/lib/sendmail -t
-#/var/qmail/bin/sendmail -t
-#EOM
+$::modifier_sendmail=<<EOM;
+/usr/sbin/sendmail -t
+/usr/bin/sendmail -t
+/usr/lib/sendmail -t
+/var/qmail/bin/sendmail -t
+EOM
+
+# Wiki更新通知を管理人に知らせる場合 1
+$::sendmail_to_admin = 0;
 
 # P3Pのコンパクトポリシー http://fs.pics.enc.or.jp/p3pwiz/p3p_ja.html
 # 必要であれば /w3c以下ディレクトリにも適切にファイルを設置し、有効にします

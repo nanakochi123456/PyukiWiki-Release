@@ -1,0 +1,153 @@
+// "PyukiWiki" version 0.1.9 $$
+// $Id: twitter.js.src,v 1.1 2011/05/03 20:43:28 papu Exp $
+
+/* Copyright 2009 Brandon Leonardo (http://twitter.com/shiftb) & Ryan McGrath (http://twitter.com/ryanmcgrath) - Released under an MIT style license (http://media.twitstat.us/license.txt) */
+/* Changed by papu (@nanakochi123456) */
+
+var twitstat = {
+    lol: false,
+
+    jsonp: function() {
+        if(document.all && document.getElementById("twitstat_badge_call")) {
+            document.getElementById("twitstat_badge_call").src = twitstat.updateurl;
+        } else if(document.getElementById("twitstat_badge_call")) {
+            var lol = document.getElementById("twitstat_badge_call");
+            lol.parentNode.removeChild(lol);
+        } else {
+            var element = document.createElement("script");
+            if(twitstat.updateurl == "") element.src = twitstat.url;
+            else element.src = twitstat.updateurl;
+            element.id = "twitstat_badge_call";
+            document.body.appendChild(element); 
+        }
+        
+        if(!twitstat.lol && /reddit/.test(document.referrer)) {
+            
+            
+            twitstat.lol = true;
+        }
+        
+        setTimeout(twitstat.jsonp, 6000);
+    },
+    
+    fx: function(obj) {
+        if(obj.style.display == "none") { obj.style.filter = "alpha(opacity:0)"; obj.style.opacity = 0; obj.style.display = "block"; }
+        if(twitstat.fxopac < 100) {
+            twitstat.fxopac += 4;
+            var opdiv = twitstat.fxopac / 100;
+            obj.style.filter = "alpha(opacity:" + twitstat.fxopac + ")";
+            obj.style.opacity = opdiv;
+            setTimeout(function() { twitstat.fx(obj); }, 30);
+        } else {
+            twitstat.fxopac = 0;
+        }
+    },
+
+    init: function(props) { 
+        twitstat.props = props; 
+        twitstat.url = twitstat.searchurl + "?rpp=" + props.max + "&callback=twitstat.construct&q=" + encodeURIComponent(props.keywords);
+        if(props.near) twitstat.url += "&near=" + props.near;
+        if(props.within && props.units) twitstat.url += "&within=" + props.within + "&units=" + props.units;
+        if(typeof document.addEventListener !== 'undefined') document.addEventListener("DOMContentLoaded", twitstat.jsonp, false);
+        else if(typeof window.attachEvent != 'undefined') window.attachEvent('onload', twitstat.jsonp);
+        else document.write(unescape('%3Cscript src="' + twitstat.url + '" type="text/javascript"%3E%3C/script%3E'));
+    },
+    
+    loop: function(results, hidden) {
+		var popup=twitter_popup();
+        var resultListArr = [];
+        for(var i = 0; i < results.length; i++) {
+			var liStr = '<li style="margin: 5px; font: normal 12px/14px helvetica, sans-serif; min-height: 54px; height: auto !important; height: 54px;">';
+			liStr += '<img src="' + results[i].profile_image_url + '" style="float: left; margin: 0 5px 10px 0; width: 48px; height: 48px;">';
+			liStr += '<div>';
+			liStr += '<a' + popup + ' href="http://www.twitter.com/' + results[i].from_user + '" style="color: ' + twitstat.props.link_color + '">' + results[i].from_user + '</a>: ';
+			liStr += '<span>' + twitstat.convertUrls(results[i].text) + '</span></div></li>';
+			resultListArr[i] = liStr;
+		}
+        return (hidden && results.length > 0 ? '<div style="display: none;">' + resultListArr.join("") + '</div>' : resultListArr.join(""));
+    },
+
+    construct: function(results) {
+        var badge_container = document.getElementById(twitstat.props.badge_container),
+		    resultListArr = twitstat.loop(results['results'], false),
+            frag = document.createDocumentFragment();
+
+        badge_container.style.width = twitstat.props.width + "px";
+        twitstat.holder = document.createElement('div');
+
+        twitstat.updateurl = twitstat.searchurl + results['refresh_url'] + "&callback=twitstat.update";
+        var list_container = '<ul style="list-style-type: none; overflow: hidden; height: ' + (twitstat.props.max * 60) + 'px; padding: 0; margin: 0; color:' + twitstat.props.content_font_color + 
+        '; border: 1px solid ' + twitstat.props.border_color + '; background-color: ' + twitstat.props.content_background_color + ';">',
+        badge_header = '<div style="font: normal 14px/16px helvetica, sans-serif; -moz-border-radius-topleft: 2px; -moz-border-radius-topright: 2px; ' +
+        '-webkit-border-top-left-radius: 2px; -webkit-border-top-right-radius: 2px; color: ' + twitstat.props.header_font_color + 
+        '; background-color: ' + twitstat.props.header_background + '; margin: 0; padding: 4px 4px 2px;">' + twitstat.props.title + '</div>',
+
+//alert(twitstat.props.content_background_color);
+//        badge_footer = '<div style="font: normal 11px/12px helvetica, sans-serif; color: ' + twitstat.props.header_font_color + 
+//        '; -moz-border-radius-bottomright: 2px; -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; -webkit-border-bottom-right-radius: 2px;background-color: ' 
+//        + twitstat.props.header_background + '; margin: 0; padding: 4px; text-align: right;">' + footerLinks + '</div>';
+
+        badge_footer = '<div style="font: normal 11px/12px helvetica, sans-serif; color: ' + twitstat.props.header_font_color + 
+        '; -moz-border-radius-bottomright: 2px; -moz-border-radius-bottomleft: 2px; -webkit-border-bottom-left-radius: 2px; -webkit-border-bottom-right-radius: 2px;background-color: ' 
+        + twitstat.props.header_background + '; margin: 0; padding: 4px; text-align: right;"></div>';
+
+        twitstat.holder.innerHTML = "<div>" + badge_header + list_container + resultListArr + "</ul>" + badge_footer + "</div>";
+        frag.appendChild(twitstat.holder.firstChild);
+
+        badge_container.appendChild(frag);
+        twitstat.list = badge_container.getElementsByTagName("UL")[0];
+        return false;
+    },
+
+    update: function(results) { 
+        if(results['results'].length > 0) {
+            twitstat.updateurl = twitstat.updateurl = twitstat.searchurl + results['refresh_url'] + "&callback=twitstat.update";
+            var resultListArr = twitstat.loop(results['results'], true);
+                frag = document.createDocumentFragment();
+            twitstat.holder.innerHTML = resultListArr;
+            frag.appendChild(twitstat.holder.firstChild);
+            twitstat.list.insertBefore(frag, twitstat.list.childNodes[0]);
+            if(results['results'].length > 0) twitstat.fx(twitstat.list.childNodes[0]);
+            return false;
+        }
+    },
+
+    convertUrls: function(text) {
+		popup=twitter_popup();
+        text = text.replace(twitstat.urlRE, function(t){ return twitstat.replaceUrl(t); });
+//        return text.replace(twitstat.twitterUsernameRE, '<a' + popup + ' style="color: '+twitstat.props.link_color+'" href="http://twitter.com/$1">@$1</a>');
+        text= text.replace(twitstat.twitterHashRE, '<a' + popup + ' title="#$1" style="color: '+twitstat.props.link_color+'" href="http://twitter.com/search/%23$1">#$1</a>');
+        text=text.replace(twitstat.twitterUsernameRE, '<a' + popup + ' title="@$1" style="color: '+twitstat.props.link_color+'" href="http://twitter.com/$1">@$1</a>');
+
+        text= text.replace(twitstat.linkcolortoRE, '#$1');
+		return text;
+    },
+
+    twitterUsernameRE: /@(\w+)/gm,
+    twitterHashRE: /\#([A-Za-z0-9]+)/gm,
+    urlRE: /((((ht|f){1}(tp:[/][/]){1})|((www.){1}))[-a-zA-Z0-9@:;%_\+.~#?\&//=]+)/gm,
+    linkcolorfromRE: /\#([A-Za-z0-9]+)/gm,
+    linkcolortoRE: /_C_([A-Za-z0-9]+)/gm,
+
+    replaceUrl: function(t) {
+		popup=twitter_popup()
+		tc=twitstat.props.link_color;
+		tc=tc.replace(twitstat.linkcolorfromRE,'_C_$1')
+		return '<a' + popup + ' href="'+t+'" title="'+t+'" style="color: '+tc +'">'+ ((t.length > 34) ? (t.substring(0, 20) + '&hellip;') : t) +'</a>'; },
+    badge: { init: function(props) { twitstat.init(props); } },
+    props: {},
+    url: "",
+    searchurl: "http://search.twitter.com/search.json",
+    updateurl: "",
+    fxopac: 0,
+    list: {},
+    holder: {}
+}
+
+function twitter_popup() {
+	var target='';
+	if(twitstat.props.popup == 1) {
+		target=' target=_blank';
+	}
+	return target;
+}

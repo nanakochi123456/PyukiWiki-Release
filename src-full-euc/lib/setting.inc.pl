@@ -1,8 +1,8 @@
 ######################################################################
-# setting.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: setting.inc.pl,v 1.58 2011/02/22 20:59:12 papu Exp $
+# setting.inc.cgi - This is PyukiWiki, yet another Wiki clone.
+# $Id: setting.inc.pl,v 1.63 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/

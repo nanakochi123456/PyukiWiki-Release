@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.70 2011/02/22 20:59:12 papu Exp $
+# $Id: text.pl,v 1.75 2011/05/03 20:43:28 papu Exp $
 
 use Jcode;
 

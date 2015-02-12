@@ -1,8 +1,8 @@
 ######################################################################
 # setting.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: setting.inc.pl,v 1.57 2011/02/22 20:59:12 papu Exp $
+# $Id: setting.inc.pl,v 1.62 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.8-p5 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
@@ -23,9 +23,10 @@
 
 sub plugin_setting_action {
 	my $body;
-	# bug ? 0.1.8 fix
+# bug ? 0.1.8 fix
 #	return if($::setting_cookie eq '' || $::write_location eq 0);
-
+# 0.1.9 fix
+	return if($::useExPlugin eq 1 && $::_exec_plugined{setting} ne 2);
 	if($::form{submit} ne '') {
 		my @http_headers=();
 		push(@http_headers, "Status: 302");

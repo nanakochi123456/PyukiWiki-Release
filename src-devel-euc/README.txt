@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.8-p3 $$
+	"PyukiWiki" version 0.1.9 $$
 	Copyright (C)
 	  2005-2011 PukiWiki Developers Team
 	  2004-2011 Nekyo (Based on PukiWiki, YukiWiki)
@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.93 2011/02/22 20:59:12 papu Exp $
+	$Id: README.txt,v 1.99 2011/05/03 20:43:28 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -257,6 +257,14 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作します。
 +-- resource                      700 (rwx------)  リソース用ディレクトリ
 +-- skin                          701 (rwx-----x)  スキン用ディレクトリ
 +-- wiki                          700 (rwx------)  ページデータ保存用ディレクトリ
+
+-------------------------------------------------
+■CSSを編集したければ？
+-------------------------------------------------
+・CSSはyuicompressorで圧縮されています。その為、編集しずらいと思いますので、
+　編集をするのであれば、開発版をダウンロードして下さい。
+　再圧縮するには、こちら（英語）をご覧下さい。
+　http://developer.yahoo.com/yui/compressor/
 
 -------------------------------------------------
 ■もし動かなければ？

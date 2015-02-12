@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.8-p3 $$
-# $Id: setting.ja.txt,v 1.56 2011/02/22 20:59:12 papu Exp $
+# "PyukiWiki" version 0.1.9 $$
+# $Id: setting.ja.txt,v 1.61 2011/05/03 20:43:28 papu Exp $
 #
 
 # setting.inc.pl
@@ -10,7 +10,7 @@ plugin_setting_list=gzip,style,fontsize,popup,savename
 plugin_setting_button=肋年恃构
 
 plugin_setting_gzip=暗教啪流
-plugin_setting_gzip_check=sub { return -f "$::explugin_dir/gzip.inc.cgi"; }
+plugin_setting_gzip_check=sub { return 1 }
 plugin_setting_gzip_list=0:なし,1:暗教
 plugin_setting_gzip_default=1
 

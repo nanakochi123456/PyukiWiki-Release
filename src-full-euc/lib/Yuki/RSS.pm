@@ -1,6 +1,6 @@
 ######################################################################
 # RSS.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: RSS.pm,v 1.80 2011/02/22 20:59:12 papu Exp $
+# $Id: RSS.pm,v 1.85 2011/05/03 20:43:28 papu Exp $
 #
 # "Yuki::RSS" version 0.3 $$
 # Author: Hiroshi Yuki

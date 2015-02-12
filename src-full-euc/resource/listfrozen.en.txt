@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.8-p3 $$
-# $Id: listfrozen.en.txt,v 1.71 2011/02/22 20:59:12 papu Exp $
+# "PyukiWiki" version 0.1.9 $$
+# $Id: listfrozen.en.txt,v 1.76 2011/05/03 20:43:28 papu Exp $
 #
 
 # listfrozen.inc.pl

@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: build.mk,v 1.98 2011/02/22 20:59:12 papu Exp $
+# $Id: build.mk,v 1.103 2011/05/03 20:43:28 papu Exp $
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"
@@ -126,15 +126,16 @@ BUILDMAKER=${BUILDDIR}/makesampleini.pl \
 			${BUILDDIR}/getversion.pl \
 			${BUILDDIR}/build.mk \
 			${BUILDDIR}/build.pl \
-			${BUILDDIR}/compactmagic.pl
+			${BUILDDIR}/compactmagic.pl \
+			${BUILDDIR}/compressfile.pl
 
 BUILDFILES=sample/pyukiwiki.ini.cgi \
+			skin/instag.js \
 			skin/common.en.js skin/common.ja.js \
+			skin/twitter.js \
 			sample/common.sjis.ja.js sample/common.utf8.ja.js \
-			lib/File/magic.txt lib/File/magic_compact.txt
-#			skin/pyukiwiki.default.en.css skin/pyukiwiki.default.ja.css \
-#			skin/pyukiwiki.print.en.css skin/pyukiwiki.print.ja.css \
-#			skin/pyukiwiki.skin.en.cgi skin/pyukiwiki.skin.ja.cgi \
+			lib/File/magic.txt lib/File/magic_compact.txt \
+			skin/pyukiwiki.default.css skin/pyukiwiki.print.css
 
 prof:FORCE
 	@${PERL} -d:DProf index.cgi >/dev/null 2>/dev/null
@@ -160,26 +161,26 @@ sample/common.utf8.ja.js: skin/common.ja.js ${BUILDMAKER}
 sample/pyukiwiki.ini.cgi: pyukiwiki.ini.cgi ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/makesampleini.pl > sample/pyukiwiki.ini.cgi
 
-skin/common.en.js: skin/common.lang.js.src ${BUILDMAKER}
+skin/instag.js: skin/instag.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/instag.js skin/instag.js.src
+
+skin/twitter.js: skin/twitter.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/twitter.js skin/twitter.js.src
+
+skin/common.en.js: skin/common.en.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/common.en.js skin/common.en.js.src
+
+skin/common.ja.js: skin/common.ja.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/common.ja.js skin/common.ja.js.src
+
+skin/common.en.js.src: skin/common.lang.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/lang.pl en skin/common.lang.js.src
 
-skin/common.ja.js: skin/common.lang.js.src ${BUILDMAKER}
+skin/common.ja.js.src: skin/common.lang.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/lang.pl ja skin/common.lang.js.src
 
-skin/pyukiwiki.default.en.css: skin/pyukiwiki.default.lang.css.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl en skin/pyukiwiki.default.lang.css.src
+skin/pyukiwiki.default.css: skin/pyukiwiki.default.css.org ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.default.css skin/pyukiwiki.default.css.org
 
-skin/pyukiwiki.default.ja.css: skin/pyukiwiki.default.lang.css.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl ja skin/pyukiwiki.default.lang.css.src
-
-skin/pyukiwiki.print.en.css: skin/pyukiwiki.print.lang.css.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl en skin/pyukiwiki.print.lang.css.src
-
-skin/pyukiwiki.print.ja.css: skin/pyukiwiki.print.lang.css.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl ja skin/pyukiwiki.print.lang.css.src
-
-skin/pyukiwiki.skin.en.cgi: skin/pyukiwiki.skin.lang.cgi.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl en skin/pyukiwiki.skin.lang.cgi.src
-
-skin/pyukiwiki.skin.ja.cgi: skin/pyukiwiki.skin.lang.cgi.src ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/lang.pl ja skin/pyukiwiki.skin.lang.cgi.src
+skin/pyukiwiki.print.css: skin/pyukiwiki.print.css.org ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.print.css skin/pyukiwiki.print.css.org

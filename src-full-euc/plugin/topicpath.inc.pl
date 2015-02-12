@@ -1,8 +1,8 @@
 ######################################################################
 # topicpath.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: topicpath.inc.pl,v 1.55 2011/02/22 20:59:12 papu Exp $
+# $Id: topicpath.inc.pl,v 1.60 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Author: Junichi http://www.re-birth.com/
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/

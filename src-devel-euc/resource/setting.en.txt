@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.8-p3 $$
-# $Id: setting.en.txt,v 1.56 2011/02/22 20:59:12 papu Exp $
+# "PyukiWiki" version 0.1.9 $$
+# $Id: setting.en.txt,v 1.61 2011/05/03 20:43:28 papu Exp $
 #
 
 # setting.inc.pl
@@ -10,7 +10,7 @@ plugin_setting_list=gzip,style,fontsize,popup,savename
 plugin_setting_button=Change
 
 plugin_setting_gzip=GZIP Compress
-plugin_setting_gzip_check=sub { return -f "$::explugin_dir/gzip.inc.cgi"; }
+plugin_setting_gzip_check=sub { return 1 }
 plugin_setting_gzip_list=0:none,1:Compress
 plugin_setting_gzip_default=1
 

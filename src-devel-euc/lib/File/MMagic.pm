@@ -1,4 +1,4 @@
-#$Id: MMagic.pm,v 1.67 2011/02/22 20:59:12 papu Exp $
+#$Id: MMagic.pm,v 1.72 2011/05/03 20:43:28 papu Exp $
 # "File::MMagic" version 1.26 $$
 
 # File::MMagic

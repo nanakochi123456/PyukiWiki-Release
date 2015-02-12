@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.8-p3 $$
+	"PyukiWiki" version 0.1.9 $$
 	Copyright (C)
 	  2005-2011 PukiWiki Developers Team
 	  2004-2011 Nekyo (Based on PukiWiki, YukiWiki)
@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.67 2011/02/22 20:59:12 papu Exp $
+	$Id: DEVEL.txt,v 1.72 2011/05/03 20:43:28 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -48,10 +48,10 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　行なってください。
 
 　適当な、UNIX端末上で
+　make release
 　make pkg
 　と入力して下さい。
 　release/ 以下が作成され、リリース版がその中に
-　ビルドされます。
 　archive/ 以下が作成され、その中にアーカイブが作成されます。
 
 　アーカイブを作成するには、以下のツールが必要です。
@@ -61,5 +61,6 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　　http://www.7-zip.org/
 　　http://www.7-zip.org/ja/
 　　http://sourceforge.net/projects/p7zip/
+　・yuicompressor JavaScript, CSSの圧縮に必要です。(Javaでできています）
 
 　p.s.Makefileの書き方がガチガチになっています。汗

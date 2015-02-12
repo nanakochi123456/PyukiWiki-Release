@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.113 2011/02/22 20:59:12 papu Exp $
+# $Id: build.pl,v 1.118 2011/05/03 20:43:28 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
@@ -14,9 +14,9 @@ $binary_files='(\.(jpg|png|gif|dat|key|zip)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
 $common_ignore='\.sum$|\.sign$|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v.cgi|^playvideo|setup.ini.cgi|\.bak$|\.lk$';
-$release_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip|\.src$';
+$release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$';
 $update_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
-$compact_ignore='|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|\.en\.txt$';
+$compact_ignore='|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
 $updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
 
@@ -429,6 +429,14 @@ sub copyascii {
 		# for sorceforge url
 		s/L\<\@\@CVSURL\@\@(.*)\>/L\<\@\@CVSURL\@\@$1\?view\=log\>/g;
 
+		# for login.inc.pl (release v0.2.0 ?)
+		if($TYPE=~/compact/) {
+			next if(/#withlogin$/);
+		} else {
+			next if(/#nologin$/);
+		}
+		s/#withlogin$//g;
+		s/#nologin$//g;
 		$cut=1 if(/^\=(head|lang)/);
 		if(/^\=cut/) {
 			$cut=0;

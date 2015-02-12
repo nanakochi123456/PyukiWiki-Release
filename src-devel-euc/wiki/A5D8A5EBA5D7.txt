@@ -1,5 +1,5 @@
 *[[PyukiWiki>PyukiWiki:FrontPage]]ヘルプ
-//$Id: A5D8A5EBA5D7.txt,v 1.75 2011/02/22 20:59:12 papu Exp $	# debug
+//$Id: A5D8A5EBA5D7.txt,v 1.80 2011/05/03 20:43:28 papu Exp $	# debug
 
 -[[テキスト整形のルール>整形ルール]]
 -[[FAQ(PyukiWiki official)>PyukiWiki:PyukiWiki/FAQ]]

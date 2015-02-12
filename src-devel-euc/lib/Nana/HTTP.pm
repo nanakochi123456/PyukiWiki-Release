@@ -1,8 +1,8 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.48 2011/02/22 20:59:12 papu Exp $
+# $Id: HTTP.pm,v 1.53 2011/05/03 20:43:28 papu Exp $
 #
-# "Nana::HTTP" version 0.2 $$
+# "Nana::HTTP" version 0.3 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
@@ -22,7 +22,7 @@ package	Nana::HTTP;
 use 5.005;
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.2';
+$VERSION = '0.3';
 
 # 0:付属エンジン 1:LWPが存在すればLWP、なければ付属エンジン
 $Nana::HTTP::useLWP=0;

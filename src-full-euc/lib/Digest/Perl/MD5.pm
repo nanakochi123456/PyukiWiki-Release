@@ -1,7 +1,7 @@
 #! /usr/bin/false
 #
 # Id: MD5.pm,v 1.23 2004/08/27 20:28:25 lackas Exp
-# $Id: MD5.pm,v 1.39 2011/02/22 20:59:12 papu Exp $
+# $Id: MD5.pm,v 1.44 2011/05/03 20:43:28 papu Exp $
 #
 # "Digest::Perl::MD5" version 1.8 $$
 

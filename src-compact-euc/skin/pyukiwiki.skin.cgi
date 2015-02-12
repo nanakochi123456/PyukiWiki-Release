@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.66 2011/02/22 20:59:12 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.71 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -108,7 +108,7 @@ $::dtd
 <meta name="copyright" content="$::modifier" />
 <script type="text/javascript" src="$::skin_url/$::skin{common_js}"></script>
 $::IN_HEAD</head>
-<body class="$bodyclass">
+<body class="$bodyclass"$::IN_BODY>
 <div id="container">
 <div id="head">
 <div id="header">

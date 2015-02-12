@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.160 2011/02/22 20:59:12 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.165 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -297,13 +297,15 @@ $::non_list = qq((^\:));
 #$::gzip_path = '';
 
 # sendmailパスの指定 $::modifier_mail宛てにメール通知
-$::modifier_sendmail = '';
-#$::modifier_sendmail=<<EOM;
-#/usr/sbin/sendmail -t
-#/usr/bin/sendmail -t
-#/usr/lib/sendmail -t
-#/var/qmail/bin/sendmail -t
-#EOM
+$::modifier_sendmail=<<EOM;
+/usr/sbin/sendmail -t
+/usr/bin/sendmail -t
+/usr/lib/sendmail -t
+/var/qmail/bin/sendmail -t
+EOM
+
+# Wiki更新通知を管理人に知らせる場合 1
+$::sendmail_to_admin = 0;
 
 # P3Pのコンパクトポリシー http://fs.pics.enc.or.jp/p3pwiz/p3p_ja.html
 # 必要であれば /w3c以下ディレクトリにも適切にファイルを設置し、有効にします
@@ -334,23 +336,21 @@ $::chk_jp_only = 1;					# 掲示板、コメント等に日本語が一字も
 									# 入っていないとスパムとみなす。
 $::deny_log = "$::cache_dir/deny.log";
 									# ログファイル。
-									#指定されているとログを取る。
+									# 指定されているとログを取る。
 									# 無くても問題ない。
 
 $::black_log = "$::cache_dir/black.lst";
 									# フィルターフラグが付いているときの
 									# ログ出力先
 
+# タイムゾーン設定
+
+$::TZ='';							# 自動取得
+#$::TZ='9';							# こちらのが処理はやいかも？（日本用）
+
 # 書き込み禁止キーワード
 $::disablewords=<<EOM;
-zhangweijp.com
-linjp.net
-1102213.com
-bibi520.com
-dj5566.org
-webnow.biz
-oulianyong.com
-yzlin.com
+example.com
 EOM
 1;
 

@@ -1,6 +1,6 @@
 ######################################################################
 # Mail.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Mail.pm,v 1.31 2011/02/22 20:59:12 papu Exp $
+# $Id: Mail.pm,v 1.36 2011/05/03 20:43:28 papu Exp $
 #
 # "Nana::Mail" version 0.1 $$
 # Author: Nanami
@@ -70,7 +70,7 @@ EOM
 
 	foreach(split(/\n/,"$::modifier_sendmail\n$Nana::Mail::sendmail")) {
 		my($exec,$opt1, $opt2, $opt3, $opt4, $opt5)=split(/ /,$_);
-		if(-x $exec) {
+		if(-r $exec) {
 			open(MAIL, "| $exec $opt1 $opt2 $opt3 $opt4 $opt5");
 			print MAIL $mail;
 			close(MAIL);
@@ -84,6 +84,7 @@ sub toadmin {
 	my($mode,$page,$data)=@_;
 	$data=$::database{$page} if($data eq '');
 
+	&getremotehost;
 	my $message = <<"EOD";
 --------
 WIKI = $::modifier_rss_title
@@ -99,6 +100,17 @@ EOD
 
 	&send(to=>$::modifier_mail, from=>$::modifier_mail, 
 		  subject=>"[Wiki]$mode $::basehref", data=>$message);
+}
+
+sub getremotehost {
+	if($ENV{REMOTE_HOST} eq '') {
+		my $host
+		 = gethostbyaddr(pack("C4", split(/\./, $ENV{REMOTE_ADDR})), 2);
+		if($host eq '') {
+			$host=$ENV{REMOTE_ADDR};
+		}
+		$ENV{REMOTE_HOST}=$host;
+	}
 }
 
 1;

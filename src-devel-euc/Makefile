@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: Makefile,v 1.59 2011/02/22 20:59:12 papu Exp $
+# $Id: Makefile,v 1.64 2011/05/03 20:43:28 papu Exp $
 
 ARCHIVEDIR=./archive
 BUILDDIR=./build

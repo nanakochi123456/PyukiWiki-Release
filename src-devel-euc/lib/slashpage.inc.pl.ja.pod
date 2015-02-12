@@ -1,4 +1,4 @@
-#$Id: slashpage.inc.pl.ja.pod,v 1.78 2011/02/22 20:59:12 papu Exp $
+#$Id: slashpage.inc.pl.ja.pod,v 1.83 2011/05/03 20:43:28 papu Exp $
 
 __END__
 =encoding euc-jp

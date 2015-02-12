@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.240 2011/02/22 21:44:16 papu Exp $
+# $Id: wiki.cgi,v 1.245 2011/05/03 20:43:28 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p3 $$
+# "PyukiWiki" version 0.1.9 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -17,6 +17,8 @@
 ######################################################################
 $|=1;	# debug
 ##############################
+
+$login=1;
 # Setting Database Type
 #use Yuki::YukiWikiDB;
 use Nana::YukiWikiDB;
@@ -41,7 +43,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.8-p3';
+$::version = '0.1.9';
 
 	# 2005.12.19 pochi: mod_perlで実行可能に
 	# グローバル関数の定義
@@ -99,7 +101,11 @@ $::pageplugin=0;		# is page editing plugin flag
 
 $::HTTP_HEADER;			# http header
 $::IN_HEAD;				# adding <head>~</head> from plugin
+$::IN_BODY;				# adding <body> tag from plugin
+
 $::is_xhtml;
+$gzip_header;
+$explugin_last;
 
 # 2006.1.30 pochi: 改行モードを設置
 $::lfmode;
@@ -352,6 +358,9 @@ sub main {
 	# Exプラグイン(*.inc.cgi)の起動
 	&exec_explugin if($::useExPlugin > 0);
 
+	# gzip圧縮初期化
+	&gzip_init;
+
 	# 内部コマンド(cmd=read, cmd=write)の起動
 	my $ret=1;
 	if ($command_do{$::form{cmd}}) {
@@ -367,6 +376,75 @@ sub main {
 	}
 	# DBを閉じる
 	&close_db;
+}
+
+=lang ja
+
+=head2 gzip_init
+
+=over 4
+
+=item 入力値
+
+なし
+
+=item 出力
+
+$::gzip_header
+
+=item オーバーライド
+
+不可
+
+=item 概要
+
+gzip圧縮標準モジュール
+
+=back
+
+=cut
+
+sub gzip_init {
+	my $gzip_exec=1;
+	# force init setting.inc.cgi
+	&exec_explugin_sub("setting")  if($::useExPlugin > 0);
+	my $gzip_command='gzip';
+	$::gzip_header='';
+	$::gzip_path='';
+	if($::setting_cookie{gzip} ne '') {
+		$gzip_exec=0 if($::setting_cookie{gzip}+0 eq 0);
+	}
+	if($gzip_exec eq 1) {
+		# auto search too slow...
+		if($::gzip_path eq '') {
+			my $forceflag="";
+			my $fastflag="";
+			foreach(split(/:/,$ENV{PATH})) {
+				if(-x "$_/$gzip_command") {
+					$::gzip_path="$_/$gzip_command" ;
+					if(open(PIPE,"$::gzip_path --help 2>&1|")) {
+						foreach(<PIPE>) {
+							$forceflag="--force" if(/(\-\-force)/);
+							$fastflag="--fast" if(/(\-\-fast)/);
+						}
+						close(PIPE);
+					}
+				}
+			}
+			$gzip_path="$::gzip_path $fastflag $forceflag";
+			$::debug.="auto detect gzip path : \"$gzip_path\"\n";	# debug
+		}
+		if ($::gzip_path ne '') {
+			if(($ENV{'HTTP_ACCEPT_ENCODING'}=~/gzip/)) {
+				if($ENV{'HTTP_ACCEPT_ENCODING'}=~/x-gzip/) {
+					$::gzip_header="Content-Encoding: x-gzip\n";
+				} else {
+					$::gzip_header="Content-Encoding: gzip\n";
+				}
+			$::HTTP_HEADER.="$::gzip_header";
+			}
+		}
+	}
 }
 
 =lang ja
@@ -608,6 +686,7 @@ sub exec_explugin {
 	opendir(DIR,"$::explugin_dir");
 	while(my $dir=readdir(DIR)) {
 		if($dir=~/(.*?)\.inc\.cgi$/) {
+			next if($1 eq 'gzip'); # gzip.inc.cgi 廃止に伴う
 			my $explugin=$1;
 			&exec_explugin_sub($explugin);
 		}
@@ -644,6 +723,7 @@ sub exec_explugin_sub {
 	my($explugin)=@_;
 	if (&exist_explugin($explugin) eq 1) {
 		# initメソッドの実行
+#		$::debug.="Load Explugin $explugin\n";
 		my $action = "\&plugin_" . $explugin . "_init";
 		my %ret = eval $action;
 		$::debug.=$@;
@@ -670,6 +750,8 @@ sub exec_explugin_sub {
 		$::HTTP_HEADER.="$ret{http_header}\n";
 		$::IN_HEAD.=$ret{header};
 
+		# 終了時関数を設定
+		$explugin_last.="$ret{last_func},";
 		# msg, body 設定時、表示して終了（エラー時等用）
 		if (($ret{msg} ne '') && ($ret{body} ne '')) {
 			$exec = 0;
@@ -1125,8 +1207,8 @@ PyukiWikiのHTML変換にかかったCPU時間を返す。
 
 sub convtime {
 	if ($::enable_convtime != 0) {
-		return sprintf("Powered by Perl $] HTML convert time to %.3f sec.",
-			((times)[0] - $::_conv_start));
+		return sprintf("Powered by Perl $] HTML convert time to %.3f sec.%s",
+			((times)[0] - $::_conv_start), $::gzip_header ne '' ? " Compressed" : "");
 	}
 }
 
@@ -1159,8 +1241,12 @@ CGIからのすべての出力をする。
 sub content_output {
 	my ($http_header,$body)=@_;
 	print $http_header;
+	if ($::gzip_header ne '') {
+		open(STDOUT,"| $::gzip_path");
+	}
 	$body=~s/\ \/>/>/g if(!$::is_xhtml);
 	print $body;
+	&exec_explugin_last;
 	close(STDOUT);
 }
 
@@ -1403,6 +1489,7 @@ sub snapshot {
 	my $fp;
 
 	if ($::deny_log) {
+		&getremotehost;
 		open $fp, ">>$::deny_log";
 		print $fp "<<" . $title . ' ' . date("Y-m-d H:i:s") . ">>\n";
 		print $fp "HTTP_USER_AGENT:"      . $::ENV{'HTTP_USER_AGENT'}      . "\n";
@@ -1545,7 +1632,7 @@ sub do_write {
 			}
 		}
 	} else {
-		if (&frozen_reject()) {
+		if (&frozen_reject) {
 			$::form{cmd}=$::form{refercmd};
 			$::form{mypreview} = "";
 			return 1;
@@ -1595,8 +1682,13 @@ sub do_write {
 
 	# 書き込み動作
 	if ($::form{mymsg}) {
-		$::database{$::form{mypage}} = $::form{mymsg};
-		&send_mail_to_admin($::form{mypage}, "Modify");
+		if(exists $::database{$::form{mypage}}) {
+			$::database{$::form{mypage}} = $::form{mymsg};
+			&send_mail_to_admin($::form{mypage}, "Modify");
+		} else {
+			$::database{$::form{mypage}} = $::form{mymsg};
+			&send_mail_to_admin($::form{mypage}, "New");
+		}
 		&set_info($::form{mypage}, $::info_ConflictChecker, '' . localtime);
 		&set_info($::form{mypage}, $::info_UpdateTime, time);
 		if(&get_info($::form{mypage}, $::info_CreateTime)+0 eq 0) {
@@ -1625,6 +1717,7 @@ sub do_write {
 				$::HTTP_HEADER
 				);
 			close(STDOUT);
+			&exec_explugin_last;
 			exit;
 		# ページ表示
 		} else {
@@ -4143,7 +4236,7 @@ sub exist_plugin {
 
 =item オーバーライド
 
-可
+不可
 
 =item 概要
 
@@ -4169,6 +4262,43 @@ sub exist_explugin {
 		return 0;
 	}
 	return $_exex_plugined{$explugin};
+}
+
+=lang ja
+
+=head2 exec_explugin_last
+
+=over 4
+
+=item 入力値
+
+&exec_explugin_last;
+
+=item 出力
+
+0:なし 1:読み込み済み
+
+=item オーバーライド
+
+不可
+
+=item 概要
+
+拡張プラグインをの最終処理をする。
+
+=back
+
+=cut
+
+sub exec_explugin_last {
+	if($::useExPlugin > 0) {
+		foreach(split(/,/,$explugin_last)) {
+			next if ($_ eq '');
+			my $action = $_;
+#			print "debug Exec $_<br />\n" if ($::mode_debug eq 1);
+			eval $action;
+		}
+	}
 }
 
 =lang ja
@@ -4877,6 +5007,44 @@ sub fopen {
 		}
 	}
 	return 0;
+}
+
+=lang ja
+
+=head2 getremotehost
+
+=over 4
+
+=item 入力
+
+&getremotehost;
+
+=item 出力
+
+$ENV{REMOTE_HOST}
+
+=item オーバーライド
+
+可
+
+=item 概要
+
+リモートホストを出力する。
+
+=back
+
+=cut
+
+
+sub getremotehost {
+	if($ENV{REMOTE_HOST} eq '') {
+		my $host
+		 = gethostbyaddr(pack("C4", split(/\./, $ENV{REMOTE_ADDR})), 2);
+		if($host eq '') {
+			$host=$ENV{REMOTE_ADDR};
+		}
+		$ENV{REMOTE_HOST}=$host;
+	}
 }
 
 =lang ja
