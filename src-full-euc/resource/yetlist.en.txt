@@ -1,0 +1,9 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.1.6 $$
+# $Id: yetlist.en.txt,v 1.5 2006/03/17 14:00:11 papu Exp $
+#
+
+# yetlist.inc.pl
+yetlist_plugin_title=List of pages which have not yet been created.
+yetlist_plugin_nopage=All pages have been created.

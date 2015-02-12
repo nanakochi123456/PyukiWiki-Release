@@ -1,0 +1,11 @@
+#
+# PyukiWiki Resource file (Japanese EUC)
+# "PyukiWiki" version 0.1.6 $$
+# $Id: article.ja.txt,v 1.43 2006/03/17 14:00:11 papu Exp $
+#
+
+# article.inc.pl
+article_plugin_name=お名前:
+article_plugin_subject=題名:
+article_plugin_btn=記事の投稿
+article_plugin_err=記載事項が不足しています

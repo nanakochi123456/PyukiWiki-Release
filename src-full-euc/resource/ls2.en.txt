@@ -1,0 +1,8 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.1.6 $$
+# $Id: ls2.en.txt,v 1.43 2006/03/17 14:00:11 papu Exp $
+#
+
+# ls2.inc.pl
+ls2_plugin_notpage=have not child page.
