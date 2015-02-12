@@ -1,16 +1,16 @@
 ######################################################################
 # rss10page.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rss10page.inc.pl,v 1.293 2011/12/31 13:06:11 papu Exp $
+# $Id: rss10page.inc.pl,v 1.377 2012/01/31 18:43:44 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Author: Nekyo
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Author: Nekyo http://nekyo.qp.land.to/
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -104,8 +104,9 @@ sub plugin_rss10page_makerss {
 				&plugin_rss10page_additem($rss,$escaped_title,$link,$description,$date);
 				$description='';
 			}
-			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
-				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
+#			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
+#				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
+			$gmt=&gettz;
 			$date = $1 . "T" . $2 . sprintf("+%02d:00", $gmt);
 			my $tmp=&make_link($3);
 			$escaped_title=$tmp;
@@ -123,8 +124,9 @@ sub plugin_rss10page_makerss {
 				$description='';
 			}
 			$link=$defaultlink;
-			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
-				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
+#			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
+#				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
+			$gmt=&gettz;
 			$date = $1 . "T" . $2 . sprintf("+%02d:00", $gmt);
 			$escaped_title=$3;
 			$escaped_title=~s/~$//g;

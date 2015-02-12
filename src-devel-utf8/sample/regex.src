@@ -1,16 +1,16 @@
 #!/usr/bin/perl
 ######################################################################
 # regex.src - This is PyukiWiki, yet another Wiki clone.
-# $Id: regex.src,v 1.171 2011/12/31 13:06:16 papu Exp $
+# $Id: regex.src,v 1.255 2012/01/31 10:12:06 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -89,7 +89,7 @@ $http_URL_regex_punyonly = q{\b} . $URI_reference_punyonly;
 ######################################################################
 
 $test=<<EOM;
-http://pyukiwiki.sourceforge.jp/
+http://pyukiwiki.sfjp.jp/
 http://てすと.jp/buying
 http://wikiエンジン.jp/ahaha.html#abc
 https://うぃきEngins.jp/ahaha.html#abc
@@ -102,12 +102,17 @@ http://東京駅.jp/
 http://新大阪駅.jp/
 http://京都駅.jp/
 
-''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/]]''
-Copyright&copy; 2004-2007 by [[Nekyo>http://nekyo.hp.infoseek.co.jp/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
-License is [[GPL>http://www.opensource.jp/gpl/gpl.ja.html]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
+''[[PyukiWiki $::version>http://pyukiwiki.sfjp.jp/]]''
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sfjp.jp/]]
+License is [[GPL>http://sfjp.jp/projects/opensource/wiki/GPLv3_Info]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
-and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]
+and [[PukiWiki>http://pukiwiki.sfjp.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sfjp.jp/]]~
 
+''[[PyukiWiki $::version>http://pyukiwiki.sfjp.jp/]]''
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sfjp.jp/]]
+License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>http://www.perl.com/language/misc/Artistic.html]]~
+Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
+and [[PukiWiki>http://pukiwiki.sfjp.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sfjp.jp/]]~
 
 EOM
 

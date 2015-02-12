@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0 $$ */
-/* $Id: passwd.js.src,v 1.190 2011/12/31 13:06:12 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p1 $$ */
+/* $Id: passwd.js.src,v 1.272 2012/01/31 10:12:00 papu Exp $ */
 /* Code=EUC-JP */
 
 var ef="editform";

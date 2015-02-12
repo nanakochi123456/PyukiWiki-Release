@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0 $$
-# $Id: servererror.ja.txt,v 1.334 2011/12/31 13:06:12 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
+# $Id: servererror.ja.txt,v 1.416 2012/01/31 10:11:59 papu Exp $
 #
 
 # servererror.inc.pl

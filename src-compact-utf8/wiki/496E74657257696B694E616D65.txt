@@ -1,6 +1,7 @@
 #freeze
 #metarobots(disable)
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
+//$Id: 496E74657257696B694E616D65.txt,v 1.251 2012/01/31 10:12:06 papu Exp $
 
   [URL サーバ名] タイプ
 の形式で記述してください。
@@ -27,6 +28,10 @@
 // PyukiWiki Main Site
 -[http://pyukiwiki.sourceforge.jp/? PyukiWiki] euc
 -[http://pyukiwiki.sourceforge.jp/? PyukiWiki.dev] euc
+-[http://pyukiwiki.sfjp.jp/? PyukiWiki.sfjp] euc
+// domain added by papu
+-[http://pyukiwiki.info/? PyukiWiki.info] euc
+
 // Nekyo Site
 -[http://nekyo.qp.land.to/? PyukiWiki.org] euc
 -[http://nekyo.qp.land.to/? Nekyo] euc
@@ -39,15 +44,74 @@
 -[http://search.yahoo.co.jp/search?p=$1 Yahoo] euc
 -[http://search.yahoo.co.jp/search/dir?p=$1 Yahoo.dir] euc
 -[http://search.yahoo.com/search?p=$1 Yahoo.usa] utf8
+-[http://search.yahoo.com/search?p=$1 Yahoo.en] utf8
 -[http://websearch.rakuten.co.jp/WebIS?qt=$1 Infoseek] euc
 -[http://websearch.rakuten.co.jp/WebIS?qt=$1 Rakuten] euc
 -[http://www.bing.com/search?q=$1 MSN] utf8
 -[http://www.bing.com/search?q=$1 bing] utf8
 -[http://search.goo.ne.jp/web.jsp?MT=$1 Goo] euc
 -[http://search.fresheye.com/?kw=$1 Fresheye] sjis
+
+** WikiMedia
+***ウィキペディア
 -[http://ja.wikipedia.org/wiki/ WikiPedia] utf8
 -[http://ja.wikipedia.org/wiki/ WikiPedia.ja] utf8
 -[http://en.wikipedia.org/wiki/ WikiPedia.en] utf8
+
+***ウィクショナリー
+-[http://ja.wiktionary.org/wiki/ Wikitionary] utf8
+-[http://ja.wiktionary.org/wiki/ Wikitionary.ja] utf8
+-[http://en.wiktionary.org/wiki/ Wikitionary.en] utf8
+
+***ウィキブックス
+-[http://ja.wikibooks.org/wiki/ WikiBooks] utf8
+-[http://ja.wikibooks.org/wiki/ WikiBooks.ja] utf8
+-[http://en.wikibooks.org/wiki/ WikiBooks.en] utf8
+
+***メタウィキ
+-[http://meta.wikimedia.org/wiki/ MetaWiki] utf8
+-[http://meta.wikimedia.org/wiki/ MetaWiki.ja] utf8
+-[http://meta.wikimedia.org/wiki/ MetaWiki.en] utf8
+
+***ウィキクォート
+-[http://ja.wikiquote.org/wiki/ WikiQuote] utf8
+-[http://ja.wikiquote.org/wiki/ WikiQuote.ja] utf8
+-[http://en.wikiquote.org/wiki/ WikiQuote.en] utf8
+
+***ウィキニュース
+-[http://ja.wikinews.org/wiki/ WikiNews] utf8
+-[http://ja.wikinews.org/wiki/ WikiNews.ja] utf8
+-[http://en.wikinews.org/wiki/ WikiNews.en] utf8
+
+***ウィキソース
+-[http://ja.wikisource.org/wiki/ WikiSource] utf8
+-[http://ja.wikisource.org/wiki/ WikiSource.ja] utf8
+-[http://en.wikisource.org/wiki/ WikiSource.en] utf8
+
+***ウィキスピーシーズ
+-[http://species.wikimedia.org/wiki/ WikiSpecies] utf8
+-[http://species.wikimedia.org/wiki/ WikiSpecies.ja] utf8
+-[http://species.wikimedia.org/wiki/ WikiSpecies.en] utf8
+
+***ウィキバーシティ
+-[http://ja.wikiversity.org/wiki/ Wikiversity] utf8
+-[http://ja.wikiversity.org/wiki/ Wikiversity.ja] utf8
+-[http://en.wikiversity.org/wiki/ Wikiversity.en] utf8
+
+***インキュベーター
+-[http://incubator.wikimedia.org/wiki/ WikiMediaIncubator] utf8
+-[http://incubator.wikimedia.org/wiki/ WikiMediaIncubator.ja] utf8
+-[http://incubator.wikimedia.org/wiki/ WikiMediaIncubator.en] utf8
+
+***ウィキメディア財団
+-[http://wikimediafoundation.org/wiki/ WikiMedia] utf8
+-[http://wikimediafoundation.org/wiki/ WikiMedia.ja] utf8
+-[http://wikimediafoundation.org/wiki/ WikiMedia.en] utf8
+
+***ウィキメディア・コモンズ
+-[http://commons.wikimedia.org/wiki/ WikiMediaCommons] utf8
+-[http://commons.wikimedia.org/wiki/ WikiMediaCommons.ja] utf8
+-[http://commons.wikimedia.org/wiki/ WikiMediaCommons.en] utf8
 
 ** 拡張InterWikiName
 -[./?cmd=newpage&amp;page= 新規]
@@ -62,3 +126,6 @@
 *** その他
 //-[http://www.gembook.jp/tsum/page.pys?wiki= ウヰキエリア] moin
 -[http://tdiary-users.sourceforge.jp/cgi-bin/wiki.cgi? tDiaryUsers] euc
+-[http://social.msdn.microsoft.com/Search/ja-JP?query= msdn] utf8
+-[http://social.msdn.microsoft.com/Search/ja-JP?query= msdn.ja] utf8
+-[http://social.msdn.microsoft.com/Search/en-US?query= msdn.en] utf8

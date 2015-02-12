@@ -1,12 +1,12 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: Jcode-convert.pl,v 1.169 2011/12/31 13:06:13 papu Exp $
+# $Id: Jcode-convert.pl,v 1.249 2012/01/31 10:12:01 papu Exp $
 
 use Jcode;
 
 $code=$ARGV[0];
-$src=$ARGV[1];
-$dest=$ARGV[2];
+$src=$ARGV[2];
+$dest=$ARGV[1];
 
 if(open(R,$src)) {
 	foreach(<R>) {

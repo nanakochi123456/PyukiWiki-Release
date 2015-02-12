@@ -1,6 +1,6 @@
 <?php
 // PyukiWiki PHP wrapper sample
-// $Id: index.php,v 1.199 2011/12/31 13:06:12 papu Exp $
+// $Id: index.php,v 1.278 2012/01/31 10:12:00 papu Exp $
 // Code: EUC-JP
 // URL¤òÊÑ¹¹
 define('LOCATION', "http://pyukiwiki.sourceforge.jp/cgi-bin/wiki.cgi");

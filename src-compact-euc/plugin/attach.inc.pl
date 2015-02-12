@@ -1,21 +1,23 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.364 2011/12/31 13:06:10 papu Exp $
+# $Id: attach.inc.pl,v 1.447 2012/01/31 10:11:58 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Author: Nekyo
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Author: Nekyo http://nekyo.qp.land.to/
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# 2012/01/11: md5_file関数で、メモリの確保の方法を変更
+#             容量の表示を関数化した。
 # 2011/08/30: Operaでも文字化けするのを修正
 # 2011/08/03: 添付ファイルのアップロード、及び、削除を
 #             管理者にメール通知するようにしました。
@@ -112,6 +114,7 @@ $::functions{"attach_magic"} = \&attach_magic;
 $::functions{"attach_form"} = \&attach_form;
 $::functions{"authadminpassword"} = \&authadminpassword;
 $::functions{"date"} = \&date;
+$::functions{"plugin_attach_bytes"}=\&plugin_attach_bytes;
 if (!$::file_icon) {
 	$::file_icon = '<img src="'
 		. $::image_url
@@ -174,7 +177,7 @@ EOD
 	return $navi if (!$::file_uploads);
 	my $maxsize = $::max_filesize;
 	my $msg_maxsize = $::resource{attach_plugin_msg_maxsize};
-	my $kb = $maxsize / 1000 . "kb";
+	my $kb = &plugin_attach_bytes($maxsize);
 	$msg_maxsize =~ s/%s/$kb/g;
 	my $pass = '';
 	if ($::file_uploads == 2) {
@@ -203,6 +206,23 @@ EOD
  </div>
 </form>
 EOD
+}
+sub plugin_attach_bytes {
+	my ($size)=@_;
+	my $kb = $size . " bytes";
+	if($size>1024) {
+		$kb = sprintf("%.1f KB", $size / 1024);
+	}
+	if($size>1024 * 1024) {
+		$kb = sprintf("%.1f MB", $size / 1024 / 1024);
+	}
+	if($size>1024 * 1024 * 1024) {
+		$kb = sprintf("%.1f GB", $size / 1024 / 1024 / 1024);
+	}
+	if($size>1024 * 1024 * 1024 * 1024) {
+		$kb = sprintf("%.1f TB", $size / 1024 / 1024 / 1024 / 1024);
+	}
+	return $kb;
 }
 sub plugin_attach_action
 {
@@ -293,7 +313,7 @@ sub attach_upload
 		$ffile=$parsename;
 		$ffile=~s/.*\///g;
 	}
-	$ffile =~ s/
+	$ffile =~ s/\x23.*$//;
 	$ffile = &code_convert(\$ffile, $::defaultcode);
 	my $obj = new AttachFile($page, $ffile);
 	if ($obj->{exist}) {
@@ -352,14 +372,19 @@ sub attach_mime_content_type
 }
 sub md5_file {
 	my ($path) = @_;
+	my $size=-s $path;
 	open(FILE, $path);
 	binmode(FILE);
 	my $contents;
-	read(FILE, $contents, $::max_filesize);
+	read(FILE, $contents, $size + 1);
 	close(FILE);
 	return md5_hex($contents);
 }
 package AttachFile;
+sub plugin_attach_bytes {
+	my $funcp = $::functions{"plugin_attach_bytes"};
+	return &$funcp(@_);
+}
 sub dbmname {
 	my $funcp = $::functions{"dbmname"};
 	return &$funcp(@_);
@@ -557,7 +582,7 @@ sub getstatus
 	$this->{time_str} = sprintf("%d/%02d/%02d %02d:%02d:%02d",
 			$year + 1900, $mon + 1, $day, $hour, $min, $sec);
 	$this->{size} = -s $this->{filename};
-	$this->{size_str} = sprintf('%01.1f', $this->{size}/1000) . 'KB';
+	$this->{size_str} = &plugin_attach_bytes($this->{size});
 	$this->{type} = &attach_mime_content_type($this->{file});
 	$this->{magic} = &attach_magic($this->{filename});
 	return 1;
@@ -582,6 +607,10 @@ sub toString {
 }
 package AttachFiles;
 my %files;
+sub plugin_attach_bytes {
+	my $funcp = $::functions{"plugin_attach_bytes"};
+	return &$funcp(@_);
+}
 sub make_link {
 	my $funcp = $::functions{"make_link"};
 	return &$funcp(@_);

@@ -1,4 +1,4 @@
-#$Id: admin.inc.pl.ja.pod,v 1.300 2011/12/31 13:06:10 papu Exp $
+#$Id: admin.inc.pl.ja.pod,v 1.381 2012/01/31 10:11:58 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -29,6 +29,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/admin/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/admin.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/admin.inc.pl?view=log>
+
 =back
 
 =head1 著者
@@ -51,7 +53,7 @@ Copyright (C) 2005-2012 by ななみ.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

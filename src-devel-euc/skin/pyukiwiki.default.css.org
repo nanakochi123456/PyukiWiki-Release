@@ -1,6 +1,6 @@
-/* "PyukiWiki" version 0.2.0 $$ */
-/* $Id: pyukiwiki.default.css.org,v 1.254 2011/12/31 13:06:12 papu Exp $ */
-/* Code=EUC-JP */
+/* "PyukiWiki" version 0.2.0-p1 $$ */
+/* $Id: pyukiwiki.default.css.org,v 1.336 2012/01/31 10:12:00 papu Exp $ */
+/* Code=Shift-JIS */
 
 /* base */
 pre, dl, ol, ul, p, blockquote {
@@ -14,6 +14,8 @@ body,td {
 	margin-right:2%;
 	font-size:90%;
 	font-family:verdana, arial, helvetica, Sans-Serif;
+
+	/* force br ? */
 }
 
 blockquote {
@@ -25,6 +27,7 @@ em {
 }
 
 strong {
+	text-shadow: inherit 0px 0px 0px;	/* for chrome */
 	font-weight:bold;
 }
 
@@ -101,6 +104,7 @@ h5, h6,
 /* Title, Error Message */
 h1.title, h1.error {
 	font-size: 30px;
+	text-shadow: inherit 0px 0px 0px;	/* for chrome dummy shadow */
 	font-weight:bold;
 	background-color:transparent;
 	padding: 12px 0px 0px 0px;
@@ -108,12 +112,24 @@ h1.title, h1.error {
 	margin: 12px 0px 0px 0px;
 }
 
+/* Only exist :TitleHeader Page */
+.headermain {
+	width: 50%;
+	text-align: left;
+}
+
+.headerbody {
+	width: 50%;
+	text-align: right;
+}
+
 h1.error {
 	color: red;
 }
 
 .small {
-	font-size:80%;
+/*	font-size:80%;*/
+	font-size:13px;
 }
 
 img#logo {
@@ -122,6 +138,7 @@ img#logo {
 }
 
 dt {
+	text-shadow: inherit 0px 0px 0px;	/* for chrome */
 	font-weight:bold;
 	margin-top:1em;
 	margin-left:1em;
@@ -138,6 +155,8 @@ pre {
 	white-space:pre;
 	color:black;
 	background-color:#F0F8FF;
+
+	/* force br ? */
 }
 
 img {
@@ -150,12 +169,18 @@ thead td.style_td,
 tfoot td.style_td {
 	color:inherit;
 	background-color:#D0D8E0;
+
+	/* force br ? */
 }
+
 thead th.style_th,
 tfoot th.style_th {
 	color:inherit;
 	background-color:#E0E8F0;
+
+	/* force br ? */
 }
+
 .style_table {
 	padding:0px;
 	border:0px;
@@ -172,12 +197,56 @@ tfoot th.style_th {
 	text-align:center;
 	color:inherit;
 	background-color:#EEEEEE;
+
+	/* force br ? */
 }
+
 .style_td {
 	padding:5px;
 	margin:1px;
 	color:inherit;
 	background-color:#EEF5FF;
+
+	/* force br ? */
+}
+
+/* logs_viewer graph bar */
+/* graph CSS sample */
+/* http://papermashup.com/using-php-and-css-to-make-a-simple-graph/ */
+.graphcont {
+	color:#000;
+	font-weight:700;
+	float:left
+}
+
+.graph {
+	float:left;
+/*	background-color:#cecece;	*/
+	position:relative;
+	width:600px;				/* ìKìñÇ»êîéöÅBäæ */
+	border:#80a0ff 1px solid;	/* í«â¡ */
+	padding:0
+}
+
+.graph .bar {
+	display:block;
+	position:relative;
+	background-color:#1080ff;
+/*	background-image:url(http://papermashup.com/demos/php-graph/images/bargraph.gif);	*/
+	background-position:right center;
+	background-repeat:repeat-x;
+	border-right:#538e02 1px solid;
+	text-align:center;
+	color:#fff;
+	height:25px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:1.9em
+}
+
+.graph .bar span {
+	position:absolute;
+	left:1em
 }
 
 /* table center for IE5 & IE6 with XHTML */
@@ -272,24 +341,19 @@ span.noexists {
 	background-color:#FFFACC;
 }
 
-.super_index {
+.super_index, a.note_super {
 	color:#DD3333;
 	background-color:inherit;
+	text-shadow: inherit 0px 0px 0px;	/* for chrome */
 	font-weight:bold;
-	font-size:60%;
-	vertical-align:super;
-}
-
-a.note_super {
-	color:#DD3333;
-	background-color:inherit;
-	font-weight:bold;
-	font-size:60%;
+/*	font-size:60%;*/
+	font-size:10px;
 	vertical-align:super;
 }
 
 div.jumpmenu {
-	font-size:60%;
+/*	font-size:60%; */
+	font-size:10px;
 	text-align:right;
 }
 
@@ -309,6 +373,7 @@ hr.note_hr {
 }
 
 /* font-size (nonuse) */
+/*
 span.size1 {
 	font-size:xx-small;
 	line-height:130%;
@@ -351,8 +416,10 @@ span.size7 {
 	text-indent:0px;
 	display:inline;
 }
+*/
 
 /* set color (nonuse) */
+/*
 strong.word0 {
 	background-color:#FFFF66;
 	color:black;
@@ -393,6 +460,7 @@ strong.word9 {
 	background-color:#990099;
 	color:white;
 }
+*/
 
 /* pyukiwiki.skin.cgi */
 div#header {
@@ -430,16 +498,15 @@ div#menubar {
 	width: 10em;
 	padding:0px;
 	margin:4px;
-	word-break:break-all;
 	font-size:90%;
 	overflow:hidden;
+
 }
 
 div#sidebar {
 	width: 12em;
 	padding:0px;
 	margin:4px;
-	word-break:break-all;
 	font-size:90%;
 	overflow:hidden;
 }
@@ -505,16 +572,20 @@ div#toolbar {
 }
 
 div#lastmodified {
-	font-size:80%;
+	font-size:13px;
+/*	font-size:80%;*/
 	padding:0px;
 	margin:0px;
 }
 
-div#related { /* nonuse */
+/* nouse */
+/*
+div#related {
 	font-size:80%;
 	padding:0px;
 	margin:16px 0px 0px 0px;
 }
+*/
 
 div#footer {
 	font-family:verdana, arial, helvetica, Sans-Serif;
@@ -529,8 +600,11 @@ div#preview {
 }
 
 /* aname.inc.pl */
+/*
 .anchor {
 }
+*/
+
 .anchor_super {
 	font-size:xx-small;
 	vertical-align:super;
@@ -701,8 +775,8 @@ ul.popular_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 1em;
-	word-wrap:break-word;
-	word-break:break-all;
+
+	force br ?
 }
 */
 
@@ -712,8 +786,8 @@ ul.recent_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 31em;
-	word-wrap:break-word;
-	word-break:break-all;
+
+	force br ?
 }
 */
 
@@ -737,11 +811,12 @@ td.vote_td2 {
 	background-color:#EEF5FF;
 }
 /* thumbnail.inc.php (nonuse) */
+/*
 p.thumbnail {
 	margin: 15px 32px 0px 32px;
 	padding: 15px 8px 15px 15px;
 	border-style: solid;
-	border-color: #ddaa77; /*#215DC6; */
+	border-color: #ddaa77; #215DC6;
 	border-width: 1px;
 	font-size: 80%;
 	vertical-align: middle;
@@ -772,13 +847,16 @@ a.thumbnail {
 a.thumbnail img.thumbnail {
 	height: 200px;
 }
+*/
 
-.error
-{
+/* Error messages */
+.error {
 	color: red;
+	text-shadow: red 0px 0px 0px;	/* for chrome */
 	font-weight:bold;
 	font-size: 100%;
 }
+
 /* clear.pl */
 .clear {
 	margin:0px;
@@ -791,7 +869,8 @@ div.partinfo {
 	padding-bottom:0px;
 	margin-bottom:5px;
 	color:#5555ff;
-	font-size:0.9em;
+/*	font-size:0.9em;*/
+	font-size:14px;
 	text-align:right;
 	position: relative;
 	top: -30px;
@@ -809,6 +888,18 @@ a.partedit {
 /*	color:#4840ce; */
 	color:#215dc6;
 	background-color:inherit;
-	text-decoration:none;
+/*	text-decoration:none;*/
 	text-decoration:underline;
 }
+
+/* force br code */
+
+/*	white-space:	pre;			 CSS 2.0 */
+/*	white-space:	pre-wrap;		 CSS 2.1 */
+/*	white-space:	pre-line;		 CSS 3.0 */
+/*	white-space:	-pre-wrap;		 Opera 4-6 */
+/*	white-space:	-o-pre-wrap;	 Opera 7 */
+/*	white-space:	-moz-pre-wrap;	 Mozilla */
+/*	white-space:	-hp-pre-wrap;	 HP Printers */
+/*	word-wrap:		break-all;		 IE 5+ */
+/*	word-wrap:		break-word;		 IE */

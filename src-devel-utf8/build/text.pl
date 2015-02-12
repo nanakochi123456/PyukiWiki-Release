@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.169 2011/12/31 13:06:13 papu Exp $
+# $Id: text.pl,v 1.253 2012/01/31 10:12:01 papu Exp $
 
 use Jcode;
 
@@ -13,37 +13,39 @@ sub textinit {
 # ヘッダ
 
 $text{YEAR}=$year;
+if($TYPE=~/compact/) {
+$text{BASEHEAD1}=<<EOM;
+\@\@FILENAME\@\@ - \$Id\$
+EOM
+} else {
 $text{BASEHEAD1}=<<EOM;
 \@\@FILENAME\@\@ - This is PyukiWiki, yet another Wiki clone.
 # \$Id\$
 EOM
+}
 
 if($TYPE=~/compact/) {
 $text{BASEHEAD2}=<<EOM;
-Copyright (C) 2004-$year by Nekyo.
-# \@\@NEKYO_URL\@\@
-# Copyright (C) 2005-$year PyukiWiki Developers Team
-# \@\@PYUKI_URL\@\@
-# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
+Copyright(C) 2005-$year PyukiWiki Developers Team/2004-$year Nekyo
+# \@\@PYUKI_URL\@\@  \@\@NEKYO_URL\@\@
+# @\@CRLF\@\@ \@\@CODE\@\@ 4Spaces GPL3 and/or Artistic License
 EOM
 $text{BASEHEAD4}=<<EOM;
-Copyright (C) 2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
+Copyright(C)2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
 # \@\@AWSTATS_URL\@\@
-# Copyright (C) 2004-$year by Nekyo.
-# \@\@NEKYO_URL\@\@
-# Copyright (C) 2005-$year PyukiWiki Developers Team
-# \@\@PYUKI_URL\@\@
-# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
+Copyright(C) 2005-$year PyukiWiki Developers Team/2004-$year Nekyo
+# \@\@PYUKI_URL\@\@  \@\@NEKYO_URL\@\@
+# @\@CRLF\@\@ \@\@CODE\@\@ 4Spaces GPL3 and/or Artistic License
 EOM
 } else {
 $text{BASEHEAD2}=<<EOM;
-Copyright (C) 2004-$year by Nekyo.
+Copyright (C) 2004-$year Nekyo
 # \@\@NEKYO_URL\@\@
 # Copyright (C) 2005-$year PyukiWiki Developers Team
 # \@\@PYUKI_URL\@\@
 # Based on YukiWiki \@\@YUKIWIKI_URL\@\@
 # Powerd by PukiWiki \@\@PUKIWIKI_URL\@\@
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -52,13 +54,13 @@ EOM
 $text{BASEHEAD4}=<<EOM;
 Copyright (C) 2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
 # \@\@AWSTATS_URL\@\@
-# Copyright (C) 2004-$year by Nekyo.
+# Copyright (C) 2004-$year Nekyo
 # \@\@NEKYO_URL\@\@
 # Copyright (C) 2005-$year PyukiWiki Developers Team
 # \@\@PYUKI_URL\@\@
 # Based on YukiWiki \@\@YUKIWIKI_URL\@\@
 # Powerd by PukiWiki \@\@PUKIWIKI_URL\@\@
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -73,11 +75,79 @@ $text{HEADER1}=<<EOM;
 # $text{BASEHEAD2}
 EOM
 
+if($TYPE=~/compact/) {
+
 $text{HEADER2_NEKYO}=<<EOM;
 \@\@BASEHEAD1\@\@
 #
 # \@\@PYUKIWIKIVERSION\@\@
 # Author: \@\@NEKYO\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER2_NANAMI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@NANAMI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER2_YUKI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@YUKI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER2_JUNICHI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@JUNICHI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER2_YASHIGANIMODOKI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@YASHIGANIMODOKI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER3_NANAMI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@MODULEVERSION\@\@
+# Author: \@\@NANAMI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER3_YUKI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@MODULEVERSION\@\@
+# Author: \@\@YUKI\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADER4_AWS}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@NANAMI\@\@
+# $text{BASEHEAD4}
+EOM
+
+} else {
+
+$text{HEADER2_NEKYO}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@NEKYO\@\@ \@\@NEKYO_URL\@\@
 # $text{BASEHEAD2}
 EOM
 
@@ -140,13 +210,31 @@ $text{HEADER4_AWS}=<<EOM;
 # $text{BASEHEAD4}
 EOM
 
+}
+
+$text{HEADERPLUGIN_NANAMI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PLUGINVERSION\@\@
+# Author: \@\@NANAMI\@\@ \@\@NANAMI_URL\@\@
+# $text{BASEHEAD2}
+EOM
+
+$text{HEADEREXPLUGIN_NANAMI}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PLUGINVERSION\@\@
+# Author: \@\@NANAMI\@\@ \@\@NANAMI_URL\@\@
+# $text{BASEHEAD2}
+EOM
+
 #############################################################
 # podのライセンス
 
 $text{LICENSE_BASE}=<<EOM;
 Copyright (C) 2005-$year by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -243,23 +331,27 @@ if($fn=~/\.ja/) {
 	$text{YASHIGANIMODOKI}='YashiganiModoki';
 }
 $text{NANAMI_URL}='http://nanakochi.daiba.cx/';
+$text{NANAMI_MAIL}='<nanami (at) daiba (dot) cx>';
 
 $text{YASHIGANIMODOKI_URL}='http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi';
+$text{SOURCEFORGE_JP_DOMAIN}="sfjp.jp";
+$text{SOURCEFORGE_NET_DOMAIN}="sf.net";
+$text{PYUKI_URL}="http://pyukiwiki.$text{SOURCEFORGE_JP_DOMAIN}/";
+$text{YUKIWIKI_URL}="http://www.hyuki.com/yukiwiki/";
+$text{PUKIWIKI_URL}="http://pukiwiki.$text{SOURCEFORGE_JP_DOMAIN}/";
+$text{PUKIWIKIDEV_URL}="http://pukiwiki.$text{SOURCEFORGE_JP_DOMAIN}/";
 
-#$text{PYUKI_URL}='http://pyukiwiki.sourceforge.jp/';
-$text{PYUKI_URL}='http://pyukiwiki.sfjp.jp/';
-$text{YUKIWIKI_URL}='http://www.hyuki.com/yukiwiki/';
-#$text{PUKIWIKI_URL}='http://pukiwiki.sourceforge.jp/';
-$text{PUKIWIKI_URL}='http://pukiwiki.sfjp.jp/';
+$text{AWSTATS_URL}="http://awstats.$text{SOURCEFORGE_NET_DOMAIN}/";
 
-$text{AWSTATS_URL}='http://awstats.sourceforge.net/';
-
-#$text{BASEURL}='http://pyukiwiki.sourceforge.jp';
-$text{BASEURL}='http://pyukiwiki.sfjp.jp';
-#$text{CVSURL}='http://sourceforge.jp/cvs/view/pyukiwiki';
-$text{CVSURL}='http://sfjp.jp/cvs/view/pyukiwiki';
+$text{BASEURL}="http://pyukiwiki.$text{SOURCEFORGE_JP_DOMAIN}";
+$text{CVSURL}="http://$text{SOURCEFORGE_JP_DOMAIN}/cvs/view/pyukiwiki";
 
 $text{RECENTDATE}=&date("Y-m-d (D)");
+
+$text{GPLJP_URL}="http://sfjp.jp/projects/opensource/wiki/GPLv3_Info";
+$text{GPL_URL}="http://www.gnu.org/licenses/gpl.html";
+$text{ARTISTICJP_URL}="http://www.opensource.jp/artistic/ja/Artistic-ja.html";
+$text{ARTISTIC_URL}="http://www.perl.com/language/misc/Artistic.html";
 
 #############################################################
 #	($fn,$pyukiversion,$mode)=@_;
@@ -268,16 +360,23 @@ $text{RECENTDATE}=&date("Y-m-d (D)");
 	$text{FILENAME}=~s/.*\///g;
 	$text{CRLF}=$mode eq 'lf' ? 'LF' : 'CRLF';
 	$text{PYUKIWIKIVERSION}=qq("PyukiWiki" version $pyukiversion \$\$);
+	$text{PYUKIVER}=qq($pyukiversion);
 	$VERSION="";
 	$pkg="";
+	$PLUGIN="";
+	$EXPLUGIN="";
 	$chkbuf="";
 	open(R,"$fn");
 	foreach(<R>) {
 		$chkbuf.=$_;
 		if(/^\$VERSION/) {
 			eval  $_ ;
-		}elsif(/^package\s?(.*?);/) {
+		} elsif(/^package\s?(.*?);/) {
 			$pkg=$1;
+		} elsif(/^\$PLUGIN/) {
+			eval $_;
+		} elsif(/^\$EXPLUGIN/) {
+			eval $_;
 		}
 	}
 	close(R);
@@ -295,7 +394,11 @@ $text{RECENTDATE}=&date("Y-m-d (D)");
 			$text{CODE}="EUC-JP";
 		}
 	}
-	if($VERSION ne '' && $pkg ne '') {
+	if($VERSION ne '' && $PLUGIN ne '') {
+		$text{PLUGINVERSION}=qq("$PLUGIN" version $VERSION \$\$);
+	} elsif($VERSION ne '' && $EXPLUGIN ne '') {
+		$text{PLUGINVERSION}=qq("$EXPLUGIN" version $VERSION \$\$);
+	} elsif($VERSION ne '' && $pkg ne '') {
 		$text{MODULEVERSION}=qq("$pkg" version $VERSION \$\$);
 	} else {
 		$text{MODULEVERSION}=$text{PYUKIWIKIVERSION};

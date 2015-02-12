@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.2.0 $$ */
-/* $Id: common.lang.js.src,v 1.171 2011/12/31 13:06:16 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p1 $$ */
+/* $Id: common.lang.js.src,v 1.254 2012/01/31 10:12:06 papu Exp $ */
 /* Code=UTF-8 */
 
 var	d=document,
@@ -32,7 +32,7 @@ function addec_ext(ad) {
 }
 
 function openURI(a, frame){
-	w.open(a, frame);
+	window.open(a, frame);
 	return false;
 }
 

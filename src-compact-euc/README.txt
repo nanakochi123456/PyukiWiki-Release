@@ -1,21 +1,22 @@
 PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 
-	"PyukiWiki" version 0.2.0 $$
+	"PyukiWiki" version 0.2.0-p1 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
-	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
+	Based on YukiWiki http://www.hyuki.com/yukiwiki/
+	and PukiWiki http://pukiwiki.sfjp.jp/
 
 	URL:
 	http://nekyo.qp.land.to/
-	http://pyukiwiki.sourceforge.jp/
+	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		‚È‚È‚İ <nanami (at) daiba (dot) cx> (’FƒlƒJƒ}‚Å‚·)
+		Nanami <nanami (at) daiba (dot) cx> (’FƒlƒJƒ}‚Å‚·)
 
-	$Id: README.txt,v 1.352 2011/12/31 13:06:08 papu Exp $
+	$Id: README.txt,v 1.435 2012/01/31 10:11:51 papu Exp $
 
 	‚±‚ÌƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÍShift-JISATAB4‚Å‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B
 
@@ -24,7 +25,7 @@ PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 -------------------------------------------------
 ˆÈ‰º‚ÌURL‚ÅÅVî•ñ‚ğ“üè‚µ‚Ä‚­‚¾‚³‚¢B
 http://nekyo.qp.land.to/
-http://pyukiwiki.sourceforge.jp/
+http://pyukiwiki.sfjp.jp/
 
 -------------------------------------------------
 ¡ŠT—v
@@ -56,19 +57,26 @@ modify it under the same terms as Perl itself.
 PyukiWiki‚ÍAGPL2‚à‚µ‚­‚ÍArtisticƒ‰ƒCƒZƒ“ƒX‚ÌŒ³‚Å”z•z‚³‚ê‚Ü‚·B
 ©—R‚É—˜—p‚µA©—R‚É”z•z‚µA©—R‚É‰ü‘¢‚µA‚»‚ê‚ğÄ”z•z‚µ‚Ä\‚¢‚Ü‚¹‚ñB
 ‚½‚¾‚µAŒ´”Å‚Æ“¯–¼‚ÌƒpƒbƒP[ƒW‚Æ‚µ‚Ä–¼æ‚é‚±‚Æ‚ğ‹Ö~‚µ‚Ü‚·B
-Ú‚µ‚­‚ÍA‰º‹L‚ÌURL‚ğ‚²——‰º‚³‚¢B
+Ú‚µ‚­‚ÍA‰º‹L‚ÌURLC‚Ü‚½‚ÍAƒCƒ“ƒXƒg[ƒ‹Ï‚ÌPyukiWiki‚Ìwiki•¶‚©‚ç
+‚²Šm”F‰º‚³‚¢B
 
 EPyukiWiki:ƒ‰ƒCƒZƒ“ƒX‚É‚Â‚¢‚Ä
-@http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Install/License/
+@@@BASEURL/PyukiWiki/Install/License/
 
 EGNU GPL
-@http://www.gnu.org/copyleft/gpl.html
+@http://www.gnu.org/licenses/gpl.html
 
 EGNU GPL‚Ì“ú–{Œê”Å
+@http://sfjp.jp/magazine/07/09/02/130237
+
+EGPL3î•ñƒy[ƒW
+@http://sfjp.jp/projects/opensource/wiki/GPLv3_Info
+
+EQl@GPL2i[‹Œƒo[ƒWƒ‡ƒ“j
 @http://www.opensource.jp/gpl/gpl.ja.html
 
 EThe Artistic License 1.0
-@http://www.perl.com/language/misc/Artistic.html
+@http://dev.perl.org/licenses/artistic.html
 
 EThe Artistic License “ú–{Œê–ó
 @http://www.opensource.jp/artistic/ja/Artistic-ja.html
@@ -333,12 +341,12 @@ index.cgi‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ 701 (rwx-----x) ‚É‚·‚é‚±‚Æ‚Å“®ì‚µ‚Ü‚·B
 
 ECGI.pm‚ª“±“ü‚³‚ê‚Ä‚¢‚È‚¢ƒT[ƒo[‚Å‚ÍA•Ê“r”z•z‚³‚ê‚Ä‚¢‚éCGI.pm.zip‚ğ‰ğ“€‚µ‚Ä
 @lib ˆÈ‰º‚É’u‚¢‚Ä‰º‚³‚¢B
-@http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Download ‚©‚çƒ_ƒEƒ“ƒ[ƒh‚Å‚«‚Ü‚·B
+/PyukiWiki/Download ‚©‚çƒ_ƒEƒ“ƒ[ƒh‚Å‚«‚Ü‚·B
 
 Eutf8‚É‚µ‚½‚ç•¶š‰»‚¯‚·‚éHPukiWikiˆ¶‚Ä‚ÌInterWiki‚ª³í‚Å‚Í‚È‚¢H
 @perl5.8.0ˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Å‚©‚ÂƒT[ƒo[ã‚ÉJcode‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 @‘ã‘Ö‚ÌJcode.pm 0.88‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‰º‚³‚¢B
-@http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Download ‚©‚çƒ_ƒEƒ“ƒ[ƒh‚Å‚«‚Ü‚·B
+/cgi-bin/w/PyukiWiki/Download ‚©‚çƒ_ƒEƒ“ƒ[ƒh‚Å‚«‚Ü‚·B
 
 -------------------------------------------------
 ¡ƒAƒbƒvƒf[ƒg”Å‚É‚¨‚¢‚Ä‚Ì’Ç‹L
@@ -363,6 +371,16 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @À¿A0.1.6‚É‚Ä‘å•‚Éd—l‚ª•ÏX‚É‚È‚è“®ì‚µ‚È‚­‚È‚Á‚½‚à‚Ì‚à‚ ‚è‚Ü‚·B
 @(popular, rename“™‚ÍAŠù‘¶ƒo[ƒWƒ‡ƒ“—p‚Ìƒvƒ‰ƒOƒCƒ“‚ªu‚Ü‚Æ‚à‚Év
  i‚¿‚å‚Á‚Æ‚µ‚½‚±‚Æ‚Å‚àj“®ì‚µ‚È‚¢‚Ì‚ÅAV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚ğ“Y•t‚µ‚Ä‚¢‚Ü‚·j
+
+EƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚İ‚ÄA“®‚©‚È‚¢H
+@³í‚Éƒp[ƒ~ƒbƒVƒ‡ƒ“İ’èA‹y‚ÑAƒtƒ@ƒCƒ‹‚Ì“KØ‚È•ÒW‚ªŠ®—¹‚µ‚½‚É‚à
+@ŠÖ‚í‚ç‚¸A“®ì‚µ‚È‚¢ê‡‚ÍAgzipˆ³k‚ğ–³Œø‚É‚µ‚Ä‚İ‚Ä‰º‚³‚¢B
+@pyukiwiki.ini.cgi ‚Å
+@$::gzip_path = 'nouse';
+@‚ğİ’è‚·‚é‚©A
+@info/setup.cgi ‚Å
+@$::gzip_path = 'nouse';
+@‚ğİ’è‚µ‚Ä‚İ‚Ä‰º‚³‚¢B
 
 Emod_perlAspeedy_cgi‚Å“®‚©‚È‚¢‚Ì‚Å‚·‚ªH
 @mod_perl‚É‚Í‘Î‰Šm”FÏ‚İ‚Å‚·Bspeedy_cgi‚Í–¢Šm”F‚Å‚·B
@@ -692,6 +710,7 @@ http://www.hyuki.com/
 Copyright (C) 2005-2012 by ‚È‚È‚İ (‚È‚È‚±‚Á‚¿š)
 http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
 http://twitter.com/nanakochi123456/
+http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 
 Copyright (C) 2004-2007 by ‚â‚µ‚ª‚É‚à‚Ç‚«
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
@@ -700,4 +719,4 @@ Copyright (C) 2005-2007 by Junichi
 http://www.re-birth.com/
 
 Copyright (C) 2005-2012 PukiWiki Developers Team
-http://pyukiwiki.sourceforge.jp/
+http://pyukiwiki.sfjp.jp/

@@ -1,4 +1,4 @@
-#$Id: logs.inc.pl.ja.pod,v 1.51 2011/12/31 13:06:13 papu Exp $
+#$Id: logs.inc.pl.ja.pod,v 1.133 2012/01/31 10:12:02 papu Exp $
 
 __END__
 =encoding utf-8
@@ -28,6 +28,8 @@ logs ディレクトリを作成して下さい。（デフォルト）
 =item $logs::compress
 
 重いサイトを運用する時には、0 を設定して下さい。アクセスログが圧縮されません。
+
+また、アクセスログのキャッシュ保持も圧縮されなくなります。
 
 =item $logs::directory
 
@@ -59,7 +61,11 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/logs/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/Nana/Logs.pml?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/Nana/Logs.pml?view=log>
+
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/logs_viewer.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/logs_viewer.inc.pl?view=log>
 
 =back
 
@@ -81,7 +87,7 @@ Copyright (C) 2005-2012 by ななみ.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

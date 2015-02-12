@@ -1,0 +1,303 @@
+PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
+
+	"PyukiWiki" version 0.2.0-p1 $$ CGIインストーラ版
+	Copyright (C)
+	  2005-2012 PukiWiki Developers Team
+	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
+	License: GPL version 2 or (at your option) any later version
+			and/or Artistic version 1 or later version.
+	Based on YukiWiki http://www.hyuki.com/yukiwiki/
+	and PukiWiki http://pukiwiki.sfjp.jp/
+
+	URL:
+	http://nekyo.qp.land.to/
+	http://pyukiwiki.sfjp.jp/
+
+	MAIL:
+		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
+
+	$Id: CGI_INSTALLER.ja.txt,v 1.17 2012/01/31 11:01:56 papu Exp $
+
+	このテキストファイルはUTF-8、TAB4で記述されています。
+
+-------------------------------------------------
+■最新情報
+-------------------------------------------------
+以下のURLで最新情報を入手してください。
+http://nekyo.qp.land.to/
+http://pyukiwiki.sfjp.jp/
+
+-------------------------------------------------
+■CGIインストーラについて
+-------------------------------------------------
+PyukiWiki（ぴゅきうぃき）CGIインストーラは、単一インストーラファイルを
+アップロードして、簡単にパーミッション設定を行った後、実行することにより
+PyukiWikiを利用しやすくするものです。
+
+インストール以外の説明につきましては、README.txt をご覧下さい。
+
+-------------------------------------------------
+■ライセンス
+-------------------------------------------------
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+>このプログラムはフリーソフトウェアです。それを再配布し、かつ、
+>またはPerl自体と同じ条件の下でそれを修正することができます。
+
+PyukiWikiは、GPL2もしくはArtisticライセンスの元で配布されます。
+自由に利用し、自由に配布し、自由に改造し、それを再配布して構いません。
+ただし、原版と同名のパッケージとして名乗ることを禁止します。
+詳しくは、下記のURL，または、インストール済のPyukiWikiのwiki文から
+ご確認下さい。
+
+・PyukiWiki:ライセンスについて
+　@@BASEURL/PyukiWiki/Install/License/
+
+・GNU GPL
+　http://www.gnu.org/licenses/gpl.html
+
+・GNU GPLの日本語版
+　http://sfjp.jp/magazine/07/09/02/130237
+
+・GPL3情報ページ
+　http://sfjp.jp/projects/opensource/wiki/GPLv3_Info
+
+・参考　GPL2（[旧バージョン）
+　http://www.opensource.jp/gpl/gpl.ja.html
+
+・The Artistic License 1.0
+　http://dev.perl.org/licenses/artistic.html
+
+・The Artistic License 日本語訳
+　http://www.opensource.jp/artistic/ja/Artistic-ja.html
+
+・参考　Perl6's License Should be (GPL|Artistic-2.0)
+　http://dev.perl.org/perl6/rfc/346.html
+
+-------------------------------------------------
+■動作環境
+-------------------------------------------------
+PyukiWikiの動作環境は以下のとおりです。
+
+・full版はインストール時に2Mバイト、compact版は
+　インストール時に1Mバイト必要です。
+
+・compact版は、以下のモジュールがサーバーにインストール
+　されている必要があります。
+　Jcode.pm、Time::Local
+
+・CGIの動作し、Perl5.8.1（なるだけ）以降が動作するWebサーバー
+　なお、Perl 5.0004に関しては現バージョンでは未サポートです。
+　最新のPerl5.10系及び5.12系でも動作確認済みです。
+
+-------------------------------------------------
+■パッケージについて
+-------------------------------------------------
+・-full
+　通常はこちらをインストールします。
+
+・-compact
+　サーバーの容量が少ない場合、こちらを導入してみて下さい。
+　以下の制限があります。
+　・あいまい検索,sitemap,showrss,bugtrack,perlpod,settingがない
+　・管理プラグイン(listfrozen,server,servererror,versionlist)がない
+　・PukiWiki互換ダミープラグインがない
+　・Explugin lang, setting, urlhack, punyurlがない
+　・添付ファイルは一部の圧縮ファイル、画像以外できません。
+　・英語関係ファイルがない
+　・Jcode.pm、Time::Localがサーバーにインストールされている必要がある
+
+・-update-full, -update-compact
+　アップデート用のファイルです。
+　初期wiki、及び .htaccess ファイルがありません。
+
+・-devel
+　PyukiWikiプラグイン、及びコア開発に必要なツールが
+　揃っています。ドキュメントのpodが付属しています。
+　インストール時に約3Mバイトを使用します。
+
+・?-utf8
+　UTF8版です。他のコードセットは使用できません。
+　また、UTF8版ではないバージョンとは互換性がありません。
+　ただし、従来のwikiページを移行する為の管理者向けプラグイン
+　convertutf8 が全バージョンに付属しています。
+
+-------------------------------------------------
+■はじめに
+-------------------------------------------------
+(1)添付の１つだけあります拡張子 cgi ファイルを、そのままアップロードします。
+バイナリモードでの転送をお勧めしますが、アスキーモードでアップロードしても
+構いません。
+
+(2)そのファイルのパーミッションを 755 または、705、701等に設定します。
+
+(3)ブラウザー上で、サーバー上にあるインストーラのURLにアクセスします。
+
+(4)通常、セキュアインストールを選択します。それで動作しない場合、
+　通常のインストールを選択して下さい。
+
+(5)index.cgi にアクセスして、問題なく動作したら、インストーラファイルを
+　必ず削除して下さい。
+
+-------------------------------------------------
+■ファイル一覧
+-------------------------------------------------
+
+●説明文
+
++-- CGI_INSTALLER.txt	解説文書（このファイル）
++-- README.txt			解説文書（このファイル）
+
+●インストーラファイル
+
+以下のファイルはCGIが実行できるディレクトリにFTP、または
+サーバーが提供しているファイルなメージャーでアップロードします。
+
++-- pyukiwiki-?.?.?-????.....cgi TEXT  755 (rwxr-xr-x)  インストーラー
+
+ファイル名がそこそこ長い為、サービスによってはそのままアップロード
+できない為、適時ファイル名を短くしてみて下さい。
+
+-------------------------------------------------
+■もし動かなければ？
+-------------------------------------------------
+・このバージョンは、まだ検証されきっていないバージョンです。
+
+・パーミッションが正しいかどうか確認して下さい。
+　プロバイダ奨励のパーミッションをなるだけ優先して下さい。
+
+・それでもだめなら.htaccessをまず削除してみて下さい。
+　特に、attach/.htaccess, image/.htaccess, skin/.htaccessの削除を忘れないで下さい。
+
+・一部のプロバイダーでは、設定に工夫が必要です。
+
+・OSがWindows系の場合は、このインストーラは実行できません。
+
+・Digest::MD5が導入されていないサーバーでは、以下のように変更して下さい。
+　attach.inc.plのuse Digest::MD5 qw(md5_hex);をコメントアウトし、
+　#use Digest::Perl::MD5 qw(md5_hex);のコメントをはずす
+
+・CGI.pmが導入されていないサーバーでは、別途配布されているCGI.pm.zipを解凍して
+　lib 以下に置いて下さい。
+　http://pyukiwiki.sfjp.jp/PyukiWiki/Download からダウンロードできます。
+
+・utf8にしたら文字化けする？PukiWiki宛てのInterWikiが正常ではない？
+　perl5.8.0以前のバージョンでかつサーバー上にJcodeがインストールされていません。
+　代替のJcode.pm 0.88をインストールして下さい。
+　http://pyukiwiki.sfjp.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
+
+-------------------------------------------------
+■アップデート版においての追記
+-------------------------------------------------
+アップデート版でも、ルートフォルダ（ディレクトリの）
+「pyukiwiki.ini.cgi」が上書きされるため
+アップデート前に必ずリネームして下さい。
+
+また、こちらがお勧めですが、info/setup.ini.cgi に
+pyukiwiki.ini.cgi の変更部分を記述すれば
+スムーズにアップデートできるかと思います。
+
+-------------------------------------------------
+■簡単なFAQ
+-------------------------------------------------
+・PyukiWikiの作者が変ったのですか？
+　いいえ、変ったのではなく追加です。
+　とはいえ、原作者のNekyo氏は、現在開発を停止している模様です。
+
+・既存のプラグインが動かなくなってしまったのですが？
+　可能な限り、過去バージョン向けのプラグインを動作できるよう変更はしていますが、
+　実質、0.1.6にて大幅に仕様が変更になり動作しなくなったものもあります。
+　(popular, rename等は、既存バージョン用のプラグインが「まともに」
+ （＝ちょっとしたことでも）動作しないので、新しいバージョンを添付しています）
+
+・インストールしてみて、動かない？
+　正常にパーミッション設定、及び、ファイルの適切な編集が完了したにも
+　関わらず、動作しない場合は、gzip圧縮を無効にしてみて下さい。
+　pyukiwiki.ini.cgi で
+　$::gzip_path = 'nouse';
+　を設定するか、
+　info/setup.cgi で
+　$::gzip_path = 'nouse';
+　を設定してみて下さい。
+
+・mod_perl、speedy_cgiで動かないのですが？
+　mod_perlには対応確認済みです。speedy_cgiは未確認です。
+
+・wiki.cgiが醜い(本来の変換は見にくい）のですが・・・
+　-full版、-compact版は、実際に動作する環境の為に、余計なコメント等を
+　大幅に削除しています。
+　また、ベンチマークを取得して、ある程度サブルーチンの順番も考慮しています。
+　そのため、0.1.5から比べて見にくいソースになっています。
+　wiki.cgiのサブルーチンのコメントが必要な方は、-devel版をダウンロードして下さい。
+　同一のバージョンであれば、-full版と-devel版であれば、混在しても動作します。
+
+・ライセンスがかわったのですか？
+　「you can redistribute it and/or modify it under the same terms as Perl itself.」
+　「＝Perlと同じライセンスで再配布できます。」
+　の文面を明確にすると、GPL2とArtisticライセンスが適用されることになります。
+　SourceForge.jpプロジェクト登録のため、ライセンスをはっきりさせるために
+　明記したのであり、基本的にはYukiWikiからのライセンスを継承しているものと考えています。
+
+・PyukiWiki0.1.5のwikiをそのまま移行すると文面がおかしくなるのですが？
+　多くのPukiWiki文法を取り入れると同時に、多くの文法不具合も修正されています。
+　仕様外の文法で記述されている場合、不具合が生じることがあります。
+　また、インラインプラグイン(&plugin(...);)において、「;」で終了していないと、
+　不具合が起きます。ネスト可能にする為に厳格に文法チェックを行なっていますので、
+　閉じていない場合は、「；」で閉じるようにして下さい。
+
+-------------------------------------------------
+■謝辞
+-------------------------------------------------
+・本家のWikiを作ったWard Cunninghamに感謝します。
+　http://c2.com/cgi/wiki
+
+・PyukiWikiを楽しんで使ってくださるみなさんに感謝します。
+
+・PukiWiki、YukiWiki等多くのWikiクローンの作者さんたちに感謝します。
+
+・YukiWiki
+　http://www.hyuki.com/yukiwiki/
+　PyukiWikiのベースとして、YukiWikiはなくてはならないものでした。
+
+・PukiWiki (PHP)
+　http://pukiwiki.sourceforge.jp/
+　デザインをはじめ、多くの書式等を参考にしました。
+
+・PukiWiki Plus! (PHP)
+　http://pukiwiki.cafelounge.net/plus/
+　国際化の実装方法のアイデア、国アイコンの公開に感謝します。
+
+・「極悪」さんのwiki (Perl)
+　http://hpcgi1.nifty.com/dune/gwiki.pl
+　特に、YukiWikiDBに感謝します。
+
+・塚本牧生さんのWalWiki (Perl)
+　http://digit.que.ne.jp/work/
+　テーブル機能、部分編集機能に感謝します。
+
+・その他、パッチを提供して頂いた以下の方に感謝します。
+　Mr koizumi, wadldw, pochi
+
+-------------------------------------------------
+■作者
+-------------------------------------------------
+Copyright (C) 2004-2012 by Nekyo
+http://nekyo.qp.land.to/
+
+Copyright (C) 2002-2007 by Hiroshi Yuki
+http://www.hyuki.com/
+
+Copyright (C) 2005-2012 by ななみ (ななこっち★)
+http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
+http://twitter.com/nanakochi123456/
+http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
+
+Copyright (C) 2004-2007 by やしがにもどき
+http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
+
+Copyright (C) 2005-2007 by Junichi
+http://www.re-birth.com/
+
+Copyright (C) 2005-2012 PukiWiki Developers Team
+http://pyukiwiki.sfjp.jp/

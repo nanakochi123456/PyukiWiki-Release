@@ -1,4 +1,4 @@
-#$Id: autometarobot.inc.pl.ja.pod,v 1.327 2011/12/31 13:06:09 papu Exp $
+#$Id: autometarobot.inc.pl.ja.pod,v 1.408 2012/01/31 10:11:55 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -32,6 +32,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/autometarobot/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/autometarobot.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/autometarobot.inc.pl?view=log>
+
 =back
 
 =head1 著者
@@ -54,7 +56,7 @@ Copyright (C) 2005-2012 by ななみ.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

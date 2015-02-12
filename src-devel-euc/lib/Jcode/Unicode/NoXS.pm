@@ -1,5 +1,5 @@
 #
-# $Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
+# $Id: NoXS.pm,v 1.413 2012/01/31 10:11:57 papu Exp $
 # Id: NoXS.pm,v 2.0 2005/05/16 19:08:02 dankogai Exp
 # "Jcode.pm" version 2.7 $$
 #
@@ -9,8 +9,8 @@ package Jcode::Unicode::NoXS;
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: NoXS.pm,v 1.413 2012/01/31 10:11:57 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.413 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 

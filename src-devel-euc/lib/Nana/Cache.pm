@@ -1,17 +1,17 @@
 ######################################################################
 # Cache.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Cache.pm,v 1.328 2011/12/31 13:06:10 papu Exp $
+# $Id: Cache.pm,v 1.412 2012/01/31 10:11:57 papu Exp $
 #
 # "Nana::Cache" version 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -34,6 +34,7 @@ sub new {
 		size=>$hash{size},
 		use=>$hash{use},
 		expire=>$hash{expire},
+		crlf=>$hash{crlf},
 	};
 	return bless $self, $class;
 }
@@ -102,7 +103,7 @@ sub read {
 	my $f=sprintf("%s/%s.%s",$self->{dir},$fname,$self->{ext});
 	if(-r $f) {
 		$buf=Nana::File::lock_fetch($f);
-		$buf=~s/(\r|\n)//g;
+		$buf=~s/(\r|\n)//g if($self->{crlf} ne 1);
 		return $buf;
 	}
 	return '';

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese UTF-8)
-# "PyukiWiki" version 0.2.0 $$
-# $Id: freezeconvert.ja.txt,v 1.149 2011/12/31 13:06:15 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
+# $Id: freezeconvert.ja.txt,v 1.232 2012/01/31 10:12:05 papu Exp $
 #
 
 # forzenconvert.inc.pl

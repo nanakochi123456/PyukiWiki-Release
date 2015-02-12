@@ -1,17 +1,17 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.172 2011/12/31 13:06:14 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.255 2012/01/31 10:12:03 papu Exp $
 #
-# "Nana::YukiWikiDB" version 0.4 $$
+# "Nana::YukiWikiDB" version 0.6 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -19,7 +19,7 @@
 ######################################################################
 
 package Nana::YukiWikiDB;
-$VERSION="0.4";
+$VERSION="0.6";
 use strict;
 use Nana::File;
 
@@ -34,7 +34,7 @@ sub die {								# debug
 	return undef;						# debug
 }										# debug
 
-# tying
+# tying												# comment
 sub TIEHASH {
 	my ($class, $dbname) = @_;
 	my $self = {
@@ -53,28 +53,29 @@ sub TIEHASH {
 # Store												# comment
 sub STORE {
 	my ($self, $key, $value) = @_;
-	my $filename = &make_filename($self, $key);
+	my ($mode, $filename) = &make_filename($self, $key);
 	return Nana::File::lock_store($filename,$value);
 }
 
 # Fetch												# comment
 sub FETCH {
 	my ($self, $key) = @_;
-	my $filename = &make_filename($self, $key);
+	my ($mode, $filename) = &make_filename($self, $key);
+	return (stat($filename))[9] if($mode eq "update");
 	return Nana::File::lock_fetch($filename);
 }
 
 # Exists											# comment
 sub EXISTS {
 	my ($self, $key) = @_;
-	my $filename = &make_filename($self, $key);
+	my ($mode, $filename) = &make_filename($self, $key);
 	return -e($filename);
 }
 
-# Delete
+# Delete											# comment
 sub DELETE {
 	my ($self, $key) = @_;
-	my $filename = &make_filename($self, $key);
+	my ($mode, $filename) = &make_filename($self, $key);
 	return Nana::File::lock_delete($filename);
 }
 
@@ -102,9 +103,13 @@ sub NEXTKEY {
 
 sub make_filename {
 	my ($self, $key) = @_;
+	my $mode="";
+	if($key=~/^\_\_(.+?)\_\_(.+?)$/) {
+		$mode=$1;
+		$key=$2;
+	}
 	$key =~ s/(.)/$::_dbmname_encode{$1}/g;
-
-	return $self->{dir} . "/$key.txt";
+	return ($mode, $self->{dir} . "/$key.txt");
 }
 
 1;

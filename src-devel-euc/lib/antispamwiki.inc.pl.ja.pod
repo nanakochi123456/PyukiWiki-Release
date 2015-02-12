@@ -1,4 +1,4 @@
-#$Id: antispamwiki.inc.pl.ja.pod,v 1.302 2011/12/31 13:06:09 papu Exp $
+#$Id: antispamwiki.inc.pl.ja.pod,v 1.382 2012/01/31 10:11:55 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -35,6 +35,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/gzip/>
 =item PyukiWiki CVSレボジトリ
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/gzip.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/gzip.inc.pl?view=log>
 
 =back
 

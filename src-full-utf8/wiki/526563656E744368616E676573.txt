@@ -1,7 +1,11 @@
-- 2011-08-29 (Mon) 00:06:00 FrontPage  - このページはPyukiWikiのFrontPageです。
-- 2011-08-29 (Mon) 00:05:00 MenuBar  - メニューバー
-- 2011-08-29 (Mon) 00:04:00 SandBox  -   SandBox: お砂場(練習ページ)です &dagger;
-- 2011-08-29 (Mon) 00:03:00 InterWikiSandBox  - [[InterWiki>pyukiwiki:PyukiWiki/Glossary/InterWiki]]用の練習ページです。
-- 2011-08-29 (Mon) 00:02:00 [[ヘルプ]]  - [[PyukiWiki>pyukiwiki:PyukiWiki]] ヘルプ
-- 2011-08-29 (Mon) 00:01:00 [[整形ルール]]  - テキスト整形のルール
-- 2011-08-29 (Mon) 00:00:00 InterWikiName  -  [[InterWiki>pyukiwiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
+- 2012-01-31 (Tus) 12:36:00 FrontPage  - このページはPyukiWikiのFrontPageです。
+- 2012-01-31 (Tus) 12:35:00 MenuBar  - メニューバー
+- 2012-01-31 (Tus) 12:34:00 SandBox  -   SandBox: お砂場(練習ページ)です &dagger;
+- 2012-01-31 (Tus) 12:33:00 InterWikiSandBox  - [[InterWiki>pyukiwiki:PyukiWiki/Glossary/InterWiki]]用の練習ページです。
+- 2012-01-31 (Tus) 12:32:00 [[ヘルプ]]  - [[PyukiWiki>pyukiwiki:PyukiWiki]] ヘルプ
+- 2012-01-31 (Tus) 12:31:00 [[整形ルール]]  - テキスト整形のルール
+- 2012-01-31 (Tus) 12:30:00 InterWikiName  -  [[InterWiki>pyukiwiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
+- 2012-01-31 (Tus) 12:03:00 [[GNU 一般公衆利用許諾書 (GNU General Public License)]]  - GNU 一般公衆利用許諾書 (GNU General Public License)
+- 2012-01-31 (Tus) 12:02:00 [[The Artistic License 日本語訳 1.0]]  - The Artistic License 日本語訳 1.0
+- 2012-01-31 (Tus) 12:01:00 [[The "Artistic License"]]  - The &quot;Artistic License&quot;
+- 2012-01-31 (Tus) 12:00:00 [[GNU General Public License]]  - GNU GENERAL PUBLIC LICENSE

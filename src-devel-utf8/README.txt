@@ -1,21 +1,22 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0 $$
+	"PyukiWiki" version 0.2.0-p1 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
-	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
+	Based on YukiWiki http://www.hyuki.com/yukiwiki/
+	and PukiWiki http://pukiwiki.sfjp.jp/
 
 	URL:
 	http://nekyo.qp.land.to/
-	http://pyukiwiki.sourceforge.jp/
+	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
-		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
+		Nanami <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.165 2011/12/31 13:06:12 papu Exp $
+	$Id: README.txt,v 1.249 2012/01/31 10:12:00 papu Exp $
 
 	このテキストファイルはUTF-8、TAB4で記述されています。
 
@@ -24,7 +25,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ�
 -------------------------------------------------
 以下のURLで最新情報を入手してください。
 http://nekyo.qp.land.to/
-http://pyukiwiki.sourceforge.jp/
+http://pyukiwiki.sfjp.jp/
 
 -------------------------------------------------
 ■概要
@@ -56,19 +57,26 @@ modify it under the same terms as Perl itself.
 PyukiWikiは、GPL2もしくはArtisticライセンスの元で配布されます。
 自由に利用し、自由に配布し、自由に改造し、それを再配布して構いません。
 ただし、原版と同名のパッケージとして名乗ることを禁止します。
-詳しくは、下記のURLをご覧下さい。
+詳しくは、下記のURL，または、インストール済のPyukiWikiのwiki文から
+ご確認下さい。
 
 ・PyukiWiki:ライセンスについて
-　http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Install/License/
+　@@BASEURL/PyukiWiki/Install/License/
 
 ・GNU GPL
-　http://www.gnu.org/copyleft/gpl.html
+　http://www.gnu.org/licenses/gpl.html
 
 ・GNU GPLの日本語版
+　http://sfjp.jp/magazine/07/09/02/130237
+
+・GPL3情報ページ
+　http://sfjp.jp/projects/opensource/wiki/GPLv3_Info
+
+・参考　GPL2（[旧バージョン）
 　http://www.opensource.jp/gpl/gpl.ja.html
 
 ・The Artistic License 1.0
-　http://www.perl.com/language/misc/Artistic.html
+　http://dev.perl.org/licenses/artistic.html
 
 ・The Artistic License 日本語訳
 　http://www.opensource.jp/artistic/ja/Artistic-ja.html
@@ -333,12 +341,12 @@ index.cgiのパーミッションを 701 (rwx-----x) にすることで動作し
 
 ・CGI.pmが導入されていないサーバーでは、別途配布されているCGI.pm.zipを解凍して
 　lib 以下に置いて下さい。
-　http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
+　http://pyukiwiki.sfjp.jp/PyukiWiki/Download からダウンロードできます。
 
 ・utf8にしたら文字化けする？PukiWiki宛てのInterWikiが正常ではない？
 　perl5.8.0以前のバージョンでかつサーバー上にJcodeがインストールされていません。
 　代替のJcode.pm 0.88をインストールして下さい。
-　http://pyukiwiki.sourceforge.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
+　http://pyukiwiki.sfjp.jp/cgi-bin/w/PyukiWiki/Download からダウンロードできます。
 
 -------------------------------------------------
 ■アップデート版においての追記
@@ -363,6 +371,16 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 　実質、0.1.6にて大幅に仕様が変更になり動作しなくなったものもあります。
 　(popular, rename等は、既存バージョン用のプラグインが「まともに」
  （＝ちょっとしたことでも）動作しないので、新しいバージョンを添付しています）
+
+・インストールしてみて、動かない？
+　正常にパーミッション設定、及び、ファイルの適切な編集が完了したにも
+　関わらず、動作しない場合は、gzip圧縮を無効にしてみて下さい。
+　pyukiwiki.ini.cgi で
+　$::gzip_path = 'nouse';
+　を設定するか、
+　info/setup.cgi で
+　$::gzip_path = 'nouse';
+　を設定してみて下さい。
 
 ・mod_perl、speedy_cgiで動かないのですが？
 　mod_perlには対応確認済みです。speedy_cgiは未確認です。
@@ -643,7 +661,7 @@ pyukiwiki.ini.cgi の変更部分を記述すれば
 　オリジナルソースは http://twitstat.us/twitstat.js
 
 ・AWStats（アクセスログ解析）
-　http://awstats.sourceforge.net/
+　http://awstats.sf.net/
 　http://www.starplatinum.jp/awstats/awstats70/
 　特に、テーブル定義は、そのまま使用させて頂きました。
 
@@ -692,6 +710,7 @@ http://www.hyuki.com/
 Copyright (C) 2005-2012 by ななみ (ななこっち★)
 http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
 http://twitter.com/nanakochi123456/
+http://ja.wikipedia.org/wiki/%e5%88%a9%e7%94%a8%e8%80%85%3aPapu
 
 Copyright (C) 2004-2007 by やしがにもどき
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
@@ -700,4 +719,4 @@ Copyright (C) 2005-2007 by Junichi
 http://www.re-birth.com/
 
 Copyright (C) 2005-2012 PukiWiki Developers Team
-http://pyukiwiki.sourceforge.jp/
+http://pyukiwiki.sfjp.jp/

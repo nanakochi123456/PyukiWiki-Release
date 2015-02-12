@@ -1,4 +1,4 @@
-#$Id: ruby.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+#$Id: ruby.inc.pl.ja.pod,v 1.253 2012/01/31 10:12:04 papu Exp $
 
 __END__
 =encoding utf-8
@@ -32,6 +32,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/ruby/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ruby.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/ruby.inc.pl?view=log>
+
 =back
 
 =head1 著者
@@ -54,7 +56,7 @@ Copyright (C) 2004-2012 by Nekyo.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

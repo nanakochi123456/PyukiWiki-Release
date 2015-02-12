@@ -1,7 +1,7 @@
 ######################################################################
 # Apache backup/.htaccess for PyukiWiki for backup/
-# $Id: .htaccess,v 1.173 2011/12/31 13:06:12 papu Exp $
-# "PyukiWiki" version 0.2.0 $$
+# $Id: .htaccess,v 1.256 2012/01/31 10:12:00 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
 ######################################################################
 
 ## Options can use, it is good to add the following setup.

@@ -1,7 +1,7 @@
 ######################################################################
 # Apache .htaccess for PyukiWiki
-# $Id: .htaccess,v 1.228 2011/12/31 13:06:08 papu Exp $
-# "PyukiWiki" version 0.2.0 $$
+# $Id: .htaccess,v 1.309 2012/01/31 10:11:51 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
 ######################################################################
 
 DirectoryIndex nph-index.cgi index.cgi wiki.cgi pyukiwiki.cgi index.php index.html index.htm

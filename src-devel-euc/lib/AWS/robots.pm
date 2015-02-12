@@ -1,18 +1,18 @@
 ######################################################################
 # robots.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: robots.pm,v 1.23 2011/12/31 13:06:09 papu Exp $
+# $Id: robots.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
-# http://awstats.sourceforge.net/
-# Copyright (C) 2004-2012 by Nekyo.
+# http://awstats.sf.net/
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -23,7 +23,7 @@
 # If you want to add robots to extend AWStats database detection capabilities,
 # you must add an entry in RobotsSearchIDOrder_listx and RobotsHashIDLib.
 #-------------------------------------------------------
-# $Revision: 1.23 $ - $Author: papu $ - $Date: 2011/12/31 13:06:09 $
+# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
 
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
 #              added dipsie (not tested with real data).
@@ -57,7 +57,7 @@
 # 2005-09-15	added link for Walhello appie
 #		added bender focused_crawler
 #		updated YahooSeeker description (blog crawler)
-# 2005-09-16	added link for http://linkchecker.sourceforge.net
+# 2005-09-16	added link for http://linkchecker.sf.net/
 # 		added ConveraCrawler/0.9d ( http://www.authoritativeweb.com/crawl)
 #		added Blogslive  <info (at) blogslive (dot) com> intelliseek.com
 #		added BlogPulse (ISSpider-3.0) intelliseek.com
@@ -100,12 +100,12 @@
 #		added link for MagpieRSS
 #		added link for MSIECrawler
 # 2005-12-21
-#		added aipbot http://www.aipbot.com <aipbot (at) aipbot (dot) com> [matthys70 users.sourceforge.net]
+#		added aipbot http://www.aipbot.com <aipbot (at) aipbot (dot) com> [<matthys70 (at) users (dot) sourceforge (dot) net>]
 #		added Everest-Vulcan Inc./0.1 (R&D project; http://everest.vulcan.com/crawlerhelp)
-#		added Fast-Search-Engine http://www.fast-search-engine.com/ [matthys70  users.sourceforge.net]
+#		added Fast-Search-Engine http://www.fast-search-engine.com/ [<matthys70 (at) users (dot) sourceforge (dot) net>]
 #		added g2Crawler (<nobody (at) airmail (dot) net>) http://crawler.instantnetworks.net/
 #		added Jakarta commons-httpclient http://jakarta.apache.org/commons/httpclient/ (hit robots.txt).  May be used as robot or browser - a site may want to remove this entry.
-#		added OmniExplorer_Bot http://www.omni-explorer.com/ [matthys70 users.sourceforge.net]
+#		added OmniExplorer_Bot http://www.omni-explorer.com/ [<matthys70 (at) users (dot) sourceforge (dot) net>]
 #		added USTC-Semantic-Group ai.ustc.edu.cn/mas/en/research/index.php ?
 # 2005-12-22
 #		added EARTHCOM.info www.earthcom.info
@@ -117,7 +117,7 @@
 #		added nicebot http://www.egghelp.org/setup.htm ?
 #		added Snappy http://www.urltrends.com/faq.php
 #		added sohu agent
-#		added VORTEX http://marty.anstey.ca/robots/vortex/ [matthys70 users.sourceforge.net]
+#		added VORTEX http://marty.anstey.ca/robots/vortex/ [<matthys70 (at) users (dot) sourceforge (dot) net>]
 #		added zspider http://feedback.redkolibri.com/
 # 2006-01-13
 #		added boitho.com-dc http://www.boitho.com/dcbot.html
@@ -153,8 +153,8 @@
 #		added WebIndexer	mailto:<//webindexerv1 (at) yahoo (dot) com>
 #		added WebMiner	http://64.124.122.252/feedback.html
 # 2006-02-01
-#		added heritrix https://sourceforge.net/forum/message.php?msg_id=3550202
-#		added Zeus Webster Pro https://sourceforge.net/forum/message.php?msg_id=3141164
+#		added heritrix https://sf.net/forum/message.php?msg_id=3550202
+#		added Zeus Webster Pro https://sf.net/forum/message.php?msg_id=3141164
 #               additional robots from a list provided by Moizes Gabor [ mojzi -a-t- free mail hu ]
 #		added Candlelight_Favorites_Inspector
 #		added DomainChecker
@@ -216,7 +216,7 @@
 #		added Accoona-AI-Agent http://www.accoona.com/
 #		added ActiveBookmark http://www.libmaster.com/active_bookmark.php
 #		added BIGLOTRON http://www.biglotron.com/robot.html
-#		added Bookmark-Manager http://bkm.sourceforge.net/
+#		added Bookmark-Manager http://bkm.sf.net/
 #		added cbn00glebot
 #		added Cerberian Drtrs http://www.pgts.com.au/cgi-bin/psql?robot_info=25240
 #		added CFNetwork http://www.cocoadev.com/index.pl?CFNetwork
@@ -243,10 +243,10 @@
 #		added Global Fetch http://www.wesonet.com/
 #		added GOFORITBOT http://www.goforit.com/about/
 #		added GoForIt.com http://www.goforit.com/about/
-#		added GPU p2p crawler http://gpu.sourceforge.net/search_engine.php
+#		added GPU p2p crawler http://gpu.sf.net/search_engine.php
 #		added HooWWWer http://cosco.hiit.fi/search/hoowwwer/
 #		added HPPrint
-#		added HTMLParser http://htmlparser.sourceforge.net/
+#		added HTMLParser http://htmlparser.sf.net/
 #		added Hundesuche.com-Bot http://www.hundesuche.com/
 #		added InfoBot http://www.infobot.org/
 #		added InfociousBot http://corp.infocious.com/tech_crawler.php
@@ -289,7 +289,7 @@
 #		added Port Huron Labs http://www.psychedelix.com/cgi-bin/csv2html.pl?data=allagents.csv&amp;template=detail.html&amp;match=\bid_n_s_1133\b
 #		added PostFavorites http://www.psychedelix.com/cgi-bin/csv2html.pl?data=allagents.csv&amp;template=detail.html&amp;match=\bid_n_s_1135\b
 #		added ProjectWF-java-test-crawler
-#		added PyQuery http://sourceforge.net/projects/pyquery/
+#		added PyQuery http://sf.net/projects/pyquery/
 #		added Schizozilla http://spamhuntress.com/2005/03/18/gizmo/
 #		added Scumbot
 #		added Sensis Web Crawler http://www.sensis.com.au/
@@ -1375,7 +1375,7 @@
 'bncf\.firenze\.sbn\.it\/raccolta\.txt','<a href="http://www.bncf.firenze.sbn.it/raccolta.txt" title="Bot home page [new window]" target="_blank">Biblioteca Nazionale Centrale di Firenze</a>',
 'bobby', 'Bobby',
 'boitho\.com\-dc','<a href="http://www.boitho.com/dcbot.html" title="Bot home page [new window]" target="_blank">boitho.com-dc</a>',
-'bookmark\-manager','<a href="http://bkm.sourceforge.net/" title="Bookmark-Manager home page [new window]" target="_blank">Bookmark-Manager</a>',
+'bookmark\-manager','<a href="http://bkm.sf.net/" title="Bookmark-Manager home page [new window]" target="_blank">Bookmark-Manager</a>',
 'boris', 'Boris',
 'bumblebee', 'Bumblebee (relevare.com)',
 'candlelight[_+ ]favorites[_+ ]inspector','<a href="http://www.candlelight.com/home.html" title="Candlelight_Favorites_Inspector  home page [new window]" target="_blank">Candlelight_Favorites_Inspector</a>',
@@ -1443,14 +1443,14 @@
 'goforit\.com','<a href="http://www.goforit.com/about/" title="GoForIt.com home page [new window]" target="_blank">GoForIt.com</a>',
 'goforitbot','<a href="http://www.goforit.com/about/" title="GOFORITBOT home page [new window]" target="_blank">GOFORITBOT</a>',
 'gonzo','<a href="http://www.suchen.de/faq.html" title="Bot home page [new windows]" target="_blank">suchen.de</a>',
-'gpu_p2p_crawler','<a href="http://gpu.sourceforge.net/search_engine.php" title="Bot home page [new window]" target="_blank">GPU p2p crawler</a>',
+'gpu_p2p_crawler','<a href="http://gpu.sf.net/search_engine.php" title="Bot home page [new window]" target="_blank">GPU p2p crawler</a>',
 'grub','Grub.org',
 'henrythemiragorobot', '<a href="http://www.miragorobot.com/scripts/mrinfo.asp" title="Bot home page [new window]" target="_blank">Mirago</a>',
 'heritrix','<a href="http://crawler.archive.org/" title="(used by a few different companies) Bot home page [new window]" target="_blank">Heritrix</a>',
 'holmes', 'Holmes',
 'hoowwwer','<a href="http://cosco.hiit.fi/search/hoowwwer/" title="HooWWWer home page [new window]" target="_blank">HooWWWer</a>',
 'hpprint','HPPrint',
-'htmlparser','<a href="http://htmlparser.sourceforge.net/" title="HTMLParser home page [new window]" target="_blank">HTMLParser</a>',
+'htmlparser','<a href="http://htmlparser.sf.net/" title="HTMLParser home page [new window]" target="_blank">HTMLParser</a>',
 'html[_+ ]link[_+ ]validator','<a href="http://www.lithopssoft.com/ " title="Html_Link_Validator home page [new window]" target="_blank">Html_Link_Validator</a>',
 'httrack','<a href="http://www.httrack.com/" title="Bot home page [new window]" target="_blank">HTTrack off-line browser</a>',
 'hundesuche\.com\-bot','<a href="http://www.hundesuche.com/" title="Hundesuche.com-Bot home page [new window]" target="_blank">Hundesuche.com-Bot</a>',
@@ -1487,7 +1487,7 @@
 'libcrawl','Crawl libcrawl',
 'link_valet_online','<a href="http://www.htmlhelp.com/tools/valet/" title="Link Valet Online home page [new window]" target="_blank">Link Valet Online</a>',
 'linkbot','LinkBot',
-'linkchecker','<a href="http://linkchecker.sourceforge.net" title="Bot home page [new window]" target="_blank">LinkChecker</a>',
+'linkchecker','<a href="http://linkchecker.sf.net/" title="Bot home page [new window]" target="_blank">LinkChecker</a>',
 'livejournal\.com', 'LiveJournal.com',
 'magpierss', 'MagpieRSS',
 'mail\.ru', 'Mail.ru bot',
@@ -1550,7 +1550,7 @@
 'postfavorites','<a href="http://www.psychedelix.com/cgi-bin/csv2html.pl?data=allagents.csv&amp;template=detail.html&amp;match=\bid_n_s_1135\b " title="PostFavorites home page [new window]" target="_blank">PostFavorites</a>',
 'projectwf\-java\-test\-crawler','ProjectWF-java-test-crawler',
 'proodlebot','<a href="http://www.proodle.com/" title="proodleBot home page [new window]" target="_blank">proodleBot</a>',
-'pyquery','<a href="http://sourceforge.net/projects/pyquery/" title="PyQuery home page [new window]" target="_blank">PyQuery</a>',
+'pyquery','<a href="http://sf.net/projects/pyquery/" title="PyQuery home page [new window]" target="_blank">PyQuery</a>',
 'rambler','<a href="http://www.rambler.ru/doc/faq.shtml" title="Bot home page [new window]">StackRambler</a>',
 'redalert','Red Alert',
 'relevantnoise\.com', '<a href="http://www.relevantnoise.com/" title="Relevant Noise [new window]" target="_blank">Relevant Noise</a>',

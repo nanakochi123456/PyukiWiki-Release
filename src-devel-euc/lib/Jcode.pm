@@ -1,5 +1,5 @@
 #
-# $Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $
+# $Id: Jcode.pm,v 1.413 2012/01/31 10:11:55 papu Exp $
 # Id: Jcode.pm,v 2.7 2008/05/10 18:15:19 dankogai Exp dankogai
 # "Jcode.pm" version 2.7 $$
 #
@@ -10,8 +10,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = q$Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Jcode.pm,v 1.413 2012/01/31 10:11:55 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.413 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = 0;
 
 # we no longer use Exporter

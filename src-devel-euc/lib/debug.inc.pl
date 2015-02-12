@@ -1,16 +1,16 @@
 ######################################################################
 # debug.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: debug.inc.pl,v 1.341 2011/12/31 13:06:09 papu Exp $
+# $Id: debug.inc.pl,v 1.424 2012/01/31 10:11:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -26,7 +26,7 @@ $::mode_debug=1;
 
 sub plugin_debug_init {
 	my $head=<<EOM;
-<script  type="text/javascript"><!--
+<script type="text/javascript"><!--
 function Display(b,a){if(d.all||d.getElementById){if(d.all){obj=d.all(b).style}else{if(d.getElementById){obj=d.getElementById(b).style}}if(a=="view"){obj.display="block"}else{if(a=="none"){obj.display="none"}else{if(obj.display=="block"){obj.display="none"}else{if(obj.display=="none"){obj.display="block"}}}}}};
 //--></script>
 EOM
@@ -167,6 +167,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/debug/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/debug.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/debug.inc.pl?view=log>
+
 =back
 
 =head1 AUTHOR
@@ -189,7 +191,7 @@ Copyright (C) 2005-2012 by Nanami.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

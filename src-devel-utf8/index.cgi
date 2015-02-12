@@ -5,23 +5,22 @@
 #!c:\perl64\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.165 2011/12/31 13:06:12 papu Exp $
+# $Id: index.cgi,v 1.249 2012/01/31 10:12:00 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=UTF-8 1TAB=4Spaces
 ######################################################################
 
-# Libraries.
 use strict;
 
 ##############################
@@ -81,7 +80,7 @@ Copyright (C) 2004-2012 by Nekyo.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

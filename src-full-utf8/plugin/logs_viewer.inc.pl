@@ -1,16 +1,16 @@
 ######################################################################
 # logs_viewer.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: logs_viewer.inc.pl,v 1.23 2011/12/31 13:06:14 papu Exp $
+# $Id: logs_viewer.inc.pl,v 1.109 2012/01/31 10:12:04 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -18,11 +18,13 @@
 ######################################################################
 # まだ評価版のアクセスログ解析ツールです。
 #
-# 2011/12/31 ここまで完成。AWSTATSのおかげです http://awstats.sourceforge.net/
+# 2012/01/30 キャッシュ機能搭載
+# 2012/01/02 リンク先カウンターの解析機能が搭載されていないのを修正
+# 2012/01/02 グラフをCSSで出力するようにした
+# 2011/12/31 ここまで完成。AWSTATSのおかげです http://awstats.sf.net/
 # 2011/12/30 突然作り始める
 # TODO
-# 全機能をつくり、おかしな所をなおす。（当たり前）
-# 前日以前のログのうち、解析結果をキャッシュに吐き出す
+# 全機能をつくり、おかしな所をなおす。（もう少し）
 # 生ログダウンロード機能の作成（サーバー上では圧縮して保管）
 ######################################################################
 use strict;
@@ -119,7 +121,12 @@ sub plugin_logs_viewer_page {
 	}
 	if($target eq '') {
 	} else {
-		my %hash=&Nana::Logs::analysis($target, \%::logbase);
+		my %timestamp;
+		foreach(/,/,$target) {
+			$timestamp{$target}=$::logbase{"__update__" . $target};
+$::debug.="timestamp{$target}=$timestamp{$target}\n";
+		}
+		my %hash=&Nana::Logs::analysis($target, \%::logbase, \%timestamp);
 		my $body=<<EOM;
 <h2>$date$::resource{logs_viewer_plugin_details_title}</h2>
 <table><tr><td>
@@ -242,7 +249,7 @@ EOM
 <tr>
 <td class="style_td" align="right"@{[$maxcount eq 0 ? ' rowspan="2"' : '']}>@{[++$i]}</td>
 <td class="style_td" align="right"@{[$maxcount eq 0 ? ' rowspan="2"' : '']}>$h{$_}</td>
-<td class="style_td" align="right"@{[$maxcount eq 0 ? ' rowspan="2"' : '']}>@{[sprintf("%.1f", $h{$_} / $total * 100)]}%</td>
+<td class="style_td" align="right"@{[$maxcount eq 0 ? ' rowspan="2"' : '']}>@{[$total > 0 ? sprintf("%.1f", $h{$_} / $total * 100) : "-"]}%</td>
 <td class="style_td">$_</td>@{[$maxcount eq 0 ? '</tr><tr><td class="style_td" width="' . $maxwidth . '">' . &printgraph($h{$_}, $maxvalue, $total, $maxwidth) . '</td>' : '']}
 </tr>
 EOM
@@ -346,10 +353,9 @@ sub printgraph {
 	$maxwidth=100;
 	$maxcount=1 if($maxcount < 1);
 	$total=1 if($total < 1);
+	my $m=$maxcount;
 	my $body=<<EOM;
-<table><tr><td class="style_td" style="background-color:#1080ff;" width="@{[int(($count/$maxcount)*$maxwidth)]}%">&nbsp;</td>
-<td class="style_td" width="@{[$maxwidth-int(($count/$maxcount)*$maxwidth)]}"]}">&nbsp;@{[sprintf("%.1f", ($count/$total)*100)]}%</td>
-</td></tr></table>
+<div class="rating"><div class="graphcont"><div class="graph"><strong class="bar" style="width:@{[sprintf("%d", ($count/$m)*100)]}%;">@{[sprintf("%.1f", ($count/$total)*100)]}%</strong></div></div>
 EOM
 	return $body;
 }

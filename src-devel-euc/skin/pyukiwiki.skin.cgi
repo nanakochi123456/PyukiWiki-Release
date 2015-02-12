@@ -1,15 +1,15 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.326 2011/12/31 13:06:12 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.409 2012/01/31 10:12:00 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -64,6 +64,9 @@ EOD
 		$footerbody=&print_content($::database{$::Footer}, $::form{mypage})
 			if(&is_exist_page($::Footer));
 	}
+	# :TitleHeader
+	$titleheaderbody=&print_content($::database{$::TitleHeader}, $::form{mypage})
+			if(&is_exist_page($::TitleHeader));
 
 	# add v 0.1.9
 	$skinfooterbody=$::database{$::SkinFooter}
@@ -120,14 +123,18 @@ EOD
 EOD
 	} elsif($page ne '') {
 		$htmlbody.=<<EOD;
+@{[$titleheaderbody ne '' ? '<table><td><td class="headermain">' : '']}
 <h1 class="title"><a
     title="$::resource{searchthispage}"
     href="$::script?cmd=search&amp;mymsg=$cookedpage">$escapedpage_short</a>@{[$message eq '' ? '' : "&nbsp;$message"]}</h1>
 <span class="small">@{[&topicpath($page)]}</span>
+@{[$titleheaderbody ne '' ? '</td><td class="headerbody">' . $titleheaderbody . '</td></tr></table>' : '']}
 EOD
 	} else {
 		$htmlbody.=<<EOD;
+@{[$titleheaderbody ne '' ? '<table><td><td class="headermain">' : '']}
 <h1 class="title">$message</h1>
+@{[$titleheaderbody ne '' ? '</td><td class="headerbody">' . $titleheaderbody . '</td></tr></table>' : '']}
 EOD
 	}
 
@@ -142,8 +149,12 @@ EOD
 			$htmlbody.=" ] &nbsp; [ " if($flg ne 0);
 			$flg=0;
 		} else {
-			if($::navi{"$name\_name"} ne '') {
-				$htmlbody .= " | " if($flg eq 1);
+			if($::navi{"$name\_html"} ne '') {
+				$htmlbody .= " | " if($flg eq 1 && $name!~/\-nobr/);
+				$flg=1;
+				$htmlbody.=$::navi{"$name\_html"};
+			} elsif($::navi{"$name\_name"} ne '') {
+				$htmlbody .= " | " if($flg eq 1 && $name!~/\-nobr/);
 				$flg=1;
 				$htmlbody.=<<EOD;
 <a title="@{[$::navi{"$name\_title"} eq '' ? $::navi{"$name\_name"} : $::navi{"$name\_title"}]}" href="$::navi{"$name\_url"}">$::navi{"$name\_name"}</a>
@@ -170,7 +181,7 @@ EOD
 	$htmlbody.= <<"EOD";
 <div id="content">
 <table class="content_table" border="0" cellpadding="0" cellspacing="0">
-@{[$headerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$headerbody</td></tr>) : '']}
+@{[$headerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}><div id="headerbody">$headerbody</div></td></tr>) : '']}
   <tr>
 EOD
 
@@ -188,7 +199,7 @@ EOD
 	# コンテンツの表示
 	$htmlbody.= <<"EOD";
     <td class="body" valign="top">
-      @{[$bodyheaderbody ne '' ? "$bodyheaderbody\n" : ""]}<div id="body">$body</div>@{[$::notesview eq 0 ? $notesbody : '']}@{[$bodyfooterbody ne '' ? "\n$bodyfooterbody" : ""]}
+      @{[$bodyheaderbody ne '' ?  qq(<div id="bodyheaderbody">$bodyheaderbody</div>\n) : ""]}<div id="body">$body</div>@{[$::notesview eq 0 ? $notesbody : '']}@{[$bodyfooterbody ne '' ? qq(\n<div id="bodyfooterbody">$bodyfooterbody</div>) : ""]}
     </td>
 EOD
 	# SideBarの表示
@@ -206,7 +217,7 @@ EOD
 	$htmlbody.= << "EOD";
   </tr>
 @{[$::notesview eq 1 ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$notesbody</td></tr>) : '']}
-@{[$footerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$footerbody</td></tr>) : '']}
+@{[$footerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}><div id="footerbody">$footerbody</div></td></tr>) : '']}
 </table>
 EOD
 
@@ -252,22 +263,22 @@ EOD
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 $skinfooterbody~
-''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/]]''
-Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
-License is [[GPL>http://www.opensource.jp/gpl/gpl.ja.html]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
+''[[PyukiWiki $::version>http://pyukiwiki.sfjp.jp/]]''
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sfjp.jp/]]
+License is [[GPL>http://sfjp.jp/projects/opensource/wiki/GPLv3_Info]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
-and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
+and [[PukiWiki>http://pukiwiki.sfjp.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sfjp.jp/]]~
 EOD
 	} else {
 	# lang=en and/or other
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 $skinfooterbody~
-''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/en/]]''
-Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
-License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>http://www.perl.com/language/misc/Artistic.html]]~
+''[[PyukiWiki $::version>http://pyukiwiki.sfjp.jp/]]''
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sfjp.jp/]]
+License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>A]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
-and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
+and [[PukiWiki>http://pukiwiki.sfjp.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sfjp.jp/]]~
 EOD
 	}
 	$footerbody= &text_to_html($footerbody);

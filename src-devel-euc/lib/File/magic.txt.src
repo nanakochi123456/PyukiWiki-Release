@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# $Id: magic.txt.src,v 1.319 2011/12/31 13:06:10 papu Exp $
+# $Id: magic.txt.src,v 1.398 2012/01/31 10:11:56 papu Exp $
 # "magic file for File::MMagic" version 1.7 $$
 
 #------------------------------------------------------------------------------
@@ -782,7 +782,7 @@
 
 # From Rafael Laboissiere <rafael (at) laboissiere (dot) net>
 # The Project Revision Control System (see
-# http://prcs.sourceforge.net) generates a packaged project
+# http://prcs.sf.net) generates a packaged project
 # file which is recognized by the following entry:
 0	leshort		0xeb81	PRCS packaged project
 
@@ -4943,7 +4943,7 @@
 
 
 #------------------------------------------------------------------------------
-# Sketch Drawings: http://sketch.sourceforge.net/
+# Sketch Drawings: http://sketch.sf.net/
 # From: Edwin Mons <e (at) ik (dot) nu>
 0	string	##Sketch	Sketch document text
 #------------------------------------------------------------------------------
@@ -5895,7 +5895,7 @@
 ##>4		byte		0		revision 0
 >4		byte		0
 ##>>14		lelong		x		(Serial %lX)
-# non-Vorbis content: FLAC (Free Lossless Audio Codec, http://flac.sourceforge.net)
+# non-Vorbis content: FLAC (Free Lossless Audio Codec, http://flac.sf.net/)
 >>28		string		fLaC		\b, FLAC audio
 # non-Vorbis content: Theora
 >>28		string		\x80theora	\b, Theora video
@@ -7096,7 +7096,7 @@
 >20	string		Ver01.00	Ver. 1.00
 >>32	byte		x		, %d tracks
 
-# Free lossless audio codec <http://flac.sourceforge.net>
+# Free lossless audio codec <http://flac.sf.net/>
 # From: Przemyslaw Augustyniak <silvathraec (at) rpg (dot) pl>
 0	string			fLaC		FLAC audio bitstream data
 >4	byte&0x7f		>0		\b, unknown version
@@ -10135,7 +10135,7 @@
 #------------------------------------------------------------------------------
 # pulsar:  file(1) magic for Pulsar POP3 daemon binary files
 #
-# http://pulsar.sourceforge.net
+# http://pulsar.sf.net/
 # mailto:<rok (dot) papez (at) lugos (dot) si>
 #
 

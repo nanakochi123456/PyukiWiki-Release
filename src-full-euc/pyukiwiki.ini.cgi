@@ -1,15 +1,15 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.405 2011/12/31 13:06:08 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.488 2012/01/31 10:11:51 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -111,6 +111,7 @@ $::FrontPage		= 'FrontPage';
 $::RecentChanges	= 'RecentChanges';
 $::MenuBar			= 'MenuBar';
 $::SideBar			= ':SideBar';
+$::TitleHeader		= ':TitleHeader';
 $::Header			= ':Header';
 $::Footer			= ':Footer';
 $::BodyHeader		= ':BodyHeader';
@@ -153,7 +154,7 @@ $::modifier_rss_link='';						# RSSリンク先（自動取得）
 $::modifier_rss_description = "Modified by $::modifier";	# RSSの説明
 
 #$::modifier_rss_title = "PyukiWiki $::version";
-#$::modifier_rss_link = 'http://pyukiwiki.sourceforge.jp/';
+#$::modifier_rss_link = 'http://pyukiwiki.sfjp.jp/';
 #$::modifier_rss_description = 'This is PyukiWiki.';
 
 # Exプラグイン設定
@@ -323,6 +324,7 @@ $::attach_nonlist = 1;
 #$::gzip_path = '/bin/gzip -9';			# max compress
 #$::gzip_path = '/usr/bin/gzip -9 -f';	# max compress
 #$::gzip_path = 'nouse';				# 使用しない場合
+										# 動かない場合コメントアウト
 
 # sendmailパスの指定 $::modifier_mail宛てにメール通知
 $::modifier_sendmail=<<EOM;

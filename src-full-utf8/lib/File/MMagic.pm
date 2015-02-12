@@ -1,8 +1,8 @@
-# $Id: MMagic.pm,v 1.172 2011/12/31 13:06:13 papu Exp $
+# $Id: MMagic.pm,v 1.252 2012/01/31 10:12:02 papu Exp $
 # "File::MMagic" version 1.27 $$
 # File::MMagic
 #
-# $Id: MMagic.pm,v 1.172 2011/12/31 13:06:13 papu Exp $
+# $Id: MMagic.pm,v 1.252 2012/01/31 10:12:02 papu Exp $
 #
 # This program is originated from file.kulp that is a production of The
 # Unix Reconstruction Projct.

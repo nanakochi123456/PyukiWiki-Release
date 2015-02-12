@@ -1,18 +1,18 @@
 ######################################################################
 # search_engines.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: search_engines.pm,v 1.23 2011/12/31 13:06:13 papu Exp $
+# $Id: search_engines.pm,v 1.107 2012/01/31 10:12:02 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
-# http://awstats.sourceforge.net/
-# Copyright (C) 2004-2012 by Nekyo.
+# http://awstats.sf.net/
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -25,7 +25,7 @@
 # SearchEnginesHashLib.
 # An entry if known in SearchEnginesKnownUrl is also welcome.
 #------------------------------------------------------------------------------
-# $Revision: 1.23 $ - $Author: papu $ - $Date: 2011/12/31 13:06:13 $
+# $Revision: 1.107 $ - $Author: papu $ - $Date: 2012/01/31 10:12:02 $
 
 # 2005-08-19 Sean Carlos http://www.antezeta.com/awstats.html
 #            added minor italian search engines
@@ -51,23 +51,23 @@
 # 	     added biglotron.com (France)
 # 	     added blingo http://www.blingo.com/
 # 	     added Clusty & Vivisimo
-# 	     added eniro.no (Norway) [https://sourceforge.net/forum/message.php?msg_id=3134783]
+# 	     added eniro.no (Norway) [https://sf.net/forum/message.php?msg_id=3134783]
 # 	     added GPU p2p search http://search.centraldatabase.org/
-# 	     added mail.tiscali to "not search engines list" [https://sourceforge.net/forum/message.php?msg_id=3166688]
+# 	     added mail.tiscali to "not search engines list" [https://sf.net/forum/message.php?msg_id=3166688]
 # 	     added Ask group's "mysearch"
 # 	     added sify.com (India)
-# 	     added sogou.com (Cina) [https://sourceforge.net/forum/message.php?msg_id=3501603]
+# 	     added sogou.com (Cina) [https://sf.net/forum/message.php?msg_id=3501603]
 # 	     Ask changes:
 # 	     - added Ask Japan (ask.jp)
 # 	     - break out Ask new country level variants (DE, ES, FR, IT, NL)
 # 	     - updated Ask name from Ask Jevees
-# 	     - added Ask q= parameter - many recent searches probably not recognized; [https://sourceforge.net/forum/message.php?msg_id=3465444]
+# 	     - added Ask q= parameter - many recent searches probably not recognized; [https://sf.net/forum/message.php?msg_id=3465444]
 # 	     - updated Ask uk (new uk.ask.com added to older ask.co.uk)
-# 	     updated voila kw|rdata parameter [https://sourceforge.net/forum/message.php?msg_id=3373912]
+# 	     updated voila kw|rdata parameter [https://sf.net/forum/message.php?msg_id=3373912]
 #	     for each new engine, added link to Search Engine.  This serves to document engine. Done for major & Italian engines as well. Requires patch
 #		to AWStats to allow untranslated html.  Otherwise html will appear instead of link.
 #	     reviewed mnoGoSearch (http://www.mnogosearch.org/); the search engined mentioned no longer
-#		exists https://sourceforge.net/forum/message.php?msg_id=3025426
+#		exists https://sf.net/forum/message.php?msg_id=3025426
 # 2006-05-13 Sean Carlos http://www.antezeta.com/awstats.html
 #            added 10 Chello European broadband portals (Austria, Belgium, Czech Republic, France, Hungary, The Netherlands, Norway, Poland, Slovakia, Sweden)
 #	     added Alice Internal Search (blends data with Google?) search.alice.it.master:10005
@@ -189,6 +189,7 @@
 'fresheye\.com',
 'tocc\.co\.jp',
 'infoseek\.co\.jp',
+'rakuten\.co\.jp',
 'cache\.yahoofs\.jp',
 'ask\.jp',
 'search\.livedoor\.com',
@@ -431,6 +432,7 @@
 'fresheye\.com','fresheye',
 'tocc\.co\.jp','tocc',
 'infoseek\.co\.jp','infoseek',
+'rakuten\.co\.jp','rakuten',
 'cache\.yahoofs\.jp','yahoocache',
 'ask\.jp','askjp',
 'search\.livedoor\.com','livedoor',
@@ -876,7 +878,7 @@
 'mozbot','q=',
 # Minor german search engines
 'aolde','q=',
-'fireball','q=', 'infoseek','qt=', 'webde','su=',
+'fireball','q=', 'infoseek','qt=', 'rakuten','qt=', 'webde','su=',
 'abacho','q=', 't-online','q=',
 'metaspinner','qry=',
 'metacrawler_de','qry=',
@@ -1120,7 +1122,7 @@
 'mozbot','<a href="http://www.mozbot.fr/" title="Search Engine Home Page [new window]" target="_blank">Mozbot</a>',
 # Minor German search engines
 'aolde','AOL (de)',
-'fireball','Fireball', 'infoseek','Infoseek', 'webde','Web.de',
+'fireball','Fireball', 'infoseek','Infoseek', 'rakuten','Rakuten (Infoseek)', 'webde','Web.de',
 'abacho','Abacho', 't-online','T-Online',
 'allesklar','allesklar.de', 'meinestadt','meinestadt.de',
 'metaspinner','metaspinner',

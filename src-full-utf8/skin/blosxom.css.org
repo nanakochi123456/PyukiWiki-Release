@@ -1,6 +1,6 @@
 /* blosxom css */
-/* "PyukiWiki" version 0.2.0 $$ */
-/* $Id: blosxom.css.org,v 1.31 2011/12/31 13:06:16 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p1 $$ */
+/* $Id: blosxom.css.org,v 1.114 2012/01/31 10:12:06 papu Exp $ */
 /* Code=Shift-JIS */
 /* banner (aka header) bits */
 #banner {

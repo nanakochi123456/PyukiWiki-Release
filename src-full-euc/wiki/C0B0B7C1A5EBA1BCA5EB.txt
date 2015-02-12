@@ -1,6 +1,7 @@
 #freeze
 #metarobots(disable)
 
+//$Id: C0B0B7C1A5EBA1BCA5EB.txt,v 1.397 2012/01/31 10:12:00 papu Exp $
 
 ** テキスト整形のルール
 
@@ -71,7 +72,7 @@
 要素中に &br; と記述すると、要素内でも改行することができます。
 
 ***ハイパーリンク
-- http://pyukiwiki.sourceforge.jp/ のようなURLは自動的にリンクになります。
+- http://pyukiwiki.sfjp.jp/ のようなURLは自動的にリンクになります。
 - ''[[PyukiWiki>PyukiWiki:FrontPage]]''のように大文字小文字を混ぜた英文字列を書くと、[[PyukiWiki>PyukiWiki:FrontPage]]のページ名になります。((ただし、Wiki管理者の設定では、ページ名になりませんので、明示的に二重の大かこ [[ ]] で記述必要があります。))
 - 二重の大かっこ[[ ]]でくくった文字列を書くと、[[PyukiWiki>PyukiWiki:FrontPage]]のページ名になります。大かっこの中の先頭・最後にはスペースを含めてはいけません。日本語も使えます。
 
@@ -94,14 +95,14 @@
 ---(
  , Wikiの名前  ,  作者  , URL
  ,Wiki,Ward Cunningham,http://www.c2.com/
- ,PyukiWiki,Nekyo,http://pyukiwiki.sourceforge.jp/
+ ,PyukiWiki,Nekyo,http://pyukiwiki.sfjp.jp/
  ,YukiWiki,Hiroshi Yuki,http://www.hyuki.com/
  ,WalWiki,Makio Tsukamoto,http://digit.que.ne.jp/
 ---)
 
 , Wikiの名前  ,  作者  , URL
 ,Wiki,Ward Cunningham,http://www.c2.com/
-,PyukiWiki,Nekyo,http://pyukiwiki.sourceforge.jp/
+,PyukiWiki,Nekyo,http://pyukiwiki.sfjp.jp/
 ,YukiWiki,Hiroshi Yuki,http://www.hyuki.com/
 ,WalWiki,Makio Tsukamoto,http://digit.que.ne.jp/
 
@@ -110,14 +111,14 @@
 ---(
  | Wikiの名前  |  作者  | URL |h
  |Wiki|Ward Cunningham|http://www.c2.com/|
- |PyukiWiki|Nekyo|http://pyukiwiki.sourceforge.jp/|
+ |PyukiWiki|Nekyo|http://pyukiwiki.sfjp.jp/|
  |YukiWiki|Hiroshi Yuki|http://www.hyuki.com/|
  |WalWiki|Makio Tsukamoto|http://digit.que.ne.jp/|
 ---)
 
 | Wikiの名前  |  作者  | URL |h
 |Wiki|Ward Cunningham|http://www.c2.com/|
-|PyukiWiki|Nekyo|http://pyukiwiki.sourceforge.jp/|
+|PyukiWiki|Nekyo|http://pyukiwiki.sfjp.jp/|
 |YukiWiki|Hiroshi Yuki|http://www.hyuki.com/|
 |WalWiki|Makio Tsukamoto|http://digit.que.ne.jp/|
 

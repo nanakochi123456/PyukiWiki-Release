@@ -1,15 +1,15 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.171 2011/12/31 13:06:13 papu Exp $
+# $Id: wiki.cgi,v 1.258 2012/01/31 10:12:02 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
-# Copyright (C) 2004-2012 by Nekyo.
+# "PyukiWiki" version 0.2.0-p1 $$
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -18,7 +18,6 @@
 $|=1;	# debug
 ##############################									# comment
 
-# Setting Database Type
 use Nana::YukiWikiDB;
 use Nana::YukiWikiDB_GZIP;										#nocompact
 $::modifier_dbtype = 'Nana::YukiWikiDB';
@@ -45,7 +44,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.	# comment
 
 ##############################									# comment
 $::package = 'PyukiWiki';
-$::version = '0.2.0';
+$::version = '0.2.0-p1';
  $::version.="-utf8";
 
 	# 2005.12.19 pochi: mod_perlで実行可能に			# comment
@@ -171,6 +170,13 @@ $::ismail.=$::IntraMailAddr eq 0 ? '+' : '*';
 $::image_extention=qq(([Gg][Ii][Ff]|[Pp][Nn][Gg]|[Jj][Pp](?:[Ee])?[Gg]));
 
 ##############################									# comment
+
+	# IPV4アドレスの正規表現									# comment
+$ipv4address_regex='^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
+	# IPV6アドレスの正規表現									# comment
+$ipv6address_regex='((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?';
+
+##############################									# comment
 	# ブロック型プラグイン										# comment
 $::embed_plugin = '^\#([^\(]+)(\((.*)\))?';
 $::embedded_name = '(\#.+?)';
@@ -285,11 +291,13 @@ and some embedded commands (such as [[# comment]] to add comments).
 
 =item PyukiWiki/Dev/Specification/wiki.cgi
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Dev/Specification/wiki.cgi/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Dev/Specification/wiki.cgi/>
 
 =item PyukiWiki CVS
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/wiki.cgi?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/wiki.cgi?view=log>
 
 =back
 
@@ -313,7 +321,7 @@ Copyright (C) 2004-2012 by Nekyo.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -641,6 +649,9 @@ sub init_lang {
 	$::kanjicode="utf8";
 	# $::modifierlinkが存在しない時、基準URLを代入			# comment
 	$::modifierlink=$::basehref if($::modifierlink eq '');
+	$::defaultcode="utf8";
+	$::charset="utf-8";
+	$::kanjicode="utf8";
 }
 
 =lang ja
@@ -1101,9 +1112,8 @@ sub skinex {
 
 	# last_modifiedのHTML生成								# comment
 	if ($::last_modified != 0) {	# v0.0.9
-		$lastmod = &date($::lastmod_format, (stat($::data_dir . "/" . &dbmname($::form{mypage}) . ".txt"))[9]);
+		$lastmod = &date($::lastmod_format, ($::database{"__update__" . $::form{mypage}}));
 	}
-
 
 	if($::IN_META_ROBOTS eq '') {
 		$::IN_HEAD.=&meta_robots($::form{cmd},$pagename,$body);
@@ -1280,7 +1290,7 @@ sub makenavigator {
 			my($index,$before,$next)=split(/:/,$addnavi);
 			push(@::navi,$index) if($_ eq $before && $before ne '');
 		}
-		push(@::navi,$_) if($::navi{"$_\_url"} ne '' || $_ eq '');
+		push(@::navi,$_) if($::navi{"$_\_url"} ne '' || $::navi{"$_\_html"} ne ''|| $_ eq '');
 		foreach my $addnavi(@::addnavi) {
 			my($index,$before,$next)=split(/:/,$addnavi);
 			push(@::navi,$index) if($_ eq $next && $next ne '');
@@ -1458,6 +1468,10 @@ CGIからのすべての出力をする。
 sub content_output {
 	my ($http_header,$body)=@_;
 	print $http_header;
+
+	# JavaScriptの余計なタグを削除する。
+
+	$body=~s/\/\/\-\-\>\n?\<\/script\>\n?<script\s?type\=\"text\/javascript\"\>\<\!\-\-\n?//g;
 
 	# XHTML でない場合、HTMLに変換し、							# comment
 	# XHTMLの場合は、JavaScriptのコメントアウトを変更する。		# comment
@@ -2462,7 +2476,6 @@ sub text_to_html {
 							$col_style[$i]=$value_style[$i];
 						} else {
 							$value[$i] = sprintf('<%s%s%s class="style_%s" style="%s%s">%s</%s>', $thflag,$align[$i], $colspan[$i], $thflag,$col_style[$i],$value_style[$i],&inline($value[$i]),$thflag);
-#%> for Hidemaru											# comment
 							$value_style[$i]="";
 						}
 					} else {
@@ -4265,6 +4278,8 @@ sub decode {
 	$s =~ tr/+/ /;
 #	$s =~ s/%([A-Fa-f0-9][A-Fa-f0-9])/pack("C", hex($1))/eg;	# better ? # debug	# comment
 	$s =~ s/%([A-Fa-f0-9][A-Fa-f0-9])/chr(hex($1))/eg;
+	# add 0.2.0-p1	# comment
+	$s =~ s/%(25)/chr(hex($1))/eg;
 	return $s;
 }
 
@@ -5892,6 +5907,33 @@ sub getremotehost {
 		}#compact
 		$ENV{REMOTE_HOST}=$host;#compact
 	}#compact
+	# プロクシのIPアドレスを抜く #nocompact #comment
+	my $proxy;#nocompact
+	if($ENV{REMOTE_HOST_ORG} eq '') {#nocompact
+		$ENV{REMOTE_HOST_ORG}=$ENV{REMOTE_HOST};#nocompact
+	} else {#nocompact
+		$ENV{REMOTE_HOST}=$ENV{REMOTE_HOST_ORG};#nocompact
+	}#nocompact
+	if($ENV{HTTP_CLIENT_IP}=~/($::ipv4address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_CLIENT_IP}=~/($::ipv6address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_FORWARDED}=~/($::ipv4address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_FORWARDED}=~/($::ipv6address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_X_FORWARDED_FOR}=~/($::ipv4address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_X_FORWARDED_FOR}=~/($::ipv6address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_VIA}=~/($::ipv4address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	} elsif($ENV{HTTP_VIA}=~/($::ipv6address_regex)/) {#nocompact
+		$proxy=$1;#nocompact
+	}#nocompact
+	if($proxy ne '') {#nocompact
+		$ENV{REMOTE_HOST}.= " ($proxy)";#nocompact
+	}#nocompact
 }
 
 =lang ja

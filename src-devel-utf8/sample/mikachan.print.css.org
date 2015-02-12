@@ -1,4 +1,76 @@
-/* "PyukiWiki" version 0.2.0 $$ */
-/* $Id: mikachan.print.css.org,v 1.110 2011/12/31 13:06:16 papu Exp $ */
+/* "PyukiWiki" version 0.2.0-p1 $$ */
+/* $Id: mikachan.print.css.org,v 1.193 2012/01/31 10:12:06 papu Exp $ */
+/* Code=UTF-8 */
 
-@import url("pyukiwiki.default.css");a:link{text-decoration:underline}a:visited{text-decoration:underline}img#logo{display:none}div#navigator{display:none}td.menubar{display:none}div#menubar{display:none}div#attach{display:none}div#toolbar{display:none}div#related{display:none}div.jumpmenu{display:none}div.partinfo,a.partedit{display:none}
+@import url("mikachan.default.css");
+
+a:link
+{
+	text-decoration: underline;
+}
+a:visited
+{
+	text-decoration: underline;
+}
+/*
+div#header
+{
+	display:none;
+}
+*/
+img#logo
+{
+	display:none;
+}
+div#navigator
+{
+	display:none;
+}
+td.menubar, td.sidebar
+{
+	display:none;
+}
+div#menubar, div#sidebar,
+div#headerbody, div#footerbody,
+div#bodyheaderbody, div#bodyfooterbody
+{
+	display:none;
+}
+/*
+div#note
+{
+	display:none;
+}
+*/
+div#attach
+{
+	display:none;
+}
+div#toolbar
+{
+	display:none;
+}
+/*
+div#lastmodified
+{
+	display:none;
+}
+*/
+div#related
+{
+	display:none;
+}
+/*
+div#footer
+{
+	display:none;
+}
+*/
+div.jumpmenu
+{
+	display:none;
+}
+div.partinfo,a.partedit
+{
+	display:none;
+}

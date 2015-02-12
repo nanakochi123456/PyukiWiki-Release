@@ -1,16 +1,16 @@
 ######################################################################
 # google_analytics.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: google_analytics.inc.pl,v 1.171 2011/12/31 13:06:13 papu Exp $
+# $Id: google_analytics.inc.pl,v 1.255 2012/01/31 10:12:02 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -131,6 +131,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/google_analytics/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/google_analytics.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/google_analytics.inc.pl?view=log>
+
 =item Use This Service
 
 L<http://google_analytics.com/>
@@ -158,7 +160,7 @@ Copyright (C) 2005-2012 by Nanami.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

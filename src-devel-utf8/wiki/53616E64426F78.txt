@@ -1,7 +1,7 @@
 #freeze
 #metarobots(disable)
 * SandBox: お砂場(練習ページ)です [#v299c566]
-//$Id: 53616E64426F78.txt,v 1.171 2011/12/31 13:06:16 papu Exp $	# debug
+//$Id: 53616E64426F78.txt,v 1.252 2012/01/31 10:12:06 papu Exp $
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|
 
@@ -93,7 +93,7 @@ URLやメールアドレスは自動的にリンクになります
 - URL -- http://example.org/
 - メールアドレス -- <foo (at) example (dot) org>
 - URLが各種画像ファイルであればそのまま表示します
--- http://pyukiwiki.sourceforge.jp/image/pyukibanner.gif
+-- http://pyukiwiki.sfjp.jp/image/pyukibanner.gif
 
 
 * ''その他の文字装飾'' [#l89b765d]

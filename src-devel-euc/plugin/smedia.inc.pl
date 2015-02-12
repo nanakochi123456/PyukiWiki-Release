@@ -1,16 +1,16 @@
 ######################################################################
 # smedia.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: smedia.inc.pl,v 1.65 2011/12/31 13:06:11 papu Exp $
+# $Id: smedia.inc.pl,v 1.148 2012/01/31 10:11:58 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -259,7 +259,7 @@ sub plugin_smedia_inline {
 
 	return ' ' if($::htmlmode eq "xhtml11");
 	return ' '
-		if($::form{cmd}=~/edit|admin|ad|freeze|deletecache|viewer|convert|compress|mailform|server|servererror|setting|setupeditor|versionlist/);
+		if($::form{cmd}=~/edit|admin/);
 
 	my $bar=0;
 
@@ -273,7 +273,8 @@ sub plugin_smedia_inline {
 
 	my $title=$::IN_TITLE ? $::IN_TITLE : $bar eq 1 ? $::pushedpage : $::form{mypage};
 	$title.=" - $::wiki_title" if($::wiki_title ne '');
-	my $url=&make_cookedurl(&encode($bar eq 1 ? $::pushedpage : $::form{mypage}));
+#	my $url=&make_cookedurl(&encode($bar eq 1 ? $::pushedpage : $::form{mypage}));
+	my $url=&make_cookedurl($bar eq 1 ? $::pushedpage : $::form{mypage});
 	&getbasehref;
 	my $base=$::basehref;
 	$base=~s/\/$//;
@@ -364,6 +365,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/smedia/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/smedia.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/plugin/smedia.inc.pl?view=log>
+
 =head1 AUTHOR
 
 =over 4
@@ -384,7 +387,7 @@ Copyright (C) 2005-2012 by Nanami.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

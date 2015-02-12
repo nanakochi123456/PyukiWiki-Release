@@ -2,25 +2,24 @@
 # Diff.pm - This is PyukiWiki, yet another Wiki clone.
 # from YukiWiki
 #
-# $Id: Diff.pm,v 1.336 2011/12/31 13:06:10 papu Exp $
+# $Id: Diff.pm,v 1.416 2012/01/31 10:11:56 papu Exp $
 #
 # "Algorithm::Diff" version 1.1901 $$
-# Ned Konz, perl (at) bike-nomad (dot) com
-# Mark-Jason Dominus, mjd-perl-diff (at) plover (dot) com
+# Ned Konz, <perl (at) bike-nomad (dot) com>
+# Mark-Jason Dominus, <mjd-perl-diff (at) plover (dot) com>
 #
-# Copyright (C) 2004 by Nekyo.
-# Copyright (C) 2006 PyukiWiki Developers Team
+# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2006-2012 PyukiWiki Developers Team
 # License: GPL v2 or (at your option) any later version
 # http://nekyo.qp.land.to/
-# http://pyukiwiki.sourceforge.jp/
-#
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pyukiwiki.sfjp.jp/
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return Code:UNIX=LF/Windows=CR+LF/Mac=CR
-# 1TAB=4Spaces Japanese Code=EUC
+# 1TAB=4Spaces English Code=Ascii
 ######################################################################
 package Algorithm::Diff;
 use strict;
@@ -30,7 +29,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw();
 @EXPORT_OK = qw(LCS diff traverse_sequences);
-$VERSION = sprintf('%d.%02d', (q$Revision: 1.336 $ =~ /\d+/g));
+$VERSION = sprintf('%d.%02d', (q$Revision: 1.416 $ =~ /\d+/g));
 # McIlroy-Hunt diff algorithm
 # Adapted from the Smalltalk code of Mario I. Wolczko, <mario (at) wolczko (dot) com>
 # by Ned Konz, perl (at) bike-nomad (dot) com

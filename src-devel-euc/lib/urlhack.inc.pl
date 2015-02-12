@@ -1,16 +1,16 @@
 ######################################################################
 # urlhack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: urlhack.inc.pl,v 1.354 2011/12/31 13:06:09 papu Exp $
+# $Id: urlhack.inc.pl,v 1.437 2012/01/31 10:11:55 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2012 by Nekyo.
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -313,6 +313,8 @@ sub plugin_urlhack_encode {
 		$str=~ s/(.)/unpack('H2', $1)/eg;
 	} elsif($enc eq 2) {
 		$str=&encode(&code_convert(\$str, 'utf8', $::defaultcode));
+#		$str=~s!%20!+!g;	# comment
+		$str=~s!%2d!-!g;
 		$str=~s!%2[Ff]!/!g;
 	} else {
 		&plugin_urlhack_usepuny;
@@ -325,6 +327,7 @@ sub plugin_urlhack_encode {
 		$str=~s/\-{3,9}/--/g;
 		$str=~s/\//\_/g if($str ne $org);
 		utf8::encode($str);
+		$str=~s!%2d!-!g;
 	}
 	return $str;
 }
@@ -481,6 +484,8 @@ L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/urlhack/>
 
 L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl?view=log>
 
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel-UTF8/lib/urlhack.inc.pl?view=log>
+
 =back
 
 =head1 AUTHOR
@@ -503,7 +508,7 @@ Copyright (C) 2005-2012 by Nanami.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

@@ -1,18 +1,18 @@
 ######################################################################
 # browsers.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: browsers.pm,v 1.23 2011/12/31 13:06:09 papu Exp $
+# $Id: browsers.pm,v 1.106 2012/01/31 10:11:56 papu Exp $
 #
-# "PyukiWiki" version 0.2.0 $$
+# "PyukiWiki" version 0.2.0-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2000-2012 - Laurent Destailleur - eldy.sourceforge.net
-# http://awstats.sourceforge.net/
-# Copyright (C) 2004-2012 by Nekyo.
+# http://awstats.sf.net/
+# Copyright (C) 2004-2012 Nekyo
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2012 PyukiWiki Developers Team
 # http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sfjp.jp/
-# License: GPL2 and/or Artistic or each later version
+# License: GPL3 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
@@ -23,7 +23,7 @@
 # If you want to add a Browser to extend AWStats database detection capabilities,
 # you must add an entry in BrowsersSearchIDOrder and in BrowsersHashIDLib.
 #-------------------------------------------------------
-# $Revision: 1.23 $ - $Author: papu $ - $Date: 2011/12/31 13:06:09 $
+# $Revision: 1.106 $ - $Author: papu $ - $Date: 2012/01/31 10:11:56 $
 
 # 2006-05-15 Sean Carlos http://www.antezeta.com/awstats.html
 # 				akregator (rss)
@@ -35,7 +35,7 @@
 #				GreatNews  http://www.curiostudio.com/ (rss)
 #				Gregarius devlog.gregarius.net/docs/ua (rss)
 #				hatena rss http://r.hatena.ne.jp/ (rss)
-#				Liferea http://liferea.sourceforge.net/ (rss)
+#				Liferea http://liferea.sf.net/ (rss)
 #				PubSub-RSS-Reader http://www.pubsub.com/ (rss)
 # 2006-05-20 Sean Carlos http://www.antezeta.com/awstats.html
 #				Potu Rss-Reader http://www.potu.com/
@@ -434,7 +434,7 @@
 'abilon','Abilon (RSS Reader)',
 'aggrevator', 'Aggrevator (RSS Reader)',
 'aiderss', 'AideRSS (RSS Reader)',
-'akregator','<a href="http://akregator.sourceforge.net/" title="Browser home page [new window]" target="_blank">Akregator (RSS Reader)</a>',
+'akregator','<a href="http://akregator.sf.net/" title="Browser home page [new window]" target="_blank">Akregator (RSS Reader)</a>',
 'applesyndication','<a href="http://www.apple.com/macosx/features/safari/" title="Browser home page [new window]" target="_blank">AppleSyndication (RSS Reader)</a>',
 'betanews_reader','Betanews Reader (RSS Reader)',
 'blogbridge','<a href="http://www.blogbridge.com/" title="Browser home page [new window]" target="_blank">BlogBridge (RSS Reader)</a>',
@@ -446,7 +446,7 @@
 'gregarius','<a href="http://devlog.gregarius.net/docs/ua" title="Browser home page [new window]" target="_blank">Gregarius (RSS Reader)</a>',
 'hatena_rss','<a href="http://r.hatena.ne.jp/" title="Browser home page [new window]" target="_blank">Hatena (RSS Reader)</a>',
 'jetbrains_omea', 'Omea (RSS Reader)',
-'liferea','<a href="http://liferea.sourceforge.net/" title="Browser home page [new window]" target="_blank">Liferea (RSS Reader)</a>',
+'liferea','<a href="http://liferea.sf.net/" title="Browser home page [new window]" target="_blank">Liferea (RSS Reader)</a>',
 'netnewswire', 'NetNewsWire (RSS Reader)',
 'newsfire', 'NewsFire (RSS Reader)',
 'newsgator', 'NewsGator (RSS Reader)',

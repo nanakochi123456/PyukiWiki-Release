@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC-JP)
-# "PyukiWiki" version 0.2.0 $$
-# $Id: popular.ja.txt,v 1.336 2011/12/31 13:06:12 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
+# $Id: popular.ja.txt,v 1.418 2012/01/31 10:11:59 papu Exp $
 #
 
 # popular.inc.pl

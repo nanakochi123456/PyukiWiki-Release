@@ -7,7 +7,7 @@
 管理者のパスワードが設定できたなら、あなた独自のFrontPageを作ってください。
 
 - [[PyukiWiki>Nekyo:FrontPage]]の公式情報は http://nekyo.qp.land.to/ にあります。
-- [[PyukiWiki>PyukiWiki:FrontPage]]の最新情報は http://pyukiwiki.sourceforge.jp/ にあります。
+- [[PyukiWiki>PyukiWiki:FrontPage]]の最新情報は http://pyukiwiki.sfjp.jp/ にあります。
 - [[RecentChanges]]が最近更新されたページの一覧になります。
 - 練習には[[SandBox]]がお勧めです。
 - [[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]]を試すには[[InterWikiSandBox]]があります。

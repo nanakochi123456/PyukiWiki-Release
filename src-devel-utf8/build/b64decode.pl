@@ -1,0 +1,1 @@
+while(<STDIN>){$i.=$_;}print &bd($i);sub bd{local($_)=@_;my $r;$a='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';$b=q|`!"#$%&'()*+,-./0123456789:;<=>?|.'@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_';($c=" ".$b)=~s/\\/\\\\/;$d="A".$a;eval qq{tr|$d||cd;tr|$d|$c|;};while(s/^(.{60})//){$r.=unpack("u","M".$&);}if($_ ne ""){$r.=unpack("u",substr($b,length($_)*3/4,1).$_);}$r;}

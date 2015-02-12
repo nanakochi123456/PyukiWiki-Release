@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.2.0 $$
-# $Id: counter_viewer.en.txt,v 1.298 2011/12/31 13:06:11 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
+# $Id: counter_viewer.en.txt,v 1.380 2012/01/31 10:11:59 papu Exp $
 #
 # counter_viewer.inc.pl
 counter_viewer_plugin_title=View counter

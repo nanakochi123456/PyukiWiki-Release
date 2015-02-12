@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: build.pl,v 1.169 2011/12/31 13:06:13 papu Exp $
+# $Id: build.pl,v 1.252 2012/01/31 10:12:01 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
@@ -16,16 +16,18 @@ require 'build/text.pl';
 
 $releasepatch="./releasepatch";
 
-$binary_files='(\.(jpg|png|gif|dat|key|zip)$)|(^unicode\.pl|favicon\.ico$)';
+$binary_files='(\.(jpg|png|gif|dat|key|zip|sfx)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
 $all_ignore='\.sum$|\.sign$|setup.ini.cgi|\.bak$|\.lk$|^kanato';
-$common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v.cgi|^playvideo|setup.ini.cgi$';
+$common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v\.cgi|^playvideo|setup.ini.cgi$';
 $release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$|\.inc\.js$|\.inc.\.css';
 $update_ignore=$common_ignore . '|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
-$compact_ignore='^aguse|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP';
+$compact_ignore='^aguse|^xframe|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP';
+$compact_ignore.='^lang\_|^hinad|^lirs|^copy';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
 $updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
+#$compact_filter="./build/obfuscator.pl";
 
 if($ALLFLG eq 'all') {
 	$devel_ignore=$all_ignore . '|\.zip$';
@@ -290,6 +292,7 @@ $ignore_codecheck="build.pl";
 	"Makefile:0644",
 	"README.txt:0644",
 	"DEVEL.txt:0644",
+	"v.cgi:0755",	# for mente
 );
 
 @develc_files=(
@@ -302,6 +305,7 @@ $ignore_codecheck="build.pl";
 	"Makefile:0644",
 	"README.txt:0644",
 	"DEVEL.txt:0644",
+	"v.cgi:0755",	# for mente
 );
 
 @cvs_files=@devel_files;
@@ -445,7 +449,8 @@ sub shell {
 	my($shell)=@_;
 	open(PIPE,"$shell|");
 	foreach(<PIPE>) {
-		chomp;
+		print $_;
+#		chomp;
 	}
 	close(PIPE);
 }
@@ -519,7 +524,7 @@ sub copyascii {
 			open(YUI,"/tmp/compressfile") || die;
 			my $yui="";
 			foreach(<YUI>) {
-				$yui.=$_;
+				print $yui.=$_;
 			}
 			close(YUI);
 			unlink("/tmp/compressfile");
@@ -547,6 +552,12 @@ sub copyascii {
 #		next if(/^#\t/ && $commentcut eq 1 && $old!~/\.ini/);
 #		next if(/^#\t/ && $commentcut eq 1 && $old!~/\.ini/);
 
+#		# 内部コード変換
+#		if($new=~/\.pl$|\.cgi$/ && $new!~/\.ini\.cgi$/) {
+#			s/([\x80-\xff])/'\\' . unpack('H2', $1)/eg
+#				if(!/#/);
+#		}
+
 		if(!/\#\s{0,3}debug/ || /\#([\s\t]+)?comment/ || $debug eq 1) {
 			$ii=0;
 			if($commentcut eq 1) {
@@ -565,9 +576,24 @@ sub copyascii {
 			}
 			s/([\s\t]+)?$//g;
 			$s=$_;
+			if($s=~/\@\@CVSURL\@\@/) {
+				$tmps=$s;
+				$tmps=~s!\@\@CVSURL\@\@/PyukiWiki\-Devel/!\@\@CVSURL\@\@/PyukiWiki\-Devel\-UTF8/!g;
+				$s.="\n\n$tmps";
+			}
 			while($s=~/\@\@(.+?)\@\@/) {
 				$rep=$1;
 				$s=~s/\@\@$rep\@\@/$text{$rep}/g;
+				if($filemode eq 'crlf') {
+					$s=~s/\x0D\x0A|\x0D|\x0A/\r\n/g;
+				} else {
+					$s=~s/\x0D\x0A|\x0D|\x0A/\n/g;
+				}
+				last if($ii++>10);
+			}
+			while($s=~/\\\@\\\@\\\@(.+?)\\\@\\\@\\\@/) {
+				$rep=$1;
+				$s=~s/\\\@\\\@\\\@$rep\\\@\\\@\\\@/$text{$rep}/g;
 				if($filemode eq 'crlf') {
 					$s=~s/\x0D\x0A|\x0D|\x0A/\r\n/g;
 				} else {
@@ -590,6 +616,50 @@ sub copyascii {
 	}
 	close(W);
 	close(R);
+	# for compact
+	if(0) {
+	if($TYPE=~/compact/ && $new=~/\.pl$|\.cgi$/ && $new!~/\.ini\.cgi$/) {
+		open(R,"$new");
+		my $all;
+		my $head;
+		my $flg=0;
+		foreach(<R>) {
+			if(/^#/ && $flg eq 0) {
+				$head.=$_;
+			} else {
+				$flg++;
+				$all.=$_;
+			}
+		}
+		close(R);
+		open(W,">tmp");
+		print W $all;
+		close(W);
+		my $out;
+		my $path;
+		foreach(split(/:/,$ENV{PATH})) {
+			$path="$_/perl";
+			last if(-x $path && -r $path);
+			$path="not found";
+		}
+		open(PIPE,"$path $compact_filter tmp|");
+		foreach(<PIPE>) {
+			next if(/^#/ || $_ eq '');
+			$out.=$_;
+		}
+		close(PIPE);
+		unlink("tmp");
+		open(W,">$new");
+		print W $head;
+		$out=~s/\_\_DATA\_\_/\n\_\_DATA\_\_\n/g;
+		$out=~s/\_\_END\_\_/\n\_\_END\_\_\n/g;
+		while($out=~/\n\n/) {
+			$out=~s/\n\n/\n/g;
+		}
+		print W $out;
+		close(W);
+	}
+	}
 	chmod(oct($chmod),"$new");
 	unlink("utf8.tmp");
 }

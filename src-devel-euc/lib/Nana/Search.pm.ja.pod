@@ -1,4 +1,4 @@
-#$Id: Search.pm.ja.pod,v 1.331 2011/12/31 13:06:10 papu Exp $
+#$Id: Search.pm.ja.pod,v 1.412 2012/01/31 10:11:57 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -41,7 +41,7 @@ Copyright (C) 2005-2012 by ¤Ê¤Ê¤ß.
 
 Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+License is GNU GENERAL PUBLIC LICENSE 3 and/or Artistic 1 or each later version.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

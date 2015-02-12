@@ -1,7 +1,7 @@
 ######################################################################
 # Apache image/.htaccess for PyukiWiki
-# $Id: .htaccess,v 1.316 2011/12/31 13:06:09 papu Exp $
-# "PyukiWiki" version 0.2.0 $$
+# $Id: .htaccess,v 1.398 2012/01/31 10:11:55 papu Exp $
+# "PyukiWiki" version 0.2.0-p1 $$
 ######################################################################
 
 ## Options can use, it is good to add the following setup.

@@ -1,21 +1,22 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.2.0 $$
+	"PyukiWiki" version 0.2.0-p1 $$
 	Copyright (C)
 	  2005-2012 PukiWiki Developers Team
 	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
-	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
+	Based on YukiWiki http://www.hyuki.com/yukiwiki/
+	and PukiWiki http://pukiwiki.sfjp.jp/
 
 	URL:
 	http://nekyo.qp.land.to/
-	http://pyukiwiki.sourceforge.jp/
+	http://pyukiwiki.sfjp.jp/
 
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.165 2011/12/31 13:06:12 papu Exp $
+	$Id: DEVEL.txt,v 1.249 2012/01/31 10:12:00 papu Exp $
 
 	このテキストファイルはUTF-8、TAB4で記述されています。
 
@@ -65,9 +66,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ�
 
 　・tar - 標準で入っているはずです。
 　・p7zip 高圧縮のgzip、zipをします。
-　　http://www.7-zip.org/
-　　http://www.7-zip.org/ja/
-　　http://sourceforge.net/projects/p7zip/
+　　http://sevenzip.sfjp.jp/
 　・yuicompressor JavaScript, CSSの圧縮に必要です。(Javaでできています）
 　　http://developer.yahoo.com/yui/compressor/
 
