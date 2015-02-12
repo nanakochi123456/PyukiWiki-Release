@@ -1,15 +1,15 @@
 ######################################################################
 # new.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: new.inc.pl,v 1.91 2011/05/04 07:26:50 papu Exp $
+# $Id: new.inc.pl,v 1.340 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -25,8 +25,7 @@ $new::string_short=' <span class="new1">New!</span>'
 	if(!defined($new::string_short));
 $new::string_long=' <span class="new5">New</span>'
 	if(!defined($new::string_long));
-
-use Time::Local;
+######################################################################
 
 sub plugin_new_inline {
 	my $date = shift;
@@ -35,10 +34,10 @@ sub plugin_new_inline {
 	my $retval = $date;
 	my ($mday, $mon, $year) = (localtime())[3..5];
 
-#	my $now = &mktime(0, 0, 0, $mon + 1, $mday, $year + 1900);
+#	my $now = &mktime(0, 0, 0, $mon + 1, $mday, $year + 1900);	# comment
 	my $now=Time::Local::timelocal(0,0,0,$mday,$mon,$year);
 	$date =~ /(\d+)-(\d+)-(\d+)/;
-#	my $past = &mktime(0, 0, 0, $2, $3, $1);
+#	my $past = &mktime(0, 0, 0, $2, $3, $1);					# comment
 	my $past=Time::Local::timelocal(0,0,0,$3,$2-1,$1-1900);
 	if (($now - $past) <= $new::dates_short) {
 		$retval .= $new::string_short;
@@ -95,25 +94,11 @@ Setting displayed text which time of setuped by $new::dates_long.
 
 =item PyukiWiki/Plugin/Standard/new
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/new/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/new/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/new.inc.pl?view=log>
-
-=back
-
-=head1 AUTHOR
-
-=over 4
-
-=item Nekyo
-
-L<http://nekyo.hp.infoseek.co.jp/>
-
-=item PyukiWiki Developers Team
-
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/new.inc.pl?view=log>
 
 =back
 
@@ -127,15 +112,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

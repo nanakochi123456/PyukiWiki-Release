@@ -1,4 +1,4 @@
-#$Id: img.inc.pl.ja.pod,v 1.68 2011/05/04 07:26:50 papu Exp $
+#$Id: img.inc.pl.ja.pod,v 1.317 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -12,6 +12,7 @@ img.inc.pl - PyukiWiki プラグイン
  #img(http://example.com/image.png)
  #img(http://example.com/image.jpg,right)
  #img(http://example.com/image.gif,l,AlternateText)
+ #img(http://example.com/image.gif,center,AlternateText)
  #img(,c)
 
 =head1 説明
@@ -20,7 +21,7 @@ img.inc.pl - PyukiWiki プラグイン
 
 =head1 使用方法
 
- #img(image_url,[alt],[l|left],[r|right],c)
+ #img(image_url,[alt],[l|left],[r|right],center,c)
 
 =over 4
 
@@ -36,6 +37,10 @@ img.inc.pl - PyukiWiki プラグイン
 
 右寄せします。
 
+=item center
+
+センタリングします。
+
 =item c
 
 テキストの回りこみを解除します。
@@ -48,11 +53,11 @@ img.inc.pl - PyukiWiki プラグイン
 
 =item PyukiWiki/Plugin/Standard/img
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/img/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/img/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/img.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/img.inc.pl?view=log>
 
 =back
 
@@ -66,15 +71,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

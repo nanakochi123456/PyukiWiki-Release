@@ -1,15 +1,15 @@
 ######################################################################
 # comment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: comment.inc.pl,v 1.94 2011/05/04 07:26:50 papu Exp $
+# $Id: comment.inc.pl,v 1.343 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -20,41 +20,40 @@
 # v 0.0.2 - 2004/10/28 Tnx:Birgus-Latro
 # v 0.0.1 - ProtoType
 ######################################################################
-
-use strict;
-
 # コメント欄の全体フォーマット
 $comment::format = "\x08MSG\x08 -- \x08NAME\x08 \x08NOW\x08"
 	if(!defined($comment::format));
-
+#
 # 名前なしで処理しない
 $comment::noname = 1
 	if(!defined($comment::noname));
-
+#
 # 本文が記載されていない場合エラー
 $comment::nodata = 1
 	if(!defined($comment::nodata));
-
-# コメントのテキストエリアの表示幅 
+#
+# コメントのテキストエリアの表示幅
 $comment::size_msg = 40
 	if(!defined($comment::size_name));
-
-# コメントの名前テキストエリアの表示幅 
+#
+# コメントの名前テキストエリアの表示幅
 $comment::size_name = 10
 	if(!defined($comment::size_name));
-
+#
 # コメントの名前挿入フォーマット
 $comment::format_name = "\'\'[[\$1>$::resource{profile_page}/\$1]]\'\'"
 	if(!defined($comment::format_name));
-
+#
 # コメントの欄の挿入フォーマット
 $comment::format_msg = q{$1}
 	if(!defined($comment::format_msg));
-
+#
 # コメントの日付挿入フォーマット (&new で認識できること)
 $comment::format_now = "Y-m-d(lL) H:i:s"
 	if(!defined($comment::format_now));
+######################################################################
 
+use strict;
 
 sub plugin_comment_action {
 	&::spam_filter($::form{mymsg}, 2);
@@ -231,11 +230,11 @@ do error of no comment
 
 =item PyukiWiki/Plugin/Standard/comment
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/comment/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/comment/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/comment.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/comment.inc.pl?view=log>
 
 =back
 
@@ -249,15 +248,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

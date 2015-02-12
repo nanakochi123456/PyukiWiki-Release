@@ -1,15 +1,15 @@
 ######################################################################
 # calendar2.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: calendar2.inc.pl,v 1.84 2011/05/04 07:26:50 papu Exp $
+# $Id: calendar2.inc.pl,v 1.333 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -47,14 +47,9 @@
 # p.s.exdateには多くのキャッシュ保持機能があって少しでも軽くなるように
 # なっていますが、それでもまだまだ重いです。汗
 ######################################################################
-
-use strict;
-use Time::Local;
-
-######################################################################
 # 新規編集画面での初期値
 # カレンダーのALT
-
+#
 if($::_exec_plugined{exdate} ne '') {
 	# exdateが導入されている時 ( ) は全角か代替文字で
 	$calendar2::initwikiformat=<<EOM;
@@ -68,14 +63,16 @@ EOM
 EOM
 	$calendar2::altformat="[lL]";
 }
-
+#
 ######################################################################
 # MenuBar等に設置した場合、月の前後をMenuBarだけで動かす場合 1
 $calendar2::menubaronly=1;
-
-
-######################################################################
 #
+######################################################################
+
+use strict;
+use Time::Local;
+
 sub plugin_calendar2_convert {
 	my ($page, $arg_date, $date_format) = split(/,/, shift);
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst);
@@ -115,7 +112,7 @@ sub plugin_calendar2_convert {
 	my $disp_year  = $year+1900;
 	my $disp_month = $mon+1;
 	my $pagelink=&makepagelink($page,$page,$::resource{editthispage});
-	my $prev_year=$disp_month eq 1 ? $disp_year-1 : $disp_year;
+	my $prev_year=$disp_month eq 1 ? $disp_year-1 : 	$disp_year;
 	my $prev_month=$disp_month eq 1 ? 12 : $disp_month-1;
 	my $next_year=$disp_month eq 12 ? $disp_year+1 : $disp_year;
 	my $next_month=$disp_month eq 12 ? 1 : $disp_month+1;
@@ -123,15 +120,15 @@ sub plugin_calendar2_convert {
 	my $cookedpage=&encode($page eq '' ? $::FrontPage : $page);
 
 	my @weekstr;
-	# 曜日文字列をwiki.cgiから取得する
+	# 曜日文字列をwiki.cgiから取得する						# comment
 	for(my $i=1; $i<=7; $i++) {
 		my $tm=Time::Local::timelocal(0,0,0,$i,$disp_month-1,$disp_year-1900);
 		$weekstr[&getwday($disp_year,$disp_month,$i)]
 			= &date("lL",$tm);
 	}
-	for(my $i=0; $i<=6; $i++) {
-		$weekstr[$i]=substr($weekstr[$i],0,(length($weekstr[$i])+1) % 2+1);
-	}
+#	for(my $i=0; $i<=6; $i++) {								# comment
+#		$weekstr[$i]=substr($weekstr[$i],0,(length($weekstr[$i])+1) % 2+1);	# comment
+#	}														# comment
 	my $query;
 	if($calendar2::menubaronly+0 eq 1) {
 		$query="cmd=read&amp;mypage=@{[&encode($::pushedpage eq '' ? $::form{mypage} : $::pushedpage)]}";
@@ -162,11 +159,11 @@ END
 	for($i=0; $i< $disp_wday; $i++ ) {
 		$calendar.=qq(<td class="style_td_blank">$empty</td>);
 	}
-	# exdate があれば、祝日をダミー読み込みする
+	# exdate があれば、祝日をダミー読み込みする					# comment
 	if($::_exec_plugined{exdate} ne '') {
 		&date("RS",Time::Local::timelocal(0,0,0,1,$disp_month-1,$disp_year-1900));
 	}
-	my $initwiki_format= &code_convert(\$calendar2::initwikiformat,   $::kanjicode);
+	my $initwiki_format= &code_convert(\$calendar2::initwikiformat,$::kanjicode,$::defaultcode);
 
 	for($i=1;$i<=&lastday($disp_year,$disp_month); $i++) {
 		my $wday=&getwday($disp_year,$disp_month,$i);
@@ -188,11 +185,11 @@ END
 		}
 		my $alt=&date($calendar2::altformat,
 			Time::Local::timelocal(0,0,0,$i,$disp_month-1,$disp_year-1900));
-#		$alt=~s/\n\n/\n/g while($alt=~/\n\n/);
-#		$alt=~s/(\xA1\xA1| )(\xA1\xA1| )/$1/g if($alt=~/(\xA1\xA1| )/);
-#		$alt=~s/(\xA1\xA1| )\n/\n/g while($alt=~/(\xA1\xA1| )\n/);
-#		$alt=~s/\n(\xA1\xA1| )/\n/g while($alt=~/\n(\xA1\xA1| )/);
-#		$alt=~s/\n/$crlf/g while($alt=~/\n/);
+#		$alt=~s/\n\n/\n/g while($alt=~/\n\n/);							# comment
+#		$alt=~s/(\xA1\xA1| )(\xA1\xA1| )/$1/g if($alt=~/(\xA1\xA1| )/);	# comment
+#		$alt=~s/(\xA1\xA1| )\n/\n/g while($alt=~/(\xA1\xA1| )\n/);		# comment
+#		$alt=~s/\n(\xA1\xA1| )/\n/g while($alt=~/\n(\xA1\xA1| )/);		# comment
+#		$alt=~s/\n/$crlf/g while($alt=~/\n/);							# comment
 		$alt=~s/^\s//g while($alt=~/^\s/);
 		$alt=~s/\s\s/ /g while($alt=~/\s\s/);
 		$alt=~s/\s$//g while($alt=~/\s$/);
@@ -215,7 +212,11 @@ sub makepagelink {
 	my $cookedpage=&encode($page eq '' ? $::FrontPage : $page);
 	my $cookedurl;
 	if($calendar2::menubaronly+0 eq 1) {
-		$cookedurl="$::script?cmd=read&amp;mypage=$cookedpage&amp;date=$::form{date}";
+		if($::form{date} ne '') {
+			$cookedurl="$::script?cmd=read&amp;mypage=$cookedpage&amp;date=$::form{date}";
+		} else {
+			$cookedurl=&make_cookedurl($cookedpage);
+		}
 	} else {
 		$cookedurl=&make_cookedurl($cookedpage);
 	}
@@ -329,15 +330,15 @@ Date format samples
 
 =item PyukiWiki/Plugin/Standard/calendar2
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/calendar2/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar2/>
 
 =item PyukiWiki/Plugin/Standard/calendar
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/calendar/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar2.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar2.inc.pl?view=log>
 
 =back
 
@@ -351,15 +352,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

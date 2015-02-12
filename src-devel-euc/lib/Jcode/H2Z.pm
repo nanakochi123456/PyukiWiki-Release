@@ -1,6 +1,7 @@
 #
-# $Id: H2Z.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: H2Z.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: H2Z.pm,v 2.0 2005/05/16 19:07:57 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode::H2Z;
@@ -8,8 +9,8 @@ package Jcode::H2Z;
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: H2Z.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: H2Z.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 
@@ -137,7 +138,7 @@ sub h2z {
 			    (?:\x8e[\xde\xdf])?)
 			   ){
 		  my $str = $1;
-		  $_D2Z{$str} || $_H2Z{$str} || 
+		  $_D2Z{$str} || $_H2Z{$str} ||
 		      # in case dakuten and handakuten are side-by-side!
 		      $_H2Z{substr($str,0,2)} . $_H2Z{substr($str,2,2)};
 		  }eogx

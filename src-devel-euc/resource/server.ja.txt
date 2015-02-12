@@ -1,7 +1,7 @@
 #
-# PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: server.ja.txt,v 1.85 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: server.ja.txt,v 1.335 2011/12/31 13:06:12 papu Exp $
 #
 
 # server.inc.pl
@@ -12,6 +12,8 @@ server_plugin_passwdsubmit=送信
 server_plugin_infomation_button=基本情報
 server_plugin_perlinfo_button=Perl詳細情報
 server_plugin_benchmark_button=ベンチマーク
+server_plugin_linux_button=Linux専用
+server_plugin_freebsd_button=FreeBSD専用
 
 server_plugin_server_title=サーバー情報
 server_plugin_OSNAME=オペレーティングシステム
@@ -85,3 +87,7 @@ server_plugin_perlmodule_title=インストールされているモジュール
 server_plugin_unknown=不明
 server_plugin_yes=はい
 server_plugin_no=いいえ
+
+server_plugin_cpuinfo_title=CPU情報
+server_plugin_meminfo_title=メモリ情報
+server_plugin_loadavg_title=サーバー負荷状況

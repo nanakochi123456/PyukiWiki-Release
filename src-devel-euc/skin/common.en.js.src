@@ -1,36 +1,67 @@
-/* "PyukiWiki" version 0.1.9 $$ */
-/* $Id: common.lang.js.src,v 1.77 2011/05/04 07:26:50 papu Exp $ */
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: common.lang.js.src,v 1.328 2011/12/31 13:06:12 papu Exp $ */
 /* Code=EUC-JP */
 
-var d=document;
-var ie=d.selection ? 1 : 0;
-var moz=(d.getSelection && !window.opera) ? 1 : 0;
+var	d=document,
+	w=window,
+	ie=d.selection ? 1 : 0,
+	moz=(d.getSelection && !w.opera) ? 1 : 0;
 
 /* for antispam.inc.cgi */
 function addec_link(ad) {
-	var dif = cs.indexOf(ad.charAt(0))*cs.length+cs.indexOf(ad.charAt(1));
-	for(var dec="",i=2;i<ad.length;i+=2) {
-		var c0=cs.indexOf(ad.charAt(i)), c=c0*cs.length+cs.indexOf(ad.charAt(i+1))-dif;
-		dec=dec+String.fromCharCode(c);
-	}
+	var dec=addec_ext(ad);
+
 	if(confirm( 'New mail creation as address\n>>' + dec) ) {
 		location=dec;
 	}
 }
 
-function addec_text(ad) {
-	var dif=cs.indexOf(ad.charAt(0))*cs.length+cs.indexOf(ad.charAt(1));
-	for(var dec="",i=2;i<ad.length;i+=2) {
-		var c0=cs.indexOf(ad.charAt(i)), c=c0*cs.length+cs.indexOf(ad.charAt(i+1))-dif;
+function addec_text(ad,id) {
+	var dec=addec_ext(ad);
+	d.getElementById(id).innerHTML = dec;
+}
+
+function addec_ext(ad) {
+	for(var dec="",i=0;i<ad.length;i+=4) {
+		var dif = cs.indexOf(ad.charAt(i))*cs.length+cs.indexOf(ad.charAt(i+1)),
+		c0=cs.indexOf(ad.charAt(i+2)), c=c0*cs.length+cs.indexOf(ad.charAt(i+3))-dif;
 		dec=dec+String.fromCharCode(c);
 	}
-	document.write(dec);
+	return dec;
 }
 
 function openURI(a, frame){
-	window.open(a, frame);
+	w.open(a, frame);
 	return false;
 }
+
+/* for form reset cancel for IE */
+
+/* from http://q.hatena.ne.jp/1157553490
+   and  http://www.programming-magic.com/file/20080205232140/keycode_table.html
+ */
+
+function keyCode(e){
+	var e=w.event || e;
+
+	if(d.all)
+         return e.keyCode;
+     else if(d.getElementById)
+         return e.keyCode ? e.keyCode : e.charCode;
+     else if(d.layers)
+         return e.which;
+}
+
+function escpress(e) {
+	if(e == null) return true;
+	if(d.all && keyCode(e) == 27) {
+		return false;
+	}
+	return true;
+}
+
+/* this is include to main routine */
+/* d.onkeydown=escpress; */
 
 /* for ref.inc.pl */
 /* from http://martin.p2b.jp/index.php?UID=1115484023 */
@@ -66,8 +97,8 @@ function getDocHeight(){
 }
 
 function getScrollY(){
-	if(typeof window.pageYOffset != "undefined"){
-		return window.pageYOffset;
+	if(typeof w.pageYOffset != "undefined"){
+		return w.pageYOffset;
 	} else if(d.body && typeof d.body.scrollTop != "undefined"){
 		if(d.compatMode == 'CSS1Compat'){
 			return d.documentElement.scrollTop;;
@@ -83,7 +114,7 @@ var imgPop = null;
 
 imagePop = function (e, path, w, h){
 	if(imgPop==null){
-		imgPop = d.createElement("IMG");
+		imgPop = d.createElement("img");
 		imgPop.src = path;
 		with (imgPop.style){
 			position = "absolute";
@@ -97,8 +128,8 @@ imagePop = function (e, path, w, h){
 		d.body.appendChild(imgPop);
 		if(imgPop.complete){
 			imgPop.style.display = "block";
-		} else window.status = "画像読み込み中…";
-		imgPop.onload = function(){imgPop.style.display="block"; window.status="";}
+		} else w.status = "画像読み込み中…";
+		imgPop.onload = function(){imgPop.style.display="block"; w.status="";}
 		imgPop.onclick = function(){d.body.removeChild(imgPop);imgPop=null;}
 		imgPop.title = "Close for mouse click";
 	}
@@ -106,9 +137,9 @@ imagePop = function (e, path, w, h){
 
 /* from http://martin.p2b.jp/index.php?date=20050201 */
 hackFirefoxToolTip = function(e){
-	var aa=d.getElementsByTagName('A');
-	var tT=d.createElement('DIV');
-	var sd=d.createElement('DIV');
+	var aa=d.getElementsByTagName('a'),
+		tT=d.createElement('div'),
+		sd=d.createElement('div');
 
 	with(tT.style) {
 		position='absolute';
@@ -155,6 +186,6 @@ hackFirefoxToolTip = function(e){
 	d.body.appendChild(tT);
 }
 
-window.onload = function(){
-	if(moz) hackFirefoxToolTip();
+w.onload = function(){
+	if(w.sidebar) hackFirefoxToolTip();
 }

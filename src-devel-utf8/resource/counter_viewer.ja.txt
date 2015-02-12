@@ -1,0 +1,39 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: counter_viewer.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# counter_viewer.inc.pl
+
+counter_viewer_plugin_title=カウンター閲覧
+
+counter_viewer_plugin_list=カウンター一覧
+counter_viewer_plugin_sort_reverse=逆順
+counter_viewer_plugin_sort_name=名前で並び替え
+counter_viewer_plugin_sort_total=トータルで並び替え
+counter_viewer_plugin_sort_today=今日で並び替え
+counter_viewer_plugin_sort_yesterday=昨日で並び替え
+counter_viewer_plugin_btn_view=表示
+counter_viewer_plugin_total=トータル
+counter_viewer_plugin_today=今日
+counter_viewer_plugin_yesterday=昨日
+counter_viewer_plugin_version=バージョン
+counter_viewer_plugin_btn_details=詳細
+
+counter_viewer_plugin_details_title=の詳細
+counter_viewer_plugin_lastdate=最終アクセス日付
+counter_viewer_plugin_lastip=最終アクセスIPアドレス
+counter_viewer_plugin_total=トータル
+counter_viewer_plugin_date=日付
+counter_viewer_plugin_count=カウント
+counter_viewer_plugin_btn_back=戻る
+counter_viewer_plugin_btn_delete=削除
+
+counter_viewer_plugin_delete=$1 のカウンターを削除
+counter_viewer_plugin_delete_confirm=$1 のカウンターを本当に削除しますか？
+counter_viewer_plugin_delete_confirm_ok=削除
+counter_viewer_plugin_delete_confirm_cancel=キャンセル
+counter_viewer_plugin_deleted=$1 のカウンターを削除しました。
+counter_viewer_plugin_return=一覧へ戻る
+counter_viewer_plugin_delete_title=$1 のカウンターの削除

@@ -1,0 +1,69 @@
+#$Id: diff.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+diff.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ ?cmd=diff&mypage=ページ名
+
+=head1 説明
+
+指定したページの現在の内容と最後のバックアップ状態との差分表示します。
+
+ページ名はエンコードされていなければならない。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/diff
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/diff/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/diff.inc.pl?view=log>
+
+=item YukiWiki
+
+Using Yuki::DiffText
+
+L<http://www.hyuki.com/yukiwiki/>
+
+=item CPAN Algorithm::Diff
+
+L<http://search.cpan.org/dist/Algorithm-Diff/>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item Nekyo
+
+L<http://nekyo.qp.land.to/>
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2004-2012 by Nekyo.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

@@ -1,4 +1,4 @@
-#$Id: server.inc.pl.ja.pod,v 1.86 2011/05/04 07:26:50 papu Exp $
+#$Id: server.inc.pl.ja.pod,v 1.335 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -33,11 +33,11 @@ Perlのモジュール情報を収集する時は、非常に時間がかかります。
 
 =item PyukiWiki/Plugin/Admin/server
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/server/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/server/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl?view=log>
 
 =back
 
@@ -51,15 +51,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by ななみ.
+Copyright (C) 2005-2012 by ななみ.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

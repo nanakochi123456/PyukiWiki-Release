@@ -7,7 +7,7 @@ Jcode - 日本語文字集合ハンドラ
 =head1 概要
 
  use Jcode;
- # 
+ #
  # 古式ゆかしく
  Jcode::convert($str, $ocode, $icode, "z");
  # もしくはオブジェクト指向で！

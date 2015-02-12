@@ -1,4 +1,4 @@
-#$Id: topicpath.inc.pl.ja.pod,v 1.59 2011/05/04 07:26:50 papu Exp $
+#$Id: topicpath.inc.pl.ja.pod,v 1.308 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -27,11 +27,11 @@ topicpath.inc.pl - PyukiWiki 管理者向けプラグイン
 
 =item PyukiWiki/Plugin/Admin/topicpath
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/topicpath/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/topicpath/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/topicpath.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/topicpath.inc.pl?view=log>
 
 =item サイト制作/PyukiWiki/プラグイン/パンくずリスト
 
@@ -51,15 +51,15 @@ L<http://www.re-birth.com/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by Junichi.
+Copyright (C) 2005-2012 by Junichi.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

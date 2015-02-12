@@ -1,94 +1,87 @@
 ######################################################################
-# pcomment.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: pcomment.inc.pl,v 1.45 2011/05/04 07:26:50 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
-use strict;
-
 use Digest::MD5;
 #use Digest::Perl::MD5;
-
+######################################################################
 # コメント欄の全体フォーマット
 $pcomment::format = "\x08MSG\x08 -- \x08NAME\x08 \x08NOW\x08"
 	if(!defined($pcomment::format));
-
+#
 # 名前なしで処理しない
 $pcomment::noname = 1
 	if(!defined($pcomment::noname));
-
+#
 # 本文が記載されていない場合エラー
 $pcomment::nodata = 1
 	if(!defined($pcomment::nodata));
-
-# コメントのテキストエリアの表示幅 
+#
+# コメントのテキストエリアの表示幅
 $pcomment::size_msg = 40
 	if(!defined($pcomment::size_name));
-
-# コメントの名前テキストエリアの表示幅 
+#
+# コメントの名前テキストエリアの表示幅
 $pcomment::size_name = 10
 	if(!defined($pcomment::size_name));
-
+#
 # コメントの名前挿入フォーマット
 $pcomment::format_name = "\'\'[[\$1>$::resource{profile_page}/\$1]]\'\'"
 	if(!defined($pcomment::format_name));
-
+#
 # コメントの欄の挿入フォーマット
 $pcomment::format_msg = q{$1}
 	if(!defined($pcomment::format_msg));
-
+#
 # コメントの日付挿入フォーマット (&new で認識できること)
 $pcomment::format_now = "Y-m-d(lL) H:i:s"
 	if(!defined($pcomment::format_now));
-
+#
 # デフォルトのコメントページ
 $pcomment::comment_page = "$::resource{comment_page}/\$1"
 	if(!defined($pcomment::comment_page));
-
+#
 # デフォルトの最新コメント表示数
 $pcomment::num_comments = 10
 	if(!defined($pcomment::num_comments));
-
+#
 # 入力内容を1:above(先頭)/0:below(末尾)のどちらに挿入するか
 $pcomment::direction_default=1
 	if(!defined($pcomment::direction_default));
-
+#
 # 0:しない/1:設置ページのタイムスタンプ更新/2:コメントページのタイムスタンプ更新/3:両方
 $pcomment::timestamp=2
 	if(!defined($pcomment::timestamp));
-
+#
 # 0:書き込み後コメントページへ戻る/1:書き込み後設置ページへ戻る
 $pcomment::viewcommentpage=1
 	if(!defined($pcomment::viewcommentpage));
-
+#
 # 1:コメントページ新規作成時、凍結した状態にしておく（フォームからは書き込み可能です）
 $pcomment::frozencommentpage=1
 	if(!defined($pcomment::frozencommentpage));
-
+######################################################################
+use strict;
 sub plugin_pcomment_action {
 	&::spam_filter($::form{mymsg}, 2);
 	&::spam_filter($::form{myname}, 0);
-
 	if (($::form{mymsg} =~ /^\s*$/ && $pcomment::nodata eq 1)
 	 || ($::form{myname} =~ /^\s*$/ && $pcomment::noname eq 1)
 		&& $::form{noname} eq '') {
 		return('msg'=>"$::form{mypage}\t\t$::resource{pcomment_plugin_err}",'body'=>&text_to_html($::database{$::form{mypage}}),'ispage'=>1);
 	}
-
-
 	my $datestr = ($::form{nodate} == 1) ? '' : &date($pcomment::format_now);
 	my $__name=$pcomment::format_name;
 	$__name=~s/\$1/$::form{myname}/g;
@@ -96,14 +89,11 @@ sub plugin_pcomment_action {
 	my $_msg=$pcomment::format_msg;
 	$_msg=~s/\$1/$::form{mymsg}/g;
 	my $_now = "&new{$datestr};";
-
 	my $pcomment = $pcomment::format;
 	$pcomment =~ s/\x08MSG\x08/$_msg/;
 	$pcomment =~ s/\x08NAME\x08/$_name/;
 	$pcomment =~ s/\x08NOW\x08/$_now/;
 	$pcomment = "-" . $pcomment;
-
-
 	my ($i, @pcomments)=&plugin_pcomment_get($::form{page},0,$::form{above});
 	if($::form{reply} eq '') {
 		if($::form{above}) {
@@ -127,27 +117,21 @@ sub plugin_pcomment_action {
 		}
 		@pcomments=@tmp;
 	}
-
 	my $postdata=join("\n"
 		, sprintf($::resource{pcomment_plugin_commentpage_title},$::form{mypage})
 		, sprintf($::resource{pcomment_plugin_commentpage_backlink},$::form{mypage},$::form{mypage})
 		, @pcomments);
-
-
 	if($pcomment::frozencommentpage eq 1) {
 		if(&get_info($::form{page}, $::info_CreateTime)+0 eq 0) {
 			&set_info($::form{page}, $::info_IsFrozen, 1);
 		}
 	}
 	if ($::form{mymsg}) {
-
 		if($pcomment::timestamp % 2) {
 			&set_info($::form{mypage}, $::info_UpdateTime, time);
 			&set_info($::form{mypage}, $::info_LastModifiedTime, time);
 			&update_recent_changes;
-$::debug.="1 $::form{mypage}\n";
 		}
-
 		if(int($pcomment::timestamp / 2)
 				|| &get_info($::form{page}, $::info_CreateTime)+0 eq 0) {
 			my $pushpage=$::form{mypage};
@@ -158,7 +142,6 @@ $::debug.="1 $::form{mypage}\n";
 			}
 			$::form{mypage}=$::form{page};
 			&update_recent_changes;
-$::debug.="2 $::form{mypage}\n";
 			$::form{mypage}=$pushpage;
 		}
 		$::form{mymsg} = $postdata;
@@ -166,11 +149,9 @@ $::debug.="2 $::form{mypage}\n";
 		if($pcomment::viewcommentpage eq 1) {
 			my $basepage=$::form{mypage};
 			$::form{mypage}=$::form{page};
-$::debug.="3 $::form{mypage} $basepage\n";
 			&do_write("FrozenWrite",$basepage);
 		} else {
 			$::form{mypage}=$::form{page};
-$::debug.="4 $::form{mypage}\n";
 			&do_write("FrozenWrite");
 		}
 	} else {
@@ -180,22 +161,17 @@ $::debug.="4 $::form{mypage}\n";
 	&close_db;
 	exit;
 }
-
 sub plugin_pcomment_convert {
 	my @argv = split(/,/, shift);
 	my $noname=0;
 	return ' '
 		if($::writefrozenplugin eq 0 && &get_info($::form{mypage}, $::info_IsFrozen) eq 1);
-
 	my $above = $pcomment::direction_default;
 	my $reply = 0;
 	my $nodate = '';
 	my $nametags = $::resource{pcomment_plugin_yourname} . qq(<input type="text" name="myname" value="$::name_cookie{myname}" size="$pcomment::size_name" />);
-
 	my $pcomment_page;
 	my $pcomment_msgs;
-
-
 	foreach (@argv) {
 		chomp;
 		if (/below/) {
@@ -215,18 +191,13 @@ sub plugin_pcomment_convert {
 			$pcomment_page=$_;
 		}
 	}
-
-
 	if($pcomment_page eq '') {
 		$pcomment_page=$pcomment::comment_page;
 		$pcomment_page=~s/\$1/$::form{mypage}/g;
 	}
-
 	if($pcomment_msgs+0 <= 0) {
 		$pcomment_msgs = $pcomment::num_comments;
 	}
-
-
 	my ($i, @pcomments)=&plugin_pcomment_get($pcomment_page,$pcomment_msgs,$above);
 	my $pcomment_info;
 	my $pcomments;
@@ -272,7 +243,6 @@ $body
 </form>
 EOD
 }
-
 sub plugin_pcomment_get {
 	my($pcomment_page,$pcomment_msgs,$above)=@_;
 	my @pcomments=();
@@ -295,7 +265,5 @@ sub plugin_pcomment_get {
 	@pcomments=reverse @pcomments if($above eq 1);
 	return ($i, @pcomments);
 }
-
 1;
 __END__
-

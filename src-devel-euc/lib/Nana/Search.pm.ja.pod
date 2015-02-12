@@ -1,6 +1,7 @@
-$Id: Search.pm.ja.pod,v 1.82 2011/05/04 07:26:50 papu Exp $
+#$Id: Search.pm.ja.pod,v 1.331 2011/12/31 13:06:10 papu Exp $
 
 __END__
+=encoding euc-jp
 
 =head1 NAME
 
@@ -11,7 +12,7 @@ Nana::Search - 日本語あいまい検索モジュール
  use Nana::Search qw(Search);
  Search(text, search_words);
 
-charactor set is EUC only
+Internal charactor set is Japanese of EUC or UTF8 only
 
 =head1 サンプル
 
@@ -32,13 +33,13 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by ななみ.
+Copyright (C) 2005-2012 by ななみ.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

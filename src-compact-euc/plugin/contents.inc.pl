@@ -1,15 +1,15 @@
 ######################################################################
 # contents.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: contents.inc.pl,v 1.95 2011/05/04 07:26:50 papu Exp $
+# $Id: contents.inc.pl,v 1.344 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -22,9 +22,7 @@
 # v0.0.2 2005/01/20 base による弊害の対応
 # v0.0.1 プロトタイプ
 ######################################################################
-
 use strict;
-
 sub plugin_contents_convert {
 	my ($parmpage)=shift;
 	my $page;
@@ -34,12 +32,10 @@ sub plugin_contents_convert {
 	} else {
 		$page = $::form{mypage};
 	}
-
 	my ($txt) = $::database{$page};
 	my (@txt) = split(/\r?\n/, $txt);
 	return &plugin_contents_main("", @txt);
 }
-
 sub plugin_contents_main {
 	my $baseurl = shift;
 	my @txt = @_;
@@ -47,7 +43,6 @@ sub plugin_contents_main {
 	my (@tocsaved, @tocresult);
 	my $title;
 	my $nametag = &pageanchorname($::form{mypage});
-
 	foreach (@txt) {
 		chomp;
 		if (/^(\*{1,5})(.+)/) {
@@ -76,4 +71,3 @@ EOD
 }
 1;
 __END__
-

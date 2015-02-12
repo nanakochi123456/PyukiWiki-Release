@@ -1,9 +1,9 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.9 $$
+	"PyukiWiki" version 0.2.0 $$
 	Copyright (C)
-	  2005-2011 PukiWiki Developers Team
-	  2004-2011 Nekyo (Based on PukiWiki, YukiWiki)
+	  2005-2012 PukiWiki Developers Team
+	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.75 2011/05/04 07:26:50 papu Exp $
+	$Id: DEVEL.txt,v 1.324 2011/12/31 13:06:08 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 
@@ -47,6 +47,9 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　ですが、新たにリリースする場合は、以下のような操作を
 　行なってください。
 
+　※ 通常版でビルドしたものは通常版の物だけを、
+　　 UTF8版でビルドしたものはUTF8版だけを使用して下さい。
+
 　適当な、UNIX端末上で
 　make release
 　make pkg
@@ -54,13 +57,18 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 　release/ 以下が作成され、リリース版がその中に
 　archive/ 以下が作成され、その中にアーカイブが作成されます。
 
-　アーカイブを作成するには、以下のツールが必要です。
+　devel版のみを高速で作成したければ、
+　make releasedevel
+　と入力して下さい。
+
+　アーカイブを作成するには、*IUX環境で以下のツールが必要です。
 
 　・tar - 標準で入っているはずです。
-　・7zip または p7zip 7za.exeで高圧縮のgzip、zipをします。
+　・p7zip 高圧縮のgzip、zipをします。
 　　http://www.7-zip.org/
 　　http://www.7-zip.org/ja/
 　　http://sourceforge.net/projects/p7zip/
 　・yuicompressor JavaScript, CSSの圧縮に必要です。(Javaでできています）
+　　http://developer.yahoo.com/yui/compressor/
 
 　p.s.Makefileの書き方がガチガチになっています。汗

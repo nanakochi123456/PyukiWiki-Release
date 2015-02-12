@@ -1,0 +1,89 @@
+#$Id: logs.inc.pl.ja.pod,v 1.51 2011/12/31 13:06:13 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+logs.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+アクセスログをプラグイン
+
+=head1 説明
+
+wikiへのアクセスログを取得します。
+
+=head1 使用方法
+
+logs.inc.cgi にリネームして下さい。
+
+logs ディレクトリを作成して下さい。（デフォルト）
+
+=head1 設定
+
+=over 4
+
+=item $logs::compress
+
+重いサイトを運用する時には、0 を設定して下さい。アクセスログが圧縮されません。
+
+=item $logs::directory
+
+アクセスログの保存先を設定します。
+
+=back
+
+=head1 バグ
+
+この機能を利用すると、以下の初期化が2回行なわれますが、仕様です。
+
+ init_logs が2回呼び出される
+ リソースの読み込み（上書きします）
+ データベースをクローズし、ディレクトリを再設定し、データベースをオープン
+
+=head1 上書きする関数
+
+ありません
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/ExPlugin/logs
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/logs/>
+
+=item PyukiWiki CVSレボジトリ
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/Nana/Logs.pml?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/logs_viewer.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

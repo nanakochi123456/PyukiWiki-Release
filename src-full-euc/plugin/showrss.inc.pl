@@ -1,42 +1,36 @@
 ######################################################################
 # showrss.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: showrss.inc.pl,v 1.104 2011/05/04 07:26:50 papu Exp $
+# $Id: showrss.inc.pl,v 1.353 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=Shift-JIS 1TAB=4Spaces
 ######################################################################
-
 use strict;
 use Nana::Cache;
-use Time::Local;
 use Nana::HTTP;
-
 sub plugin_showrss_inline
 {
 	return &plugin_showrss_convert(shift);
 }
-
 sub plugin_showrss_convert {
 	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag,$domain) = split(/,/, shift);
 	return if($rssuri eq '');
-
 	my $expire = $usecache * 3600;
 	my $cachefile = &dbmname($rssuri);
 	my $stream="";
 	my $result;
 	my $body = "";
-
 	my $cache=new Nana::Cache (
 		ext=>"showrss",
 		files=>100,
@@ -45,9 +39,7 @@ sub plugin_showrss_convert {
 		use=>($usecache eq '0' ? 0 : 1),
 		expire=>($expire+0 <= 0 ? 3600 : $expire),
 	);
-
 	my $buf=$cache->read($cachefile,1);
-
 	if($rssuri!~/$::isurl/) {
 		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
@@ -60,9 +52,7 @@ sub plugin_showrss_convert {
 		$pid=fork;
 	}
 	$result=0;
-
 	unless(defined $pid) {
-
 		($result,$stream)=&plugin_showrss_sub($rssuri);
 		$cache->write($cachefile,$stream) if($result eq 0);
 		if($result ne 0) {
@@ -71,7 +61,6 @@ sub plugin_showrss_convert {
 		return &makebody($stream,$tmplname,$dateflag,$discflag,$domain);
 	} else {
 		if($pid) {
-
 			local $SIG{ALRM} = sub { die "time out" };
 			eval {
 				alerm(1);
@@ -84,7 +73,6 @@ sub plugin_showrss_convert {
 				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag,$domain);
 			}
 		} else {
-
 			close(STDOUT);
 			($result,$stream)=&plugin_showrss_sub($rssuri);
 			$cache->write($cachefile,$stream) if($result eq 0);
@@ -92,7 +80,6 @@ sub plugin_showrss_convert {
 		}
 	}
 }
-
 sub makebody {
 	my($stream,$tmplname,$dateflag,$discflag,$domain)=@_;
 	my $body;
@@ -112,7 +99,6 @@ sub makebody {
 		? $xml{'rdf:RDF/item/link'} : $xml{'rss/channel/item/link'}
 		)
 	);
-
 	my @desc;
 	if($discflag eq 1) {
 		@desc = split(/\n/,
@@ -122,10 +108,7 @@ sub makebody {
 			)
 		);
 	}
-
-
 	my ($footer, $ll, $lr);
-
 	if (lc $tmplname eq "menubar") {
 		$body .=<<"EOD";
 <div class="small">
@@ -155,7 +138,6 @@ EOD
 		$ll = $footer = "";
 		$lr = "<br />\n";
 	}
-
 	my $count = 0;
 	my $dt;
 	foreach (@title) {
@@ -170,7 +152,6 @@ EOD
 				$dt='';
 			}
 		}
-
 		if($discflag) {
 			$domain=$ENV{HTTP_HOST} if($domain eq '');
 			if($link[$count]=~/https?\:\/\/$domain\//) {
@@ -198,7 +179,6 @@ EOD
 	$body .= $footer;
 	return $body;
 }
-
 sub plugin_showrss_sub {
 	my($rssuri)=@_;
 	my $code = 'utf8';
@@ -206,9 +186,7 @@ sub plugin_showrss_sub {
 	my $http=new Nana::HTTP('plugin'=>"showrss");
 	($result, $stream) = $http->get($rssuri);
 	$stream=~s/[\xd\xa]//g;
-
 	return($result, $stream) if ($result != 0); # $stream is errorcode.
-
 	if($stream=~/encoding="[Ee][Uu][Cc]/) {
 		$code="euc";
 	} elsif($stream=~/encoding="[Ss][Hh][Ii][Ff][Tt]/) {
@@ -219,7 +197,6 @@ sub plugin_showrss_sub {
 	$stream = &replace(&code_convert(\$stream,$::defaultcode, $code));
 	return ($result,$stream);
 }
-
 sub replace {
 	my ($xmlStream) = @_;
 	$xmlStream =~ s/<\?(.*)\?>//g;
@@ -234,7 +211,6 @@ sub replace {
 	$xmlStream =~ s/<!\[CDATA\[(.+)\]\]>/$1/g;
 	return $xmlStream;
 }
-
 sub xmlParser {
 	my ($stream) = @_;
 	my ($i, $ch, $name, @node, $val, $key, %xml);
@@ -274,5 +250,4 @@ sub xmlParser {
 	}
 	return %xml;
 }
-
 1;

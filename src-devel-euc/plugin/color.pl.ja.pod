@@ -1,4 +1,4 @@
-#$Id: color.pl.ja.pod,v 1.85 2011/05/04 07:26:50 papu Exp $
+#$Id: color.pl.ja.pod,v 1.334 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -29,11 +29,11 @@ color.pl - PyukiWiki / YukiWiki プラグイン
 
 =item PyukiWiki/Plugin/Standard/color
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/color/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/color/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/color.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/color.pl?view=log>
 
 =back
 
@@ -47,15 +47,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

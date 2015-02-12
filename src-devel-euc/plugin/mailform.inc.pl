@@ -1,15 +1,15 @@
 ######################################################################
 # mailform.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: mailform.inc.pl,v 1.39 2011/05/04 07:26:50 papu Exp $
+# $Id: mailform.inc.pl,v 1.289 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,6 +18,7 @@
 ######################################################################
 # v0.1.7以降専用です。
 #
+# 2011/07/21 XHTML対応
 # v 0.0.1 - ProtoType
 # 以下のメールフォームのPyukiWiki移植＆高機能化です。
 #
@@ -39,60 +40,59 @@
 # なお、無差別SPAM防止のため、$::modifier_mail に設定されている
 # アドレス以外には送信できません。
 ######################################################################
-
-use strict;
-
+#
 # テキストエリアのカラム数
 $mailform::cols=70
 	if(!defined($mailform::cols));
-
+#
 # テキストエリアの行数
 $mailform::rows=10
 	if(!defined($mailform::rows));
-
+#
 # 名前テキストエリアのカラム数
 $mailform::name_cols=24
 	if(!defined($mailform::name_cols));
-
+#
 # メールアドレステキストエリアのカラム数
 $mailform::from_cols=24
 	if(!defined($mailform::from_cols));
-
+#
 # 題名テキストエリアのカラム数
 $mailform::subject_cols=24
 	if(!defined($mailform::subject_cols));
-
-# 題名が未記入の場合の表記 
+#
+# 題名が未記入の場合の表記
 $mailform::no_subject_title = "no title"
 	if(!defined($mailform::no_subject_title));
-
-# 名前が未記入の場合の表記 
+#
+# 名前が未記入の場合の表記
 $mailform::no_name_title = "anonymous"
 	if(!defined($mailform::no_name_title));
-
+#
 # 題名なしで処理:0、題名なしを許容する:1、題名なしを許可しない:2
 $mailform::no_subject = 1
 	if(!defined($mailform::no_subject));
-
+#
 # 名前なしで処理:0、名前なしを許容する:1、名前なしを許可しない:2
 $mailform::no_name = 1
 	if(!defined($mailform::no_name));
-
+#
 # メールアドレスなしで処理:0、メールアドレスなしを許容する:1、メールアドレスなしを許可しない:2
 $mailform::no_from = 2
 	if(!defined($mailform::no_from));
-
+#
 # 本文なしで処理しない:1
 $mailform::no_data = 1
 	if(!defined($mailform::no_data));
-
+#
 # 投稿内容のメール送信時のprefix
 $mailform::subject_prefix="[Wiki]"
 	if(!defined($mailform::subject_prefix));
-
+#
 #####################################################33
+use strict;
 
-# cmd=mailform&...
+# cmd=mailform&...											# comment
 
 sub plugin_mailform_action {
 	return <<EOM if($::modifier_mail eq '');
@@ -106,7 +106,7 @@ EOM
 
 	my $errstr="";
 
-	# Locationからきた送信したメッセージ
+	# Locationからきた送信したメッセージ					# comment
 	if($::write_location eq 1) {
 		if($::form{sent} ne '') {
 			return('msg'=>$::form{refer} . "\t" . $::resource{mailform_plugin_mailsend}
@@ -115,7 +115,7 @@ EOM
 		}
 	}
 
-	# メールアドレス記載のチェック
+	# メールアドレス記載のチェック							# comment
 	$::form{mailform_from}=&trim($::form{mailform_from});
 	if($option{no_from} ne 2) {
 		if($::form{mailform_from} eq '') {
@@ -129,7 +129,7 @@ EOM
 		$::form{mailform_from}='';
 	}
 
-	# 名前記載のチェック
+	# 名前記載のチェック									# comment
 	$::form{mailform_name}=&trim($::form{mailform_name});
 	if($option{no_name} ne 2) {
 		if($::form{mailform_name} eq '') {
@@ -145,7 +145,7 @@ EOM
 		}
 	}
 
-	# 表題記載のチェック
+	# 表題記載のチェック									# comment
 	if($option{fixsubject} ne '') {
 		$::form{mailform_subject}=$option{fixsubject};
 	}
@@ -161,7 +161,7 @@ EOM
 		}
 	}
 
-	# 本文記載のチェック
+	# 本文記載のチェック									# comment
 	$::form{mailform_data}=&trim($::form{mailform_data});
 
 	if($option{no_data_check} eq 1) {
@@ -193,7 +193,7 @@ EOM
 				if($::write_location eq 1) {
 					print &http_header(
 						"Status: 302",
-						"Location: $::basehref?cmd=mailform&sent=true&refer=$::form{refer}",
+						"Location: $::basehref?cmd=mailform&sent=true&refer=@{[&encode($::form{refer})]}",
 						$::HTTP_HEADER
 						);
 					close(STDOUT);
@@ -213,7 +213,7 @@ EOM
 	}
 }
 
-# メール送信本体
+# メール送信本体											# comment
 sub plugin_mailform_send {
 	&load_module("Nana::Mail");
 	Nana::Mail::send(
@@ -224,7 +224,7 @@ sub plugin_mailform_send {
 		data=>$::form{mailform_data});
 }
 
-# #mailform(...)
+# #mailform(...)											# comment
 
 sub plugin_mailform_convert {
 	my $argv=shift;
@@ -238,59 +238,59 @@ EOM
 	return &plugin_mailform_makeform($argv);
 }
 
-# フォームのHTML生成
+# フォームのHTML生成										# comment
 
 sub plugin_mailform_makeform {
 	my $argv=shift;
 	my %option=&plugin_mailform_optionparse($argv);
 	my $html=<<EOM;
 <form action="$::script" method="post">
-<input type="hidden" name="cmd" value="mailform">
-<input type="hidden" name="confirm" value="true">
-<input type="hidden" name="refer" value="@{[$::form{mypage} eq '' ? $::form{refer} : $::form{mypage}]}">
-<input type="hidden" name="argv" value="$argv">
+<input type="hidden" name="cmd" value="mailform" />
+<input type="hidden" name="confirm" value="true" />
+<input type="hidden" name="refer" value="@{[$::form{mypage} eq '' ? $::form{refer} : $::form{mypage}]}" />
+<input type="hidden" name="argv" value="$argv" />
 <table>
 EOM
-	# お名前
+	# お名前												# comment
 	if($option{no_name} ne 0) {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_name}</td>
-	<td><input name="mailform_name" size="$mailform::name_cols" value="$::form{mailform_name}"></td>
+	<td><input name="mailform_name" size="$mailform::name_cols" value="$::form{mailform_name}" style="ime-mode: active;" /></td>
 </tr>
 EOM
 	}
-	# メールアドレス
+	# メールアドレス										# comment
 	if($option{no_from} ne 0) {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_from}</td>
-	<td><input name="mailform_from" size="$mailform::from_cols" value="$::form{mailform_from}" style="ime-mode: disabled;"></td>
+	<td><input name="mailform_from" size="$mailform::from_cols" value="$::form{mailform_from}" style="ime-mode: disabled;" /></td>
 </tr>
 EOM
 	}
-	# 表題
+	# 表題													# comment
 	if($option{no_subject} ne 0 && $option{fixsubject} eq '') {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_subject}</td>
-	<td><input name="mailform_subject" size="$mailform::subject_cols" value="$::form{mailform_subject}"></td>
+	<td><input name="mailform_subject" size="$mailform::subject_cols" value="$::form{mailform_subject}" style="ime-mode: active;"/></td>
 </tr>
 EOM
 	}
-	# 内容
+	# 内容													# comment
 	$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_data}</td>
-	<td><textarea name="mailform_data" rows="$mailform::rows" cols="$mailform::cols">$::form{mailform_data}</textarea></td>
+	<td><textarea name="mailform_data" rows="$mailform::rows" cols="$mailform::cols" style="ime-mode: active;">$::form{mailform_data}</textarea></td>
 </tr>
 EOM
 
-	# 送信確認ボタン
+	# 送信確認ボタン										# comment
 	$html.=<<EOM;
 <tr>
 	<td>&nbsp;</td>
-	<td><input type="submit" value="$::resource{mailform_plugin_btn_mailconfirm}"></td>
+	<td><input type="submit" value="$::resource{mailform_plugin_btn_mailconfirm}" /></td>
 </tr>
 </table>
 </form>
@@ -298,61 +298,61 @@ EOM
 	return $html;
 }
 
-# 確認画面のHTML生成
+# 確認画面のHTML生成										# comment
 
 sub plugin_mailform_makeconfirm {
 	my $argv=shift;
 	my %option=&plugin_mailform_optionparse($argv);
 	my $html=<<EOM;
 <form action="$::script" method="post">
-<input type="hidden" name="cmd" value="mailform">
-<input type="hidden" name="refer" value="@{[$::form{mypage} eq '' ? $::form{refer} : $::form{mypage}]}">
-<input type="hidden" name="argv" value="$argv">
+<input type="hidden" name="cmd" value="mailform" />
+<input type="hidden" name="refer" value="@{[$::form{mypage} eq '' ? $::form{refer} : $::form{mypage}]}" />
+<input type="hidden" name="argv" value="$argv" />
 <table>
 EOM
-	# お名前
+	# お名前												# comment
 	if($option{no_name} ne 0) {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_name}</td>
-	<td>$::form{mailform_name}<input name="mailform_name" type="hidden" value="$::form{mailform_name}"></td>
+	<td>$::form{mailform_name}<input name="mailform_name" type="hidden" value="$::form{mailform_name}" /></td>
 </tr>
 EOM
 	}
-	# メールアドレス
+	# メールアドレス										# comment
 	if($option{no_from} ne 0) {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_from}</td>
-	<td>$::form{mailform_from}<input name="mailform_from" type="hidden" value="$::form{mailform_from}"></td>
+	<td>$::form{mailform_from}<input name="mailform_from" type="hidden" value="$::form{mailform_from}" /></td>
 </tr>
 EOM
 	}
-	# 表題
+	# 表題													# comment
 	if($option{no_subject} ne 0 && $option{fixsubject} eq '') {
 		$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_subject}</td>
-	<td>$::form{mailform_subject}<input name="mailform_subject" type="hidden" value="$::form{mailform_subject}"></td>
+	<td>$::form{mailform_subject}<input name="mailform_subject" type="hidden" value="$::form{mailform_subject}" /></td>
 </tr>
 EOM
 	}
-	# 内容
+	# 内容													# comment
 	my $txt=$::form{mailform_data};
-	$txt=~s/\x0D\x0A|[\x0D\x0A]/<BR>/g;
+	$txt=~s/\x0D\x0A|[\x0D\x0A]/<br \/>/g;
 
 	$html.=<<EOM;
 <tr>
 	<td>$::resource{mailform_plugin_info_data}</td>
-	<td>$txt<input name="mailform_data" type="hidden" value="$::form{mailform_data}"></td>
+	<td>$txt<input name="mailform_data" type="hidden" value="$::form{mailform_data}" /></td>
 </tr>
 EOM
 
-	# 送信確認ボタン
+	# 送信確認ボタン										# comment
 	$html.=<<EOM;
 <tr>
 	<td>&nbsp;</td>
-	<td><input type="submit" name="edit" value="$::resource{mailform_plugin_btn_back}"><input type="submit" name="post" value="$::resource{mailform_plugin_btn_mailsend}"></td>
+	<td><input type="submit" name="edit" value="$::resource{mailform_plugin_btn_back}" /><input type="submit" name="post" value="$::resource{mailform_plugin_btn_mailsend}" /></td>
 </tr>
 </table>
 </form>
@@ -360,7 +360,7 @@ EOM
 	return $html;
 }
 
-# オプションの解析
+# オプションの解析											# comment
 
 sub plugin_mailform_optionparse {
 	my @argv = split(/,/, shift);
@@ -396,6 +396,18 @@ __END__
 
 mailform.inc.pl - PyukiWiki Plugin
 
+=head1 SYNOPSIS
+
+ #mailform
+
+=head1 DESCRIPTION
+
+Display Mail form and send to admin mail message.
+
+=head1 USAGE
+
+ #mailform
+
 =head1 AUTHOR
 
 =over 4
@@ -406,15 +418,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

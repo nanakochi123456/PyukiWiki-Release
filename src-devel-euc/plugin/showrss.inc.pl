@@ -1,15 +1,15 @@
 ######################################################################
 # showrss.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: showrss.inc.pl,v 1.104 2011/05/04 07:26:50 papu Exp $
+# $Id: showrss.inc.pl,v 1.353 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@
 
 use strict;
 use Nana::Cache;
-use Time::Local;
 use Nana::HTTP;
 
 sub plugin_showrss_inline
@@ -47,7 +46,7 @@ sub plugin_showrss_convert {
 	);
 
 	my $buf=$cache->read($cachefile,1);
-	# rss10pageで生成されたページの場合
+	# rss10pageで生成されたページの場合					# comment
 	if($rssuri!~/$::isurl/) {
 		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
@@ -56,13 +55,13 @@ sub plugin_showrss_convert {
 	}
 	my $pid;
 	if($buf ne '') {
-		$cache->write($cachefile,$buf);	# 一時的にキャッシュを再保持
+		$cache->write($cachefile,$buf);	# 一時的にキャッシュを再保持	# comment
 		$pid=fork;
 	}
 	$result=0;
 
 	unless(defined $pid) {
-		# シングルタスク処理またはキャッシュが存在しないとき
+		# シングルタスク処理またはキャッシュが存在しないとき	# comment
 		($result,$stream)=&plugin_showrss_sub($rssuri);
 		$cache->write($cachefile,$stream) if($result eq 0);
 		if($result ne 0) {
@@ -71,7 +70,7 @@ sub plugin_showrss_convert {
 		return &makebody($stream,$tmplname,$dateflag,$discflag,$domain);
 	} else {
 		if($pid) {
-			# マルチタスクの親
+			# マルチタスクの親									# comment
 			local $SIG{ALRM} = sub { die "time out" };
 			eval {
 				alerm(1);
@@ -84,7 +83,7 @@ sub plugin_showrss_convert {
 				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag,$domain);
 			}
 		} else {
-			# マルチタスクの子
+			# マルチタスクの子									# comment
 			close(STDOUT);
 			($result,$stream)=&plugin_showrss_sub($rssuri);
 			$cache->write($cachefile,$stream) if($result eq 0);
@@ -170,7 +169,7 @@ EOD
 				$dt='';
 			}
 		}
-		# 複数ドメイン対応、更に対応 v0.1.9
+		# 複数ドメイン対応、更に対応 v0.1.9							# comment
 		if($discflag) {
 			$domain=$ENV{HTTP_HOST} if($domain eq '');
 			if($link[$count]=~/https?\:\/\/$domain\//) {
@@ -320,11 +319,11 @@ Setting 1 of display description, 0 and none is no display
 
 =item PyukiWiki/Plugin/Standard/showrss
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/showrss/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/showrss/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/showrss.inc.pl?view=log>
 
 =back
 
@@ -338,15 +337,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

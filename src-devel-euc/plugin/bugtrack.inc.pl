@@ -1,20 +1,22 @@
 ######################################################################
 # bugtrack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: bugtrack.inc.pl,v 1.93 2011/05/04 07:26:50 papu Exp $
+# $Id: bugtrack.inc.pl,v 1.342 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
+######################################################################
+# v0.2.0 追記 全くといっていいぐらいいじられていません。
 ######################################################################
 # 変更履歴:
 #  2002.06.17: 作り始め
@@ -178,15 +180,15 @@ sub plugin_bugtrack_write
 		&do_write("FrozenWrite");
 		exit;
 	} else {
-	#	$pagename = get_fullname($pagename,$base);
-		# すでにページが存在するか、無効なページ名が指定された
-	#	if (is_page($pagename) or !$::database{$pagename}) {
+	#	$pagename = get_fullname($pagename,$base);					# comment
+		# すでにページが存在するか、無効なページ名が指定された		# comment
+	#	if (is_page($pagename) or !$::database{$pagename}) {		# comment
 			# ページ名をデフォルトに戻す
 			$pagename = $page;
-	#	} else {
-	#		page_write($page,"move to [[$pagename]]");
-	#	}
-	#	page_write($pagename,$postdata);
+	#	} else {													# comment
+	#		page_write($page,"move to [[$pagename]]");				# comment
+	#	}															# comment
+	#	page_write($pagename,$postdata);							# comment
 	}
 
 	return $page;
@@ -198,7 +200,7 @@ sub plugin_bugtrack_convert
 	my @category = split(/,/, shift);
 	if (@category > 0) {
 		my $_base = &unarmor_name(shift(@category));
-	#	$_base = get_fullname($_base, $base);
+	#	$_base = get_fullname($_base, $base);						# comment
 		if ($::database{$_base}) {
 			$base = $_base;
 		}
@@ -250,10 +252,10 @@ sub plugin_bugtrack_pageinfo
 
 sub plugin_bugtrack_list_convert
 {
-	#global $script,$vars;
-	#global $bugtrack::priority, $bugtrack::state, $bugtrack::name;
-	#global $bugtrack::date, $bugtrack::category, $bugtrack::summary;
-	#global $bugtrack::state_sort,$bugtrack::state_list,$bugtrack::state_bgcolor;
+	#global $script,$vars;												# comment
+	#global $bugtrack::priority, $bugtrack::state, $bugtrack::name;		# comment
+	#global $bugtrack::date, $bugtrack::category, $bugtrack::summary;	# comment
+	#global $bugtrack::state_sort,$bugtrack::state_list,$bugtrack::state_bgcolor;	# comment
 
 	$page = $::form{mypage};
 	if (func_num_args()) {
@@ -346,11 +348,11 @@ Japanese only
 
 =item PyukiWiki/Plugin/Standard/bugtrack
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/bugtrack/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/bugtrack/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/bugtrack.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/bugtrack.inc.pl?view=log>
 
 =back
 
@@ -368,15 +370,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: server.en.txt,v 1.85 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: server.en.txt,v 1.335 2011/12/31 13:06:12 papu Exp $
 #
 
 # server.inc.pl
@@ -12,6 +12,8 @@ server_plugin_passwdsubmit=Send
 server_plugin_infomation_button=Basic Infomation
 server_plugin_perlinfo_button=Perl Detailed Information
 server_plugin_benchmark_button=Bench Mark
+server_plugin_linux_button=Linux Only
+server_plugin_freebsd_button=FreeBSD Only
 
 server_plugin_server_title=Server Infomation
 server_plugin_OSNAME=Operating System
@@ -86,3 +88,7 @@ server_plugin_perlmodule_title=The installed perlmodule
 server_plugin_unknown=unknown
 server_plugin_yes=Yes
 server_plugin_no=No
+
+server_plugin_cpuinfo_title=CPU Infomation
+server_plugin_meminfo_title=ÉÅÉÇÉä Infomation
+server_plugin_loadavg_title=Server load average

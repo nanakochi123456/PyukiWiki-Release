@@ -1,9 +1,8 @@
 #
-# PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: edit.ja.txt,v 1.86 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: edit.ja.txt,v 1.336 2011/12/31 13:06:11 papu Exp $
 #
-
 # edit.inc.pl
 edit_plugin_title=の編集
 edit_plugin_helplink=テキスト整形のルールを表示する

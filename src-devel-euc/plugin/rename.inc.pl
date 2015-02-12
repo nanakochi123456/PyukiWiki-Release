@@ -1,15 +1,15 @@
 ######################################################################
 # rename.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rename.inc.pl,v 1.88 2011/05/04 07:26:50 papu Exp $
+# $Id: rename.inc.pl,v 1.337 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Junichi http://www.re-birth.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -26,8 +26,8 @@
 
 use constant PLUGIN_RENAME_LOGPAGE => ':RenameLog';
 
-# %_rename_messages is deleted, moved to ./resource/rename.??.txt
-# by nanami
+# %_rename_messages is deleted, moved to ./resource/rename.??.txt	# comment
+# by nanami															# comment
 
 sub plugin_rename_action {
 
@@ -62,7 +62,7 @@ sub plugin_rename_action {
 
 		return &plugin_rename_regex(\@arr0, \@arr1);
 	} else {
-		#  $method eq 'page'
+		#  $method eq 'page'									# comment
 		$page  = &plugin_rename_getvar('page');
 		$refer = &plugin_rename_getvar('refer');
 
@@ -83,7 +83,7 @@ sub plugin_rename_action {
 }
 
 
-#  変数を取得する
+#  変数を取得する												# comment
 sub plugin_rename_getvar {
 	my ($key) = @_;
 
@@ -91,7 +91,7 @@ sub plugin_rename_getvar {
 	return isset($vars[$key]) ? $vars[$key] : '';
 }
 
-#  エラーメッセージを作る
+#  エラーメッセージを作る										# comment
 sub plugin_rename_err {
 	my ($err,$page) = @_;
 
@@ -111,7 +111,7 @@ sub plugin_rename_err {
 	return $msg;
 }
 
-# 第一段階:ページ名または正規表現の入力
+# 第一段階:ページ名または正規表現の入力							# comment
 sub plugin_rename_phase1 {
 	my ($err, $page) = @_;
 
@@ -154,7 +154,7 @@ EOD
 	return %ret;
 }
 
-# 第二段階:新しい名前の入力
+# 第二段階:新しい名前の入力									# comment
 sub plugin_rename_phase2 {
 	my $err = shift;
 
@@ -205,7 +205,7 @@ EOD
 	return %ret;
 }
 
-# ページ名と関連するページを列挙し、phase3へ
+# ページ名と関連するページを列挙し、phase3へ				# comment
 sub plugin_rename_refer {
 	$page  = &plugin_rename_getvar('page');
 	$refer = &plugin_rename_getvar('refer');
@@ -218,16 +218,16 @@ sub plugin_rename_refer {
 		$to   = &strip_bracket($page);
 
 		foreach $_page (&plugin_rename_getrelated($refer)) {
-			# $_pageの置換結果を$_page_toへ代入
+			# $_pageの置換結果を$_page_toへ代入				# comment
 			($_page_to = $_page)=~s/$from/$to/;
 			$pages{&dbmname($_page)} = &dbmname($_page_to);
 		}
 	}
-	# この時点で%pagesには、旧ページ名 => 新ページ名 というデータが入っている
+	# この時点で%pagesには、旧ページ名 => 新ページ名 というデータが入っている	# comment
 	return &plugin_rename_phase3(%pages);
 }
 
-# 正規表現でページを置換
+# 正規表現でページを置換									# comment
 sub plugin_rename_regex {
 	my ($arr_from, $arr_to) = @_;
 
@@ -239,7 +239,7 @@ sub plugin_rename_regex {
 	}
 
 	if (@exists > 0) {
-		# 置換後のページ名がすでに存在する場合
+		# 置換後のページ名がすでに存在する場合				# comment
 		return &plugin_rename_phase1('already', \@exists);
 	} else {
 		%pages = ();
@@ -269,12 +269,12 @@ sub plugin_rename_phase3 {
 	}
 
 	$pass = &plugin_rename_getvar('mypassword');
-#	v0.1.6 changed by nanami
-#	if ($pass ne '' && &valid_password($pass)) {
+#	v0.1.6 changed by nanami							# comment
+#	if ($pass ne '' && &valid_password($pass)) {		# comment
 	if (&plugin_rename_getvar('exec') eq 1) {
 		return &plugin_rename_proceed(\%pages, \%files, \%exists);
-#	} elsif ($pass ne '') {
-#		$msg = &plugin_rename_err('adminpass');
+#	} elsif ($pass ne '') {								# comment
+#		$msg = &plugin_rename_err('adminpass');			# comment
 	}
 
 	$method = &plugin_rename_getvar('method');
@@ -325,7 +325,7 @@ sub plugin_rename_phase3 {
 
 	%ret = ();
 	$ret{'msg'} = "\t$::resource{'rename_plugin_msg_title'}";
-	# v0.1.6 changed by nanami
+	# v0.1.6 changed by nanami									# comment
 	$ret{'body'} = <<EOD;
 <p>$msg</p>
 <table><tr><td>
@@ -337,13 +337,14 @@ sub plugin_rename_phase3 {
   <input type="hidden" name="cmd" value="rename" />
   <input type="hidden" name="exec" value="1" />
   $input
-  <input type="submit" value="@{[$::resource{'rename_plugin_btn_submit'}]}" />
+  <input type="submit" value="$::resource{'rename_plugin_btn_submit'}" />
  </div>
 </form>
+</td></tr>
 </table>
 EOD
-#  @{[$::resource{'rename_plugin_msg_adminpass'}]}
-#  <input type="password" name="mypassword" value="" />
+#  @{[$::resource{'rename_plugin_msg_adminpass'}]}				# comment
+#  <input type="password" name="mypassword" value="" />			# comment
 
 	$ret{'body'} .= '<ul>' . "\n";
 	foreach $old (reverse sort keys %pages) {
@@ -357,19 +358,20 @@ EOD
 }
 
 
-# 処理対象のファイルの情報（元ファイルパス、新ファイルパス）の一覧を取得する
+# 処理対象のファイルの情報（元ファイルパス、新ファイルパス）の一覧を取得する	# comment
 sub plugin_rename_get_files {
 	my (%pages) = @_;
 
 	my %files = ();
-	@dirs  = ($::diff_dir, $::data_dir);
+	@dirs  = ($::diff_dir, $::data_dir, $::counter_dir, $::info_dir);#compact
+	@dirs  = ($::diff_dir, $::data_dir, $::counter_dir, $::info_dir, $::backup_dir);#nocompact
 	if (&exist_plugin('attach')){
 		push (@dirs, $::upload_dir);
 	}
 	if (&exist_plugin('rename')) {
 		push (@dirs, $::rename_dir);
 	}
-	#  and more ...
+	#  and more ...										# comment
 
 	foreach $path (@dirs) {
 		opendir(DH,$path);
@@ -377,7 +379,7 @@ sub plugin_rename_get_files {
 			next;
 		}
 
-		# PyukiWikiのディレクトリ定義で最後が/でないため付加する。
+		# PyukiWikiのディレクトリ定義で最後が/でないため付加する。	# comment
 		if($path=~/.*[^\/]$/) {
 			$path .= '/';
 		}
@@ -386,21 +388,21 @@ sub plugin_rename_get_files {
 			if ($file eq '.' || $file eq '..'){
 				next;
 			}
-			
+
 			foreach $from (keys %pages) {
 
 				$to = $pages{$from};
 
-				# カウンターの場合は、一度デコードして&encode()する。
-				if($path=~/$::rename_dir/) {
-					$from = &encode(&dbmname_decode($from));
-					$to = &encode(&dbmname_decode($to));
-				}
+#				# カウンターの場合は、一度デコードして&encode()する。	# comment
+#				if($path=~/$::rename_dir/) {						# comment
+#					$from = &encode(&dbmname_decode($from));		# comment
+#					$to = &encode(&dbmname_decode($to));			# comment
+#				}													# comment
 
-				# / を \/ へ置換
+				# / を \/ へ置換									# comment
 				$from=~s/\//\\\//g;
 
-				# パターンの最後の ([._].+) はPyukiでは不要と思われる
+				# パターンの最後の ([._].+) はPyukiでは不要と思われる	# comment
 				my $pattern = '^' . $from . '([._].+)$';
 				if (not $file=~/$pattern/) {
 					next;
@@ -415,11 +417,11 @@ sub plugin_rename_get_files {
 	return %files;
 }
 
-# 処理本体
+# 処理本体															# comment
 sub plugin_rename_proceed {
 	my ($pages, $files, $exists) = @_;
 
-	# パラメータexistが1(上書き)でなければ存在するページを処理対象からはずす
+	# パラメータexistが1(上書き)でなければ存在するページを処理対象からはずす	# comment
 	if (&plugin_rename_getvar('exist') ne '1') {
 
 		foreach my $key (keys %$exists) {
@@ -428,25 +430,25 @@ sub plugin_rename_proceed {
 		}
 	}
 
-#	set_time_limit(0);
+#	set_time_limit(0);												# comment
 	foreach $page(keys %$files) {
 		$arr = $files->{$page};
 
 		foreach $old (keys %$arr) {
 			$new = $arr->{$old};
 
-			# 存在していて、かつ、値が格納されている場合 $newを削除する
+			# 存在していて、かつ、値が格納されている場合 $newを削除する	# comment
 			if (exists($exists->{$page}{$old}) && defined($exists->{$page}{$old})){
 				unlink($new);
 			}
 			rename($old, $new);
-			#  linkデータベースを更新する BugTrack/327 arino
-#			links_update($old);
-#			links_update($new);
+			#  linkデータベースを更新する BugTrack/327 arino		# comment
+#			links_update($old);										# comment
+#			links_update($new);										# comment
 		}
 	}
 
-	# ログページのデータを取得して、追記
+	# ログページのデータを取得して、追記							# comment
 	$postdata = $::database{PLUGIN_RENAME_LOGPAGE};
 	$postdata .= '*' . &date($::date_format . " " . $::time_format . " (D)") . "\n";
 	if (&plugin_rename_getvar('method') eq 'regex') {
@@ -481,23 +483,23 @@ sub plugin_rename_proceed {
 	}
 
 
-	#  更新の衝突はチェックしない。
+	#  更新の衝突はチェックしない。								# comment
 
-	#  ファイルの書き込み
+	#  ファイルの書き込み										# comment
 	$::database{::PLUGIN_RENAME_LOGPAGE} = $postdata;
 	&close_db();
 
-	# リダイレクト
+	# リダイレクト												# comment
 	$page = &plugin_rename_getvar('page');
 	if ($page eq '') {
 		$page = PLUGIN_RENAME_LOGPAGE;
 	}
 
-#	pkwk_headers_sent();
-#	header('Location: ' . get_script_uri() . '?' . rawurlencode($page));
-#	v0.1.6 changed by nanami
-#	print "Location: $::script?@{[&encode($page)]}\n\n";
-#	exit;
+#	pkwk_headers_sent();										# comment
+#	header('Location: ' . get_script_uri() . '?' . rawurlencode($page));	# comment
+#	v0.1.6 changed by nanami									# comment
+#	print "Location: $::script?@{[&encode($page)]}\n\n";		# comment
+#	exit;														# comment
 	print &http_header(
 		"Status: 302",
 		"Location: $::basehref?@{[&encode($page)]}"
@@ -526,15 +528,15 @@ sub plugin_rename_getrelated {
 }
 
 
-# 存在するページすべてのプルダウンを作成
+# 存在するページすべてのプルダウンを作成							# comment
 sub plugin_rename_getselecttag {
 	my ($page) = @_;
 
 	my %pages = ();
 	foreach $_page (sort keys %::database) {
-#		if ($_page == $whatsnew) {
-#			next;
-#		}
+#		if ($_page == $whatsnew) {									# comment
+#			next;													# comment
+#		}															# comment
 
 		$selected = ($_page eq $page) ? ' selected' : '';
 		$s_page = &htmlspecialchars($_page);
@@ -556,14 +558,14 @@ EOD
 
 }
 
-# ページ名のデコード　<==> dbmname
+# ページ名のデコード　<==> dbmname									# comment
 sub dbmname_decode {
 	my $name = shift;
 	return ($name =~/^[0-9a-f]+$/i) ? pack('H*', $name ) : $name ;
 }
 
-# [[ ]] を取り除く
-# from PukiWiki lib/func.php
+# [[ ]] を取り除く													# comment
+# from PukiWiki lib/func.php										# comment
 sub strip_bracket {
 	my ($str) = @_;
 
@@ -574,36 +576,36 @@ sub strip_bracket {
 	}
 }
 
-# from PukiWiki lib/make_link.php
-# 部分実装です。
+# from PukiWiki lib/make_link.php									# comment
+# 部分実装です。													# comment
 sub make_pagelink {
 	my $page = shift;
 	return qq|<a href="$::script?@{[&encode($page)]}">$page</a>|;
 }
 
-# ページ名として正しいかどうかチェック
-# from PukiWiki lib/func.php
+# ページ名として正しいかどうかチェック								# comment
+# from PukiWiki lib/func.php										# comment
 sub is_pagename {
 	my ($str) = @_;
 	my $is_pagename= (not &is_interwiki($str) &&
 						$str=~/^(?!\/)$bracket_name$(?<!\/$)/ &&
 						$str=~/(^|\/)\.{1,2}(\/|$)/);
-	# SOURCE_ENCODINGに該当する処理は省略
+	# SOURCE_ENCODINGに該当する処理は省略							# comment
 	return $is_pagename;
 }
 
-# from PukiWiki lib/func.php
+# from PukiWiki lib/func.php										# comment
 sub is_interwiki {
 	my ($str) = @_;
 
-	# 判定には、暫定でPyukiWikiの$interwiki_name2を使用
+	# 判定には、暫定でPyukiWikiの$interwiki_name2を使用				# comment
 
-	# from PukiWiki lib/init.php
-	# my $InterWikiName = '(\[\[)?((?:(?!\s|:|\]\]).)+):(.+)(?(1)\]\])';
+	# from PukiWiki lib/init.php									# comment
+	# my $InterWikiName = '(\[\[)?((?:(?!\s|:|\]\]).)+):(.+)(?(1)\]\])';	# comment
 
-	# from PyukiWiki index.cgi
-	# my $interwiki_name = '([^:]+):([^:].*)';
-	# my $interwiki_name2 = '([^:]+):([^:#].*?)(#.*)?';
+	# from PyukiWiki index.cgi										# comment
+	# my $interwiki_name = '([^:]+):([^:].*)';						# comment
+	# my $interwiki_name2 = '([^:]+):([^:#].*?)(#.*)?';				# comment
 
 	return $str=~/^$interwiki_name$/;
 }
@@ -638,11 +640,11 @@ Updating is not applied to recent.
 
 =over 4
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/rename/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/rename/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rename.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rename.inc.pl?view=log>
 
 =item Site manufacture/PyukiWiki/Plugin/Rename
 
@@ -662,15 +664,15 @@ L<http://www.re-birth.com/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Junichi.
+Copyright (C) 2005-2012 by Junichi.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,38 +1,29 @@
 #
-# $Id: Tr.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: Tr.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: Tr.pm,v 2.0 2005/05/16 19:08:00 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode::Tr;
-
 use strict;
 use vars qw($VERSION $RCSID);
-
-$RCSID = q$Id: Tr.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-
+$RCSID = q$Id: Tr.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 use Carp;
-
 use Jcode::Constants qw(:all);
-
 sub tr {
     # $prev_from, $prev_to, %table are persistent variables
     my ($r_str, $from, $to, $opt) = @_;
     my (@from, @to);
     my $n = 0;
-
     my %_TABLE;
     _maketable($from, $to, $opt, \%_TABLE);
-
     $$r_str =~ s(
 		 ([\x80-\xff][\x00-\xff]|[\x00-\xff])
 		 )
-    {defined($_TABLE{$1}) && ++$n ? 
+    {defined($_TABLE{$1}) && ++$n ?
 	 $_TABLE{$1} : $1}ogex;
-
     return $n;
 }
-
 sub _maketable{
     my( $from, $to, $opt, $tbl ) = @_;
  $opt ||= '';
@@ -44,15 +35,11 @@ sub _maketable{
     $to   =~ s/($RE{EUC_KANA}-$RE{EUC_KANA})/&_expnd2($1)/geo;
     $to   =~ s/($RE{EUC_C   }-$RE{EUC_C   })/&_expnd2($1)/geo;
     $to   =~ s/($RE{ASCII   }-$RE{ASCII   })/&_expnd1($1)/geo;
-
     my @from = $from =~ /$RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|[\x00-\xff]/go;
     my @to   = $to   =~ /$RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|[\x00-\xff]/go;
-
     push @to, ($opt =~ /d/ ? '' : $to[-1]) x ($#from - $#to) if $#to < $#from;
     @$tbl{@from} = @to;
-
 }
-
 sub _expnd1 {
     my ($str) = @_;
     # s/\\(.)/$1/og; # I dunno what this was doing!?
@@ -64,7 +51,6 @@ sub _expnd1 {
     }
     return $str;
 }
-
 sub _expnd2 {
     my ($str) = @_;
     my ($c1, $c2, $c3, $c4) = unpack('CCxCC', $str);
@@ -75,7 +61,6 @@ sub _expnd2 {
     }
     return $str;
 }
-
 sub _expnd3 {
     my ($str) = @_;
     my ($c1, $c2, $c3, $c4, $c5, $c6) = unpack('CCCxCCC', $str);
@@ -86,5 +71,4 @@ sub _expnd3 {
     }
     return $str;
 }
-
 1;

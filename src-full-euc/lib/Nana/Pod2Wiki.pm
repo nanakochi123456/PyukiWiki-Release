@@ -1,23 +1,22 @@
 ######################################################################
 # Pod2Wiki.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Pod2Wiki.pm,v 1.55 2011/05/04 07:26:50 papu Exp $
+# $Id: Pod2Wiki.pm,v 1.304 2011/12/31 13:06:10 papu Exp $
 #
 # "Nana::Pod2Wiki" version 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 package	Nana::Pod2Wiki;
 use 5.005;
 use strict;
@@ -27,9 +26,7 @@ require Exporter;
 @EXPORT = qw();
 @EXPORT_OK = qw();
 $VERSION = '0.1';
-
 my $wiki_name = '\b([A-Z][a-z]+([A-Z][a-z]+)+)\b';
-
 sub pod2wiki {
 	my $file=shift;
 	my $notitle=shift;
@@ -39,7 +36,6 @@ sub pod2wiki {
 	my $tmp;
 	my ($cmd,$data);
 	my $anchor=0;
-
 	if(!open(R,$file)) {
 		return("File not found : $file");
 	}
@@ -71,6 +67,7 @@ sub pod2wiki {
 			$f=~s/\:\/\//\x8/g;
 			$f=~s/\:/\x4/g;
 		}
+#		$f=~s/\@/\&#x40;/g;
 		$f=~/^=([^\s]+)(.*)/;
 		$cmd=$1;
 		$data=$2;
@@ -108,7 +105,7 @@ sub pod2wiki {
 			} else {
 				next;
 			}
-		} elsif($cmd eq 'end') { 
+		} elsif($cmd eq 'end') {
 			$pod="pod";
 		} elsif($pod=~/wiki/) {
 			$body.="$f\n";
@@ -141,16 +138,12 @@ sub pod2wiki {
 			}
 		}
 	}
-
 	$body=~s/\x8/\:\/\//g;
 	$name=~s/($wiki_name)/&verb($1);/g;
-
 	return ($name,$body);
 }
-
 sub pod2wiki_tags {
 	my($str)=@_;
-
 	$str=~s/L<\/([^>]+)>/$1/g;
 	$str=~s/L<([^>]+)>/[[$1]]/g;
 	$str=~s/I<([^>]+)>/'''$1'''/g;
@@ -165,7 +158,6 @@ sub pod2wiki_tags {
 	$str=~s/E<sol>/\//g;
 	$str=~s/E<verbar>/\|/g;
 	$str=~s/E<\d+>/chr($1)/gex;
-
 	return $str;
 }
 1;

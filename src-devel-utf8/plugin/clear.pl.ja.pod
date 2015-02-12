@@ -1,0 +1,59 @@
+#$Id: clear.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+clear.pl - PyukiWiki / YukiWiki プラグイン
+
+=head1 概要
+
+ &clear;
+
+=head1 説明
+
+指定した位置に、CSSのクラスの'clear' (clear:both) を挿入します。
+
+テキストの回りこみが解除できます。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/clear
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/clear/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/clear.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

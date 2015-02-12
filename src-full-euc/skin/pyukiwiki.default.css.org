@@ -1,14 +1,10 @@
-/*@charset "Shift_JIS";*/
-/* If use japanese font, use @charset */
-/* "PyukiWiki" version 0.1.9 $$ */
-/* $Id: pyukiwiki.default.css.org,v 1.4 2011/05/04 07:26:50 papu Exp $ */
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: pyukiwiki.default.css.org,v 1.254 2011/12/31 13:06:12 papu Exp $ */
 /* Code=EUC-JP */
-
 /* base */
 pre, dl, ol, ul, p, blockquote {
 	line-height:130%;
 }
-
 body,td {
 	color:black;
 	background-color:white;
@@ -17,44 +13,36 @@ body,td {
 	font-size:90%;
 	font-family:verdana, arial, helvetica, Sans-Serif;
 }
-
 blockquote {
 	margin-left:32px;
 }
-
 em {
 	font-style:italic;
 }
-
 strong {
 	font-weight:bold;
 }
-
 /* A link */
 a:link {
 	color:#215dc6;
 	background-color:inherit;
 	text-decoration:none;
 }
-
 a:active {
 	color:#215dc6;
 	background-color:inherit;
 	text-decoration:none;
 }
-
 a:visited {
 	color:#a63d21;
 	background-color:inherit;
 	text-decoration:none;
 }
-
 a:hover {
 	color:#215dc6;
 	background-color:#CCDDEE;
 	text-decoration:underline;
 }
-
 /* Headers */
 /* h1, h2, h3, h4, h5, h6 { */ /* for old style h3~h6 */
 h1, h2 {
@@ -65,32 +53,28 @@ h1, h2 {
 	border:0px;
 	margin:0px 0px .5em 0px;
 }
-
 h3 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
 	border-bottom:  3px solid #DDEEFF;
 	border-top:     1px solid #DDEEFF;
 	border-left:   10px solid #DDEEFF;
 	border-right:   5px solid #DDEEFF;
-
 	color:inherit;
 	background-color:#FFFFFF;
 	padding:.3em;
 	margin:0px 0px .5em 0px;
 }
-
 h4 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
 	border-left:   18px solid #DDEEFF;
-
 	color:inherit;
 	background-color:#FFFFFF;
 	padding:.3em;
 	margin:0px 0px .5em 0px;
 }
-
 h5, h6,
-#menubar h2, #menubar h3, #menubar h4 {
+#menubar h2, #menubar h3, #menubar h4,
+#sidebar h2, #sidebar h3, #sidebar h4 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
 	color:inherit;
 	background-color:#DDEEFF;
@@ -98,7 +82,6 @@ h5, h6,
 	border:0px;
 	margin:0px 0px .5em 0px;
 }
-
 /* Title, Error Message */
 h1.title, h1.error {
 	font-size: 30px;
@@ -108,26 +91,21 @@ h1.title, h1.error {
 	border: 0px;
 	margin: 12px 0px 0px 0px;
 }
-
 h1.error {
 	color: red;
 }
-
 .small {
 	font-size:80%;
 }
-
 img#logo {
 	float:left;
 	margin-right:20px;
 }
-
 dt {
 	font-weight:bold;
 	margin-top:1em;
 	margin-left:1em;
 }
-
 pre {
 	border-top:#DDDDEE 1px solid;
 	border-bottom:#888899 1px solid;
@@ -140,12 +118,10 @@ pre {
 	color:black;
 	background-color:#F0F8FF;
 }
-
 img {
 	border:none;
 	vertical-align:middle;
 }
-
 /* wiki table */
 thead td.style_td,
 tfoot td.style_td {
@@ -180,18 +156,15 @@ tfoot th.style_th {
 	color:inherit;
 	background-color:#EEF5FF;
 }
-
 /* table center for IE5 & IE6 with XHTML */
 div.ie5 {
 	text-align:center;
 }
-
 /* list */
 ul {
 	margin-top:.5em;
 	margin-bottom:.5em;
 }
-
 /* list for PukiWikiStyle=0 */
 ul.list1 {
 	list-style-type:disc;
@@ -211,14 +184,12 @@ ol.list2 {
 ol.list3 {
 	list-style-type:lower-alpha;
 }
-
 ul.list1,ul.list2,ul.list3,
 ol.list1,ol.list2,ol.list3,
 dl.list2,dl.list3 {
 	padding-left:16px;
 	margin-left:16px;
 }
-
 /* list for PukiWikiStyle=1 */
 ul.plist1 {
 	list-style-type:disc;
@@ -238,7 +209,6 @@ ol.plist2 {
 ol.plist3 {
 	list-style-type:lower-alpha;
 }
-
 ul.plist1, ol.plist1 {
 	padding-left:16px;
 	margin-left:16px;
@@ -251,25 +221,25 @@ ul.plist3, ol.plist3 {
 	padding-left:48px;
 	margin-left:48px;
 }
-
-#menubar ul.plist1, #menubar ol.plist1 {
+#menubar ul.plist1, #menubar ol.plist1,
+#sidebar ul.plist1, #sidebar ol.plist1 {
 	padding-left:6px;
 	margin-left:6px;
 }
-#menubar ul.plist2, #menubar ol.plist2 {
+#menubar ul.plist2, #menubar ol.plist2,
+#sidebar ul.plist2, #sidebar ol.plist2 {
 	padding-left:10px;
 	margin-left:10px;
 }
-#menubar ul.plist3, #menubar ol.plist3 {
+#menubar ul.plist3, #menubar ol.plist3,
+#sidebar ul.plist3, #sidebar ol.plist3 {
 	padding-left:14px;
 	margin-left:14px;
 }
-
 span.noexists {
 	color:inherit;
 	background-color:#FFFACC;
 }
-
 .super_index {
 	color:#DD3333;
 	background-color:inherit;
@@ -277,7 +247,6 @@ span.noexists {
 	font-size:60%;
 	vertical-align:super;
 }
-
 a.note_super {
 	color:#DD3333;
 	background-color:inherit;
@@ -285,12 +254,10 @@ a.note_super {
 	font-size:60%;
 	vertical-align:super;
 }
-
 div.jumpmenu {
-	font-size:60%; 
+	font-size:60%;
 	text-align:right;
 }
-
 /* hr */
 hr.full_hr {
 	border-style:ridge;
@@ -305,7 +272,6 @@ hr.note_hr {
 	text-align:center;
 	margin:1em auto 0em auto;
 }
-
 /* font-size (nonuse) */
 span.size1 {
 	font-size:xx-small;
@@ -349,7 +315,6 @@ span.size7 {
 	text-indent:0px;
 	display:inline;
 }
-
 /* set color (nonuse) */
 strong.word0 {
 	background-color:#FFFF66;
@@ -391,23 +356,19 @@ strong.word9 {
 	background-color:#990099;
 	color:white;
 }
-
 /* pyukiwiki.skin.cgi */
 div#header {
 	padding:0px;
 	margin:0px;
 }
-
 div#navigator {
 	clear:both;
 	padding:4px 0px 0px 0px;
 	margin:0px;
 }
-
 td.body {
 	width: 100%;
 }
-
 td.menubar {
 	vertical-align:top;
 	padding: 0px;
@@ -415,7 +376,13 @@ td.menubar {
 	overflow:hidden;
 	width: 10em;
 }
-
+td.sidebar {
+	vertical-align:top;
+	padding: 0px;
+	margin: 0px;
+	overflow:hidden;
+	width: 12em;
+}
 div#menubar {
 	width: 10em;
 	padding:0px;
@@ -424,52 +391,57 @@ div#menubar {
 	font-size:90%;
 	overflow:hidden;
 }
-
-div#menubar ul {
+div#sidebar {
+	width: 12em;
+	padding:0px;
+	margin:4px;
+	word-break:break-all;
+	font-size:90%;
+	overflow:hidden;
+}
+div#menubar ul,
+div#sidebar ul {
 	margin:0px 0px 0px .5em;
 	padding:0px 0px 0px .5em;
 }
-
-div#menubar ul li {
+div#menubar ul li,
+div#sidebar ul li {
 	line-height:110%;
 }
-
 div#menubar h2,div#menubar h3,div#menubar h4,
-div#menubar h5,div#menubar h6 {
+div#menubar h5,div#menubar h6,
+div#sidebar h2,div#sidebar h3,div#sidebar h4,
+div#sidebar h5,div#sidebar h6 {
 	font-size:110%;
 }
-
-div#menubar p {
+div#menubar p,
+div#sidebar p {
 	margin-top: 0px;
 }
-
 div#menubar h2,div#menubar h3,div#menubar h4,
-div#menubar h5,div#menubar h6 {
+div#menubar h5,div#menubar h6,
+div#sidebar h2,div#sidebar h3,div#sidebar h4,
+div#sidebar h5,div#sidebar h6 {
 	margin-bottom: 7px;
 }
-
 div#body {
 	clear:both;
 	padding:0px;
 	margin:0px 0px 0px .5em;
 }
-
 .body {
 	padding-left: 5px;
 }
-
 div#note {
 	clear:both;
 	padding:0px;
 	margin:0px;
 }
-
 div#attach {
 	clear:both;
 	padding:0px;
 	margin:0px;
 }
-
 div#toolbar {
 	clear:both;
 	padding:0px;
@@ -477,31 +449,26 @@ div#toolbar {
 	text-align:right;
 	border:0px;
 }
-
 div#lastmodified {
 	font-size:80%;
 	padding:0px;
 	margin:0px;
 }
-
 div#related { /* nonuse */
 	font-size:80%;
 	padding:0px;
 	margin:16px 0px 0px 0px;
 }
-
 div#footer {
 	font-family:verdana, arial, helvetica, Sans-Serif;
 	font-size:90%;
 	padding:0px;
 	margin:16px 0px 0px 0px;
 }
-
 div#preview {
 	color:inherit;
 	background-color:#F5F8FF;
 }
-
 /* aname.inc.pl */
 .anchor {
 }
@@ -509,7 +476,6 @@ div#preview {
 	font-size:xx-small;
 	vertical-align:super;
 }
-
 /* calendar*.inc.pl */
 .style_calendar {
 	color:inherit;
@@ -518,97 +484,82 @@ div#preview {
 	text-align:center;
 	line-height: 130%;
 }
-
 #body .style_calendar {
 	border:0px;
 	margin:3px;
 	font-size: 20px;
 }
-
-#menubar .style_calendar {
+#menubar .style_calendar,
+#sidebar .style_calendar {
 	padding:0px;
 	margin:0px;
 	font-size: 11px;
 }
-
 .style_td_caltop {
 	margin:1px;
 	color:inherit;
 	background-color:#EEF5FF;
 	text-align:center;
 }
-
 #body .style_td_caltop {
 	padding:10px;
 }
-
-#menubar .style_td_caltop {
+#menubar .style_td_caltop,
+#sidebar .style_td_caltop {
 	padding:1px;
 	font-size: 110%;
 }
-
-
 .style_td_today {
 	color:inherit;
 	background-color:#FFFFDD;
 }
-
 .style_td_sat {
 	color:inherit;
 	background-color:#DDE5FF;
 }
-
 .style_td_sun {
 	color:inherit;
 	background-color:#FFEEEE;
 }
-
 .style_td_blank {
 	color:inherit;
 	background-color:#EEF5FF;
 }
-
 .style_td_day {
 	color:inherit;
 	background-color:#EEF5FF;
 }
-
 .style_td_week {
 	color:inherit;
 	background-color:#DDE5EE;
 	font-size:70%;
 	font-weight:bold;
 }
-
 #body .style_td_today, #body .style_td_sat, #body .style_td_sun,
 #body .style_td_blank, #body .style_td_day, #body .style_td_week {
 	text-align:center;
 	padding: 10px;
 }
-
 #menubar .style_td_today, #menubar .style_td_sat, #menubar .style_td_sun,
-#menubar .style_td_blank, #menubar .style_td_day, #menubar .style_td_week {
+#menubar .style_td_blank, #menubar .style_td_day, #menubar .style_td_week,
+#sidebar .style_td_today, #sidebar .style_td_sat, #sidebar .style_td_sun,
+#sidebar .style_td_blank, #sidebar .style_td_day, #sidebar .style_td_week {
 	text-align:center;
 	padding: 0px;
 }
-
 /* counter.inc.pl */
 div.counter {
 	font-size:70%;
 }
-
 /* diff.inc.pl */
 .diff_added {
 	color:blue;
 	background-color:inherit;
 }
-
 .diff_removed {
 	color:red;
 	background-color:inherit;
 }
-
-
 /* hr.inc.pl */
 hr.short_line {
 	text-align:center;
@@ -617,36 +568,30 @@ hr.short_line {
 	border-color:#333333;
 	border-width:1px 0px;
 }
-
 /* include.inc.pl */
 h5.side_label {
 	text-align:center;
 }
-
 /* navi.inc.pl */
 ul.navi {
 	margin:0px;
 	padding:0px;
 	text-align:center;
 }
-
 li.navi_none {
 	display:inline;
 	float:none;
 }
-
 li.navi_left {
 	display:inline;
 	float:left;
 	text-align:left;
 }
-
 li.navi_right {
 	display:inline;
 	float:right;
 	text-align:right;
 }
-
 /* new.inc.pl */
 span.comment_date {
 	font-size:x-small;
@@ -661,39 +606,35 @@ span.new5 {
 	background-color:transparent;
 	font-size:xx-small;
 }
-
 /* popular.inc.pl */
 span.counter
 {
 	font-size:70%;
 }
-ul.popular_list {
 /*
+ul.popular_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 1em;
 	word-wrap:break-word;
 	word-break:break-all;
-*/
 }
-
+*/
 /* recent.inc.pl,showrss.inc.pl */
-ul.recent_list {
 /*
+ul.recent_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 31em;
 	word-wrap:break-word;
 	word-break:break-all;
-*/
 }
-
+*/
 /* ref.inc.pl */
 div.img_margin {
 	margin-left:32px;
 	margin-right:32px;
 }
-
 /* vote.inc.pl */
 td.vote_label {
 	color:inherit;
@@ -719,31 +660,25 @@ p.thumbnail {
 	clear: both;
 	height: 100px;
 }
-
 p.thumbnail img.thumbnail {
 	margin: 0px 10px 0px 0px;
 	border-style: none;
 	float: left;
 }
-
 img.thumbnailright {
 	margin: 0px 10px 0px 0px;
 	border-style: none;
 	float: right;
 	height: 200px;
 }
-
 p.thumbnail br.hidden {
 	display: none;
 }
-
 a.thumbnail {
 }
-
 a.thumbnail img.thumbnail {
 	height: 200px;
 }
-
 .error
 {
 	color: red;
@@ -755,7 +690,6 @@ a.thumbnail img.thumbnail {
 	margin:0px;
 	clear:both;
 }
-
 /* part of edit */
 div.partinfo {
 	margin-top:0px;
@@ -773,11 +707,11 @@ a.partedit {
 	padding:1px 1px 1px 1px;
 	margin-left:0px;
 }
-
 /* antispam.inc.cgi (fake A link of span tag) */
 .mail {
 	cursor:pointer;
-	color:#4840ce;
+/*	color:#4840ce; */
+	color:#215dc6;
 	background-color:inherit;
 	text-decoration:none;
 	text-decoration:underline;

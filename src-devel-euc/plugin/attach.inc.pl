@@ -1,21 +1,30 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.110 2011/05/04 07:26:50 papu Exp $
+# $Id: attach.inc.pl,v 1.364 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# 2011/08/30: Operaでも文字化けするのを修正
+# 2011/08/03: 添付ファイルのアップロード、及び、削除を
+#             管理者にメール通知するようにしました。
+#             また、$::non_listに記載されているページのファイルを
+#             表示しない $::attach_nonlist 変数を追加した。
+# 2011/06/19: 一部ファイルは、$::AttachFileCheck=0 にしないと
+# 　　　　　　アップロードできなくなるようにしました。
+# 2011/05/27: ウィルス対策ソフトのそこそこの普及により一部拡張子を
+#             有効化
 # 2010/11/17: カウンター対応
 # 2010/10/24: 一部修正
 ######################################################################
@@ -27,12 +36,10 @@ use Digest::MD5 qw(md5_hex);
 # if your system has not Digest::MD5, swap comment.
 use File::MMagic;
 
-# add 0.1.8
+# add 0.1.8											# comment
 require "plugin/counter.inc.pl";
 
 @magic_files=(
-	# システムによってmagicファイルが異なりすぎて判別できない可能性があります
-	# なるだけ標準を使用して下さい。
 	"$::explugin_dir/File/magic.txt",
 	"$::explugin_dir/File/magic_compact.txt",
 	"/etc/magic",
@@ -41,13 +48,14 @@ require "plugin/counter.inc.pl";
 	"/usr/share/misc/magic",
 );
 
-	# 正規表現の拡張子 => "(mime-type)|(fileコマンドの返答候補リスト)|..."
+	# 正規表現の拡張子 => "(mime-type)|(fileコマンドの返答候補リスト)|..."	# comment
 my %mime = (
-	# archive files
+	# archive files												# comment
 	'\.(zip|nar|jar)'	=> "application/x-zip|ZIP",
 	'\.(lzh|lha)'		=> "application/x-lha|LHa",
 	'\.(tgz|gz)'		=> "application/x-gzip|gzip compressed data",
 	'\.(bz|tbz|bz2)'	=> "application/x-bzip2|bzip2 compressed data",
+	'\.(txz|xz)'		=> "application/octet-stream|xz compressed data",
 	'\.tar'				=> "application/x-tar|tar archive",
 	'\.cab'				=> "application/octet-stream|Cabinet",
 	'\.rar'				=> "application/octet-stream|RAR",
@@ -56,31 +64,31 @@ my %mime = (
 	'\.hqx'				=> "application/mac-binhex40|BinHex",
 	'\.sit'				=> "application/x-stuffit|StuffIt",
 
-	# Microsoft Office Files
+	# Microsoft Office Files									# comment
 	'\.(do[ct])'		=> "application/msword|Word|Office",
 	'\.(ppt|pps|pot)'	=> "application/mspowerpoint|Office",
 	'\.(xls|csv)'		=> "application/vnd.ms-excel|Excel|Office",
-	'\.mpp'				=> "application/vnd.ms-project|Office", # project
-	# 以下は正式なmime-typeではありません
-	'\.(md[baentwz])'	=> "application/vnd.ms-access|G3", # access
-	'\.(vs[dstw])'		=> "application/vnd.ms-visio|Office", # visio
-	'\.pub'				=> "application/vnd.ms-publisher|Office", # publisher
-	'\.one'				=> "application/vnd.ms-onenote|data", # one note
+	'\.mpp'				=> "application/vnd.ms-project|Office", # project # comment
+	# 以下は正式なmime-typeではありません						# comment
+	'\.(md[baentwz])'	=> "application/vnd.ms-access|G3", # access	# comment
+	'\.(vs[dstw])'		=> "application/vnd.ms-visio|Office", # visio	# comment
+	'\.pub'				=> "application/vnd.ms-publisher|Office", # publisher	# comment
+	'\.one'				=> "application/vnd.ms-onenote|data", # one note	# comment
 
-	# Open Office Files
-	'\.odb'				=> "application/vnd.sun.xml.base|Zip",	# base
-	'\.(o[dt]s)|(s[tx]c)'=>"application/vnd.sun.xml.calc|Zip",	# calc
-	'\.(o[dt]g)|(s[tx]d)'=>"application/vnd.sun.xml.draw|Zip",	# draw
-	'\.(o[dt]p)|(s[tx]i)'=>"application/vnd.sun.xml.impress|Zip",	# impress
-	'\.(odf)(sxm)'		=> "application/vnd.sun.xml.math|Zip",	# math (not supoprt .mml)
-	'\.(o[dt]t)|(s[tx]w)'=>"application/vnd.sun.xml.writer|Zip",	# writer
+	# Open Office Files											# comment
+	'\.odb'				=> "application/vnd.sun.xml.base|Zip",	# base	# comment
+	'\.(o[dt]s)|(s[tx]c)'=>"application/vnd.sun.xml.calc|Zip",	# calc	# comment
+	'\.(o[dt]g)|(s[tx]d)'=>"application/vnd.sun.xml.draw|Zip",	# draw	# comment
+	'\.(o[dt]p)|(s[tx]i)'=>"application/vnd.sun.xml.impress|Zip",	# impress	# comment
+	'\.(odf)(sxm)'		=> "application/vnd.sun.xml.math|Zip",	# math (not supoprt .mml)	# comment
+	'\.(o[dt]t)|(s[tx]w)'=>"application/vnd.sun.xml.writer|Zip",	# writer	# comment
 
-	# Application Files
+	# Application Files											# comment
 	'\.pdf'				=> "application/pdf|PDF document",
 	'\.swf'				=> "application/x-shockwave-flash|Flash",
 	'\.iso'				=> "application/octet-stream|ISO",
 
-	# Sound Files
+	# Sound Files												# comment
 	'\.(midi?|kar|rmi)'	=> "audio/midi|audio/unknown|MIDI",
 	'\.(mp[23]|mpga)'	=> "audio/mpeg|MP3|MPEG|audio|voice",
 	'\.(wav|wma)'		=> "audio/x-wav|PCM|ITU|GSM|MPEG|audio|voice",
@@ -89,57 +97,56 @@ my %mime = (
 	'\.ogg'				=> "application/ogg|Ogg",
 	'\.(au|snd)'		=> "audio/basic|audio",
 
-	# Phone sound files
-#	'\.mld'				=> "text/plain|data", #DoCoMo (text/plainが奨励されている)
-	'\.mmf'				=> "application/vnd.smaf|SMAF", #SoftBank(not iphone)/au
+	# Phone sound files											# comment
+#	'\.mld'				=> "text/plain|data", #DoCoMo (text/plainが奨励されている)		# comment
+	'\.mmf'				=> "application/vnd.smaf|SMAF", #SoftBank(not iphone)/au	# comment
 
-	# Image Files
+	# Image Files												# comment
 	'\.bmp'				=> "image/bmp|bitmap",
 	'\.gif'				=> "image/gif|GIF",
 	'\.jpe?g'			=> "image/jpeg|JPEG",
 	'\.png'				=> "image/png|PNG",
 	'\.tiff?'			=> "image/tiff|TIFF",
 
-	# Video Files
+	# Video Files												# comment
 	'\.mpe?g'			=> "video/mpeg|MPEG|Microsoft|ASF|AVI|Div|video",
 	'\.(avi|asf|wmv)'	=> "video/x-msvideo|Microsoft|ASF",
 	'\.rmm?'			=> "application/vnd.rn-realmedia|Real",
 	'\.(qt|mov)'		=> "video/quicktime|Apple|QuickTime",
 
-	# Document Files
+	# Document Files											# comment
 	'\.txt'				=> "text/plain|text",
-	'\.([ch]p?p?)'		=> "text/plain|text",			# C/C++ソース
-	'\.(js)'			=> "text/x-javascript|text",	# JavaScript
-	'\.(cgi|p[lm])'		=> "text/plain|text",			# perl
-	'\.(php|rb)'		=> "text/plain|text",			# php/ruby
+	'\.([ch]p?p?)'		=> "text/plain|text",			# C/C++ソース	# comment
+	'\.(js)'			=> "text/x-javascript|text",	# JavaScript	# comment
+	'\.(cgi|p[lm])'		=> "text/plain|text",			# perl			# comment
+	'\.(php|rb)'		=> "text/plain|text",			# php/ruby		# comment
 
-	# Hypertext files
-	# Please do not comment out as much as possible
-	# for fishing fraud prevention sake
-#	'\.html?'			=> "text/html|HTML document",
-#	'\.(xhtml|xhtm|xht)'=> "application/xhtml+xml|XML|XSL|HTML",
-#	'\.eml'				=> "text/plain|text",
-#	'\.(mht|mhtm|mhtml)'=> "text/plain|text",
-#	'\.rdf'				=> "application/rdf+xml|XSL|XML",
-#	'\.(xml|xsl)'		=> "application/xml|XSL|XML",
-#	'\.(css)'			=> "text/plain|text",
+	'\.html?'			=> "text/html|HTML document",
+	'\.(xhtml|xhtm|xht)'=> "application/xhtml+xml|XML|XSL|HTML",
+	'\.eml'				=> "text/plain|text",
+	'\.(mht|mhtm|mhtml)'=> "text/plain|text",
+	'\.rdf'				=> "application/rdf+xml|XSL|XML",
+	'\.(xml|xsl)'		=> "application/xml|XSL|XML",
+	'\.(css)'			=> "text/plain|text",
 
-	# exec files, etc...
-#	'\.(exe|com)'		=> "application/octet-stream|MS Exec File",
-#	'\.(chm|hlp)'		=> "application/octet-stream|MS Help File",
-#	'\.(msi)'			=> "application/octet-stream|MS installer",
+	# exec files, etc...												# comment
+#	'\.(exe|com)'		=> "application/octet-stream|MS Exec File",		# comment
+	'\.(exe)'			=> "application/octet-stream|MS Exec File",
+	'\.(chm|hlp)'		=> "application/octet-stream|MS Help File",
+	'\.(msi)'			=> "application/octet-stream|MS installer",
 
 );
 
 #--------------------------------------------------------
-# 2005.12.19 pochi: mod_perlで実行可能に {
+# 2005.12.19 pochi: mod_perlで実行可能に								# comment
 $::functions{"md5_file"} = \&md5_file;
 $::functions{"attach_mime_content_type"} = \&attach_mime_content_type;
 $::functions{"attach_magic"} = \&attach_magic;
 $::functions{"attach_form"} = \&attach_form;
 $::functions{"authadminpassword"} = \&authadminpassword;
+$::functions{"date"} = \&date;
 
-# file icon image
+# file icon image														# comment
 if (!$::file_icon) {
 	$::file_icon = '<img src="'
 		. $::image_url
@@ -154,7 +161,7 @@ sub attach_magic {
 		if(-r $_) {
 			my $mm = File::MMagic->new($_);
 			if(open(R,$file)) {
-				if(sysread(R,$buf,0x8564)) {
+				if(sysread(R,$buf,0x10000)) {
 					close(R);
 					return $mm->checktype_contents($buf);
 				}
@@ -166,7 +173,7 @@ sub attach_magic {
 	return &attach_mime_content_type($file);
 }
 
-#-------- convert
+#-------- convert													# comment
 sub plugin_attach_convert
 {
 	if (!$::file_uploads) {
@@ -197,11 +204,11 @@ sub plugin_attach_convert
 
 my %_attach_messages;
 
-#アップロードフォーム
+#アップロードフォーム												# comment
 sub attach_form
 {
 	my $page = $::form{mypage};	#split(/,/, shift);
-#	$r_page = rawurlencode($page);
+#	$r_page = rawurlencode($page);									# comment
 	my $r_page = $page;
 	my $s_page = &htmlspecialchars($page);
 	my $navi =<<"EOD";
@@ -220,12 +227,13 @@ EOD
 
 	my $pass = '';
 	if ($::file_uploads == 2) {
-		$pass='<br />' . &authadminpassword("input",$::resource{attach_plugin_msg_password},"attach");
-#		$pass = '<br />' . $::resource{attach_plugin_msg_password}
-#			. ': <input type="password" name="pass" size="8" />';
+		%auth=&authadminpassword("input",$::resource{attach_plugin_msg_password},"attach");
+		$pass='<br />' . $auth{html};
+#		$pass = '<br />' . $::resource{attach_plugin_msg_password}	# comment
+#			. ': <input type="password" name="pass" size="8" />';	# comment
 	}
 	return <<"EOD";
-<form enctype="multipart/form-data" action="$::script" method="post">
+<form enctype="multipart/form-data" action="$::script" method="post" id="attach_form" name="attach_form">
  <div>
   <input type="hidden" name="cmd" value="attach" />
   <input type="hidden" name="pcmd" value="post" />
@@ -238,7 +246,11 @@ EOD
   </span><br />
   $::resource{'attach_plugin_msg_file'}: <input type="file" name="attach_file" />
   $pass
-  <input type="submit" value="$::resource{'attach_plugin_btn_upload'}" />
+  @{[$auth{crypt} ?
+    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	getid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_upload'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_upload'}" /></noscript>)
+    :
+   qq(<input type="submit" value="$::resource{'attach_plugin_btn_upload'}" />)
+  ]}
  </div>
 </form>
 EOD
@@ -246,7 +258,7 @@ EOD
 
 sub plugin_attach_action
 {
-	# backward compatible
+	# backward compatible									# comment
 	if ($::form{'openfile'} ne '') {
 		$::form{'pcmd'} = 'open';
 		$::form{'file'} = $::from{'openfile'};
@@ -259,17 +271,17 @@ sub plugin_attach_action
 	my $age = $::form{age} ? $::form{age} : 0;
 	my $pcmd = $::form{pcmd} ? $::form{pcmd} : '';
 
-	# Authentication
-#	if ($::form{refer} ne '') { #and is_pagename($vars['refer'])) {
-#		my @read_cmds = ('info','open','list');
-#		in_array($pcmd,$read_cmds) ?
-#			check_readable($vars['refer']) : check_editable($vars['refer']);
-#	}
+	# Authentication												# comment
+#	if ($::form{refer} ne '') { #and is_pagename($vars['refer'])) {	# comment
+#		my @read_cmds = ('info','open','list');						# comment
+#		in_array($pcmd,$read_cmds) ?								# comment
+#			check_readable($vars['refer']) : check_editable($vars['refer']);	# comment
+#	}	# comment
 
-	# Upload
+	# Upload														# comment
 	if ($::form{attach_file} ne '') {
-	#	my $pass = $::form{pass} ? md5_hex($::form{pass}) : '';
-#		return &attach_upload($::form{attach_file}, $::form{refer}, $::form{mypassword});
+	#	my $pass = $::form{pass} ? md5_hex($::form{pass}) : '';		# comment
+#		return &attach_upload($::form{attach_file}, $::form{refer}, $::form{mypassword});	# comment
 		return &attach_upload($::form{attach_file}, $::form{refer}, $::form{mypassword});
 	}
 
@@ -281,18 +293,18 @@ sub plugin_attach_action
 		return &attach_open;
 	} elsif ($pcmd eq 'list') {
 		return &attach_list;
-	} elsif ($pcmd eq 'freeze') {
-		return &attach_freeze(1);
-	} elsif ($pcmd eq 'unfreeze') {
-		return &attach_freeze(0);
-	} elsif ($pcmd eq 'upload') {
-		return &attach_showform;
+#	} elsif ($pcmd eq 'freeze') {
+#		return &attach_freeze(1);
+#	} elsif ($pcmd eq 'unfreeze') {
+#		return &attach_freeze(0);
+#	} elsif ($pcmd eq 'upload') {
+#		return &attach_showform;
 	}
 	return &attach_list if ($::form{mypage} eq '' or !$::database{$::form{mypage}});
 	return ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_msg_upload}", 'body'=>&attach_form, 'ispage'=>1);
 }
 
-# 詳細フォームを表示
+# 詳細フォームを表示												# comment
 sub attach_info
 {
 	my $obj = new AttachFile($::form{refer}, $::form{file}, $::form{age});
@@ -300,7 +312,7 @@ sub attach_info
 		: ('msg'=>$::form{refer}, 'body'=>"error:" . $::resource{attach_plugin_err_notfound}, 'ispage'=>1);
 }
 
-# 削除
+# 削除																# comment
 sub attach_delete
 {
 	my %auth=&authadminpassword("input","","attach");
@@ -309,12 +321,22 @@ sub attach_delete
 	}
 
 	my $obj = new AttachFile($::form{refer}, $::form{file}, $::form{age});
-	return $obj->getstatus()
-		? $obj->delete()
-		: ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_err_notfound}",, 'body'=>&attach_form, 'ispage'=>1);
+
+	# add v0.2.0													# comment
+	if($obj->getstatus()) {
+		my $file=$::form{file};
+		$file.=$::form{age} ne '' ? " (Backup No.$::form{age})" : "";
+		&send_mail_to_admin($::form{refer}, "AttachDelete", $file);
+		return $obj->delete();
+	} else {
+		return ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_err_notfound}",, 'body'=>&attach_form, 'ispage'=>1);
+	}
+#	return $obj->getstatus()								# comment
+#		? $obj->delete()									# comment
+#		: ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_err_notfound}",, 'body'=>&attach_form, 'ispage'=>1);							# comment
 }
 
-# ダウンロード
+# ダウンロード														# comment
 sub attach_open
 {
 	my $obj = new AttachFile($::form{refer}, $::form{file}, $::form{age});
@@ -322,19 +344,19 @@ sub attach_open
 		: ('msg'=>$::form{refer}, 'body'=>"error:" . $::resource{attach_plugin_err_notfound});
 }
 
-# 一覧取得
+# 一覧取得														# comment
 sub attach_list
 {
 	my $refer = $::form{refer};
 	my $obj = new AttachPages($refer);
-#	my $msg = $::resource{$refer eq '' ? 'attach_msg_listall' : 'attach_msg_listpage'};
+#	my $msg = $::resource{$refer eq '' ? 'attach_msg_listall' : 'attach_msg_listpage'};			# comment
 	my $msg = $refer eq '' ? "\t$::resource{attach_plugin_msg_listall}" : "$refer\t$::resource{attach_plugin_msg_listpage}";
 	my $body = $obj->toString(0, 1);
 	undef $obj;
 	return ('msg'=>$msg,'body'=>$body, 'ispage'=>$refer eq '' ? 0 : 1);
 }
 
-# ファイルアップロード
+# ファイルアップロード												# comment
 sub attach_upload
 {
 	my ($filename, $page, $pass) = @_;
@@ -345,24 +367,24 @@ sub attach_upload
 	}
 	my ($parsename, $path, $ffile);
 	$parsename = $filename;
-	$parsename =~ s#\\#/#g;	# \を/に変換
+	$parsename =~ s#\\#/#g;
 	$parsename =~ s/^http:\/\///;
 	$parsename =~ /([^:\/]*)(:([0-9]+))?(\/.*)?$/;
 	$path = $4 || '/';
-	$path =~ /(.*\/)(.*)/;			#$ffileには直下のファイル名
-	$ffile = $2;			#ファイル名が無い場合'/')
+	$path =~ /(.*\/)(.*)/;			#$ffileには直下のファイル名	# comment
+	$ffile = $2;			#ファイル名が無い場合'/'			# comment
 	if($ffile eq '') {
 		$ffile=$parsename;
 		$ffile=~s/.*\///g;
 	}
-	$ffile =~ s/#.*$//;		# #はページ内リンクなので、削除する
+	$ffile =~ s/#.*$//;		# #はページ内リンクなので、削除する	# comment
 	$ffile = &code_convert(\$ffile, $::defaultcode);
 
 	my $obj = new AttachFile($page, $ffile);
 	if ($obj->{exist}) {
 		return ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_err_exists}",'body'=>&attach_form);
 	}
-	#ファイルの保存
+	#ファイルの保存												# comment
 	unless (open (FILE, ">" . $obj->{filename})) {
 		return('msg'=>$::form{mypage}, 'body'=>"$::resource{attach_plugin_err_upload}<br />$!:@{[$obj->{filename}]}");
 
@@ -395,27 +417,31 @@ sub attach_upload
 		unlink $obj->{filename};
 		return ('msg'=>"\t$::resource{attach_plugin_err_ignoremime}",'body'=>&attach_form);
 	}
+	# add v0.2.0													# comment
+	&send_mail_to_admin($::form{mypage}, "AttachUpload", $ffile);
 	return ('msg'=>"$::form{mypage}\t$::resource{attach_plugin_msg_uploaded}", 'body'=>&attach_form);
 
-#	$obj->getstatus();
-#	$obj->status['pass'] = ($pass !== TRUE and $pass !== NULL) ? $pass : '';
-#	$obj->putstatus();
+#	$obj->getstatus();												# comment
+#	$obj->status['pass'] = ($pass !== TRUE and $pass !== NULL) ? $pass : '';	# comment
+#	$obj->putstatus();												# comment
 
-#	return array('result'=>TRUE,'msg'=>$_attach_messages['msg_uploaded'])
-#	# パーミッションを変更 
-#	chmod (0666, "$Temp/$basename"); 
+#	return array('result'=>TRUE,'msg'=>$_attach_messages['msg_uploaded'])	# comment
+#	# パーミッションを変更		# comment
+#	chmod (0666, "$Temp/$basename");								# comment
 }
 
-# ファイル名からmimeタイプ取得。
+# ファイル名からmimeタイプ取得。									# comment
 sub attach_mime_content_type
 {
 	my $filename = lc shift;
 	my $check = shift;
 	my $mime_type;
-	foreach (keys %mime) {
-		next unless ($_ && defined($mime{$_}));
-		if ($filename =~ /$_$/i) {
-			$mime_type = $mime{$_};
+	foreach my $ext (keys %mime) {
+		next unless ($ext && defined($mime{$ext}));
+		my $tmp=lc $filename;
+		my $tmp2=lc $ext;
+		if ($tmp =~ /$tmp2$/i) {
+			$mime_type = $mime{$ext};
 			last;
 		}
 	}
@@ -424,7 +450,7 @@ sub attach_mime_content_type
 }
 
 
-# php互換関数。
+# php互換関数。														# comment
 sub md5_file {
 	my ($path) = @_;
 	open(FILE, $path);
@@ -435,8 +461,8 @@ sub md5_file {
 	return md5_hex($contents);
 }
 
-#----------------------------------------------------
-# 1ファイル単位のコンテナ
+#----------------------------------------------------				# comment
+# 1ファイル単位のコンテナ											# comment
 package AttachFile;
 
 sub dbmname {
@@ -494,6 +520,11 @@ sub plugin_counter_do {
 	return &$funcp(@_);
 }
 
+sub date {
+	my $funcp = $::functions{"date"};
+	return &$funcp(@_);
+}
+
 sub new
 {
 	my $this = bless {};
@@ -512,7 +543,7 @@ sub new
 	return $this;
 }
 
-# 添付ファイルのオープン
+# 添付ファイルのオープン									# comment
 sub open
 {
 	my $this = shift;
@@ -527,27 +558,39 @@ sub open
 		&plugin_counter_do("attach\_$pg\_$fn","w");
 	}
 
-	# Windows MSIE & Opera & Chrome
+	# Windows MSIE & Opera & Chrome changed 0.2.0					# comment
 
+	my $charset;
 	if($filename=~/[\x81-\xfe]/) {
-		if($ENV{HTTP_USER_AGENT}=~/Opera/ || $ENV{HTTP_USER_AGENT} =~/Chrome/) {			$filename=&code_convert(\$filename,"utf8",$::defaultcode);
+		if($ENV{HTTP_USER_AGENT} =~/Chrome/) {
+			$filename=&code_convert(\$filename,"utf8",$::defaultcode);
 			$filename=qq(filename="$filename");
-#			$filename="filename*=ISO-2022-JP" . qq{''} . &encode($filename) . qq{"};
+#			$filename="filename*=ISO-2022-JP" . qq{''} . &encode($filename) . qq{"};	# comment
 			$filename=~s/%2e/\./g;
+			$charset="utf-8";
+#		} elsif($ENV{HTTP_USER_AGENT}=~/Opera/) {						# comment
+#			$filename=&code_convert(\$filename,"utf8",$::defaultcode);	# comment
+#			$filename=qq(filename="$filename");							# comment
+#			$charset="utf-8";											# comment
 		} elsif($ENV{HTTP_USER_AGENT}=~/MSIE/) {
 			$filename=qq{filename="} . &code_convert(\$filename,"sjis") . qq{"};
+			$charset="Shift-JIS";
 		} else {
-			$filename=&code_convert(\$filename,$::kanjicode);
+#			$filename=&code_convert(\$filename,$::kanjicode);			# comment
+			$filename=&code_convert(\$filename,"utf8");
 			$filename=qq(filename="$filename");
-#			$filename=qq{filename="} . $::charset . qq{''} . &encode($filename) . qq{"};
-#			$filename=~s/%2e/\./g;
+#			$filename=qq{filename="} . $::charset . qq{''} . &encode($filename) . qq{"};	# comment
+			$filename=~s/%2e/\./g;
+			$charset="utf-8";
 		}
 	} else {
+		$filename=&code_convert(\$filename,"utf8",$::defaultcode);
 		$filename=qq(filename="$filename");
+		$charset="utf-8";
 	}
 
 	$http_header=$query->header(
-		-type=>"$this->{type}",
+		-type=>"$this->{type}; charset=$charset",
 		-Content_disposition=>"attachment; $filename",
 		-Content_length=>$this->{size},
 		-expires=>"now",
@@ -565,7 +608,7 @@ sub open
 	exit;
 }
 
-# 情報表示
+# 情報表示															# comment
 sub info
 {
 	my $this = shift;
@@ -609,16 +652,15 @@ EOD
 		my $msg_pass;
 
 		if ($::file_uploads >= 2) {
-			$msg_pass='<br />' . &authadminpassword("input",$::resource{attach_plugin_msg_password},"attach");
-#			$msg_pass = $::resource{attach_plugin_msg_password}
-#			. '<input type="password" name="pass" size="8" />';
+			%auth=&authadminpassword("input",$::resource{attach_plugin_msg_password},"attach");
+			$msg_pass='<br />' . $auth{html};
 		}
 
 		my $s_page = &htmlspecialchars($this->{page});
 
 		$retval{body} .=<<EOD;
 <hr />
-<form action="$::script" method="get">
+<form action="$::script" method="post" id="attach_form" name="attach_form">
  <div>
   <input type="hidden" name="cmd" value="attach" />
   <input type="hidden" name="mypage" value="$this->{page}" />
@@ -627,7 +669,11 @@ EOD
   <input type="hidden" name="age" value="$this->{age}" />
   $msg_delete
   $msg_pass
-  <input type="submit" value="$::resource{attach_plugin_btn_submit}" />
+  @{[$auth{crypt} ?
+    qq(<span id="attachbutton"></span><script type="text/javascript"><!--\n	getid("attachbutton").innerHTML='<input type="button" value="$::resource{'attach_plugin_btn_submit'}" onclick="fsubmit(\\'attach_form\\',\\'attach\\');" onkeypress="fsubmit(\\'attach_form\\',\\'attach\\',event);" />';\n//--></script>\n<noscript><input type="submit" value="$::resource{'attach_plugin_btn_submit'}" /></noscript>)
+    :
+   qq(<input type="submit" value="$::resource{'attach_plugin_btn_submit'}" />)
+  ]}
  </div>
 </form>
 EOD
@@ -639,7 +685,7 @@ sub delete
 {
 	my $this = shift;
 
-	# バックアップ
+	# バックアップ												# comment
 	if ($this->{age}) {
 		unlink($this->{filename});
 	} else {
@@ -656,23 +702,24 @@ sub delete
 	return ('msg'=>"$this->{page}\t$::resource{attach_plugin_msg_deleted}", 'body'=>&attach_form);
 }
 
-# ステータス取得
+# ステータス取得												# comment
 sub getstatus
 {
 	my $this = shift;
 
 	return 0 if (!$this->{exist});
 
-	# ログファイル取得
-	if (-e $this->{logname}) {
-	#	$data = file($this->logname);
-	#	foreach ($this->status as $key=>$value)
-	#	{
-	#		$this->status[$key] = chop(array_shift($data));
-	#	}
-	#	$this->status['count'] = explode(',',$this->status['count']);
-	}
-#	$this->time_str = get_date('Y/m/d H:i:s',$this->time);
+	# ログファイル取得											# comment
+	#if (-e $this->{logname}) {									# comment
+	#	$data = file($this->logname);							# comment
+	#	foreach ($this->status as $key=>$value)					# comment
+	#	{														# comment
+	#		$this->status[$key] = chop(array_shift($data));		# comment
+	#	}														# comment
+	#	$this->status['count'] = explode(',',$this->status['count']);	# comment
+	#}															# comment
+#	$this->time_str = get_date('Y/m/d H:i:s',$this->time);		# comment
+
 	my ($sec, $min, $hour, $day, $mon, $year) = localtime($this->{time});
 	$this->{time_str} = sprintf("%d/%02d/%02d %02d:%02d:%02d",
 			$year + 1900, $mon + 1, $day, $hour, $min, $sec);
@@ -683,22 +730,22 @@ sub getstatus
 	return 1;
 }
 
-# ステータス保存
-sub putstatus
-{
-#	$this->status['count'] = join(',',$this->status['count']);
-#	$fp = fopen($this->logname,'wb')
-#		or die_message('cannot write '.$this->logname);
-#	flock($fp,LOCK_EX);
-#	foreach ($this->status as $key=>$value)
-#	{
-#		fwrite($fp,$value."\n");
-#	}
-#	flock($fp,LOCK_UN);
-#	fclose($fp);
-}
+# ステータス保存 (nouse)										# comment
+#sub putstatus													# comment
+#{																# comment
+#	$this->status['count'] = join(',',$this->status['count']);	# comment
+#	$fp = fopen($this->logname,'wb')							# comment
+#		or die_message('cannot write '.$this->logname);			# comment
+#	flock($fp,LOCK_EX);											# comment
+#	foreach ($this->status as $key=>$value)						# comment
+#	{															# comment
+#		fwrite($fp,$value."\n");								# comment
+#	}															# comment
+#	flock($fp,LOCK_UN);											# comment
+#	fclose($fp);												# comment
+#}																# comment
 
-# ファイルのリンクを作成
+# ファイルのリンクを作成										# comment
 sub toString {
 	my $this = shift;
 	my $showicon = shift;
@@ -721,8 +768,8 @@ sub toString {
 	return $body;
 }
 
-#----------------------------------------------------
-# ファイル一覧コンテナ作成
+#----------------------------------------------------			# comment
+# ファイル一覧コンテナ作成										# comment
 package AttachFiles;
 my %files;
 
@@ -743,11 +790,11 @@ sub add {
 	my $file = shift;
 	my $age  = shift;
 
-	# 美しくないけど３次元配列
+	# 美しくないけど３次元配列									# comment
 	$files{$this->{page}}{$file}{$age} = new AttachFile($this->{page}, $file, $age);
 }
 
-# ページ単位の一覧表示
+# ページ単位の一覧表示											# comment
 sub toString {
 	my $this = shift;
 	my $flat = shift;
@@ -789,8 +836,8 @@ sub to_flat {
 	return $ret;
 }
 
-#-------------------------------------------------
-# ページコンテナ作成
+#-------------------------------------------------				# comment
+# ページコンテナ作成											# comment
 package AttachPages;
 
 sub dbmname {
@@ -800,7 +847,7 @@ sub dbmname {
 
 my %pages;
 
-# ページコンテナ作成
+# ページコンテナ作成											# comment
 sub new {
 	my $this = bless {};
 	shift;
@@ -824,6 +871,8 @@ sub new {
 		$_page = pack("H*", $1);
 		$_file = pack("H*", $2);
 		$_age = $3 ? $3 : 0;
+		next if($_page=~/$::non_list/ && $::attach_nonlist eq 1
+				&& $this->{page} eq '');
 
 		$pages{$_page} = new AttachFiles($_page) if (!exists($pages{$_page}));
 		$pages{$_page}->add($_file, $_age);
@@ -831,13 +880,13 @@ sub new {
 	return $this;
 }
 
-# 全ページの添付一覧表示
+# 全ページの添付一覧表示											# comment
 sub toString {
 	my $this = shift;
 	my $page = shift;
 	my $flat = shift;
 
-	# page exist check;
+	# page exist check;												# comment
 	my $body = "";
 	foreach (sort keys %pages) {
 		$body .= $pages{$_}->toString($flat);
@@ -884,11 +933,11 @@ Upload max file size (bytes)
 
 =item PyukiWiki/Plugin/Standard/attach
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/attach/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/attach/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/attach.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/attach.inc.pl?view=log>
 
 =back
 
@@ -902,15 +951,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

@@ -1,25 +1,19 @@
 #
-# $Id: H2Z.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: H2Z.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: H2Z.pm,v 2.0 2005/05/16 19:07:57 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode::H2Z;
-
 use strict;
 use vars qw($RCSID $VERSION);
-
-$RCSID = q$Id: H2Z.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-
+$RCSID = q$Id: H2Z.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 use Carp;
-
 use Jcode::Constants qw(:all);
-
 use vars qw(%_D2Z  $_PAT_D2Z
 	    %_Z2D  $_PAT_Z2D
 	    %_H2Z  $_PAT_H2Z
 	    %_Z2H  $_PAT_Z2H);
-
 %_H2Z = (
 	 "\x8e\xa1"	=>	"\xa1\xa3",
 	 "\x8e\xa2"	=>	"\xa1\xd6",
@@ -85,7 +79,6 @@ use vars qw(%_D2Z  $_PAT_D2Z
 	 "\x8e\xde"	=>	"\xa1\xab",
 	 "\x8e\xdf"	=>	"\xa1\xac",
 );
-
 %_D2Z = (
 	 "\x8e\xb6\x8e\xde"	=>	"\xa5\xac",
 	 "\x8e\xb7\x8e\xde"	=>	"\xa5\xae",
@@ -114,18 +107,13 @@ use vars qw(%_D2Z  $_PAT_D2Z
 	 "\x8e\xce\x8e\xdf"	=>	"\xa5\xdd",
 	 "\x8e\xb3\x8e\xde"     =>      "\xa5\xf4",     #¥ô
 );
-
 # init only once;
-
 #$_PAT_D2Z = join("|", keys %_D2Z);
 #$_PAT_H2Z = join("|", keys %_H2Z);
-
 %_Z2H = reverse %_H2Z;
 %_Z2D = reverse %_D2Z;
-
 #$_PAT_Z2H    = join("|", keys %_Z2H);
 #$_PAT_Z2D    = join("|", keys %_Z2D);
-
 sub h2z {
     my $r_str = shift;
     my ($keep_dakuten) = @_;
@@ -137,7 +125,7 @@ sub h2z {
 			    (?:\x8e[\xde\xdf])?)
 			   ){
 		  my $str = $1;
-		  $_D2Z{$str} || $_H2Z{$str} || 
+		  $_D2Z{$str} || $_H2Z{$str} ||
 		      # in case dakuten and handakuten are side-by-side!
 		      $_H2Z{substr($str,0,2)} . $_H2Z{substr($str,2,2)};
 		  }eogx
@@ -153,7 +141,6 @@ sub h2z {
     }
     $n;
 }
-
 sub z2h {
     my $r_str = shift;
     my $n = (
@@ -165,5 +152,4 @@ sub z2h {
 	     );
     $n;
 }
-
 1;

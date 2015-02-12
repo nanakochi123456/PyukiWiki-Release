@@ -1,0 +1,71 @@
+#$Id: search_fuzzy.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+search_fuzzy.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ ?cmd=search
+
+=head1 説明
+
+search.inc.plのサブモジュールです。
+
+=head1 設定
+
+=head2 pyukiwiki.ini.cgi
+
+=over 4
+
+=item $::use_FuzzySearch
+
+0:通常検索, 1:日本語あいまい検索
+
+=back
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/search
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/search/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/search.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/search_fuzzy.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

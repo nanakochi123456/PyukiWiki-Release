@@ -1,20 +1,14 @@
-#$Id: Punycode.pm,v 1.71 2011/05/04 07:26:50 papu Exp $
+#$Id: Punycode.pm,v 1.320 2011/12/31 13:06:10 papu Exp $
 # "IDNA::Punycode.pm" version 0.03 $$
-
 package IDNA::Punycode;
-
 use strict;
 our $VERSION = 0.03;
-
 require Exporter;
 our @ISA	= qw(Exporter);
 our @EXPORT = qw(encode_punycode decode_punycode idn_prefix);
-
 use integer;
-
 our $DEBUG = 0;
 our $PREFIX = 'xn--';
-
 use constant BASE => 36;
 use constant TMIN => 1;
 use constant TMAX => 26;
@@ -22,16 +16,12 @@ use constant SKEW => 38;
 use constant DAMP => 700;
 use constant INITIAL_BIAS => 72;
 use constant INITIAL_N => 128;
-
 my $Delimiter = chr 0x2D;
 my $BasicRE   = qr/[\x00-\x7f]/;
-
 sub _croak { require Carp; Carp::croak(@_); }
-
 sub idn_prefix {
 	$PREFIX = shift;
 }
-
 sub digit_value {
 	my $code = shift;
 	return ord($code) - ord("A") if $code =~ /[A-Z]/;
@@ -39,14 +29,12 @@ sub digit_value {
 	return ord($code) - ord("0") + 26 if $code =~ /[0-9]/;
 	return;
 }
-
 sub code_point {
 	my $digit = shift;
 	return $digit + ord('a') if 0 <= $digit && $digit <= 25;
 	return $digit + ord('0') - 26 if 26 <= $digit && $digit <= 36;
 	die 'NOT COME HERE';
 }
-
 sub adapt {
 	my($delta, $numpoints, $firsttime) = @_;
 	$delta = $firsttime ? $delta / DAMP : $delta / 2;
@@ -58,27 +46,22 @@ sub adapt {
 	}
 	return $k + (((BASE - TMIN + 1) * $delta) / ($delta + SKEW));
 }
-
 sub decode_punycode {
 	my $code = shift;
-
 	my $n	  = INITIAL_N;
 	my $i	  = 0;
 	my $bias   = INITIAL_BIAS;
 	my @output;
-
 	if ($PREFIX) {
 		if ($code !~ /^$PREFIX/) {
 			return $code;
 		}
 		$code =~ s/^$PREFIX//;
 	}
-
 	if ($code =~ s/(.*)$Delimiter//o) {
 		push @output, map ord, split //, $1;
 		return _croak('non-basic code point') unless $1 =~ /^$BasicRE*$/o;
 	}
-
 	while ($code) {
 		my $oldi = $i;
 		my $w	= 1;
@@ -103,30 +86,23 @@ sub decode_punycode {
 	}
 	return join '', map chr, @output;
 }
-
 sub encode_punycode {
 	my $input = shift;
-
 	my @input = map substr($input, $_, 1), 0..length($input)-1;
-
 	my $n	 = INITIAL_N;
 	my $delta = 0;
 	my $bias  = INITIAL_BIAS;
-
 	my @output;
 	my @basic = grep /$BasicRE/, @input;
 	my $h = my $b = @basic;
-
 	push @output, @basic if $b > 0;
 	warn "basic codepoints: (@output)" if $DEBUG;
-
 	if ($h < @input) {
 		$PREFIX && unshift(@output, $PREFIX);
 		push(@output, $Delimiter);
 	} else {
 		return join '', @output;
 	}
-
 	while ($h < @input) {
 		my $m = min(grep { $_ >= $n } map ord, @input);
 		warn sprintf "next code point to insert is %04x", $m if $DEBUG;
@@ -158,13 +134,10 @@ sub encode_punycode {
 	}
 	return join '', @output;
 }
-
 sub min {
 	my $min = shift;
 	for (@_) { $min = $_ if $_ <= $min }
 	return $min;
 }
-
 1;
 __END__
-

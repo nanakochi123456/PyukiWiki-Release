@@ -1,16 +1,16 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.57 2011/05/04 07:32:14 papu Exp $
+# $Id: HTTP.pm,v 1.306 2011/12/31 13:06:10 papu Exp $
 #
-# "Nana::HTTP" version 0.5 $$
+# "Nana::HTTP" version 0.6 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ use Errno qw(EAGAIN);
 use HTTP::Lite;
 
 use vars qw($VERSION);
-$VERSION = '0.5';
+$VERSION = '0.6';
 
 # 0:付属エンジン(HTTP::Lite) 1:LWPが存在すればLWP、なければ付属エンジン
 $Nana::HTTP::useLWP=0;
@@ -37,10 +37,7 @@ $Nana::HTTP::useLWP=0;
 $Nana::HTTP::UserAgent="$::package/$::version \@\@";
 
 # タイムアウト
-$Nana::HTTP::timeout=20;
-
-# 再試行回数 (↑で割れる数で、LWPは未使用)
-$Nana::HTTP::counter=2;
+$Nana::HTTP::timeout=2;
 
 ######################################################################
 
@@ -83,6 +80,27 @@ sub new {
 sub load_module {
 	my $funcp = $::functions{"load_module"};
 	return &$funcp(@_);
+}
+
+sub head {
+	my($self, $uri)=@_;
+	if($$self{lwp_ok} eq 1) {
+		my $req;
+		if($$self{user} . $$self{pass} ne '') {
+			my $header=HTTP::Headers->new;
+			$header->authorization_basic($$self{user},$$self{pass});
+			$req=HTTP::Request->new(HEAD => $uri, $header);
+		} else {
+			$req=HTTP::Request->new(HEAD => $uri);
+		}
+		my $res=$$self{lwp_ua}->request($req);
+		if($res->is_success) {
+			return(0,$res->content);
+		} else {
+			return(1,$res->status_line);
+		}
+	}
+	return &httpcl($uri,"HEAD", $$self{_header});
 }
 
 sub get {
@@ -145,7 +163,7 @@ sub makeua {
 	} else {
 		$ua=$self{ua};
 	}
-	return $ua;
+	return "$::package/$::version ($::basehref $ua)";
 }
 
 

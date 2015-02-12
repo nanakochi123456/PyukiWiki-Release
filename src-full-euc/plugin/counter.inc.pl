@@ -1,15 +1,15 @@
 ######################################################################
 # counter.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: counter.inc.pl,v 1.99 2011/05/04 07:26:50 papu Exp $
+# $Id: counter.inc.pl,v 1.356 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -25,25 +25,17 @@
 #  week - 今週の合計 ($::CountView=2 only)
 #  lastweek - 先週の合計 ($::CountView=2 only)
 ######################################################################
-
 use strict;
 use Nana::File;
-
-# mod_perlで実行可能に
 $::functions{"plugin_counter_do"} = \&plugin_counter_do;
-
 %::counter_loaded;
-
-
 sub plugin_counter_inline {
 	my $arg = shift;
 	my %counter = plugin_counter_get_count($::form{basepage} ne '' ? $::form{basepage} : $::form{mypage});
 	return " " . &plugin_counter_selection($arg,%counter);
 }
-
 sub plugin_counter_selection {
 	my($arg,%counter)=@_;
-
 	my $count=0;
 	if ($arg =~/(today|yesterday)/i) {
 		$count = $counter{$arg};
@@ -60,7 +52,6 @@ sub plugin_counter_selection {
 	}
 	return $count;
 }
-
 sub plugin_counter_convert {
 	my %counter = plugin_counter_get_count($::form{basepage} ne '' ? $::form{basepage} : $::form{mypage});
 	return <<"EOD";
@@ -71,7 +62,6 @@ yesterday: $counter{yesterday}
 </div>
 EOD
 }
-
 my %default = (
 	'total'     => 0,
 	'date'      => '',
@@ -79,26 +69,23 @@ my %default = (
 	'yesterday' => 0,
 	'ip'        => ''
 );
-
 sub plugin_counter_get_count {
 	my $page = shift;
-
 	if (!&is_exist_page($page)) {
 		return %default;
 	}
 	return &plugin_counter_do($page,"w");
 }
-
 sub plugin_counter_getudate {
 	return int((time+&gettz*3600) / 86400);
 }
-
 sub plugin_counter_do {
 	my($page,$rw)=@_;
 	$rw="r" if($rw=~/[Rr]/);
 	my %counter = %default;
-	my $file = $::counter_dir . "/" . &encode($page) . $::counter_ext;
 	my $hex=&dbmname($page);
+	my $new=$hex;
+	my $file = $::counter_dir . "/" . $new . $::counter_ext;
 	my ($mday, $mon, $year) = (localtime)[3..5];
 	$year += 1900;
 	$mon += 1;
@@ -113,17 +100,21 @@ sub plugin_counter_do {
 	} else {
 		$default{date}="$year/$mon/$mday";
 	}
-
 	my @keys;
 	@keys = sort keys(%default);
 	my $modify = 0;
-
 	my $buf;
-
 	if(defined $::counter_loaded->{$hex}) {
 		%counter=$::counter_loaded->{$hex};
 	} else {
 		my $counters=Nana::File::lock_fetch($file);
+		if($counters eq '') {
+			my $old=&encode($page);
+			my $oldfile = $::counter_dir . "/" . $old . $::counter_ext;
+			$counters=Nana::File::lock_fetch($oldfile);
+			$modify = 1;
+			Nana::File::lock_delete($oldfile);
+		}
 		my @tmp=split(/\n/,$counters);
 		if($counters=~/date\t/) {
 			$counter{version}=2;
@@ -160,7 +151,7 @@ sub plugin_counter_do {
 		}
 		if ($counter{date} ne $default{date}) {
 			$modify = 1;
-			$counter{ip}=$ENV{REMOTE_ADDR};
+			$counter{ip}=$ENV{REMOTE_ADDR} if($rw ne 'r');
 			if($counter{version} eq 1) {
 				my ($_mday, $_mon, $_year) = (localtime(time-86400))[3..5];
 				my $_date = "@{[$_year+1900]}/@{[$_mon+1]}/$_mday";
@@ -169,20 +160,18 @@ sub plugin_counter_do {
 			$counter{today} = ($rw eq 'r' ? 0 : 1);
 			$counter{date} = $default{date};
 			$counter{total}++ if($rw ne 'r');
-		} elsif ($counter{ip} ne $ENV{REMOTE_ADDR} || $::CounterHostCheck eq 0) {
+		} elsif (($counter{ip} ne $ENV{REMOTE_ADDR} || $::CounterHostCheck eq 0) && $rw ne 'r') {
 			$::CounterHostCheck=1;
 			$modify = 1;
-			$counter{ip}        = $ENV{REMOTE_ADDR};
+			$counter{ip} = $ENV{REMOTE_ADDR} if($rw ne 'r');
 			$counter{today}++ if($rw ne 'r');
 			$counter{total}++ if($rw ne 'r');
 		}
-
 		$counter{$udate{today}}=$counter{today}+0;
 		$counter{$udate{yesterday}}=$counter{yesterday}+0;
 		$::counter_loaded{$hex}=%counter;
 	}
-
-	if($modify eq 1 && $rw ne 'r' || $::CounterVersion ne $counter{version}) {
+	if($modify eq 1 || $::CounterVersion ne $counter{version}) {
 		$buf="";
 		if($::CounterVersion eq 2) {
 			$buf.="date\t$counter{date}\n";
@@ -195,7 +184,7 @@ sub plugin_counter_do {
 			foreach my $keys(@keys) {
 				$buf.="$counter{$keys}\n";
 			}
-		}
+ 		}
 		Nana::File::lock_store($file,$buf);
 	}
 	$counter{total}+=0;
@@ -204,4 +193,3 @@ sub plugin_counter_do {
 }
 1;
 __END__
-

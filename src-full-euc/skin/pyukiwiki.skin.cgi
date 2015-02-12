@@ -1,14 +1,14 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.74 2011/05/04 07:26:50 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.326 2011/12/31 13:06:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
-# Copyright (C) 2004-2011 by Nekyo.
+# "PyukiWiki" version 0.2.0 $$
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,11 +18,9 @@
 # Skin.ja:PyukiWiki…∏Ω‡
 # Skin.en:PyukiWiki Default
 ######################################################################
-
 sub skin {
 	my ($pagename, $body, $is_page, $bodyclass, $editable, $admineditable, $basehref, $lastmod) = @_;
-
-	my($page,$message,$errmessage)=split(/\t/,$pagename);	
+	my($page,$message,$errmessage)=split(/\t/,$pagename);
 	my $cookedpage = &encode($page);
 	my $cookedurl=&make_cookedurl($cookedpage);
 	my $escapedpage = &htmlspecialchars($page);
@@ -30,30 +28,14 @@ sub skin {
 	$escapedpage_short=~s/^.*\///g if($::short_title eq 1);
 	my $HelpPage = &encode($::resource{help});
 	my $htmlbody;
-	my ($title,$headerbody,$menubarbody,$footerbody,$notesbody);
-
-
-	if($::lang eq 'ja') {
-		$csscharset=qq( charset="Shift_JIS");
-	}
+	my ($title,$headerbody,$menubarbody,$sidebarbody,$footerbody,$notesbody);
+	$csscharset=qq( charset="$::charset");
 	if($::use_blosxom eq 1) {
 		$::IN_HEAD.=<<EOD;
 <link rel="stylesheet" href="$::skin_url/blosxom.css" type="text/css" media="screen"$csscharset />
 EOD
 	}
-
-
-	if($::wiki_title ne '') {
-		$title="$::wiki_title - ";
-	}
-
-	if($page eq '') {
-		$title_tag="$title$message";
-	} else {
-		$title_tag="$title$escapedpage @{[&htmlspecialchars(&get_subjectline($page))]}";
-	}
-
-
+	my($title, $title_tag)=&maketitle($page, $message);
 	if($is_page || $::allview eq 1) {
 		$headerbody=&print_content($::database{$::Header}, $::form{mypage})
 			if(&is_exist_page($::Header));
@@ -61,17 +43,19 @@ EOD
 		$::form{mypage}=$::MenuBar;
 		$menubarbody=&print_content($::database{$::MenuBar}, $::pushedpage)
 			if(&is_exist_page($::MenuBar));
+		$sidebarbody=&print_content($::database{$::SideBar}, $::pushedpage)
+			if(&is_exist_page($::SideBar));
 		$::form{mypage}=$::pushedpage;
 		$::pushedpage="";
+		$bodyheaderbody=&print_content($::database{$::BodyHeader}, $::form{mypage})
+			if(&is_exist_page($::BodyHeader));
+		$bodyfooterbody=&print_content($::database{$::BodyFooter}, $::form{mypage})
+			if(&is_exist_page($::BodyFooter));
 		$footerbody=&print_content($::database{$::Footer}, $::form{mypage})
 			if(&is_exist_page($::Footer));
 	}
-
-
 	$skinfooterbody=$::database{$::SkinFooter}
 		if(&is_exist_page($::SkinFooter));
-
-
 	if (@::notes) {
 		$notesbody.= << "EOD";
 <div id="note">
@@ -88,8 +72,6 @@ EOD
 		}
 		$notesbody.="</div>\n";
 	}
-
-
 	$htmlbody=<<"EOD";
 $::dtd
 <title>$title_tag</title>
@@ -103,10 +85,10 @@ $::dtd
 <link rel="search" href="$::script?cmd=search" />
 <link rel="help" href="$::script?$HelpPage" />
 <link rel="author" href="$::modifierlink" />
-<meta name="description" content="$title$escapedpage @{[&htmlspecialchars(&get_subjectline($page))]}" />
+<meta name="description" content="@{[$::IN_TITLE eq '' ? "$title - $escapedpage" : $::IN_TITLE]}" />
 <meta name="author" content="$::modifier" />
 <meta name="copyright" content="$::modifier" />
-<script type="text/javascript" src="$::skin_url/$::skin{common_js}"></script>
+<script type="text/javascript" src="$::skin_url/$::skin{common_js}"$csscharset></script>
 $::IN_HEAD</head>
 <body class="$bodyclass"$::IN_BODY>
 <div id="container">
@@ -114,8 +96,6 @@ $::IN_HEAD</head>
 <div id="header">
 <a href="$::modifierlink"><img id="logo" src="$::logo_url" width="$::logo_width" height="$::logo_height" alt="$::logo_alt" title="$::logo_alt" /></a>
 EOD
-
-
 	if($errmessage ne '') {
 		$htmlbody.=<<EOD;
 <h1 class="error">$errmessage</h1>
@@ -132,11 +112,9 @@ EOD
 <h1 class="title">$message</h1>
 EOD
 	}
-
-
 	$htmlbody.=<<EOD;
 </div>
-<div id="navigator">[ 
+<div id="navigator">[
 EOD
 	my $flg=0;
 	foreach $name (@::navi) {
@@ -163,17 +141,15 @@ EOD
 ]}
 </div>
 EOD
-
-
+	my $colspan=1;
+	$colspan++ if($menubarbody ne '');
+	$colspan++ if($sidebarbody ne '');
 	$htmlbody.= <<"EOD";
-<dfn></dfn>
 <div id="content">
 <table class="content_table" border="0" cellpadding="0" cellspacing="0">
-@{[$headerbody ne '' ? qq(<tr><td@{[$menubarbody ne '' ? qq( colspan="2") : '']}>$headerbody</td></tr>) : '']}
+@{[$headerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$headerbody</td></tr>) : '']}
   <tr>
 EOD
-
-
 	if($menubarbody ne '') {
 		$htmlbody.=<<"EOD";
     <td class="menubar" valign="top">
@@ -183,22 +159,27 @@ $menubarbody
     </td>
 EOD
 	}
-
-
 	$htmlbody.= <<"EOD";
     <td class="body" valign="top">
-      <div id="body">$body</div>@{[$::notesview eq 0 ? $notesbody : '']}
+      @{[$bodyheaderbody ne '' ? "$bodyheaderbody\n" : ""]}<div id="body">$body</div>@{[$::notesview eq 0 ? $notesbody : '']}@{[$bodyfooterbody ne '' ? "\n$bodyfooterbody" : ""]}
     </td>
+EOD
+	if($sidebarbody ne '') {
+		$htmlbody.=<<"EOD";
+    <td class="sidebar" valign="top">
+    <div id="sidebar">
+$sidebarbody
+    </div>
+    </td>
+EOD
+	}
+	$htmlbody.= << "EOD";
   </tr>
-@{[$::notesview eq 1 ? qq(<tr><td@{[$menubarbody ne '' ? qq( colspan="2") : '']}>$notesbody</td></tr>) : '']}
-@{[$footerbody ne '' ? qq(<tr><td@{[$menubarbody ne '' ? qq( colspan="2") : '']}>$footerbody</td></tr>) : '']}
+@{[$::notesview eq 1 ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$notesbody</td></tr>) : '']}
+@{[$footerbody ne '' ? qq(<tr><td@{[$colspan ne 1 ? qq( colspan="$colspan") : '']}>$footerbody</td></tr>) : '']}
 </table>
 EOD
-
-
 	$htmlbody.=$::notesview eq 2 ? $notesbody : '';
-
-
 	$htmlbody.= <<"EOD";
 </div>
 <div id="foot">
@@ -230,26 +211,22 @@ EOD
 ]}
 <div id="footer">
 EOD
-
-
-
 	if($::lang eq 'ja') {
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 $skinfooterbody~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/]]''
-Copyright&copy; 2004-2011 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
 License is [[GPL>http://www.opensource.jp/gpl/gpl.ja.html]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
 EOD
 	} else {
-
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
 $skinfooterbody~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/en/]]''
-Copyright&copy; 2004-2011 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
+Copyright&copy; 2004-2012 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
 License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>http://www.perl.com/language/misc/Artistic.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
@@ -258,7 +235,6 @@ EOD
 	$footerbody= &text_to_html($footerbody);
 	$footerbody=~s/(<p>|<\/p>)//g;
 	$htmlbody.= $footerbody;
-
 	$htmlbody.= <<"EOD";
 @{[&convtime]}
 </div>
@@ -267,6 +243,7 @@ EOD
 </body>
 </html>
 EOD
+	$htmlbody=~s/\&copy\;/\(C\)/g if($::skin_name eq "mikachan");
 	return $htmlbody;
 }
 1;

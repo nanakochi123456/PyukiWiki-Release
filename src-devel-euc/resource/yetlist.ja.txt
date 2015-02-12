@@ -1,7 +1,7 @@
 #
-# PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: yetlist.ja.txt,v 1.46 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: yetlist.ja.txt,v 1.296 2011/12/31 13:06:12 papu Exp $
 #
 
 # yetlist.inc.pl

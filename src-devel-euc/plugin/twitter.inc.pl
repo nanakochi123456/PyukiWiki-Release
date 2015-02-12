@@ -1,15 +1,15 @@
 ######################################################################
 # twitter.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: twitter.inc.pl,v 1.4 2011/05/04 07:26:50 papu Exp $
+# $Id: twitter.inc.pl,v 1.253 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -23,17 +23,34 @@
 # (now twitter or IE9 bug)
 ######################################################################
 
-$plugin_twitter_title="twitter of $1";
-$plugin_twitter_max=7;
-$plugin_twitter_border_color="#434343";
-$plugin_twitter_header_background="#434343";
-$plugin_twitter_header_font_color="#ffffff";
-$plugin_twitter_content_background_color="#e1e1e1";
-$plugin_twitter_content_font_color="#333333";
-$plugin_twitter_link_color="#307ace";
-$plugin_twitter_width="600";
+$twitter::title="twitter of $1"
+	if(!defined($twitter::title));
 
-#--------------
+$twitter::max=7
+	if(!defined($twitter::max));
+
+$twitter::border_color="#434343"
+	if(!defined($twitter::border_color));
+
+$twitter::header_background="#434343"
+	if(!defined($twitter::header_background));
+
+$twitter::header_font_color="#ffffff"
+	if(!defined($twitter::header_font_color));
+
+$twitter::content_background_color="#e1e1e1"
+	if(!defined($twitter::content_background_color));
+
+$twitter::content_font_color="#333333"
+	if(!defined($twitter::content_font_color));
+
+$twitter::link_color="#307ace"
+	if(!defined($twitter::link_color));
+
+$twitter::width="600"
+	if(!defined($twitter::width));
+
+######################################################################
 
 use Nana::HTTP;
 
@@ -43,7 +60,7 @@ sub plugin_twitter_convert {
 	my $arg=shift;
 	my ($keywords,$title)=split(/,/,$arg);
 	if($title eq '') {
-		$title=$plugin_twitter_title;
+		$title=$twitter::title;
 		$title=~s/\$1/$keywords/g;
 	}
 
@@ -65,14 +82,14 @@ twitstat.badge.init({
 	badge_container: "twitstat_badge_$::plugin_twitter_count",
 	title: "$title",
 	keywords: "$keywords",
-	max: $plugin_twitter_max,
-	border_color: "$plugin_twitter_border_color",
-	header_background: "$plugin_twitter_header_background",
-	header_font_color: "$plugin_twitter_header_font_color",
-	content_background_color: "$plugin_twitter_content_background_color",
-	content_font_color: "$plugin_twitter_content_font_color",
-	link_color: "$plugin_twitter_link_color",
-	width: $plugin_twitter_width,
+	max: $twitter::max,
+	border_color: "$twitter::border_color",
+	header_background: "$twitter::header_background",
+	header_font_color: "$twitter::header_font_color",
+	content_background_color: "$twitter::content_background_color",
+	content_font_color: "$twitter::content_font_color",
+	link_color: "$twitter::link_color",
+	width: $twitter::width,
 	popup: $popup_allow
 });
 //--></script>
@@ -92,7 +109,7 @@ sub plugin_twitter_action {
 		}
 	}
 	$env=~s/\&$//g;
-	my $http=new Nana::HTTP('plugin'=>"showrss");
+	my $http=new Nana::HTTP('plugin'=>"twitter");
 	my $searchurl="http://search.twitter.com/search.json";
 
 	my $uri="$searchurl?$env";
@@ -124,7 +141,7 @@ Display twitter username of twite of twitter of #hashtag
 
 =head1 USAGE
 
-install LWP::UserAgent
+install LWP::UserAgent (not recomanded)
 
 #twitter(username or #hashtag[, headername]
 
@@ -134,11 +151,11 @@ install LWP::UserAgent
 
 =item PyukiWiki/Plugin/Standard/twitter
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/twitter/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/twitter/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/twitter.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/twitter.inc.pl?view=log>
 
 =item twitstat.us
 
@@ -156,15 +173,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

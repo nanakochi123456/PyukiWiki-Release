@@ -1,15 +1,15 @@
 ######################################################################
 # lookup.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: lookup.inc.pl,v 1.93 2011/05/04 07:26:50 papu Exp $
+# $Id: lookup.inc.pl,v 1.342 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ sub plugin_lookup_convert {
 	if($::is_xhtml) {
 		$ret=<<EOD;
  <div>
-  <form action="$::script" method="post"@{[$popup_allow eq 1 ? qq(onsubmit="this.target='_blank'") : '']}>
+  <form action="$::script" method="post"@{[$popup_allow eq 1 ? qq( onsubmit="this.target='_blank'") : '']}>
 EOD
 	} else {
 		$ret=<<EOD;
@@ -51,23 +51,23 @@ EOD
   $iwn:
   <input type="text" name="page" size="30" value="$default" />
   <input type="submit" value="$btn" />
+  </form>
  </div>
-</form>
 EOD
 	return $ret;
 }
 
 sub plugin_lookup_action {
-	my $text = &decode($::form{page});	# 入力テキスト
+	my $text = &decode($::form{page});	# 入力テキスト		# comment
 	$::form{inter}=~tr/A-Z/a-z/;
 	my ($code, $uri) = %{$::interwiki2{$::form{inter}}};
-	if ($uri) {	# pukiコンパチ
+	if ($uri) {	# pukiコンパチ								# comment
 		if ($uri =~ /\$1/) {
 			$uri =~ s/\$1/&interwiki_convert($code, $text)/e;
 		} else {
 			$uri .= &interwiki_convert($code, $text);
 		}
-	} else {	# yukiコンパチ
+	} else {	# yukiコンパチ								# comment
 		$uri = $::interwiki{$::form{inter}};
 		if ($uri) {
 			$uri =~ s/\b(utf8|euc|sjis|ykwk|yw|asis)\(\$1\)/&interwiki_convert($1, $text)/e;
@@ -117,7 +117,7 @@ Setting caption of button displayed. Default value is 'LookUp'.
 
 =item initial value
 
-It enters to specify an initial value. 
+It enters to specify an initial value.
 When abbreviation, an empty text.
 
 =back
@@ -128,11 +128,11 @@ When abbreviation, an empty text.
 
 =item PyukiWiki/Plugin/Standard/lookup
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/lookup/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/lookup/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/lookup.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/lookup.inc.pl?view=log>
 
 =back
 
@@ -150,15 +150,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

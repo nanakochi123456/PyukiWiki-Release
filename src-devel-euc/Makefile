@@ -1,16 +1,13 @@
 # release file makefile for pyukiwiki
-# $Id: Makefile,v 1.67 2011/05/04 07:26:50 papu Exp $
+# $Id: Makefile,v 1.316 2011/12/31 13:06:08 papu Exp $
 
 ARCHIVEDIR=./archive
 BUILDDIR=./build
-CVSDIR=../CVS
-CVSNAME="PyukiWiki-Devel"
 TEMP=./temp
 RELEASE=./release
 
 SH?=/usr/local/bin/bash
 #SH?=/bin/sh
-CVS?=cvs
 PERL=perl
 
 ZIP="zip -9 -r"
@@ -27,21 +24,33 @@ PKGNAME=pyukiwiki
 
 all:
 	@${MAKE} all VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
+		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
+		PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
 		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
 
 clean:
 	@${MAKE} clean VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
 		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} PERL=${PERL}
-
+cvsclean:
+	@${MAKE} cvsclean VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} PERL=${PERL}
 build:FORCE
 	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
 
 buildrelease:FORCE
 	@${MAKE} buildrelease VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME}
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME}
+
+
+builddevel:FORCE
+	@${MAKE} builddevel VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR} \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME}
+
+
+buildcompact:FORCE
+	@${MAKE} buildcompact VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR} \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME}
 
 
 prof:FORCE
@@ -55,39 +64,23 @@ FORCE:
 pkg:
 	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
 	@${MAKE} pkg VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
-		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
-
-cvscheckout:
-	@${MAKE} checkout VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
+		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR}  \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
+		PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
 		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
 
 release:FORCE
 	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
 	@${MAKE} release VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
+		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR}  \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
+		PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
 		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
 
-cvsupdate:
+releasedevel:FORCE
 	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
-	@${MAKE} cvsupdate VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
+	@${MAKE} releasedevel VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
+		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR}  \
+		TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
+		PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
 		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
-
-cvsoverride:
-	@${MAKE} build VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk PERL=${PERL} BUILDDIR=${BUILDDIR}
-	@${MAKE} cvsoverride VERSION=`${PERL} ${BUILDDIR}/getversion.pl` -f ${BUILDDIR}/build.mk \
-		ARCHIVEDIR=${ARCHIVEDIR} BUILDDIR=${BUILDDIR} CVSDIR=${CVSDIR} \
-		CVSNAME=${CVSNAME} TEMP=${TEMP} RELEASE=${RELEASE} SH=${SH} PKGNAME=${PKGNAME} \
-		CVS=${CVS} PERL=${PERL} ZIP=${ZIP} TAR=${TAR} GZIP=${GZIP} \
-		GZIP_7Z=${GZIP_7Z} ZIP_7Z=${ZIP_7Z}
-

@@ -2,17 +2,18 @@
 #!/usr/local/bin/perl --
 #!c:/perl/bin/perl.exe
 #!c:\perl\bin\perl.exe
+#!c:\perl64\bin\perl.exe
 ######################################################################
 # index.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: index.cgi,v 1.94 2011/05/04 07:26:50 papu Exp $
+# $Id: index.cgi,v 1.343 2011/12/31 13:06:08 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
-# Copyright (C) 2004-2011 by Nekyo.
+# "PyukiWiki" version 0.2.0 $$
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -48,11 +49,6 @@ BEGIN {
 	#	$::_conv_start = (times)[0];
 	#}
 
-
-use CGI qw(:standard);
-use CGI::Carp qw(fatalsToBrowser);
-
-
 require 'lib/wiki.cgi';
 
 __END__
@@ -75,15 +71,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

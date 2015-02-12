@@ -1,55 +1,43 @@
 #! /usr/bin/false
 #
 # Id: MD5.pm,v 1.23 2004/08/27 20:28:25 lackas Exp
-# $Id: MD5.pm,v 1.47 2011/05/04 07:26:50 papu Exp $
+# $Id: MD5.pm,v 1.296 2011/12/31 13:06:10 papu Exp $
 #
 # "Digest::Perl::MD5" version 1.8 $$
-
-# original MD5: Neil Winton <N.Winton (at) axion (dot) bt (dot) co (dot) uk>
+# original MD5: Neil Winton <N (dot) Winton (at) axion (dot) bt (dot) co (dot) uk>
 # Digest::MD5: Gisle Aas <gisle (at) aas (dot) no>
 # This release: Christian Lackas <delta (at) lackas (dot) net>.
 #
-
 package Digest::Perl::MD5;
 use strict;
 use integer;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORTER @EXPORT_OK);
-
 @EXPORT_OK = qw(md5 md5_hex md5_base64);
-
 @ISA = 'Exporter';
 $VERSION = '1.8';
-
 # I-Vektor
 sub A() { 0x67_45_23_01 }
 sub B() { 0xef_cd_ab_89 }
 sub C() { 0x98_ba_dc_fe }
 sub D() { 0x10_32_54_76 }
-
 # for internal use
 sub MAX() { 0xFFFFFFFF }
-
 # padd a message to a multiple of 64
 sub padding {
-    my $l = length (my $msg = shift() . chr(128));    
+    my $l = length (my $msg = shift() . chr(128));
     $msg .= "\0" x (($l%64<=56?56:120)-$l%64);
     $l = ($l-1)*8;
     $msg .= pack 'VV', $l & MAX , ($l >> 16 >> 16);
 }
-
-
 sub rotate_left($$) {
-
-
-
 	($_[0] << $_[1]) | (( $_[0] >> (32 - $_[1])  )  & ((1 << $_[1]) - 1));
-
 }
-
 sub gen_code {
   # Discard upper 32 bits on 64 bit archs.
   my $MSK = ((1 << 16) << 16) ? ' & ' . MAX : '';
+#	FF => "X0=rotate_left(((X1&X2)|(~X1&X3))+X0+X4+X6$MSK,X5)+X1$MSK;",
+#	GG => "X0=rotate_left(((X1&X3)|(X2&(~X3)))+X0+X4+X6$MSK,X5)+X1$MSK;",
   my %f = (
 	FF => "X0=rotate_left((X3^(X1&(X2^X3)))+X0+X4+X6$MSK,X5)+X1$MSK;",
 	GG => "X0=rotate_left((X2^(X3&(X1^X2)))+X0+X4+X6$MSK,X5)+X1$MSK;",
@@ -58,13 +46,11 @@ sub gen_code {
   );
   #unless ( (1 << 16) << 16) { %f = %{$CODES{'32bit'}} }
   #else { %f = %{$CODES{'64bit'}} }
-
   my %s = (  # shift lengths
 	S11 => 7, S12 => 12, S13 => 17, S14 => 22, S21 => 5, S22 => 9, S23 => 14,
 	S24 => 20, S31 => 4, S32 => 11, S33 => 16, S34 => 23, S41 => 6, S42 => 10,
 	S43 => 15, S44 => 21
   );
-
   my $insert = "\n";
   while(<DATA>) {
 	chomp;
@@ -74,33 +60,24 @@ sub gen_code {
 	$c =~ s/X(\d)/$x[$1]/g;
 	$c =~ s/(S\d{2})/$s{$1}/;
 	$c =~ s/^(.*)=rotate_left\((.*),(.*)\)\+(.*)$//;
-
 	my $su = 32 - $3;
 	my $sh = (1 << $3) - 1;
-
 	$c = "$1=(((\$r=$2)<<$3)|((\$r>>$su)&$sh))+$4";
-
-
-
-
 	$insert .= "\t$c\n";
   }
   close DATA;
-  
   my $dump = '
   sub round {
 	my ($a,$b,$c,$d) = @_[0 .. 3];
 	my $r;' . $insert . '
-	$_[0]+$a' . $MSK . ', $_[1]+$b ' . $MSK . 
+	$_[0]+$a' . $MSK . ', $_[1]+$b ' . $MSK .
         ', $_[2]+$c' . $MSK . ', $_[3]+$d' . $MSK . ';
   }';
   eval $dump;
   # print "$dump\n";
   # exit 0;
 }
-
 gen_code();
-
 #########################################
 # Private output converter functions:
 sub _encode_hex { unpack 'H*', $_[0] }
@@ -114,7 +91,6 @@ sub _encode_base64 {
 	chop $res; chop $res;
 	$res
 }
-
 #########################################
 # OOP interface:
 sub new {
@@ -125,7 +101,6 @@ sub new {
 	$self->reset();
 	$self
 }
-
 sub reset {
 	my $self = shift;
 	delete $self->{_data};
@@ -133,7 +108,6 @@ sub reset {
 	$self->{_length} = 0;
 	$self
 }
-
 sub add {
 	my $self = shift;
 	$self->{_data} .= join '', @_ if @_;
@@ -149,7 +123,6 @@ sub add {
 	}
 	$self
 }
-
 sub finalize {
 	my $self = shift;
 	$self->{_data} .= chr(128);
@@ -160,21 +133,18 @@ sub finalize {
 	$self->add();
 	$self
 }
-
 sub addfile {
   	my ($self,$fh) = @_;
 	if (!ref($fh) && ref(\$fh) ne "GLOB") {
 	    require Symbol;
 	    $fh = Symbol::qualify($fh, scalar caller);
 	}
-
 	my $read = 0;
 	my $buffer = '';
 	$self->add($buffer) while $read = read $fh, $buffer, 8192;
 	die __PACKAGE__, " read failed: $!" unless defined $read;
 	$self
 }
-
 sub add_bits {
 	my $self = shift;
 	return $self->add( pack 'B*', shift ) if @_ == 1;
@@ -182,7 +152,6 @@ sub add_bits {
 	die __PACKAGE__, " Invalid number of bits\n" if $n%8;
 	$self->add( substr $b, 0, $n/8 )
 }
-
 sub digest {
 	my $self = shift;
 	$self->finalize();
@@ -190,25 +159,21 @@ sub digest {
 	$self->reset();
 	$res
 }
-
 sub hexdigest {
 	_encode_hex($_[0]->digest)
 }
-
 sub b64digest {
 	_encode_base64($_[0]->digest)
 }
-
 sub clone {
 	my $self = shift;
-	my $clone = { 
+	my $clone = {
 		_state => [@{$self->{_state}}],
 		_length => $self->{_length},
 		_data => $self->{_data}
 	};
 	bless $clone, ref $self || $self;
 }
-
 #########################################
 # Procedural interface:
 sub md5 {
@@ -216,19 +181,14 @@ sub md5 {
 	my ($a,$b,$c,$d) = (A,B,C,D);
 	my $i;
 	for $i (0 .. (length $message)/64-1) {
-		my @X = unpack 'V16', substr $message,$i*64,64;	
+		my @X = unpack 'V16', substr $message,$i*64,64;
 		($a,$b,$c,$d) = round($a,$b,$c,$d,@X);
 	}
 	pack 'V4',$a,$b,$c,$d;
 }
-sub md5_hex { _encode_hex &md5 } 
+sub md5_hex { _encode_hex &md5 }
 sub md5_base64 { _encode_base64 &md5 }
-
-
 1;
-
-
-
 __DATA__
 FF,$a,$b,$c,$d,$_[4],7,0xd76aa478,/* 1 */
 FF,$d,$a,$b,$c,$_[5],12,0xe8c7b756,/* 2 */
@@ -245,7 +205,7 @@ FF,$b,$c,$d,$a,$_[15],22,0x895cd7be,/* 12 */
 FF,$a,$b,$c,$d,$_[16],7,0x6b901122,/* 13 */
 FF,$d,$a,$b,$c,$_[17],12,0xfd987193,/* 14 */
 FF,$c,$d,$a,$b,$_[18],17,0xa679438e,/* 15 */
-FF,$b,$c,$d,$a,$_[19],22,0x49b40821,/* 16 */ 
+FF,$b,$c,$d,$a,$_[19],22,0x49b40821,/* 16 */
 GG,$a,$b,$c,$d,$_[5],5,0xf61e2562,/* 17 */
 GG,$d,$a,$b,$c,$_[10],9,0xc040b340,/* 18 */
 GG,$c,$d,$a,$b,$_[15],14,0x265e5a51,/* 19 */

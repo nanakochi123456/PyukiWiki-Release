@@ -1,10 +1,10 @@
 # release file perl script for pyukiwiki
-# $Id$
+# $Id: text.pl,v 1.327 2011/12/31 13:06:09 papu Exp $
 
 use Jcode;
 
 sub textinit {
-	($fn,$pyukiversion,$mode,$TYPE)=@_;
+	($fn,$pyukiversion,$mode,$TYPE,$CHARSET)=@_;
 	($sec, $min, $hour, $mday, $mon, $year,
 		$wday, $yday, $isdst) = localtime;
 	$year+=1900;
@@ -26,9 +26,33 @@ Copyright (C) 2004-$year by Nekyo.
 # \@\@PYUKI_URL\@\@
 # Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
 EOM
+$text{BASEHEAD4}=<<EOM;
+Copyright (C) 2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
+# \@\@AWSTATS_URL\@\@
+# Copyright (C) 2004-$year by Nekyo.
+# \@\@NEKYO_URL\@\@
+# Copyright (C) 2005-$year PyukiWiki Developers Team
+# \@\@PYUKI_URL\@\@
+# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
+EOM
 } else {
 $text{BASEHEAD2}=<<EOM;
 Copyright (C) 2004-$year by Nekyo.
+# \@\@NEKYO_URL\@\@
+# Copyright (C) 2005-$year PyukiWiki Developers Team
+# \@\@PYUKI_URL\@\@
+# Based on YukiWiki \@\@YUKIWIKI_URL\@\@
+# Powerd by PukiWiki \@\@PUKIWIKI_URL\@\@
+# License: GPL2 and/or Artistic or each later version
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
+EOM
+$text{BASEHEAD4}=<<EOM;
+Copyright (C) 2000-$year - Laurent Destailleur - <eldy (at) users (dot) sourceforge (dot) net>
+# \@\@AWSTATS_URL\@\@
+# Copyright (C) 2004-$year by Nekyo.
 # \@\@NEKYO_URL\@\@
 # Copyright (C) 2005-$year PyukiWiki Developers Team
 # \@\@PYUKI_URL\@\@
@@ -81,12 +105,12 @@ $text{HEADER2_JUNICHI}=<<EOM;
 # $text{BASEHEAD2}
 EOM
 
-$text{HEADER2_YASIGANIMODOKI}=<<EOM;
+$text{HEADER2_YASHIGANIMODOKI}=<<EOM;
 \@\@BASEHEAD1\@\@
 #
 # \@\@PYUKIWIKIVERSION\@\@
-# Author: \@\@YASIGANIMODOKI\@\@
-#         \@\@YASIGANIMODOKI_URL\@\@
+# Author: \@\@YASHIGANIMODOKI\@\@
+#         \@\@YASHIGANIMODOKI_URL\@\@
 # $text{BASEHEAD2}
 EOM
 
@@ -106,6 +130,14 @@ $text{HEADER3_YUKI}=<<EOM;
 # Author: \@\@YUKI\@\@
 # \@\@YUKI_URL\@\@
 # $text{BASEHEAD2}
+EOM
+
+$text{HEADER4_AWS}=<<EOM;
+\@\@BASEHEAD1\@\@
+#
+# \@\@PYUKIWIKIVERSION\@\@
+# Author: \@\@NANAMI\@\@ \@\@NANAMI_URL\@\@
+# $text{BASEHEAD4}
 EOM
 
 #############################################################
@@ -140,8 +172,8 @@ Copyright (C) 2005-$year by \@\@JUNICHI\@\@.
 \@\@LICENSE_BASE\@\@
 EOM
 
-$text{LICENSE_YASIGANIMODOKI}=<<EOM;
-Copyright (C) 2004-$year by \@\@YASIGANIMODOKI\@\@.
+$text{LICENSE_YASHIGANIMODOKI}=<<EOM;
+Copyright (C) 2004-$year by \@\@YASHIGANIMODOKI\@\@.
 
 \@\@LICENSE_BASE\@\@
 EOM
@@ -184,10 +216,10 @@ $text{AUTHOR_NANAMI}=<<EOM;
 L<\@\@NANAMI_URL\@\@> etc...
 EOM
 
-$text{AUTHOR_YASIGANIMODOKI}=<<EOM;
-=item \@\@YASIGANIMODOKI\@\@
+$text{AUTHOR_YASHIGANIMODOKI}=<<EOM;
+=item \@\@YASHIGANIMODOKI\@\@
 
-L<\@\@YASIGANIMODOKI_URL\@\@>
+L<\@\@YASHIGANIMODOKI_URL\@\@>
 EOM
 
 
@@ -205,21 +237,27 @@ $text{JUNICHI_URL}='http://www.re-birth.com/';
 
 if($fn=~/\.ja/) {
 	$text{NANAMI}='ななみ';
-	$text{YASIGANIMODOKI}='やしがにもどき';
+	$text{YASHIGANIMODOKI}='やしがにもどき';
 } else {
 	$text{NANAMI}='Nanami';
-	$text{YASIGANIMODOKI}='YashiganiModoki';
+	$text{YASHIGANIMODOKI}='YashiganiModoki';
 }
 $text{NANAMI_URL}='http://nanakochi.daiba.cx/';
 
-$text{YASIGANIMODOKI_URL}='http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi';
+$text{YASHIGANIMODOKI_URL}='http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi';
 
-$text{PYUKI_URL}='http://pyukiwiki.sourceforge.jp/';
+#$text{PYUKI_URL}='http://pyukiwiki.sourceforge.jp/';
+$text{PYUKI_URL}='http://pyukiwiki.sfjp.jp/';
 $text{YUKIWIKI_URL}='http://www.hyuki.com/yukiwiki/';
-$text{PUKIWIKI_URL}='http://pukiwiki.sourceforge.jp/';
+#$text{PUKIWIKI_URL}='http://pukiwiki.sourceforge.jp/';
+$text{PUKIWIKI_URL}='http://pukiwiki.sfjp.jp/';
 
-$text{BASEURL}='http://pyukiwiki.sourceforge.jp';
-$text{CVSURL}='http://sourceforge.jp/cvs/view/pyukiwiki';
+$text{AWSTATS_URL}='http://awstats.sourceforge.net/';
+
+#$text{BASEURL}='http://pyukiwiki.sourceforge.jp';
+$text{BASEURL}='http://pyukiwiki.sfjp.jp';
+#$text{CVSURL}='http://sourceforge.jp/cvs/view/pyukiwiki';
+$text{CVSURL}='http://sfjp.jp/cvs/view/pyukiwiki';
 
 $text{RECENTDATE}=&date("Y-m-d (D)");
 
@@ -243,7 +281,9 @@ $text{RECENTDATE}=&date("Y-m-d (D)");
 		}
 	}
 	close(R);
-	if($chkbuf=~/\$charset\: (.+)\$/) {
+	if($CHARSET eq 'utf8') {
+		$text{CODE}="UTF-8";
+	} elsif($chkbuf=~/\$charset\: (.+)\$/) {
 		$text{CODE}=$1;
 	} else {
 		($code)=Jcode::getcode($chkbuf);
@@ -261,6 +301,11 @@ $text{RECENTDATE}=&date("Y-m-d (D)");
 		$text{MODULEVERSION}=$text{PYUKIWIKIVERSION};
 	}
 	foreach (keys %text) {
+		if($text{CODE} eq "Shift-JIS") {
+			&Jcode::convert($text{$_}, "sjis","euc");
+		} elsif($text{CODE} eq "UTF-8") {
+			&Jcode::convert($text{$_}, "utf8","euc");
+		}
 		$text{$_}=~s/\n$//g;
 	}
 }
@@ -274,7 +319,7 @@ sub date {
 	my %ampm;
 
 	# yday:0-365 $isdst Summertime:1/not:0
-	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) =
 		$gmtime ne '' && @_ > 2
 			? ($tm+0 > 0 ? gmtime($tm) : gmtime(time))
 			: ($tm+0 > 0 ? localtime($tm) : localtime(time));
@@ -387,8 +432,6 @@ sub date {
 
 	$format =~ s/z/$yday/ge;	# z:days/year 0-366
 	return $format;
-
-	# moved date format document to plugin/date.inc.pl or date.inc.pl.ja.pod
 }
 
 1;

@@ -1,15 +1,15 @@
 ######################################################################
 # lang.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: lang.inc.pl,v 1.64 2011/05/04 07:26:50 papu Exp $
+# $Id: lang.inc.pl,v 1.314 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 # Return:LF Code=UTF-8 1TAB=4Spaces
 ######################################################################
 # This is extented plugin.
+# This file is UTF-8
 # To use this plugin, rename to 'lang.inc.cgi'
 ######################################################################
 # 国際化対応拡張プラグイン
@@ -29,7 +30,6 @@
 # wiki.(lang)		example wiki.ja
 # デフォルト言語は、従来のディレクトリのままで動作します。
 ######################################################################
-
 %::langlist=(
 	'af'=>'Afrikaans',
 	'sq'=>'Albanian',
@@ -54,6 +54,7 @@
 	'bg'=>'Bulgarian',
 	'be'=>'Belarusian',
 	'ca'=>'Catalan',
+#	'zh-cn'=>'Chinese(PRC)',
 	'cn'=>'Chinese,中文',
 	'zh'=>'Chinese,中文',
 	'zh-cn'=>'Chinese,中文',
@@ -63,6 +64,7 @@
 	'hr'=>'Croatian',
 	'cs'=>'Czech',
 	'da'=>'Danish',
+#	'nl'=>'Dutch(Standard)',
 	'nl'=>'Dutch',
 	'nl-be'=>'Dutch(Belgian)',
 	'en'=>'English',
@@ -74,19 +76,23 @@
 	'en-ie'=>'English(Ireland)',
 	'en-za'=>'English(South Africa)',
 	'en-jm'=>'English(Jamaica)',
+#	'en'=>'English(Caribbean)',
 	'en-bz'=>'English(Belize)',
 	'en-tt'=>'English(Trinidad)',
 	'et'=>'Estonian',
 	'fo'=>'Faeroese',
 	'fa'=>'Farsi',
 	'fi'=>'Finnish',
+#	'fr'=>'French(Standard)',
 	'fr'=>'French',
 	'fr-be'=>'French(Belgian)',
 	'fr-ca'=>'French(Canadian)',
 	'fr-ch'=>'French(Swiss)',
 	'fr-lu'=>'French(Luxembourg)',
+#	'gd'=>'Gaelic(Scots)',
 	'gd'=>'Gaelic',
 	'gd-ie'=>'Gaelic(Irish)',
+#	'de'=>'German(Standard)',
 	'de'=>'German',
 	'de-ch'=>'German(Swiss)',
 	'de-at'=>'German(Austrian)',
@@ -98,11 +104,13 @@
 	'hu'=>'Hungarian',
 	'is'=>'Icelandic',
 	'in'=>'Indonesian',
+#	'it'=>'Italian(Standard)',
 	'it'=>'Italian',
 	'it-ch'=>'Italian(Swiss)',
 	'ja'=>'Japanese,日本語',
 	'ko'=>'Korean,한국어',
 	'kr'=>'Korean,한국어',
+#	'ko'=>'Korean(Johab),한국어',
 	'lv'=>'Latvian',
 	'lt'=>'Lithuanian',
 	'mk'=>'Macedonian',
@@ -110,6 +118,7 @@
 	'mt'=>'Maltese',
 	'no'=>'Norwegian',
 	'pl'=>'Polish',
+#	'pt'=>'Portuguese(Standard)',
 	'pt'=>'Portuguese',
 	'pt-br'=>'Portuguese(Brazilian)',
 	'rm'=>'Rhaeto-Romanic',
@@ -117,13 +126,18 @@
 	'ro-mo'=>'Romanian(Moldavia)',
 	'ru'=>'Russian',
 	'ru-mo'=>'Russian(Moldavia)',
+#	'sz'=>'Sami(Lappish)',
 	'sz'=>'Sami',
+#	'sr'=>'Serbian(Cyrillic)',
+#	'sr'=>'Serbian(Latin)',
 	'sr'=>'Serbian',
 	'sk'=>'Slovak',
 	'sl'=>'Slovenian',
 	'sb'=>'Sorbian',
+#	'es'=>'Spanish(Spain - Traditional Sort)',
 	'es'=>'Spanish',
 	'es-mx'=>'Spanish(Mexican)',
+#	'es'=>'Spanish(Spain - Modern Sort)',
 	'es-gt'=>'Spanish(Guatemala)',
 	'es-cr'=>'Spanish(Costa Rica)',
 	'es-pa'=>'Spanish(Panama)',
@@ -156,45 +170,10 @@
 	'ji'=>'Yiddish',
 	'zu'=>'Zulu',
 );
-
-# now unuse...reserved
-%::charsetlist=(
-	'ja'=>'EUC-JP,iso-2022-jp,Shift-JIS',
-	'ko'=>'euc-kr,iso-2022-kr',
-	'kr'=>'euc-kr,iso-2022-kr',
-	'cn'=>'gb2312,gb2312-80',
-	'zh'=>'gb2312,gb2312-80',
-	'zh-tw'=>'big5,x-euc-tw,x-cns11643-1,x-cns11643-2',
-	'ar'=>'iso-8859-6',
-	'be'=>'iso-8859-5',
-	'bg'=>'iso-8859-5',
-	'cs'=>'iso-8859-2',
-	'el'=>'iso-8859-7',
-	'hr'=>'iso-8859-2',
-	'hu'=>'iso-8859-2',
-	'hw'=>'iso-8859-8',
-	'lt'=>'iso-8859-2',
-	'lv'=>'iso-8859-2',
-	'mk'=>'iso-8859-5',
-	'pl'=>'iso-8859-2',
-	'ro'=>'iso-8859-2',
-	'ru'=>'iso-8859-5',
-	'sh'=>'iso-8859-5',
-	'sl'=>'iso-8859-5',
-	'sq'=>'iso-8859-5',
-	'sr'=>'iso-8859-5',
-	'th'=>'TIS620',
-	'sr'=>'iso-8859-9',
-	'uk'=>'iso-8859-5',
-	''=>'iso-8859-1',
-);
-
 my $bot_agent='[Bb]ot|Spider|inktomi|moget|Slurp|archiver|NG|Hatena';
-
 %::lang_cookie;
-$::lang_cookie="PyukiWikiLang_"
-				. length($::basepath);
-
+$::lang_cookie="PWL_"
+				. &dbmname($::basepath);
 sub plugin_lang_init {
 	my @langlist;
 	return('init'=>0) if($::lang_list eq '');
@@ -206,12 +185,9 @@ sub plugin_lang_init {
 		}
 	}
 	return('init'=>0) if($#langlist < 1);
-
 	$::defaultlang=$::lang;
-
 	%::lang_cookie=();
 	%::lang_cookie=&getcookie($::lang_cookie,%::lang_cookie);
-
 	if($::langlist{$::form{lang}} ne '') {
 		$::lang=$::form{lang};
 	} elsif($::lang_cookie{lang} ne '') {
@@ -258,6 +234,7 @@ sub plugin_lang_init {
 	if($::defaultlang ne $::lang) {
 		$::wiki_title=$::wiki_title{$::lang} if($::wiki_title{$::lang} ne '');
 		&close_db;
+		$::backup_dir.=".$::lang";
 		$::data_dir.=".$::lang";
 		$::diff_dir.=".$::lang";
 		$::cache_dir.=".$::lang";
@@ -266,22 +243,20 @@ sub plugin_lang_init {
 		$::upload_url.=".$::lang";
 		$::counter_dir.=".$::lang";
 		$::info_dir.=".$::lang";
+		if(-r "$::image_dir.$::lang") {
+			$::image_dir.=".$::lang";
+			$::image_url.=".$::lang";
+		}
+		&writablecheck;
 		&open_db;
-	}
-	my $req=&decode($ENV{QUERY_STRING});
-	if(&is_exist_page($req)) {
-		$::form{cmd}='read';
-		$::form{mypage}=$req;
 	}
 	return('init'=>1, 'func'=>'init_lang', 'init_lang'=>\&init_lang);
 }
-
 sub getlangname {
 	my ($v)=@_;
 	my ($lang,$langutf)=split(/,/,$::langlist{$v});
 	return $lang;
 }
-
 sub init_lang {
 	if ($::lang eq 'ja') {
 		$::defaultcode='euc';
@@ -291,27 +266,22 @@ sub init_lang {
 			$::charset=(
 				$::kanjicode eq 'euc' ? 'EUC-JP' :
 				$::kanjicode eq 'utf8' ? 'UTF-8' :
-				$::kanjicode eq 'sjis' ? 'Shift-JIS' : 
+				$::kanjicode eq 'sjis' ? 'Shift-JIS' :
 				$::kanjicode eq 'jis' ? 'iso-2022-jp' : '')
 		}
-
 	} elsif ($::lang eq 'zh') {
 		$::defaultcode='gb2312';
 		$::charset = 'gb2312' if(lc $::charset ne 'utf-8');
-
 	} elsif ($::lang eq 'zh-tw') {
 		$::defaultcode='big5';
 		$::charset = 'big5' if(lc $::charset ne 'utf-8');
-
 	} elsif ($::lang eq 'ko' || $::lang eq 'kr') {
 		$::defaultcode='euc-kr';
 		$::charset = 'euc-kr' if(lc $::charset ne 'utf-8');
-
 	} else {
 		$::defaultcode='iso-8859-1';
 		$::charset = 'iso-8859-1' if(lc $::charset ne 'utf-8');
 	}
-
 	if($::_exec_plugined{lang} > 0) {
 		$::wiki_title=$::wiki_title{$::lang} if($::wiki_title{$::lang} ne '');
 		$::modifier=$::modifier{$::lang} if($::modifier{$::lang} ne '');
@@ -319,10 +289,8 @@ sub init_lang {
 		$::modifier_mail=$::modifier_mail{$::lang} if($::modifier_mail{$::lang} ne '');
 		$::meta_keyword=$::meta_keyword{$::lang} if($::meta_keyword{$::lang} ne '');
 	}
-
 	$::modifierlink=$::basehref if($::modifierlink eq '');
 }
-
 1;
 __DATA__
 # $charset: UTF-8$
@@ -330,7 +298,6 @@ sub plugin_lang_setup {
 	return(
 	'ja'=>'Wiki国際化プラグイン',
 	'en'=>'International Plugin',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/lang/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/lang/'
 	);
 __END__
-

@@ -1,15 +1,15 @@
 ######################################################################
 # list.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: list.inc.pl,v 1.91 2011/05/04 07:26:50 papu Exp $
+# $Id: list.inc.pl,v 1.340 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,14 +19,12 @@
 # v0.2 non_list
 # v0.1
 ######################################################################
-
 sub plugin_list_action {
-	my $navi = qq(<div id="body"><div id="top" style="text-align:center">);
+	my $navi = qq(\n<div id="body"><div id="top" style="text-align:center">);
 	my $body = qq(</div>);
 	my $prev = '';
 	my $char = '';
 	my $idx = 1;
-
 	foreach my $page (sort keys %::database) {
 		next if ($page =~ $::non_list);
 		next unless(&is_readable($page));
@@ -50,10 +48,9 @@ EOD
 		}
 		$body .= qq(<li><a href="@{[&make_cookedurl(&encode($page))]}">@{[&escape($page)]}</a>@{[&escape(&get_subjectline($page))]}</li>\n);
 	}
-	$body .= qq(</li></ul>);
-
+	$navi.=qq(</div>);
+	$body .= qq(</ul></li></ul>);
 	return ('msg' => "\t$::resource{list_plugin_title}", 'body' => $navi . $body);
 }
 1;
 __END__
-

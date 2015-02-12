@@ -1,6 +1,7 @@
 #
-# $Id: NoXS.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
-# Id: NoXS.pm,v 2.0 2005/05/16 19:08:02 dankogai Exp 
+# $Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
+# Id: NoXS.pm,v 2.0 2005/05/16 19:08:02 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode::Unicode::NoXS;
@@ -8,8 +9,8 @@ package Jcode::Unicode::NoXS;
 use strict;
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: NoXS.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 
@@ -37,7 +38,7 @@ sub _init_u2e{
 
 sub _init_e2u{
     unless (%_E2U){
-	%_E2U = 
+	%_E2U =
 	    reverse %_U2E;
     }
     unless ($PEDANTIC){
@@ -50,7 +51,7 @@ sub _init_e2u{
 }
 
 
-# Yuck! but this is necessary because this module is 'require'd 
+# Yuck! but this is necessary because this module is 'require'd
 # instead of being 'use'd (No package export done) subs below
 # belong to Jcode, not Jcode::Unicode
 
@@ -127,7 +128,7 @@ sub Jcode::utf8_ucs2{
     my $r_str = ref $thingy ? $thingy : \$thingy;
     my $result;
     $$r_str =~ s/^[\200-\277]+//o;  # can't start with 10xxxxxx
-    $$r_str =~ 
+    $$r_str =~
 	s[
 	  ($RE{ASCII} | $RE{UTF8})
 	  ]{
@@ -160,7 +161,7 @@ NONE
 =head1 DESCRIPTION
 
 This module is called by Jcode.pm on demand.  This module is not intended for
-direct use by users.  This modules implements functions related to Unicode.  
+direct use by users.  This modules implements functions related to Unicode.
 Following functions are defined here;
 
 =over 4
@@ -187,8 +188,8 @@ Following functions are defined here;
 
 =item B<$Jcode::Unicode::PEDANTIC>
 
-When set to non-zero, x-to-unicode conversion becomes pedantic.  
-That is, '\' (chr(0x5c)) is converted to zenkaku backslash and 
+When set to non-zero, x-to-unicode conversion becomes pedantic.
+That is, '\' (chr(0x5c)) is converted to zenkaku backslash and
 '~" (chr(0x7e)) to JIS-x0212 tilde.
 
 By Default, Jcode::Unicode leaves ascii ([0x00-0x7f]) as it is.

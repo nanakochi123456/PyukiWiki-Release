@@ -1,14 +1,15 @@
 #
-# $Id: Constants.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: Constants.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: Constants.pm,v 2.0 2005/05/16 19:07:56 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode::Constants;
 
 use vars qw($RCSID $VERSION);
 
-$RCSID = q$Id: Constants.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Constants.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 
@@ -50,7 +51,7 @@ my %_0208 = (
      EUC_KANA  => '\x8e[\xa1-\xdf]',
      JIS_0208  =>  "$_0208{1978}|$_0208{1983}|$_0208{1990}",
      JIS_0212  => "\e" . '\$\(D',
-     JIS_ASC   => "\e" . '\([BJ]',     
+     JIS_ASC   => "\e" . '\([BJ]',
      JIS_KANA  => "\e" . '\(I',
      SJIS_C    => '[\x81-\x9f\xe0-\xfc][\x40-\x7e\x80-\xfc]',
      SJIS_KANA => '[\xa1-\xdf]',

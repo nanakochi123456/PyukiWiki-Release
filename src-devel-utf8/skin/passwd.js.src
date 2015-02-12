@@ -1,0 +1,146 @@
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: passwd.js.src,v 1.171 2011/12/31 13:06:16 papu Exp $ */
+/* Code=EUC-JP */
+
+var ef="editform";
+
+function pencf(pass_form,enc_form,token_form) {
+	var out;
+	if(pass_form.value == '') {
+		return;
+	}
+	enc_form.value = penc(utf16to8(pass_form.value) ,utf16to8(token_form.value));
+	pass_form.value = '';
+}
+
+/* reverse code of http://ninja.index.ne.jp/~toshi/soft/untispam.shtml */
+
+function penc(str, enc_list) {
+	var i, dd, res,dif;
+	res="";
+	for (i = 0; i < str.length; i++) {
+		dif = (Math.floor( Math.random() * 127 ) + i) % 127;
+		res = res + enc_list.substr(dif / 0x10,1) + enc_list.substr(dif % 0x10, 1);
+		dd = str.charCodeAt(i) + dif;
+		res = res + enc_list.substr(dd / 0x10,1) + enc_list.substr(dd % 0x10, 1);
+	}
+	return res;
+}
+
+function getid(id) {
+	return d.getElementById(id);
+}
+
+/* from http://www.programming-magic.com/file/20080205232140/keycode_table.html
+ */
+
+/*
+function keyCode(e){
+	var e=w.event || e;
+
+	if(d.all)
+         return e.keyCode;
+     else if(d.getElementById)
+         return e.keyCode ? e.keyCode : e.charCode;
+     else if(d.layers)
+         return e.which;
+}
+*/
+
+function keypress(e) {
+	if(e == null) return true;
+	var key=keyCode(e);
+	if(key == 32 || key == 13) return true;
+	return false;
+}
+
+
+function fsubmit(id,type,e) {
+	if(keypress(e) == false) return;
+
+	var mypassword="mypassword_";
+	pencf(
+		  getid(mypassword + type)
+		, getid(mypassword + type + "_enc")
+		, getid(mypassword + type + "_token")
+	);
+	fsubmitdelay(id,e);
+}
+
+function fsubmitdelay(id,e) {
+	if(keypress(e) == false) return;
+
+	fid=id;
+	setTimeout("fsub();",30);
+}
+
+function fsub() {
+	getid(fid).submit();
+}
+
+function editpost(m,e) {
+	var f=getid(ef);
+
+	if(f.mypreviewjs_adminedit) {
+		f.mypreviewjs_adminedit.value="";
+		if(m == 0) {
+				f.mypreviewjs_adminedit.value="1";
+		}
+	}
+	if(f.mypreviewjs_edit) {
+		f.mypreviewjs_edit.value="";
+		if(m == 0) {
+				f.mypreviewjs_edit.value="1";
+		}
+	}
+	if(f.mypreviewjs_write) {
+		f.mypreviewjs_write.value="";
+		if(m == 1) {
+				f.mypreviewjs_write.value="1";
+		}
+	}
+	if(f.mypreviewjs_cancel) {
+		f.mypreviewjs_cancel.value="";
+		if(m == 2) {
+				f.mypreviewjs_cancel.value="1";
+		}
+	}
+	fsubmit(ef,"frozen",e);
+}
+
+/* from http://www.onicos.com/staff/iz/amuse/javascript/expert/ */
+
+/* utf.js - UTF-8 <=> UTF-16 convertion
+ *
+ * Copyright (C) 1999 Masanao Izumo <iz (at) onicos (dot) co (dot) jp>
+ * Version: 1.0
+ * LastModified: Dec 25 1999
+ * This library is free.  You can redistribute it and/or modify it.
+ */
+
+/*
+ * Interfaces:
+ * utf8 = utf16to8(utf16);
+ * utf16 = utf16to8(utf8) - deleted;
+ */
+
+function utf16to8(str) {
+    var out, i, len, c;
+
+    out = "";
+    len = str.length;
+    for(i = 0; i < len; i++) {
+	c = str.charCodeAt(i);
+	if ((c >= 0x0001) && (c <= 0x007F)) {
+	    out += str.charAt(i);
+	} else if (c > 0x07FF) {
+	    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+	    out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+	    out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+	} else {
+	    out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+	    out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+	}
+    }
+    return out;
+}

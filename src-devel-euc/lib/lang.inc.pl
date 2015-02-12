@@ -1,15 +1,15 @@
 ######################################################################
 # lang.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: lang.inc.pl,v 1.64 2011/05/04 07:26:50 papu Exp $
+# $Id: lang.inc.pl,v 1.314 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,6 +17,7 @@
 # Return:LF Code=UTF-8 1TAB=4Spaces
 ######################################################################
 # This is extented plugin.
+# This file is UTF-8
 # To use this plugin, rename to 'lang.inc.cgi'
 ######################################################################
 # 国際化対応拡張プラグイン
@@ -171,43 +172,43 @@
 	'zu'=>'Zulu',
 );
 
-# now unuse...reserved
-%::charsetlist=(
-	'ja'=>'EUC-JP,iso-2022-jp,Shift-JIS',
-	'ko'=>'euc-kr,iso-2022-kr',
-	'kr'=>'euc-kr,iso-2022-kr',
-	'cn'=>'gb2312,gb2312-80',
-	'zh'=>'gb2312,gb2312-80',
-	'zh-tw'=>'big5,x-euc-tw,x-cns11643-1,x-cns11643-2',
-	'ar'=>'iso-8859-6',
-	'be'=>'iso-8859-5',
-	'bg'=>'iso-8859-5',
-	'cs'=>'iso-8859-2',
-	'el'=>'iso-8859-7',
-	'hr'=>'iso-8859-2',
-	'hu'=>'iso-8859-2',
-	'hw'=>'iso-8859-8',
-	'lt'=>'iso-8859-2',
-	'lv'=>'iso-8859-2',
-	'mk'=>'iso-8859-5',
-	'pl'=>'iso-8859-2',
-	'ro'=>'iso-8859-2',
-	'ru'=>'iso-8859-5',
-	'sh'=>'iso-8859-5',
-	'sl'=>'iso-8859-5',
-	'sq'=>'iso-8859-5',
-	'sr'=>'iso-8859-5',
-	'th'=>'TIS620',
-	'sr'=>'iso-8859-9',
-	'uk'=>'iso-8859-5',
-	''=>'iso-8859-1',
-);
+# now unuse...reserved											# comment
+%::charsetlist=(												# debug
+	'ja'=>'EUC-JP,iso-2022-jp,Shift-JIS',						# debug
+	'ko'=>'euc-kr,iso-2022-kr',									# debug
+	'kr'=>'euc-kr,iso-2022-kr',									# debug
+	'cn'=>'gb2312,gb2312-80',									# debug
+	'zh'=>'gb2312,gb2312-80',									# debug
+	'zh-tw'=>'big5,x-euc-tw,x-cns11643-1,x-cns11643-2',			# debug
+	'ar'=>'iso-8859-6',											# debug
+	'be'=>'iso-8859-5',											# debug
+	'bg'=>'iso-8859-5',											# debug
+	'cs'=>'iso-8859-2',											# debug
+	'el'=>'iso-8859-7',											# debug
+	'hr'=>'iso-8859-2',											# debug
+	'hu'=>'iso-8859-2',											# debug
+	'hw'=>'iso-8859-8',											# debug
+	'lt'=>'iso-8859-2',											# debug
+	'lv'=>'iso-8859-2',											# debug
+	'mk'=>'iso-8859-5',											# debug
+	'pl'=>'iso-8859-2',											# debug
+	'ro'=>'iso-8859-2',											# debug
+	'ru'=>'iso-8859-5',											# debug
+	'sh'=>'iso-8859-5',											# debug
+	'sl'=>'iso-8859-5',											# debug
+	'sq'=>'iso-8859-5',											# debug
+	'sr'=>'iso-8859-5',											# debug
+	'th'=>'TIS620',												# debug
+	'sr'=>'iso-8859-9',											# debug
+	'uk'=>'iso-8859-5',											# debug
+	''=>'iso-8859-1',											# debug
+);																# debug
 
 my $bot_agent='[Bb]ot|Spider|inktomi|moget|Slurp|archiver|NG|Hatena';
 
 %::lang_cookie;
-$::lang_cookie="PyukiWikiLang_"
-				. length($::basepath);
+$::lang_cookie="PWL_"
+				. &dbmname($::basepath);
 
 sub plugin_lang_init {
 	my @langlist;
@@ -272,6 +273,7 @@ sub plugin_lang_init {
 	if($::defaultlang ne $::lang) {
 		$::wiki_title=$::wiki_title{$::lang} if($::wiki_title{$::lang} ne '');
 		&close_db;
+		$::backup_dir.=".$::lang";
 		$::data_dir.=".$::lang";
 		$::diff_dir.=".$::lang";
 		$::cache_dir.=".$::lang";
@@ -280,13 +282,18 @@ sub plugin_lang_init {
 		$::upload_url.=".$::lang";
 		$::counter_dir.=".$::lang";
 		$::info_dir.=".$::lang";
+		if(-r "$::image_dir.$::lang") {
+			$::image_dir.=".$::lang";
+			$::image_url.=".$::lang";
+		}
+		&writablecheck;
 		&open_db;
 	}
-	my $req=&decode($ENV{QUERY_STRING});
-	if(&is_exist_page($req)) {
-		$::form{cmd}='read';
-		$::form{mypage}=$req;
-	}
+#	my $req=&decode($ENV{QUERY_STRING});						# debug
+#	if(&is_exist_page($req)) {									# debug
+#		$::form{cmd}='read';									# debug
+#		$::form{mypage}=$req;									# debug
+#	}															# debug
 	return('init'=>1, 'func'=>'init_lang', 'init_lang'=>\&init_lang);
 }
 
@@ -298,34 +305,34 @@ sub getlangname {
 
 sub init_lang {
 	if ($::lang eq 'ja') {
-		$::defaultcode='euc';	# do not change
+		$::defaultcode='euc';	# do not change		# comment
 		if(lc $::charset eq 'utf-8') {
 			$::kanjicode='utf8';
 		} else {
 			$::charset=(
 				$::kanjicode eq 'euc' ? 'EUC-JP' :
 				$::kanjicode eq 'utf8' ? 'UTF-8' :
-				$::kanjicode eq 'sjis' ? 'Shift-JIS' : 
+				$::kanjicode eq 'sjis' ? 'Shift-JIS' :
 				$::kanjicode eq 'jis' ? 'iso-2022-jp' : '')
 		}
-	# 中国語時の処理
-	} elsif ($::lang eq 'zh') {	# cn is not allow, use zh
+	# 中国語時の処理										# comment
+	} elsif ($::lang eq 'zh') {	# cn is not allow, use zh # comment
 		$::defaultcode='gb2312';
 		$::charset = 'gb2312' if(lc $::charset ne 'utf-8');
-	# 台湾語時の処理
+	# 台湾語時の処理										# comment
 	} elsif ($::lang eq 'zh-tw') {
 		$::defaultcode='big5';
 		$::charset = 'big5' if(lc $::charset ne 'utf-8');
-	# 韓国語時の処理
+	# 韓国語時の処理										# comment
 	} elsif ($::lang eq 'ko' || $::lang eq 'kr') {
 		$::defaultcode='euc-kr';
 		$::charset = 'euc-kr' if(lc $::charset ne 'utf-8');
-	# その他
+	# その他												# comment
 	} else {
 		$::defaultcode='iso-8859-1';
 		$::charset = 'iso-8859-1' if(lc $::charset ne 'utf-8');
 	}
-	# lang.inc.cgiが有効時、言語ごとの修正者情報を代入
+	# lang.inc.cgiが有効時、言語ごとの修正者情報を代入		# comment
 	if($::_exec_plugined{lang} > 0) {
 		$::wiki_title=$::wiki_title{$::lang} if($::wiki_title{$::lang} ne '');
 		$::modifier=$::modifier{$::lang} if($::modifier{$::lang} ne '');
@@ -333,7 +340,7 @@ sub init_lang {
 		$::modifier_mail=$::modifier_mail{$::lang} if($::modifier_mail{$::lang} ne '');
 		$::meta_keyword=$::meta_keyword{$::lang} if($::meta_keyword{$::lang} ne '');
 	}
-	# $::modifierlinkが存在しない時、基準URLを代入
+	# $::modifierlinkが存在しない時、基準URLを代入			# comment
 	$::modifierlink=$::basehref if($::modifierlink eq '');
 }
 
@@ -344,7 +351,7 @@ sub plugin_lang_setup {
 	return(
 	'ja'=>'Wiki国際化プラグイン',
 	'en'=>'International Plugin',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/lang/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/lang/'
 	);
 __END__
 
@@ -369,6 +376,7 @@ rename to lang.inc.cgi
 Make that's directory.
 
  attach.(lang)  example attach.en
+ backup.(lang)  example backup.en
  diff.(lang)    example diff.ja
  cache.(lang)   example cache.zh-cn
  counter.(lang) example counter.en-us
@@ -425,11 +433,13 @@ none
 
 =item PyukiWiki/Plugin/ExPlugin/lang
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/lang/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/lang/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/lang.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/lang.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/lang.inc.pl?view=log>
 
 =back
 
@@ -443,15 +453,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

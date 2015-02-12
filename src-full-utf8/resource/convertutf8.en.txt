@@ -1,0 +1,13 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: convertutf8.en.txt,v 1.160 2011/12/31 13:06:15 papu Exp $
+#
+# convertutf8.inc.pl
+convertutf8_plugin_title=Convert UTF-8 wiki (before please backup)
+convertutf8_pluin_noutf8=Can't exec UTF-8 version
+convertutf8_pluin_nojapanese=Not japanese wiki
+convertutf8_pluin_converted=UTF-8 Converted. Install UTF-8 Version.<br />and use other plugin use, convert to UTF-8 code on lib/, plugin/, skin/, resource/
+convertutf8_pluin_convert=Confirm UTF-8 Convert ? (This transrate is very heavy!)
+convertutf8_pluin_convert_yes=Next
+convertutf8_pluin_converted_always=Always converted to UTF-8 Please install UTF-8 version.<br />and use other plugin use, convert to UTF-8 code on lib/, plugin/, skin/, resource/

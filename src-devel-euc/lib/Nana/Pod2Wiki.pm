@@ -1,16 +1,16 @@
 ######################################################################
 # Pod2Wiki.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Pod2Wiki.pm,v 1.55 2011/05/04 07:26:50 papu Exp $
+# $Id: Pod2Wiki.pm,v 1.304 2011/12/31 13:06:10 papu Exp $
 #
 # "Nana::Pod2Wiki" version 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -49,10 +49,10 @@ sub pod2wiki {
 			$pod="pod";
 		}
 		next if($f=~/^__/ || $pod eq '');
-		if($f=~/^=cut/) {					# pod終了
+		if($f=~/^=cut/) {					# pod終了			# comment
 			$pod='';
 			next;
-		} elsif($f eq '') {				# 空行
+		} elsif($f eq '') {				# 空行					# comment
 			if($pod=~/wiki/) {
 				$body.="\n";
 			} elsif($pod eq 'dd') {
@@ -80,7 +80,7 @@ sub pod2wiki {
 			next;
 		} elsif($cmd eq 'lang') {
 			next;
-		} elsif($cmd eq 'head1' && $data eq 'NAME') {	# NAMEだけ特別処理
+		} elsif($cmd eq 'head1' && $data eq 'NAME') {	# NAMEだけ特別処理	# comment
 			$pod='name';
 			next;
 		} elsif($pod eq 'name') {
@@ -97,32 +97,32 @@ sub pod2wiki {
 			$pod="pod";
 			$body.="***" . &pod2wiki_tags($data) . "\n";
 			$anchor++;
-		} elsif($cmd eq 'for') {		# そのブロックだけ指定したフォーマット
+		} elsif($cmd eq 'for') {		# そのブロックだけ指定したフォーマット	# comment
 			if($data eq 'wiki') {
 				$pod='for_wiki';
 			} else {
 				next;
 			}
-		} elsif($cmd eq 'begin') {		# =endまで指定したフォーマット
+		} elsif($cmd eq 'begin') {		# =endまで指定したフォーマット	# comment
 			if($data eq 'wiki') {
 				$pod='begin_wiki';
 			} else {
 				next;
 			}
-		} elsif($cmd eq 'end') { 		# 指定したフォーマット終了{
+		} elsif($cmd eq 'end') { 		# 指定したフォーマット終了	# comment
 			$pod="pod";
-		} elsif($pod=~/wiki/) {			# wiki文法をそのまま格納
+		} elsif($pod=~/wiki/) {			# wiki文法をそのまま格納	# comment
 			$body.="$f\n";
-		} elsif($cmd eq 'over') {	# dl開始
+		} elsif($cmd eq 'over') {	# dl開始						# comment
 			$pod="dl";
-		} elsif($cmd eq 'back') {	# dl解除
+		} elsif($cmd eq 'back') {	# dl解除						# comment
 			$pod="pod";
-		} elsif($cmd eq 'item') {	# dt
+		} elsif($cmd eq 'item') {	# dt							# comment
 			$body=~s/\&br;$//g while($body=~/\&br;$/);
 			$body.="&nbsp;" if($pod=~/d[dt]/);
 			$body.="\n:" . &pod2wiki_tags($data) . ":";
 			$pod="dt";
-		} elsif($pod=~/d[dt]/) {		# dd
+		} elsif($pod=~/d[dt]/) {		# dd						# comment
 			if($f=~/^\s/) {
 				$body.="\n" if($pod eq "dd");
 				$body.="$f\n";
@@ -152,22 +152,22 @@ sub pod2wiki {
 sub pod2wiki_tags {
 	my($str)=@_;
 
-	$str=~s/L<\/([^>]+)>/$1/g;	# link
-	$str=~s/L<([^>]+)>/[[$1]]/g;	# link
+	$str=~s/L<\/([^>]+)>/$1/g;	# link						# comment
+	$str=~s/L<([^>]+)>/[[$1]]/g;	# link					# comment
 	$str=~s/I<([^>]+)>/'''$1'''/g;
 	$str=~s/B<([^>]+)>/''$1''/g;
 	$str=~s/S<([^>]+)>/\&verb($1);/g;
-	$str=~s/C<([^>]+)>/$1/g;	# typewriter or program text font
-	$str=~s/F<([^>]+)>/$1/g;	# filename
-	$str=~s/X<([^>]+)>/$1/g;	# 索引のエントリ
-	$str=~s/Z<([^>]+)>/$1/g;	# 幅ゼロのキャラクター
+	$str=~s/C<([^>]+)>/$1/g;	# typewriter or program text font	# comment
+	$str=~s/F<([^>]+)>/$1/g;	# filename					# comment
+	$str=~s/X<([^>]+)>/$1/g;	# 索引のエントリ			# comment
+	$str=~s/Z<([^>]+)>/$1/g;	# 幅ゼロのキャラクター		# comment
 	$str=~s/E<lt>/</g;
 	$str=~s/E<gt>/>/g;
 	$str=~s/E<sol>/\//g;
 	$str=~s/E<verbar>/\|/g;
 	$str=~s/E<\d+>/chr($1)/gex;
 	# E<html>
-#	$str=~s/(!\[)(.*?)($wiki_name)(.*?)(!\])/-$2&verb($3);$4-/g;
+#	$str=~s/(!\[)(.*?)($wiki_name)(.*?)(!\])/-$2&verb($3);$4-/g;	# comment
 	return $str;
 }
 1;

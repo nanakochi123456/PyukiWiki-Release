@@ -1,0 +1,31 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: backup.en.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+# backup.inc.pl
+backup_plugin_title=of Backup
+backup_plugin_msg=Backup List
+backup_plugin_nobackup=Not found backup of $1
+backup_plugin_diff_notice=<li>Add line display like <b class="diff_added">this</b>.</li><li>Delete line display like <s class="diff_removed">this</s>.</li>
+backup_plugin_goto=Go to $1
+backup_plugin_diff_link=Diff
+backup_plugin_nowdiff_link=Diff current
+backup_plugin_source_link=Source
+backup_plugin_return_top=Return to $1 of backup list
+backup_plugin_diff_title=on backup diff(No.$1)
+backup_plugin_nowdiff_title=on backup vs current(No.$1)
+backup_plugin_source_title=on backup source(No.$1)
+backup_plugin_backup_title=on backup(No.$1)
+backup_plugin_delete=Delete backup of $1
+backup_plugin_delete_confirm=Really delete the backup of page $1 ?
+backup_plugin_delete_confirm_ok=Delete
+backup_plugin_delete_confirm_cancel=Cancel
+backup_plugin_deleted=Deleted backup of $1.
+backup_plugin_return=Return $1
+backup_plugin_delete_title=Delete backup of $1
+backup_plugin_disable_email=(E-Mail Address)
+backup_plugin_list_title=Backup list of all
+backup_plugin_list_notfound=Not found backup list of all
+backup_plugin_otherchara=Others
+backup_plugin_recent_title=Change history details of $1

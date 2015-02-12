@@ -1,15 +1,15 @@
 ######################################################################
 # server.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: server.inc.pl,v 1.99 2011/05/04 07:26:50 papu Exp $
+# $Id: server.inc.pl,v 1.351 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -21,8 +21,7 @@
 # Perl詳細情報は、可能な限りのperlモジュールを検索するので、場合に
 # よっては、タイムアウトでInternal Server Errorになる可能性があります。
 ######################################################################
-
-@info_envs=(
+my @info_envs=(
 	":server",
 	"OSNAME:1",
 	"SERVER_SOFTWARE:1",
@@ -74,22 +73,32 @@
 	"QUERY_STRING:1",
 	"HTTP_COOKIE:1"
 );
-
-@bench_envs=(
+my @bench_envs=(
 	"MATHCOUNT:1",
 	"PROCCOUNT:1",
 	"FILECOUNT:1",
 	"REGCOUNT:1"
 );
-
-@perl_envs=(
+my @perl_envs=(
 	":perl",
 	"PERLPATH:1",
 	"PERLVER:1",
 	"64BITPERL:1",
 	":perlmodule"
 );
-
+my @linux_info=(
+	":cpuinfo",
+	"cpuinfo:/proc/cpuinfo",
+	":meminfo",
+	"meminfo:/proc/meminfo",
+	":loadavg",
+	"loadavg:/proc/loadavg",
+);
+my @freebsd_info=(
+	":dmesginfo",
+	"dmesginfo:/var/run/dmesg.boot",
+);
+my @envs;
 sub plugin_server_bench_gcd{
 	local($a,$b)=@_;
 	local($c);
@@ -97,11 +106,9 @@ sub plugin_server_bench_gcd{
 	return $b if($c eq 0);
 	return &plugin_server_bench_gcd($b,$c);
 }
-
 sub plugin_server_bench_euler{
 	local($x)=@_;
 	local($p,$r,$n);
-
 	$p = 2;
 	$n = x;
 	$r = x;
@@ -117,7 +124,6 @@ sub plugin_server_bench_euler{
 	}
 	return $r;
 }
-
 sub plugin_server_bench_powermod_exec {
 	local($x,$e,$n)=@_;
 	if(($e % 2) eq 0) {
@@ -127,7 +133,6 @@ sub plugin_server_bench_powermod_exec {
 		return $x * &plugin_server_bench_powermod_exec($x, $e - 1, $n) % $n;
 	}
 }
-
 sub plugin_server_bench_powermod {
 	local($x,$e,$n)=@_;
 	return -1 if($e < 1);
@@ -135,7 +140,6 @@ sub plugin_server_bench_powermod {
 	return(&plugin_server_bench_powermod_exec($x % $n, $e, $n)) if($x >= $n);
 	return(&plugin_server_bench_powermod_exec($x, $e, $n));
 }
-
 sub plugin_server_bench {
 	$BENCH=(times)[0];
 	$mathcount=0;
@@ -170,7 +174,6 @@ sub plugin_server_bench {
 		foreach(<R>) { $DATA=$r; } close(R);
 		$filecount++;
 	}
-
 	$BENCH=(times)[0];
 	$proccount=0;
 	while((times)[0]<$BENCH+1) {
@@ -181,13 +184,11 @@ sub plugin_server_bench {
 		close(PROC);
 		$proccount++;
 	}
-
 	$ENV{MATHCOUNT}=$mathcount;
 	$ENV{PROCCOUNT}=$proccount;
 	$ENV{FILECOUNT}=$filecount;
 	$ENV{REGCOUNT}=$regcount;
 }
-
 sub uptime {
 	my $path;
 	foreach(split(/:/,$ENV{PATH})) {
@@ -206,7 +207,6 @@ sub uptime {
 	$uptime=~s/[\r|\n]//g;
 	return $uptime;
 }
-
 sub uname {
 	my $path;
 	foreach(split(/:/,$ENV{PATH})) {
@@ -245,10 +245,8 @@ sub uname {
 	$uname=~s/[\r|\n]//g;
 	return $uname;
 }
-
 sub plugin_server_checkusermode {
 	my($testfile,$testdata);
-
 	if((stat("."))[4] eq $< && $< eq $>) {
 		$testfile="./test.tmp";
 		$testdata="";
@@ -265,7 +263,6 @@ sub plugin_server_checkusermode {
 	}
 	return 0;
 }
-
 sub plugin_server_flock {
 	my $lockfile = './lock.tmp';
 	open(LOCK, "> $lockfile");
@@ -275,14 +272,12 @@ sub plugin_server_flock {
 	if ($@) { $flock = 2; }
 	return $flock;
 }
-
 sub plugin_server_symlink {
 	my $symlink = ''; $@='';
 	$symlink = eval { symlink("",""); 1; };
 	if ($@) { $symlink = 2; }
 	return $symlink;
 }
-
 sub plugin_server_setenv {
 	my($envname, $flag)=@_;
 	if($flag) {
@@ -291,14 +286,12 @@ sub plugin_server_setenv {
 		$ENV{$envname}=$::resource{server_plugin_no};
 	}
 }
-
 sub plugin_server_64bitperlchk {
 	if(sprintf("%d",4294967295+1) eq '4294967296') {
 		return 1;
 	}
 	return 0;
 }
-
 sub plugin_server_getperlpath{
 	my $perlpath;
 	if(open(R,"$0")) {
@@ -312,7 +305,6 @@ sub plugin_server_getperlpath{
 	}
 	return $::resource{server_plugin_unknown};
 }
-
 sub plugin_server_pathchk() {
 	my $r;
 	foreach(@_) {
@@ -331,7 +323,6 @@ sub plugin_server_pathchk() {
 	$r=~s/\~\n$//g;
 	return $r;
 }
-
 sub plugin_server_infomation {
 	$ENV{UPTIME}=&uptime;
 	$ENV{OSNAME}=&uname;
@@ -366,8 +357,6 @@ sub plugin_server_infomation {
 	$ENV{PATH_LYNX}=&plugin_server_pathchk("lynx");
 	$ENV{PATH_W3M}=&plugin_server_pathchk("w3m");
 }
-
-
 sub plugin_server_perl_getmodule_sub {
 	my(%all, %inc);
 	foreach (@INC) {
@@ -391,7 +380,6 @@ sub plugin_server_perl_getmodule_sub {
 	}
 	return %all;
 }
-
 sub plugin_server_perl_getmodule_sub2 {
 	my($p,$z) = @_;
 	my(%mods);
@@ -426,11 +414,9 @@ sub plugin_server_perl_getmodule_sub2 {
 	}
 	return %mods;
 }
-
 sub plugin_server_perl_getmodule_sub3 {
 	my($mod) = @_;
 	my $ver;
-	chdir("lib");
 	if($^O =~ /MSWin32/i) {
 		$ver = `/usr/bin/perl -m$mod -e "print \$${module}::VERSION"`;
 	} else {
@@ -441,7 +427,6 @@ sub plugin_server_perl_getmodule_sub3 {
 	}
 	return $ver;
 }
-
 sub plugin_server_perl_getmodule {
 	my %all=&plugin_server_perl_getmodule_sub;
 	my $r;
@@ -467,16 +452,105 @@ sub plugin_server_perl_getmodule {
 	$r.="</tr></table>";
 	return $r;
 }
-
 sub plugin_server_perl {
 	$ENV{PERLPATH}=&plugin_server_getperlpath;
 	$ENV{PERLVER}=$];
 	&plugin_server_setenv("64BITPERL",&plugin_server_64bitperlchk eq 1);
 	return  &plugin_server_perl_getmodule;
 }
-
-
-
+sub plugin_server_info {
+	my ($form)=@_;
+	my $buf;
+	my $body;
+	foreach (@envs) {
+		my($name,$flag)=split(/:/,$_);
+		if($name eq '') {
+			$body.=qq(** $flag $::resource{"server_plugin_" . $flag . "_title"} \n);
+		} else {
+			$buf=" $name:$flag\n";
+			if(open(R,$flag)) {
+				foreach(<R>) {
+					chomp;
+					$buf.=" $_\n";
+				}
+				close(R);
+				$body.=$buf;
+			} else {
+				$body=qq(''Can't open $flag'');
+			}
+		}
+	}
+	$body= $form .  &text_to_html($body);
+	return($::resource{server_plugin_server_title},$body);
+}
+sub linuxbutton {
+	my $path;
+	foreach(split(/:/,$ENV{PATH})) {
+		if(-x "$_/uname") {
+			$path="$_/uname";
+			last;
+		}
+	}
+	my $osname;
+	if(open(PIPE,"$path |")) {
+		foreach(<PIPE>) {
+			$osname.=$_;
+		}
+		close(PIPE);
+	}
+	$osname=~s/[\s|\r|\n]//g;
+	my $button;
+	if($osname=~/[Ll][Ii][Nn][Uu][Xx]/) {
+		$button=<<EOM;
+<input type="submit" name="linux" value="$::resource{server_plugin_linux_button}" />
+EOM
+	}
+	return $button;
+}
+sub freebsdbutton {
+	my $path;
+	foreach(split(/:/,$ENV{PATH})) {
+		if(-x "$_/uname") {
+			$path="$_/uname";
+			last;
+		}
+	}
+	my $osname;
+	if(open(PIPE,"$path |")) {
+		foreach(<PIPE>) {
+			$osname.=$_;
+		}
+		close(PIPE);
+	}
+	$osname=~s/[\s|\r|\n]//g;
+	my $button;
+	if($osname=~/[Ff][Rr][Ee][Ee][Bb][Ss][Dd]/) {
+		$button=<<EOM;
+<input type="submit" name="freebsd" value="$::resource{server_plugin_freebsd_button}" />
+EOM
+	}
+	return $button;
+}
+sub makeform {
+	my($mode,$authed)=@_;
+	$form=<<EOM;
+<h2>$::resource{"server_plugin_" . $mode . "_button"}</h2>
+<form action="$::script" method="POST">
+<input type="hidden" name="cmd" value="$::form{cmd}" />
+$authed
+<table><tr>
+<td>
+<input type="submit" name="infomation" value="$::resource{server_plugin_infomation_button}" />
+</td><td>
+<input type="submit" name="perlinfo" value="$::resource{server_plugin_perlinfo_button}" />
+</td><td>
+<input type="submit" name="benchmark" value="$::resource{server_plugin_benchmark_button}" />
+@{[&linuxbutton]}
+@{[&freebsdbutton]}
+</td></tr></table></form>
+EOM
+	return $form;
+}
 sub plugin_server_action {
 	my $body;
 	my $envname;
@@ -514,28 +588,23 @@ sub plugin_server_action {
 		$mode="benchmark";
 		&plugin_server_bench;
 		@envs=@bench_envs;
+	} elsif($::form{linux} ne '') {
+		$mode="linux";
+		@envs=@linux_info;
+		my($m,$b)=&plugin_server_info(&makeform($mode,$auth{html}));
+		return('msg'=>"\t$m",'body'=>$b);
+	} elsif($::form{freebsd} ne '') {
+		$mode="freebsd";
+		@envs=@freebsd_info;
+		my($m,$b)=&plugin_server_info(&makeform($mode,$auth{html}));
+		return('msg'=>"\t$m",'body'=>$b);
 	} else {
 		$mode="infomation";
 		@envs=@info_envs;
 		&getremotehost;
 		&plugin_server_infomation
 	}
-
-	$form=<<EOM;
-<h2>$::resource{"server_plugin_" . $mode . "_button"}</h2>
-<form action="$::script" method="POST">
-<input type="hidden" name="cmd" value="$::form{cmd}">
-$auth{html}
-<table><tr>
-<td>
-<input type="submit" name="infomation" value="$::resource{server_plugin_infomation_button}">
-</td><td>
-<input type="submit" name="perlinfo" value="$::resource{server_plugin_perlinfo_button}">
-</td><td>
-<input type="submit" name="benchmark" value="$::resource{server_plugin_benchmark_button}">
-</td></tr></table></form>
-EOM
-
+	$form=&makeform($mode,$auth{html});
 	foreach (@envs) {
 		my($name,$flag)=split(/:/,$_);
 		if($name eq '') {
@@ -549,19 +618,13 @@ EOM
 	$body=$form . &text_to_html($body) . $html;
 	return('msg'=>"\t$::resource{server_plugin_server_title}",'body'=>$body);
 }
-
 sub disp {
 	my ($s) = @_;
-
 	return ($s ? $s : "-");
 }
-
-# 以前のバージョンのを改悪 (携帯関連の取り除き）
-
 sub plugin_server_convert {
 	return &plugin_inline;
 }
-
 sub plugin_server_inline {
 	my $useragent = $::ENV{'HTTP_USER_AGENT'};
 	my $body =<<"EOD";
@@ -577,7 +640,5 @@ sub plugin_server_inline {
 EOD
 	return $body;
 }
-
 1;
 __END__
-

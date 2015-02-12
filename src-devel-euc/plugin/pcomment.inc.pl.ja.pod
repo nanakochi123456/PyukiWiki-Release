@@ -1,4 +1,4 @@
-#$Id: pcomment.inc.pl.ja.pod,v 1.47 2011/05/04 07:26:50 papu Exp $
+#$Id: pcomment.inc.pl.ja.pod,v 1.296 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -40,11 +40,11 @@ pcomment.inc.pl - PyukiWiki ¥×¥é¥°¥¤¥ó
 
 =item above
 
-ÁÞÆþ¤·¤¿¥³¥á¥ó¥È¤ò¥Õ¥©¡¼¥à¤Î¾å¤ËÉ½¼¨¤·¤Þ¤¹¡£¥³¥á¥ó¥È¤Ï¾å¤¬¸Å¤¯¡¢²¼¤Ë¸þ¤«¤Ã¤Æ¿·¤·¤¤½ç¤ËÊÂ¤Ó¤Þ¤¹¡£ 
+ÁÞÆþ¤·¤¿¥³¥á¥ó¥È¤ò¥Õ¥©¡¼¥à¤Î¾å¤ËÉ½¼¨¤·¤Þ¤¹¡£¥³¥á¥ó¥È¤Ï¾å¤¬¸Å¤¯¡¢²¼¤Ë¸þ¤«¤Ã¤Æ¿·¤·¤¤½ç¤ËÊÂ¤Ó¤Þ¤¹¡£
 
 =item below
 
-ÁÞÆþ¤·¤¿¥³¥á¥ó¥È¤ò¥Õ¥©¡¼¥à¤Î²¼¤ËÉ½¼¨¤·¤Þ¤¹¡£¥³¥á¥ó¥È¤Ï²¼¤¬¸Å¤¯¡¢¾å¤Ë¸þ¤«¤Ã¤Æ¿·¤·¤¤½ç¤ËÊÂ¤Ó¤Þ¤¹¡£ 
+ÁÞÆþ¤·¤¿¥³¥á¥ó¥È¤ò¥Õ¥©¡¼¥à¤Î²¼¤ËÉ½¼¨¤·¤Þ¤¹¡£¥³¥á¥ó¥È¤Ï²¼¤¬¸Å¤¯¡¢¾å¤Ë¸þ¤«¤Ã¤Æ¿·¤·¤¤½ç¤ËÊÂ¤Ó¤Þ¤¹¡£
 
 =item reply
 
@@ -84,11 +84,11 @@ pcomment.inc.pl - PyukiWiki ¥×¥é¥°¥¤¥ó
 
 =item $pcomment::size_msg
 
-¥³¥á¥ó¥È¤Î¥Æ¥­¥¹¥È¥¨¥ê¥¢¤ÎÉ½¼¨Éý 
+¥³¥á¥ó¥È¤Î¥Æ¥­¥¹¥È¥¨¥ê¥¢¤ÎÉ½¼¨Éý
 
-=item $pcomment::size_name 
+=item $pcomment::size_name
 
-¥³¥á¥ó¥È¤ÎÌ¾Á°¥Æ¥­¥¹¥È¥¨¥ê¥¢¤ÎÉ½¼¨Éý 
+¥³¥á¥ó¥È¤ÎÌ¾Á°¥Æ¥­¥¹¥È¥¨¥ê¥¢¤ÎÉ½¼¨Éý
 
 =item $pcomment::format_name
 
@@ -144,11 +144,11 @@ pyukiwiki.ini.cgi ¤Ë¤Æ¡¢$::writefrozenplugin¤¬1¤ËÀßÄê¤µ¤ì¤Æ¤¤¤ë¤È¡¢¥Õ¥©¡¼¥à¤«¤é¤
 
 =item PyukiWiki/Plugin/Standard/pcomment
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/pcomment/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/pcomment/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/pcomment.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/pcomment.inc.pl?view=log>
 
 =back
 
@@ -162,15 +162,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ¥é¥¤¥»¥ó¥¹
 
-Copyright (C) 2005-2011 by ¤Ê¤Ê¤ß.
+Copyright (C) 2005-2012 by ¤Ê¤Ê¤ß.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

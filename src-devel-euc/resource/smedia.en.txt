@@ -1,0 +1,12 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: smedia.en.txt,v 1.44 2011/12/31 13:06:12 papu Exp $
+#
+
+# smedia.inc.pl
+smedia_plugin_tweet=Tweet!
+smedia_plugin_yahoobookmark=Add Yahoo! Bookmark
+smedia_plugin_googlebookmark=Add Google Bookmark
+smedia_plugin_bookmark=Add Favorites
+smedia_plugin_ignorebookmark=Add to browser favorites, Not supported than Internet Explorer and FireFox.

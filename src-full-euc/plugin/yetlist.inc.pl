@@ -1,15 +1,15 @@
 ######################################################################
 # yetlist.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: yetlist.inc.pl,v 1.47 2011/05/04 07:26:50 papu Exp $
+# $Id: yetlist.inc.pl,v 1.296 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,15 +18,12 @@
 ######################################################################
 # This is compatiblity PukiWiki plugin, but cording was original.
 ######################################################################
-
 use strict;
-
 sub plugin_yetlist_action {
 	my %yet=();
 	my $yetcount=0;
 	my $yetlist_regex="($::bracket_name)";
 	$yetlist_regex.="|($::wiki_name)" if($::nowikiname ne 1);
-
 	foreach my $page (sort keys %::database) {
 		next if ($page =~ $::non_list);
 		next unless(&is_readable($page));
@@ -39,7 +36,6 @@ sub plugin_yetlist_action {
 			$chunk=&unarmor_name($chunk);
 			($chunk1,$chunk2) = split(/[:>]/,$chunk);
 			$chunk=$chunk2 eq '' ? $chunk1 : $chunk2;
-
 			if(&is_exist_page($chunk) || $chunk eq '') {
 				next;
 			}
@@ -70,7 +66,5 @@ EOM
 	return('msg'=>"\t$::resource{yetlist_plugin_title}"
 		, 'body'=>$body);
 }
-
 1;
 __END__
-

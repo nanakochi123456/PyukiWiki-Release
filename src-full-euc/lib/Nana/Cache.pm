@@ -1,30 +1,28 @@
 ######################################################################
 # Cache.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Cache.pm,v 1.79 2011/05/04 07:26:50 papu Exp $
+# $Id: Cache.pm,v 1.328 2011/12/31 13:06:10 papu Exp $
 #
 # "Nana::Cache" version 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 package	Nana::Cache;
 use 5.005;
 use strict;
 use vars qw($VERSION);
 $VERSION = '0.2';
 use Nana::File;
-
 sub new {
 	my($class,%hash)=@_;
 	my $self={
@@ -37,13 +35,11 @@ sub new {
 	};
 	return bless $self, $class;
 }
-
 sub delete {
 	my($self,$fname)=@_;
 	my $f=sprintf("%s/%s.%s",$self->{dir},$fname,$self->{ext});
 	unlink($f);
 }
-
 sub check {
 	my $self=shift;
 	my @chks=@_;
@@ -80,7 +76,6 @@ sub check {
 		}
 	}
 }
-
 sub expire {
 	my($self,$fname,$expire)=@_;
 	return 0 if($expire+0 eq 0);
@@ -91,7 +86,6 @@ sub expire {
 	}
 	return 0;
 }
-
 sub read {
 	my($self,$fname,$nodelete)=@_;
 	return if($self->{use} ne 1);
@@ -107,14 +101,12 @@ sub read {
 	}
 	return '';
 }
-
 sub write {
 	my($self,$fname,$w)=@_;
 	return if($self->{use} ne 1);
 	my $f=sprintf("%s/%s.%s",$self->{dir},$fname,$self->{ext});
 	return Nana::File::lock_store($f,$w);
 }
-
 sub hash_read {
 	my($self,$fname,$nodelete)=@_;
 	return if($self->{use} ne 1);
@@ -135,7 +127,6 @@ sub hash_read {
 	}
 	return %hash;
 }
-
 sub hash_write {
 	my($self,$fname,%hash)=@_;
 	return if($self->{use} ne 1);
@@ -146,6 +137,5 @@ sub hash_write {
 	}
 	return Nana::File::lock_store($f,$buf);
 }
-
 1;
 __END__

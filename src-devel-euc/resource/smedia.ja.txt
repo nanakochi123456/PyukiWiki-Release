@@ -1,0 +1,12 @@
+#
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: smedia.ja.txt,v 1.44 2011/12/31 13:06:12 papu Exp $
+#
+
+# smedia.inc.pl
+smedia_plugin_tweet=ツイート
+smedia_plugin_yahoobookmark=Yahoo!ブックマークに登録
+smedia_plugin_googlebookmark=Google&nbsp;ブックマーク
+smedia_plugin_bookmark=お気に入りに追加
+smedia_plugin_ignorebookmark=ブラウザへのお気に入り追加は、Internet Explorer と FireFox 以外には対応しておりません。

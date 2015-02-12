@@ -1,7 +1,7 @@
 #
-# PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: servererror.en.txt,v 1.84 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: servererror.en.txt,v 1.334 2011/12/31 13:06:12 papu Exp $
 #
 
 # servererror.inc.pl
@@ -10,7 +10,7 @@
 ## common message
 servererror_plugin_commonmsg=If you think this is a server error, please contact¡¢$1[[Server Administrator>$ENV{SERVER_ADMIN}]].
 
-servererror_plugin_modifier_mail=[[Webmaster>$ENV{modifier_mail}]] or 
+servererror_plugin_modifier_mail=[[Webmaster>$ENV{modifier_mail}]] or
 servererror_plugin_rfcurl=http://www.ietf.org/rfc/rfc$1.txt
 servererror_plugin_rfcmsg=Reference:[[RFC$1>$2]]
 servererror_plugin_errormessage=Error Message:
@@ -154,7 +154,7 @@ servererror_plugin_502_msg=The proxy server received the response more unjust th
 ## 503 Service Unavailable
 servererror_plugin_503_header=Service Unavailable
 servererror_plugin_503_title=Service unavailable
-servererror_plugin_503_msg=The server is temporarily unable to service yourrequest due to maintenance downtime or capacity problems. Please try again later. 
+servererror_plugin_503_msg=The server is temporarily unable to service yourrequest due to maintenance downtime or capacity problems. Please try again later.
 
 ## 504 Gateway Time-out
 servererror_plugin_504_header=Gateway Time-out

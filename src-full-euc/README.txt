@@ -1,9 +1,9 @@
 PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 
-	"PyukiWiki" version 0.1.9 $$
+	"PyukiWiki" version 0.2.0 $$
 	Copyright (C)
-	  2005-2011 PukiWiki Developers Team
-	  2004-2011 Nekyo (Based on PukiWiki, YukiWiki)
+	  2005-2012 PukiWiki Developers Team
+	  2004-2012 Nekyo (Based on PukiWiki, YukiWiki)
 	License: GPL version 2 or (at your option) any later version
 			and/or Artistic version 1 or later version.
 	Based on YukiWiki http://www.hyuki.com/yukiwiki/ and PukiWiki
@@ -15,7 +15,7 @@ PyukiWiki - ©—R‚Éƒy[ƒW‚ğ’Ç‰ÁEíœE•ÒW‚Å‚«‚éWebƒy[ƒW\’zCGI
 	MAIL:
 		‚È‚È‚İ <nanami (at) daiba (dot) cx> (’FƒlƒJƒ}‚Å‚·)
 
-	$Id: README.txt,v 1.102 2011/05/04 07:26:50 papu Exp $
+	$Id: README.txt,v 1.352 2011/12/31 13:06:08 papu Exp $
 
 	‚±‚ÌƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÍShift-JISATAB4‚Å‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B
 
@@ -40,6 +40,9 @@ PyukiWiki‚ÍperlŒ¾Œê‚Å‘‚©‚ê‚½ƒXƒNƒŠƒvƒg‚È‚Ì‚ÅA‘½‚­‚ÌCGI“®ì‰Â”\‚ÈWebƒT[ƒo[
 Nekyo‚Ìƒo[ƒWƒ‡ƒ“‚ğ‚²—˜—p‰º‚³‚¢B
 
 http://nekyo.qp.land.to/
+
+‚½‚¾‚µA‚±‚Ìƒo[ƒWƒ‡ƒ“‚ÍH•v‚ğ‚µ‚È‚¢‚ÆAƒZƒLƒ…ƒŠƒeƒB[ƒŠƒXƒN‚ª
+‚ ‚è‚Ü‚·‚Ì‚Å’ˆÓ‚µ‚Ä‰º‚³‚¢B
 
 -------------------------------------------------
 ¡ƒ‰ƒCƒZƒ“ƒX
@@ -78,7 +81,7 @@ PyukiWiki‚ÍAGPL2‚à‚µ‚­‚ÍArtisticƒ‰ƒCƒZƒ“ƒX‚ÌŒ³‚Å”z•z‚³‚ê‚Ü‚·B
 -------------------------------------------------
 PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 
-Efull”Å‚ÍƒCƒ“ƒXƒg[ƒ‹‚É1.5MƒoƒCƒgAcompact”Å‚Í
+Efull”Å‚ÍƒCƒ“ƒXƒg[ƒ‹‚É2MƒoƒCƒgAcompact”Å‚Í
 @ƒCƒ“ƒXƒg[ƒ‹‚É1MƒoƒCƒg•K—v‚Å‚·B
 
 Ecompact”Å‚ÍAˆÈ‰º‚Ìƒ‚ƒWƒ…[ƒ‹‚ªƒT[ƒo[‚ÉƒCƒ“ƒXƒg[ƒ‹
@@ -87,7 +90,7 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 
 ECGI‚Ì“®ì‚µAPerl5.8.1i‚È‚é‚¾‚¯jˆÈ~‚ª“®ì‚·‚éWebƒT[ƒo[
 @‚È‚¨APerl 5.0004‚ÉŠÖ‚µ‚Ä‚ÍŒ»ƒo[ƒWƒ‡ƒ“‚Å‚Í–¢ƒTƒ|[ƒg‚Å‚·B
-@ÅV‚ÌPerl5.10Œn‚Å‚à“®ìŠm”FÏ‚İ‚Å‚·B
+@ÅV‚ÌPerl5.10Œn‹y‚Ñ5.12Œn‚Å‚à“®ìŠm”FÏ‚İ‚Å‚·B
 
 -------------------------------------------------
 ¡ƒpƒbƒP[ƒW‚É‚Â‚¢‚Ä
@@ -113,6 +116,13 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 E-devel
 @PyukiWikiƒvƒ‰ƒOƒCƒ“A‹y‚ÑƒRƒAŠJ”­‚É•K—v‚Èƒc[ƒ‹‚ª
 @‘µ‚Á‚Ä‚¢‚Ü‚·BƒhƒLƒ…ƒƒ“ƒg‚Ìpod‚ª•t‘®‚µ‚Ä‚¢‚Ü‚·B
+@ƒCƒ“ƒXƒg[ƒ‹‚É–ñ3MƒoƒCƒg‚ğg—p‚µ‚Ü‚·B
+
+E?-utf8
+@UTF8”Å‚Å‚·B‘¼‚ÌƒR[ƒhƒZƒbƒg‚Íg—p‚Å‚«‚Ü‚¹‚ñB
+@‚Ü‚½AUTF8”Å‚Å‚Í‚È‚¢ƒo[ƒWƒ‡ƒ“‚Æ‚ÍŒİŠ·«‚ª‚ ‚è‚Ü‚¹‚ñB
+@‚½‚¾‚µA]—ˆ‚Ìwikiƒy[ƒW‚ğˆÚs‚·‚éˆ×‚ÌŠÇ—ÒŒü‚¯ƒvƒ‰ƒOƒCƒ“
+@convertutf8 ‚ª‘Sƒo[ƒWƒ‡ƒ“‚É•t‘®‚µ‚Ä‚¢‚Ü‚·B
 
 -------------------------------------------------
 ¡‚Í‚¶‚ß‚É
@@ -123,6 +133,12 @@ PyukiWiki‚Ì“®ìŠÂ‹«‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚·B
 
 
 	“™
+
+@  Windows ƒT[ƒo[‚Å‚ÍA
+    #!c:/perl/bin/perl.exe
+    #!c:\perl\bin\perl.exe
+    #!c:\perl64\bin\perl.exe
+@  ‚ğİ’è‚µ‚Ä‚à—Ç‚¢‚Å‚µ‚å‚¤B
 
 (2) pyukiwiki.ini.cgi ‚Ì•Ï”‚Ì’l‚ğC³‚µ‚Ü‚·B
 
@@ -155,46 +171,65 @@ WebƒT[ƒo‚É“]‘—‚·‚é•K—v‚Í‚ ‚è‚Ü‚¹‚ñB
 +-- pyukiwiki.ini.cgi       TEXT  644 (rw-r--r--)  ’è‹`ƒtƒ@ƒCƒ‹
 +-- lib                           755 (rwxr-xr-x)  g—pƒ‚ƒWƒ…[ƒ‹ŒQ
     +-- wiki.cgi            TEXT  644 (rw-r--r--)  CGI–{‘Ì
+    +-- aguse.inc.pl*       TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- antispam.inc.pl     TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
+    +-- antispamwiki.inc..  TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- authadmin_..inc.pl  TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- autometa....inc.pl  TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
-    +-- gzip.inc.pl         TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
+    +-- google_an...inc.pl* TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
+    +-- iecompati...inc.pl  TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- lang.inc.pl*        TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
+    +-- linktrack.inc.pl*   TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
+    +-- logs.inc.pl*        TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- punyurl.inc.pl*     TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- setting.inc.pl*     TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- slashpage.inc.pl*   TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- urlhack.inc.pl*     TEXT  644 (rw-r--r--)  Exƒvƒ‰ƒOƒCƒ“
     +-- Algorithm                 755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   +-- Diff.pm         TEXT  644 (rw-r--r--)  ·•ª—p
+    |   AWS *                     755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
+    |   |-- browsers.pm*    TEXT  644 (rw-r--r--)  ƒAƒNƒZƒX‰ğÍ’è‹`ƒtƒ@ƒCƒ‹
+    |   |-- domains.pm*     TEXT  644 (rw-r--r--)  iƒŠƒŠ[ƒX”Å‚Ì‚İj
+    |   |-- operating_...*  TEXT  644 (rw-r--r--)
+    |   |-- robots.pm*      TEXT  644 (rw-r--r--)
+    |   +-- search_eng...*  TEXT  644 (rw-r--r--)
     +-- Digest*                   755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   +-- Perl*                 755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |       +-- MD5.pm*     TEXT  644 (rw-r--r--)  md5 ŒvZ—p
     +-- File                      755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
-    |   +-- MMagic.pm       TEXT  644 (rw-r--r--)  ƒtƒ@ƒCƒ‹í•ÊŠÄ¸—p
-    |   +-- magic.txt*      TEXT  644 (rw-r--r--)  Magicƒtƒ@ƒCƒ‹iƒŠƒŠ[ƒX”Å‚Ì‚İj
+    |   |-- MMagic.pm       TEXT  644 (rw-r--r--)  ƒtƒ@ƒCƒ‹í•ÊŠÄ¸—p
+    |   |-- magic.txt*      TEXT  644 (rw-r--r--)  Magicƒtƒ@ƒCƒ‹iƒŠƒŠ[ƒX”Å‚Ì‚İj
     |   +-- magic_compa..** TEXT  644 (rw-r--r--)  Magicƒtƒ@ƒCƒ‹iƒRƒ“ƒpƒNƒg”Å‚Ì‚İj
-    +-- Time                      755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ 
-    |   +-- Local.pm        TEXT  644 (rw-r--r--)  recent.inc.pl‚Åg—p
-    +-- IDNA*                     755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ 
+    +-- HTTP                      755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ
+    |   +-- Lite.pm         TEXT  644 (rw-r--r--)  HTTPƒNƒ‰ƒCƒAƒ“ƒg
+    +-- IDNA*                     755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   +-- Punycode.pm*    TEXT  644 (rw-r--r--)  recent.inc.pl‚Åg—p
-    +-- Jcode*                    755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ 
+    +-- Jcode*                    755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   +-- Unicode*              755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   |   +-- Contants.pm*TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
     |   |   +-- NoXS.pm*    TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
-    |   +-- _Classic.pm*    TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
-    |   +-- Contants.pm*    TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
-    |   +-- H2Z.pm*         TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
-    |   +-- Tr.pm*          TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
+    |   |-- _Classic.pm*    TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
+    |   |-- Contants.pm*    TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
+    |   |-- H2Z.pm*         TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
+    |   |-- Tr.pm*          TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
     |   +-- Unicode.pm*     TEXT  644 (rw-r--r--)  Jcode.pm ‚Åg—p
     +-- Nana                      755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
     |   |-- Cache.pm        TEXT  644 (rw-r--r--)  ƒLƒƒƒbƒVƒ…ƒ‚ƒWƒ…[ƒ‹
+    |   |-- File.pm         TEXT  644 (rw-r--r--)  ƒtƒ@ƒCƒ‹ƒAƒNƒZƒXƒ‚ƒWƒ…[ƒ‹
+    |   |-- GZIP.pm*        TEXT  644 (rw-r--r--)  gzipˆ³kƒ‚ƒWƒ…[ƒ‹
+    |   |-- HTTP.pm         TEXT  644 (rw-r--r--)  HTTPƒNƒ‰ƒCƒAƒ“ƒg
     |   |-- Lock.pm         TEXT  644 (rw-r--r--)  ƒtƒ@ƒCƒ‹ƒƒbƒN—p
+    |   |-- Logs.pm*        TEXT  644 (rw-r--r--)  ƒAƒNƒZƒXƒƒO‰ğÍ—p
+    |   |-- Mail.pm         TEXT  644 (rw-r--r--)  ƒ[ƒ‹‘—M—p
     |   |-- Pod2Wiki.pm*    TEXT  644 (rw-r--r--)  pod¨wiki•ÏŠ·ƒ‚ƒWƒ…[ƒ‹
     |   |-- Search.pm*      TEXT  644 (rw-r--r--)  ‚ ‚¢‚Ü‚¢ŒŸõ—p
-    |   +-- YukiWikiDB.pm   TEXT  644 (rw-r--r--)  ƒŠƒjƒ…[ƒAƒ‹‚µ‚½YukiWikiDB
+    |   |-- YukiWikiDB.pm   TEXT  644 (rw-r--r--)  YukiWikiDB
+    |   +-- YukiWikiDB_G..* TEXT  644 (rw-r--r--)  gzipˆ³k”ÅYukiWikiDB
+    +-- Time                      755 (rwxr-wr-x)  ƒfƒBƒŒƒNƒgƒŠ
+    |   +-- Local.pm        TEXT  644 (rw-r--r--)  recent.inc.pl‚Åg—p
     +-- Yuki                      755 (rwxr-xr-x)  ƒfƒBƒŒƒNƒgƒŠ
-        +-- DiffText.pm     TEXT  644 (rw-r--r--)  ·•ª—p
-        +-- RSS.pm          TEXT  644 (rw-r--r--)  RSS—p
+        |-- DiffText.pm     TEXT  644 (rw-r--r--)  ·•ª—p
+        |-- RSS.pm          TEXT  644 (rw-r--r--)  RSS—p
         +-- YukiWikiDB.pm   TEXT  644 (rw-r--r--)  ƒIƒŠƒWƒiƒ‹‚ÌYukiWikiDB
 
 œQÆƒtƒ@ƒCƒ‹
@@ -203,6 +238,8 @@ WebƒT[ƒo‚É“]‘—‚·‚é•K—v‚Í‚ ‚è‚Ü‚¹‚ñB
 pyukiwiki.ini.cgi “à‚Ì•Ï” $::data_home‚Åw’è‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É“]‘—‚µ‚Ü‚·B
 Ú‚µ‚­‚Í pyukiwiki.ini.cgi ‚ğQÆ‚µ‚Ä‰º‚³‚¢B
 
++-- backup                        777 (rwxrwxrwx)  ƒoƒbƒNƒAƒbƒv•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
+|   +-- index.html          TEXT  755 (rwxr-xr-x)  ˆê——•\¦–h~—p
 +-- counter                       777 (rwxrwxrwx)  ƒJƒEƒ“ƒ^’l•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
 |   +-- index.html          TEXT  755 (rwxr-xr-x)  ˆê——•\¦–h~—p
 +-- diff                          777 (rwxrwxrwx)  ·•ª•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
@@ -218,6 +255,7 @@ pyukiwiki.ini.cgi “à‚Ì•Ï” $::data_home‚Åw’è‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É“]‘—‚µ‚Ü‚·B
 +-- wiki                          777 (rwxrwxrwx)  ƒy[ƒWƒf[ƒ^•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
     +-- index.html          TEXT  755 (rwxr-xr-x)  ˆê——•\¦–h~—p
 
+¦ƒoƒbƒNƒAƒbƒv•Û—pƒfƒBƒŒƒNƒgƒŠ‚Í compactƒo[ƒWƒ‡ƒ“‚É‚Í‚ ‚è‚Ü‚¹‚ñB
 
 ˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ÍA
 pyukiwiki.ini.cgi “à‚Ì•Ï” $::data_pub‚Åw’è‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É“]‘—‚µ‚Ü‚·B
@@ -247,6 +285,7 @@ index.cgi‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ 701 (rwx-----x) ‚É‚·‚é‚±‚Æ‚Å“®ì‚µ‚Ü‚·B
 İ’è‚µ‚Ü‚·B
 
 +-- attach                        701 (rwx-----x)  “Y•t•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
++-- backup                        700 (rwx------)  ƒoƒbƒNƒAƒbƒv•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
 +-- cache                         701 (rwx-----x)  ˆêƒfƒBƒŒƒNƒgƒŠ
 +-- counter                       700 (rwx------)  ƒJƒEƒ“ƒ^’l•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
 +-- diff                          700 (rwx------)  ·•ª•Û‘¶—pƒfƒBƒŒƒNƒgƒŠ
@@ -262,7 +301,16 @@ index.cgi‚Ìƒp[ƒ~ƒbƒVƒ‡ƒ“‚ğ 701 (rwx-----x) ‚É‚·‚é‚±‚Æ‚Å“®ì‚µ‚Ü‚·B
 ¡CSS‚ğ•ÒW‚µ‚½‚¯‚ê‚ÎH
 -------------------------------------------------
 ECSS‚Íyuicompressor‚Åˆ³k‚³‚ê‚Ä‚¢‚Ü‚·B‚»‚Ìˆ×A•ÒW‚µ‚¸‚ç‚¢‚Æv‚¢‚Ü‚·‚Ì‚ÅA
-@•ÒW‚ğ‚·‚é‚Ì‚Å‚ ‚ê‚ÎAŠJ”­”Å‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚Ä‰º‚³‚¢B
+@•ÒW‚ğ‚·‚é‚Ì‚Å‚ ‚ê‚ÎA*.css.org‚ğQÆ‚µ‚Ä‰º‚³‚¢B
+@Äˆ³k‚·‚é‚É‚ÍA‚±‚¿‚çi‰pŒêj‚ğ‚²——‰º‚³‚¢B
+@http://developer.yahoo.com/yui/compressor/
+
+-------------------------------------------------
+¡JavaScript‚ğ•ÒW‚µ‚½‚¯‚ê‚ÎH
+-------------------------------------------------
+EJavaScript‚àyuicompressor‚Åˆ³k‚³‚ê‚Ä‚¢‚Ü‚·B
+@‚»‚Ìˆ×A•ÒW‚µ‚¸‚ç‚¢‚Æv‚¢‚Ü‚·‚Ì‚ÅA-devel ”Å‚ğƒ_ƒEƒ“ƒ[ƒh‚Ìã
+@*.js.src‚ğQÆ‚µ‚Ä‰º‚³‚¢B
 @Äˆ³k‚·‚é‚É‚ÍA‚±‚¿‚çi‰pŒêj‚ğ‚²——‰º‚³‚¢B
 @http://developer.yahoo.com/yui/compressor/
 
@@ -308,6 +356,7 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 -------------------------------------------------
 EPyukiWiki‚ÌìÒ‚ª•Ï‚Á‚½‚Ì‚Å‚·‚©H
 @‚¢‚¢‚¦A•Ï‚Á‚½‚Ì‚Å‚Í‚È‚­’Ç‰Á‚Å‚·B
+@‚Æ‚Í‚¢‚¦AŒ´ìÒ‚ÌNekyo‚ÍAŒ»İŠJ”­‚ğ’â~‚µ‚Ä‚¢‚é–Í—l‚Å‚·B
 
 EŠù‘¶‚Ìƒvƒ‰ƒOƒCƒ“‚ª“®‚©‚È‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚½‚Ì‚Å‚·‚ªH
 @‰Â”\‚ÈŒÀ‚èA‰ß‹ƒo[ƒWƒ‡ƒ“Œü‚¯‚Ìƒvƒ‰ƒOƒCƒ“‚ğ“®ì‚Å‚«‚é‚æ‚¤•ÏX‚Í‚µ‚Ä‚¢‚Ü‚·‚ªA
@@ -339,6 +388,42 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @‚Ü‚½AƒCƒ“ƒ‰ƒCƒ“ƒvƒ‰ƒOƒCƒ“(&plugin(...);)‚É‚¨‚¢‚ÄAu;v‚ÅI—¹‚µ‚Ä‚¢‚È‚¢‚ÆA
 @•s‹ï‡‚ª‹N‚«‚Ü‚·BƒlƒXƒg‰Â”\‚É‚·‚éˆ×‚ÉŒµŠi‚É•¶–@ƒ`ƒFƒbƒN‚ğs‚È‚Á‚Ä‚¢‚Ü‚·‚Ì‚ÅA
 @•Â‚¶‚Ä‚¢‚È‚¢ê‡‚ÍAuGv‚Å•Â‚¶‚é‚æ‚¤‚É‚µ‚Ä‰º‚³‚¢B
+
+-------------------------------------------------
+¡0.1.9‚©‚ç‚Ìå‚È•ÏX“_
+-------------------------------------------------
+EXHTML 1.1 ‚ÉAContent-type: application/xhtml+xml ‚Åo—Í
+@‚·‚é‚æ‚¤‚É‚µ‚½B
+EUTF8”Å‚ğ’Ç‰Á‚µ‚½B•ÏŠ·‚·‚éˆ×‚ÌŠÇ—Ò—pƒvƒ‰ƒOƒCƒ“‚àì¬‚µ‚Ü‚µ‚½‚ªA
+@”ñí‚Éd‚¢•¨‚Æ‚È‚Á‚Ä‚¢‚Ü‚·B
+EŠÇ—ÒŒü‚¯ƒpƒXƒ[ƒh‚ğŠÈˆÕˆÃ†‰»‚·‚é‚æ‚¤‚É‚µ‚½B
+@‚½‚¾‚µA‚²‚­‚Ü‚ê‚Éi–ñ1000•ª‚Ì1‚ÌŠm—¦)‚Å³í‚É”FØ‚Å‚«‚È‚¢ƒoƒO‚ª
+@‚ ‚è‚Ü‚·B
+Eƒrƒ‹ƒh‚ÉADEVEL”ÅˆÈŠO‚ÌƒRƒƒ“ƒg‚ğíœ‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+Eƒrƒ‹ƒh‚ÉAcompact”Å‚Ì•s—v‚Ès‚ğíœ‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+EƒoƒbƒNƒAƒbƒv‹@”\‚ğ’Ç‹L‚µ‚½B
+Ebackupƒvƒ‰ƒOƒCƒ“‚Ì’Ç‰Á
+Etitleƒvƒ‰ƒOƒCƒ“‚Ì’Ç‰Á
+Eb’è“I‚ÉIPV6‚É‘Î‰‚µ‚½B
+EPukiWikiŒİŠ·‚Ì“€Œ‹•û–@‚É‚µ‚½B‚½‚¾‚µAinfo/ ƒfƒBƒŒƒNƒgƒŠ‚Í¡‚Ü‚Å’Ê‚è
+@•K—v‚Å‚·B
+EƒJƒEƒ“ƒ^[ƒtƒ@ƒCƒ‹‚ğPukiWikiŒİŠ·‚É‚µ‚½B
+E-DEVEL”ÅˆÈŠO‚ğ‰Â”\‚ÈŒÀ‚èƒRƒ“ƒpƒNƒg‚É‚µ‚Ä‚İ‚½B
+Ewiki•¶–@‚É [[(url...(gif|png|jpe?g))>link url,à–¾•¶]]‚ğ‰Á‚¦‚½
+EIE‚É‚¨‚¢‚ÄAESCƒL[‚ğ‰Ÿ‚µ‚Ä‚µ‚Ü‚Á‚½‚±‚Æ‚É‚æ‚èA“ü—Í“à—e‚ªŒ³‚É–ß‚Á‚Ä‚µ‚Ü‚¤
+@‚Ì‚ğ‘j~‚µ‚½B
+E#imgƒvƒ‰ƒOƒCƒ“‚É‚¨‚¢‚ÄAjpg,png,gifˆÈŠO‚Ì‰æ‘œ‚ğ•\¦‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+E#imgƒvƒ‰ƒOƒCƒ“‚É‚¨‚¢‚ÄAheightAwidth‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+
+-------------------------------------------------
+¡0.1.8‚©‚ç‚Ìå‚È•ÏX“_
+-------------------------------------------------
+E‚¢‚­‚ç‚©‚ÌƒoƒOƒtƒBƒbƒNƒX
+E#twitterƒvƒ‰ƒOƒCƒ“‚ğ’Ç‰Á‚µ‚½B
+ENana::HTTP‚ÌHTTPƒNƒ‰ƒCƒAƒ“ƒg‚ª‚Ü‚Æ‚à‚É“®ì‚µ‚È‚¢ê‡‚ª‚ ‚é‚Ì‚ÅA
+@•Ê“r HTTP::Lite ‚ğ—pˆÓ‚µ‚½B
+E•\¦Œy—Ê‰»A‹y‚Ñ‚Ù‚ñ‚Ì‚²‚­‚í‚¸‚©‚Èß“d‘Îô‚Ìˆ×‚Ì
+@gzipˆ³k•W€‰»A‹y‚ÑAJavaScriptACSS‚Ìˆ³k‰»
 
 -------------------------------------------------
 ¡0.1.7‚©‚ç‚Ìå‚È•ÏX“_
@@ -461,8 +546,8 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @Šù‘¶ƒy[ƒW‚©‚çA—Œ`‚Æ‚µ‚Ä“Ç‚İ‚Ş‹@”\‚ğ’Ç‰Á
 
 Elookup.inc.pl
-@InterWikiName³‹K‰»‚É”º‚¢•ÏX 
-@$::usepopup•Ï”‚É‘Î‰ 
+@InterWikiName³‹K‰»‚É”º‚¢•ÏX
+@$::usepopup•Ï”‚É‘Î‰
 @nph CGI‚É‘Î‰
 
 Enewpage.inc.pl
@@ -476,7 +561,7 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @nph CGI‚É‘Î‰
 
 Esearch.inc.pl
-@search_fuzzy.inc.pl’Ç‰Á‚É”º‚¤•ÏX 
+@search_fuzzy.inc.pl’Ç‰Á‚É”º‚¤•ÏX
 
 Esearch_fuzzy.inc.pl
 @“ú–{Œê‚ ‚¢‚Ü‚¢ŒŸõ—p‚Å‚·B
@@ -495,7 +580,7 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 
 EƒTƒ“ƒvƒ‹
 @CGI‚ğŠO•”‚©‚çŒÄ‚Ño‚¹‚È‚¢“™‚Ì——R‚ÅAŠO•”‚©‚çInterWiki‚Å‚«‚È‚¢wiki‚Ì‚½‚ß‚ÉA
-@PHP‚âHTML+JavaScript‚Ìwrapper‚ğƒTƒ“ƒvƒ‹‚Æ‚µ‚Ä“Y•t‚µ‚Ü‚µ‚½B 
+@PHP‚âHTML+JavaScript‚Ìwrapper‚ğƒTƒ“ƒvƒ‹‚Æ‚µ‚Ä“Y•t‚µ‚Ü‚µ‚½B
 
 -------------------------------------------------
 ¡g—p‚µ‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ“™
@@ -536,6 +621,7 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 Eppblog
 @http://p2b.jp/
 @‘½‚­‚Ì—L—p‚ÈJavaScript‚ğ—˜—p‚³‚¹‚Ä’¸‚¢‚Ä‚¢‚Ü‚·B
+
 @EFireFox‚Ìƒc[ƒ‹ƒ`ƒbƒv‰ü‘¢—martin
 @@http://martin.p2b.jp/index.php?date=20050201
 @Eƒuƒ‰ƒEƒU“à‚Å‚Ì‰æ‘œƒ|ƒbƒvƒAƒbƒv
@@ -551,6 +637,15 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 @EEUC•¶šŠÖŒW‚Ìˆ—
 @EƒŠƒl[ƒ€ƒƒbƒN
 @E‰üsƒR[ƒh‚ğ“ˆê‚·‚é
+
+Etwitteræ“¾—pJavaScript
+@http://twitstat.us/
+@ƒIƒŠƒWƒiƒ‹ƒ\[ƒX‚Í http://twitstat.us/twitstat.js
+
+EAWStatsiƒAƒNƒZƒXƒƒO‰ğÍj
+
+@http://www.starplatinum.jp/awstats/awstats70/
+@“Á‚ÉAƒe[ƒuƒ‹’è‹`‚ÍA‚»‚Ì‚Ü‚Üg—p‚³‚¹‚Ä’¸‚«‚Ü‚µ‚½B
 
 -------------------------------------------------
 ¡Ó«
@@ -588,14 +683,15 @@ pyukiwiki.ini.cgi ‚Ì•ÏX•”•ª‚ğ‹Lq‚·‚ê‚Î
 -------------------------------------------------
 ¡ìÒ
 -------------------------------------------------
-Copyright (C) 2004-2007 by Nekyo
-http://nekyo.hp.infoseek.co.jp/
-
-Copyright (C) 2002-2007 by Hiroshi Yuki
+Copyright (C) 2004-2012 by Nekyo
 http://nekyo.qp.land.to/
 
-Copyright (C) 2005-2007 by ‚È‚È‚İ
+Copyright (C) 2002-2007 by Hiroshi Yuki
+http://www.hyuki.com/
+
+Copyright (C) 2005-2012 by ‚È‚È‚İ (‚È‚È‚±‚Á‚¿š)
 http://nanakochi.daiba.cx/ http://line.daiba.cx/ http://chat.daiba.cx/
+http://twitter.com/nanakochi123456/
 
 Copyright (C) 2004-2007 by ‚â‚µ‚ª‚É‚à‚Ç‚«
 http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
@@ -603,5 +699,5 @@ http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
 Copyright (C) 2005-2007 by Junichi
 http://www.re-birth.com/
 
-Copyright (C) 2005-2007 PukiWiki Developers Team
+Copyright (C) 2005-2012 PukiWiki Developers Team
 http://pyukiwiki.sourceforge.jp/

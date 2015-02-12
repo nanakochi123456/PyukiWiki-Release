@@ -1,4 +1,4 @@
-#$Id: verb.pl.ja.pod,v 1.83 2011/05/04 07:26:50 papu Exp $
+#$Id: verb.pl.ja.pod,v 1.332 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -13,7 +13,7 @@ verb.pl - PyukiWiki / YukiWiki プラグイン
 
 =head1 説明
 
-PyukiWikiの整形ルールを無視するプラグイン 
+PyukiWikiの整形ルールを無視するプラグイン
 
 =head1 サンプル
 
@@ -26,12 +26,12 @@ PyukiWikiの整形ルールを無視するプラグイン
 
 =item PyukiWiki/Plugin/Standard/verb
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/verb/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/verb/>
 
 
 =item PyukiWiki CVSレボジトリ
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/verb.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/verb.pl?view=log>
 
 =back
 
@@ -45,15 +45,15 @@ L<http://www.hyuki.com/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2002-2011 by Hiroshi Yuki.
+Copyright (C) 2002-2012 by Hiroshi Yuki.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

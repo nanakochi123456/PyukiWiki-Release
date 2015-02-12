@@ -1,0 +1,64 @@
+#$Id: size.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+size.pl - PyukiWiki / YukiWiki プラグイン
+
+=head1 概要
+
+ &size(ピクセル数値){文字列};
+ &size(20){サイズ２０で表示};
+
+=head1 説明
+
+文字の大きさを指定する。
+
+このプラグインはYukiWikiと互換性があります。
+
+=head1 補足
+
+旧バージョンの size.inc.pl は廃止しますので、最新の size.pl をダウンロードして、削除する様にして下さい。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/size
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/size/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/size.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item Nekyo
+
+L<http://nekyo.qp.land.to/>
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2004-2012 by Nekyo.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

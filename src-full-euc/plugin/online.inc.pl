@@ -1,15 +1,15 @@
 ######################################################################
 # online.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: online.inc.pl,v 1.91 2011/05/04 07:26:50 papu Exp $
+# $Id: online.inc.pl,v 1.340 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -23,43 +23,36 @@
 # @author Nekyo.
 # @version v0.2 2004/12/06 –â‘è‚ª‚ ‚Á‚½‚Ì‚ÅA”r‘¼lock‚È‚µ”Å
 ######################################################################
-
-use strict;
-
 $online::timeout = 300
 	if(!defined($online::timeout));
-
+######################################################################
+use strict;
 sub plugin_online_inline {
 	return &plugin_online_convert;
 }
-
 sub plugin_online_convert {
 	my $file = $::counter_dir . 'user.dat';
-
 	if (!(-e $file)) {
 		open(FILE, ">$file");
 		close(FILE);
 	}
 	my $addr = $ENV{'REMOTE_ADDR'};
-
 	open(FILE, "<$file");
 	my @usr_arr = <FILE>;
 	close(FILE);
-
 	open(FILE, ">$file");
+#	flock(FILE, 2);
 	my $now = time();
 	my ($ip_addr, $tim_stmp);
 	foreach (@usr_arr) {
 		chomp;
 		($ip_addr, $tim_stmp) = split(/|/);
-
 		if (($now - $tim_stmp) < $online::timeout and $ip_addr ne $addr) {
 			print FILE "$ip_addr|$tim_stmp\n";
 		}
 	}
 	print FILE "$addr|$now\n";
 	close(FILE);
-
 	open(FILE, "<$file");
 	@usr_arr = <FILE>;
 	close(FILE);
@@ -67,4 +60,3 @@ sub plugin_online_convert {
 }
 1;
 __END__
-

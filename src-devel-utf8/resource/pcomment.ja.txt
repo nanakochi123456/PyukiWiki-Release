@@ -1,0 +1,15 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: pcomment.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# pcomment.inc.pl
+pcomment_plugin_yourname=あなたの名前:
+pcomment_plugin_pcommentbutton=コメント追加
+pcomment_plugin_err=記載事項が不足しています
+pcomment_plugin_msg_recent=最新の%d件を表示しています。
+pcomment_plugin_msg_all=コメントページを参照
+pcomment_plugin_msg_none=コメントはありません
+pcomment_plugin_commentpage_title=*%sのコメント
+pcomment_plugin_commentpage_backlink=[[%sに戻る>%s]]

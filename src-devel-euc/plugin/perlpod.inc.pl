@@ -1,15 +1,15 @@
 ######################################################################
 # perlpod.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: perlpod.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: perlpod.inc.pl,v 1.341 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -31,6 +31,7 @@ sub plugin_perlpod_action {
 						, $::form{notitle} ne '' ? "notitle" : ""
 						, $::form{source} ne '' ? 1 : 0));
 }
+#%>	# for hidemaru										# comment
 
 sub plugin_perlpod_convert {
 	my $file;
@@ -39,6 +40,7 @@ sub plugin_perlpod_convert {
 	return if($file=~/\.\./ || $file=~/^\// || $file=~/[|><%'"]/);
 	return(&perlpod($file,$notitle ne '' ? "notitle" : "",$source));
 }
+#%>	# for hidemaru										# comment
 
 sub getperlpath{
 	my $perlpath;
@@ -83,13 +85,14 @@ sub perlpod_sub {
 	my($file,$notitle,$source)=@_;
 	my ($name,$body)=Nana::Pod2Wiki::pod2wiki($file,$notitle);
 	my $html;
+	my $query=&htmlspecialchars($ENV{QUERY_STRING});
 	if($source+0 eq 0) {
 		if($notitle eq '') {
 			$html=&text_to_html("*$name\n\pod2wikidummycontents\n----\n$body");
-			my $contents=&plugin_contents_main("*$ENV{QUERY_STRING}",split(/\n/,"*$name\n\pod2wikidummycontents\n----\n$body"));
+			my $contents=&plugin_contents_main("?$query",split(/\n/,"*$name\n\pod2wikidummycontents\n----\n$body"));
 			$html=~s!pod2wikidummycontents!$contents!g;
 		} else {
-			$html.=&plugin_contents_main("?$ENV{QUERY_STRING}",split(/\n/,"$body"));
+			$html.=&plugin_contents_main("?$query",split(/\n/,"$body"));
 			$html.=&text_to_html("----\n$body");
 		}
 	} else {
@@ -160,11 +163,13 @@ Automatically Recursive search of the bottom of the directory setup by pyukiwiki
 
 =item PyukiWiki/Plugin/Standard/perlpod
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/perlpod/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/perlpod/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/perlpod.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/perlpod.inc.pl?view=log>
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/Nana/Pod2Wiki.pm?view=log>
 
 =back
 
@@ -178,15 +183,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

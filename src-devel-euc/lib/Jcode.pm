@@ -1,6 +1,7 @@
 #
-# $Id: Jcode.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $
 # Id: Jcode.pm,v 2.7 2008/05/10 18:15:19 dankogai Exp dankogai
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode;
@@ -9,8 +10,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = q$Id: Jcode.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = 0;
 
 # we no longer use Exporter
@@ -24,7 +25,7 @@ use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @EXPORT_OK   = qw($RCSID $VERSION $DEBUG);
 %EXPORT_TAGS = ( all       => [ @EXPORT, @EXPORT_OK ] );
 
-use overload 
+use overload
     q("") => sub { $_[0]->euc },
     q(==) => sub { overload::StrVal($_[0]) eq overload::StrVal($_[1]) },
     q(.=) => sub { $_[0]->append( $_[1] ) },
@@ -108,7 +109,7 @@ my %RE = (
        EUC_KANA  => '\x8e[\xa1-\xdf]',
        JIS_0208  =>  "$_0208{1978}|$_0208{1983}|$_0208{1990}",
        JIS_0212  => "\e" . '\$\(D',
-       JIS_ASC   => "\e" . '\([BJ]',     
+       JIS_ASC   => "\e" . '\([BJ]',
        JIS_KANA  => "\e" . '\(I',
        SJIS_C    => '[\x81-\x9f\xe0-\xfc][\x40-\x7e\x80-\xfc]',
        SJIS_KANA => '[\xa1-\xdf]',
@@ -132,7 +133,7 @@ sub getcode {
 	my $ucs2;
 	$ucs2 += length($1)
 	    while $$r_str =~ /(\x00$RE{ASCII})+/go;
-	if ($ucs2){      # smells like raw unicode 
+	if ($ucs2){      # smells like raw unicode
 	    ($code, $nmatch) = ('ucs2', $ucs2);
 	}else{
 	    ($code, $nmatch) = ('binary', 0);
@@ -141,25 +142,25 @@ sub getcode {
     elsif ($$r_str !~ /[\e\x80-\xff]/o) {	# not Japanese
 	($code, $nmatch) = ('ascii', 1);
     }				# 'jis'
-    elsif ($$r_str =~ 
+    elsif ($$r_str =~
 	   m[
 	     $RE{JIS_0208}|$RE{JIS_0212}|$RE{JIS_ASC}|$RE{JIS_KANA}
 	   ]ox)
     {
 	($code, $nmatch) = ('jis', 1);
-    } 
+    }
     else { # should be euc|sjis|utf8
 	# use of (?:) by Hiroki Ohzaki <ohzaki (at) iod (dot) ricoh (dot) co (dot) jp>
-	$sjis += length($1) 
+	$sjis += length($1)
 	    while $$r_str =~ /((?:$RE{SJIS_C})+)/go;
-	$euc  += length($1) 
+	$euc  += length($1)
 	    while $$r_str =~ /((?:$RE{EUC_C}|$RE{EUC_KANA}|$RE{EUC_0212})+)/go;
-	$utf8 += length($1) 
+	$utf8 += length($1)
 	    while $$r_str =~ /((?:$RE{UTF8})+)/go;
 	# $utf8 *= 1.5; # M. Takahashi's suggestion
 	$nmatch = _max($utf8, $sjis, $euc);
 	carp ">DEBUG:sjis = $sjis, euc = $euc, utf8 = $utf8" if $DEBUG >= 3;
-	$code = 
+	$code =
 	    ($euc > $sjis and $euc > $utf8) ? 'euc' :
 		($sjis > $euc and $sjis > $utf8) ? 'sjis' :
 		    ($utf8 > $euc and $utf8 > $sjis) ? 'utf8' : undef;
@@ -178,10 +179,10 @@ sub convert{
     $jname2e{$ocode} and $ocode = $jname2e{$ocode};
 
     if ($opt){
-	return $opt eq 'z' 
+	return $opt eq 'z'
 	    ? jcode($r_str, $icode)->h2z->$ocode
 		: jcode($r_str, $icode)->z2h->$ocode ;
-	    
+
     }else{
 	if (Scalar::Util::readonly($$r_str)){
 	    my $tmp = $$r_str;
@@ -273,7 +274,7 @@ for my $enc (keys %jname2e){
     my $e = find_encoding($name) or croak "$enc not supported";
     *{$enc} = sub {
 	my $r_str = $_[0]->{r_str};
-	Encode::is_utf8($$r_str) ? 
+	Encode::is_utf8($$r_str) ?
 		$e->encode($$r_str, $_[0]->{fallback}) : $$r_str;
     };
 }
@@ -292,7 +293,7 @@ sub AUTOLOAD {
     my $myname = $AUTOLOAD;
     $myname =~ s/.*:://;  # strip fully-qualified portion
     $myname eq 'DESTROY' and return;
-    my $e = find_encoding($myname) 
+    my $e = find_encoding($myname)
 	or confess __PACKAGE__, ": unknown encoding: $myname";
     $DEBUG and warn ref($self), "->$myname defined";
     no strict 'refs';
@@ -344,7 +345,7 @@ sub jfold{
     my ($len, $i) = (0,0);
 
     if( defined $kin and (ref $kin) eq 'ARRAY' ){
-	%kinsoku = map { my $k = Encode::is_utf8($_) ? 
+	%kinsoku = map { my $k = Encode::is_utf8($_) ?
 			     $_ : decode('euc-jp' =>  $_);
 			 ($k, 1) } @$kin;
     }
@@ -355,11 +356,11 @@ sub jfold{
 	# <UFF9F> \xDF |0 # HALFWIDTH KATAKANA SEMI-VOICED SOUND MARK
 	my $ord = ord($char);
 	my $clen =  $ord < 128 ? 1
-	    : $ord <  0xff61 ? 2 
-	    : $ord <= 0xff9f ? 1 : 2; 
+	    : $ord <  0xff61 ? 2
+	    : $ord <= 0xff9f ? 1 : 2;
 	if ($len + $clen > $bpl){
 	    unless($kinsoku{$char}){
-		$i++; 
+		$i++;
 		$len = 0;
 	    }
 	}
@@ -448,7 +449,7 @@ sub _add_encoded_word {
 	      MIME::Base64::encode_base64($iso_2022_jp, '')
 		      . '?=';
 	    if (length($encoded) + length($line) > $bpl) {
-		$target =~ 
+		$target =~
 		    s/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|$RE{ASCII})$//o;
 		$str = $1 . $str;
 	    } else {
@@ -513,7 +514,7 @@ sub m{
 
     $pattern =~ s,\\,\\\\,og; $pattern =~ s,/,\\/,og;
     $opt     =~ s,[^a-z],,og;
-    
+
     eval qq{ \@match = (\$\$r_str =~ m/$pattern/$opt) };
     if ($@){
 	$self->{error_m} = $@;
@@ -552,7 +553,7 @@ Jcode - Japanese Charset Handler
 =head1 SYNOPSIS
 
  use Jcode;
- # 
+ #
  # traditional
  Jcode::convert(\$str, $ocode, $icode, "z");
  # or OOP!
@@ -564,7 +565,7 @@ Jcode - Japanese Charset Handler
 
 B<<Japanese document is now available as L<Jcode::Nihongo>. >>
 
-Jcode.pm supports both object and traditional approach.  
+Jcode.pm supports both object and traditional approach.
 With object approach, you can go like;
 
   $iso_2022_jp = Jcode->new($str)->h2z->jis;
@@ -590,12 +591,12 @@ Methods mentioned here all return Jcode object unless otherwise mentioned.
 
 =item $j = Jcode-E<gt>new($str [, $icode])
 
-Creates Jcode object $j from $str.  Input code is automatically checked 
+Creates Jcode object $j from $str.  Input code is automatically checked
 unless you explicitly set $icode. For available charset, see L<getcode>
 below.
 
 For perl 5.8.1 or better, C<$icode> can be I<any encoding name>
-that L<Encode> understands. 
+that L<Encode> understands.
 
   $j = Jcode->new($european, 'iso-latin1');
 
@@ -610,15 +611,15 @@ Instead of scalar value, You can use reference as
 
 Jcode->new(\$str);
 
-This saves time a little bit.  In exchange of the value of $str being 
+This saves time a little bit.  In exchange of the value of $str being
 converted. (In a way, $str is now "tied" to jcode object).
 
 =back
 
 =item $j-E<gt>set($str [, $icode])
 
-Sets $j's internal string to $str.  Handy when you use Jcode object repeatedly 
-(saves time and memory to create object). 
+Sets $j's internal string to $str.  Handy when you use Jcode object repeatedly
+(saves time and memory to create object).
 
  # converts mailbox to SJIS format
  my $jconv = new Jcode;
@@ -717,16 +718,16 @@ To use methods below, you need L<MIME::Base64>.  To install, simply
 
    perl -MCPAN -e 'CPAN::Shell->install("MIME::Base64")'
 
-If your perl is 5.6 or better, there is no need since L<MIME::Base64> 
+If your perl is 5.6 or better, there is no need since L<MIME::Base64>
 is bundled.
 
 =over 2
 
 =item $mime_header = $j-E<gt>mime_encode([$lf, $bpl])
 
-Converts $str to MIME-Header documented in RFC1522. 
+Converts $str to MIME-Header documented in RFC1522.
 When $lf is specified, it uses $lf to fold line (default: \n).
-When $bpl is specified, it uses $bpl for the number of bytes (default: 76; 
+When $bpl is specified, it uses $bpl for the number of bytes (default: 76;
 this number must be smaller than 76).
 
 For Perl 5.8.1 or better, you can also encode MIME Header as:
@@ -752,7 +753,7 @@ can also do the same as:
 
 =item $j-E<gt>h2z([$keep_dakuten])
 
-Converts X201 kana (Hankaku) to X208 kana (Zenkaku).  
+Converts X201 kana (Hankaku) to X208 kana (Zenkaku).
 When $keep_dakuten is set, it leaves dakuten as is
 (That is, "ka + dakuten" is left as is instead of
 being converted to "ga")
@@ -777,7 +778,7 @@ better.
 =item $j-E<gt>tr($from, $to, $opt);
 
 Applies C<tr/$from/$to/> on Jcode object where $from and $to are
-EUC-JP strings.  On perl 5.8.1 or better, $from and $to can 
+EUC-JP strings.  On perl 5.8.1 or better, $from and $to can
 also be flagged UTF-8 strings.
 
 If C<$opt> is set, C<tr/$from/$to/$opt> is applied.  C<$opt> must
@@ -853,7 +854,7 @@ When array context is used instead of scaler, it also returns how many
 character codes are found.  As mentioned above, $str can be \$str
 instead.
 
-B<jcode.pl Users:>  This function is 100% upper-conpatible with 
+B<jcode.pl Users:>  This function is 100% upper-conpatible with
 jcode::getcode() -- well, almost;
 
  * When its return value is an array, the order is the opposite;
@@ -861,7 +862,7 @@ jcode::getcode() -- well, almost;
 
  * jcode::getcode() returns 'undef' when the number of EUC characters
    is equal to that of SJIS.  Jcode::getcode() returns EUC.  for
-   Jcode.pm there is no in-betweens. 
+   Jcode.pm there is no in-betweens.
 
 =item Jcode::convert($str, [$ocode, $icode, $opt])
 
@@ -869,7 +870,7 @@ Converts $str to char code specified by $ocode.  When $icode is specified
 also, it assumes $icode for input string instead of the one checked by
 getcode(). As mentioned above, $str can be \$str instead.
 
-B<jcode.pl Users:>  This function is 100% upper-conpatible with 
+B<jcode.pl Users:>  This function is 100% upper-conpatible with
 jcode::convert() !
 
 =back
@@ -881,10 +882,10 @@ Meaning Jcode is subject to bugs therein.
 
 =head1 ACKNOWLEDGEMENTS
 
-This package owes a lot in motivation, design, and code, to the jcode.pl 
+This package owes a lot in motivation, design, and code, to the jcode.pl
 for Perl4 by Kazumasa Utashiro <utashiro (at) iij (dot) ad (dot) jp>.
 
-Hiroki Ohzaki <ohzaki (at) iod (dot) ricoh (dot) co (dot) jp> has helped me polish regexp from the 
+Hiroki Ohzaki <ohzaki (at) iod (dot) ricoh (dot) co (dot) jp> has helped me polish regexp from the
 very first stage of development.
 
 JEncode by <makamaka (at) donzoko (dot) net> has inspired me to integrate Encode to

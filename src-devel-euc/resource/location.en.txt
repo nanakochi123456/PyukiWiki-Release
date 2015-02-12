@@ -1,8 +1,8 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: location.en.txt,v 1.9 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: location.en.txt,v 1.259 2011/12/31 13:06:12 papu Exp $
 #
 
 # location.inc.pl
-location_plugin_message=This page is moved. Please click <strong><a href="">here</a></strong> when the page doesn't move. 
+location_plugin_message=This page is moved. Please click <strong><a href="">here</a></strong> when the page doesn't move.

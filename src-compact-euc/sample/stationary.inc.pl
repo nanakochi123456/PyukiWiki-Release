@@ -1,14 +1,14 @@
 ######################################################################
 # stationary.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: stationary.inc.pl,v 1.45 2011/05/04 07:26:50 papu Exp $
+# $Id: stationary.inc.pl,v 1.294 2011/12/31 13:06:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
-# Copyright (C) 2004-2011 by Nekyo.
+# "PyukiWiki" version 0.2.0 $$
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,36 +17,12 @@
 ######################################################################
 # This is plugin sample
 ######################################################################
-
 use strict;
-
 #
 # #stationary(arg, arg2, ...)
 #
 sub plugin_stationary_convert {
-
 	my ($mymsg,$mypage) = split(/,/, shift);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	$mymsg=&escape($mymsg);
 	$mymsg="No message" if($mymsg eq '');
 	if(&is_exist_page($mypage)) {
@@ -58,21 +34,16 @@ sub plugin_stationary_convert {
 Message : $mymsg
 SubjectLine : $mypage
 EOM
-
-
 	$::HTTP_HEADER.=<<EOM;
 X-PyukiWiki-Stationary:test
 EOM
-
 	return $body;
 }
-
 #
 # &stationary(arg, arg2, ...);
 #
 sub plugin_stationary_inline {
 	my ($mymsg,$mypage) = split(/,/, shift);
-
 	$mymsg=&escape($mymsg);
 	$mymsg="No message" if($mymsg eq '');
 	if(&is_exist_page($mypage)) {
@@ -84,21 +55,17 @@ sub plugin_stationary_inline {
 Message : $mymsg
 SubjectLine : $mypage
 EOM
-
 	$IN_HEAD.=<<EOM;
 <meta name="test" content="test" />
 EOM
-
 	return $body;
 }
-
 #
 # when same of inline and convert method, use it
 #
-
 # sub plugin_stationary_inline {
+#	return &plugin_stationary_convert(@_);
 # }
-
 #
 # ?cmd=stationary&mypage=arg&mymsg=arg2
 #
@@ -106,9 +73,7 @@ sub plugin_stationary_action {
 	my $mymsg=&encode($::form{mymsg});
 	my $mypage=$::form{mypage};
 	$mymsg="No message" if($mymsg eq '');
-
 	if(!&is_exist_page($mypage)) {
-
 		return ('msg'=>"\t\tPage not found",
 				'body'=>"Page not found : $mypage");
 	} else {
@@ -120,6 +85,5 @@ sub plugin_stationary_action {
 				);
 	}
 }
-
 1;
 __END__

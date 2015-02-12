@@ -1,9 +1,8 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: versionlist.en.txt,v 1.80 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: versionlist.en.txt,v 1.330 2011/12/31 13:06:12 papu Exp $
 #
-
 # versionlist.inc.pl
 versionlist_plugin_title=The version list of composition files
 versionlist_plugin_pkgname=Package

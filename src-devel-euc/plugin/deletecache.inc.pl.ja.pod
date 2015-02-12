@@ -1,4 +1,4 @@
-#$Id: deletecache.inc.pl.ja.pod,v 1.55 2011/05/04 07:26:50 papu Exp $
+#$Id: deletecache.inc.pl.ja.pod,v 1.304 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -21,15 +21,15 @@ deletecache.inc.pl - PyukiWiki 管理者向けプラグイン
 
 =item index.html
 
- 
+
 
 =item .htaccess
 
- 
+
 
 =item 拡張子が３文字以下のファイル
 
- 
+
 
 =back
 
@@ -39,11 +39,11 @@ deletecache.inc.pl - PyukiWiki 管理者向けプラグイン
 
 =item PyukiWiki/Plugin/Admin/deletecache
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/deletecache/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/deletecache/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/deletecache.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/deletecache.inc.pl?view=log>
 
 =back
 
@@ -57,15 +57,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by ななみ.
+Copyright (C) 2005-2012 by ななみ.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

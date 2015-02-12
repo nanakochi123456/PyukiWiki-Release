@@ -1,16 +1,16 @@
 ######################################################################
 # RSS.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: RSS.pm,v 1.88 2011/05/04 07:26:50 papu Exp $
+# $Id: RSS.pm,v 1.337 2011/12/31 13:06:10 papu Exp $
 #
 # "Yuki::RSS" version 0.3 $$
 # Author: Hiroshi Yuki
 # http://www.hyuki.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -52,7 +52,7 @@ sub add_item {
 	return $self->{items};
 }
 
-# 
+#
 sub as_string {
 	my ($self) = @_;
 	my $doc = <<"EOD";
@@ -99,32 +99,32 @@ __END__
 
 =head1 NAME
 
-Yuki::RSS - The smallest module to generate RSS 1.0. 
+Yuki::RSS - The smallest module to generate RSS 1.0.
 It is downward compatible to XML::RSS.
 
 =head1 SYNOPSIS
 
     use strict;
     use Yuki::RSS;
- 
+
     my $rss = new Yuki::RSS(
         version => '1.0',
         encoding => 'Shift_JIS'
     );
- 
+
     $rss->channel(
         title => "Site Title",
         link => "http://url.of.your.site/",
         description  => "The description of your site",
     );
- 
+
     $rss->add_item(
         title => "Item Title",
         link => "http://url.of.your/item.html",
         description => "Yoo, hoo, hoo",
         dc_date => "2003-12-06T01:23:45+09:00",
     );
- 
+
     print $rss->as_string;
 
 =head1 DESCRIPTION

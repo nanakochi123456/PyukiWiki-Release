@@ -1,4 +1,4 @@
-#$Id: punyurl.inc.pl.ja.pod,v 1.77 2011/05/04 07:26:50 papu Exp $
+#$Id: punyurl.inc.pl.ja.pod,v 1.326 2011/12/31 13:06:09 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -37,12 +37,12 @@ punyurl.inc.cgi にリネームして下さい。
 
 =item PyukiWiki/Plugin/ExPlugin/punyurl
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/punyurl/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/punyurl/>
 
 
 =item PyukiWiki CVSレボジトリ
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/punyurl.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/punyurl.inc.pl?view=log>
 
 =back
 
@@ -54,12 +54,19 @@ L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/punyurl.inc.pl?vi
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
+Copyright (C) 2005-2012 by ななみ.
 
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut

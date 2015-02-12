@@ -1,6 +1,7 @@
 #
-# $Id: Tr.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: Tr.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: Tr.pm,v 2.0 2005/05/16 19:08:00 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode::Tr;
@@ -8,8 +9,8 @@ package Jcode::Tr;
 use strict;
 use vars qw($VERSION $RCSID);
 
-$RCSID = q$Id: Tr.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Tr.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 use Carp;
 
@@ -27,7 +28,7 @@ sub tr {
     $$r_str =~ s(
 		 ([\x80-\xff][\x00-\xff]|[\x00-\xff])
 		 )
-    {defined($_TABLE{$1}) && ++$n ? 
+    {defined($_TABLE{$1}) && ++$n ?
 	 $_TABLE{$1} : $1}ogex;
 
     return $n;

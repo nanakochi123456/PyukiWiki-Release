@@ -1,15 +1,15 @@
 ######################################################################
 # sitemap.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: sitemap.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: sitemap.inc.pl,v 1.341 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -41,15 +41,14 @@
 # http://pyukiwiki.sourceforge.jp/?cmd=sitemap
 #
 ######################################################################
-
 sub plugin_sitemap_convert {
 	$::form{title}='no';
+#	$::form{ls2}='no';
 	$::form{level}=2;
 	$::form{subject}=1;
 	my %sitemap=&plugin_sitemap_action;
 	return $sitemap{body};
 }
-
 sub plugin_sitemap_action {
 	my $prev = '';
 	my $char = '';
@@ -63,16 +62,13 @@ sub plugin_sitemap_action {
 	my $body="<h2>@{[$::wiki_title eq '' ? $::resource{sitemap_plugin_title} : $::wiki_title]}</h2>\n"
 		if($::form{title} ne 'no');
 	$::form{level}=5 if($::form{level}+0 eq 0);
-
 	foreach $basepage(split(/\n/,$::database{$menubar})) {
-
 		if ($basepage=~/^(\*{1,5})(.+)/) {
 			$name=$basepage;
 			$name=~s/^(\*{1,5})//g;
 			$name=&plugin_sitemap_trim($name);
 			$menucount++;
 			push(@sitemap,$name);
-
 		}elsif($basepage=~/$::bracket_name/ && $basepage!~/>(http:|https:|ftp:|mailto:|\?)/
 			&& $basepage!~/($::interwiki_name1|$::interwiki_name2)/) {
 			$basepage=~s/$::bracket_name/$1/g;
@@ -81,7 +77,6 @@ sub plugin_sitemap_action {
 			if(&is_readable($basepage)) {
 				$submenu++;
 				$sitemap{$name}.=sprintf("%05d\t%05d\t%05d\t%05d\t%s\n",$menucount,$submenu,0,0,$basepage);
-
 				$sitemap{$name}.=&submenu($basepage,$menucount,$submenu,0,1);
 			}
 		}
@@ -135,7 +130,6 @@ sub plugin_sitemap_action {
 	}
 	return ('msg' => "\t$::resource{sitemap_plugin_title}", 'body' => $body);
 }
-
 sub submenu {
 	my($pagename,$menucount,$submenu,$nextmenu,$nest)=@_;
 	my $ret="";
@@ -152,10 +146,8 @@ sub submenu {
 			$nextmenu++;
 			$ret.=sprintf("%05d\t%05d\t%05d\t%05d\t%s\n",$menucount,$submenu,$nextmenu,$nest,$nextpage);
 			$ret.=&submenu($nextpage,$menucount,$submenu,$nextmenu+1,$nest+1);
-
 		} elsif($line=~/^#include\((.*?)\)/ && $::form{include} eq '') {
 			$ret.=&submenu((split(/,/,$1))[0],$menucount+1,$submenu,$nextmenu+1,$nest)
-
 		}elsif(($line=~/^#ls2\((.*?)\)/ || $line=~/^#ls2/) && $::form{ls2} eq '') {
 			my @ls2args = split(/,/, $1);
 			my $ls2prefix;
@@ -184,13 +176,10 @@ sub submenu {
 	}
 	return $ret;
 }
-
 sub plugin_sitemap_trim {
 	my($str,$strlen)=@_;
-
-	$Zspace = '(?:\xA1\xA1)'; # 全角スペース
+	$Zspace = '(?:\xA1\xA1)';
 	$eucpre = qr{(?<!\x8F)};
-
 	if($strlen+0 > 0) {
 		my $len=length($str);
 		$str=substr($str,0,$strlen);
@@ -199,10 +188,8 @@ sub plugin_sitemap_trim {
 		}
 		$str.="..." if($len ne length($str));
 	}
-
-
-	$str =~ s/^(?:\s|$Zspace)+//o; # $str が EUC-JP の場合
-	$str =~ s/$eucpre(?:\s|$Zspace)+$//o; # $str が EUC-JP の場合(perl5.005以降)
+	$str =~ s/^(?:\s|$Zspace)+//o;
+	$str =~ s/$eucpre(?:\s|$Zspace)+$//o; # $str が EUC-JP の場合(perl5.005以降
 	$str=~s/\~//g;
 	$str=~s/[\r|\n]//g;
 	return $str;

@@ -1,4 +1,4 @@
-#$Id: new.inc.pl.ja.pod,v 1.69 2011/05/04 07:26:50 papu Exp $
+#$Id: new.inc.pl.ja.pod,v 1.318 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -47,11 +47,11 @@ $new_dates_longで指定された時間に表示される文字列をHTMLで設定します。
 
 =item PyukiWiki/Plugin/Standard/new
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/new/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/new/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/new.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/new.inc.pl?view=log>
 
 =back
 
@@ -65,15 +65,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

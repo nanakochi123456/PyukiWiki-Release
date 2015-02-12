@@ -1,15 +1,15 @@
 ######################################################################
 # ref.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: ref.inc.pl,v 1.104 2011/05/04 07:26:50 papu Exp $
+# $Id: ref.inc.pl,v 1.354 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -53,42 +53,42 @@
 # ページ名やパラメータに見える文字列を使用するときは、
 # #ref(hoge.png,,zoom)のようにタイトルの前にカンマを余分に入れる
 ######################################################################
-
-use strict;
-
+#
 $ref::file_icon =<<EOM
 <img src="$::image_url/file.png" width="20" height="20" alt="file" style="border-width:0px" />
 EOM
 	if(!defined($ref::file_icon));
-
+#
 # default alignment
 $ref::default_align = 'left' # 'left','center','right'
 	if(!defined($ref::default_align));
-
+#
 # force wrap on default (nonuse)
 #$ref::wrap_table = 0 # 1,0
 #	if(!defined($ref::wrap_table));
-
+#
 # summary make small image (use Image::Magick)
 $ref::summary=0
 	if(!defined($ref::summary));
-
+#
 # link popup
 $ref::popup=0		# 0:self, 1:popup
 	if(!defined($ref::popup));
-
+#
 $ref::popup_regex=qq(do[ct]|ppt|pps|pot|xls|csv|mpp|md[baentwz]|vs[dstw]|pub|one|pdf|txt|[ch]p?p?|js|cgi|p[lm]|php?|rb|gif|jpe?g|png)
 	if(!defined($ref::popup_regex));
-
+#
 # link popup of image
 $ref::imagepopup=0	# 0:default, 1:JavaScript popup, 2:innerWindow popup
 	if(!defined($ref::imagepopup));
-
+#
 # window.open parameters
 $ref::wopen='toolbar=no,hotkeys=no,directories=no,scrollbars=no,resizable=yes,menubar=no,width=1,height=1'
 	if(!defined($ref::wopen));
-
+#
 ######################################################################
+
+use strict;
 
 sub plugin_ref_action {
 	if($::form{mode} eq "image") {
@@ -141,42 +141,23 @@ sub plugin_ref_action {
 $::dtd
 <title>$::form{name}</title>
 <script type="text/javascript"><!--
-function loadchk() {
-	if(document.pi.complete) {
-		window.status="";
-		self.resizeTo($::form{width}+10,$::form{height}+80);
-		view.style.display="block";
-	} else {
-		window.status="Loading...";
-		window.setTimeout("loadchk();",100);
-	}
-}
-function imgsize(v){
-	var w=$::form{width}*v;
-	var h=$::form{height}*v;
-	document.pi.height=h;
-	document.pi.width=w;	
-	self.resizeTo(w+10,h+80);
-}
-//self.focus();
+function loadchk(){if(d.pi.complete){window.status="";self.resizeTo($::form{width}+10,$::form{height}+80);}else{window.status="Loading...";window.setTimeout("loadchk();",100);}}
+function imgsize(v){var w=$::form{width}*v;var h=$::form{height}*v;d.pi.height=h;d.pi.width=w;self.resizeTo(w+10,h+80);}
 window.setTimeout("loadchk();",100);
 //--></script>
 <style type="text/css"><!--
-*,img{
-	margin: 0px;
-	padding: 0px;
-}
+*,img{margin: 0px;padding: 0px;}
 //--></style>
 </head>
 <body>
-<div align="center" id="view" style="display:none;">
+<div align="center" id="view" style="display:block;">
 <table>
 <tr><td>
 <form action="#">
 <select name="size" onchange="imgsize(this.value);">
 <option value="0.25">25%</option>
 <option value="0.5">50%</option>
-<option value="1" selected>100%</option>
+<option value="1" selected="selected">100%</option>
 <option value="1.5">150%</option>
 <option value="2">200%</option>
 </select>
@@ -206,7 +187,7 @@ EOM
 sub plugin_ref_inline {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
-	return 'no argument(s).' if (@args < 1);	#エラーチェック
+	return 'no argument(s).' if (@args < 1);	#エラーチェック	# comment
 	my %params = &plugin_ref_body($args, $::form{mypage});
 	return ($params{_error}) ? $params{_error} : $params{_body};
 }
@@ -214,10 +195,10 @@ sub plugin_ref_inline {
 sub plugin_ref_convert {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
-	return '<p>no argument(s).</p>' if (@args < 1);	#エラーチェック
+	return '<p>no argument(s).</p>' if (@args < 1);	#エラーチェック	# comment
 	my %params = &plugin_ref_body($args, $::form{mypage});
 
-	# divで包む
+	# divで包む														# comment
 	my $style;
 	if ($params{around}) {
 		$style = ($params{_align} eq 'right') ? 'float:right' : 'float:left';
@@ -241,7 +222,7 @@ sub getimagesize {
 		open(FILE, "$datafile") || return (0, 0);
 		binmode FILE;
 		read(FILE, $data, 2);
-		while (1) { # read Exif Blocks
+		while (1) { # read Exif Blocks						# comment
 			read(FILE, $data, 4);
 			($m, $c, $l) = unpack("a a n", $data);
 			if ($m ne "\xFF") {
@@ -283,37 +264,37 @@ sub plugin_ref_body {
 	my $name = &trim(shift(@args));
 	my $page;
 
-#	my %params = {
-#		'left'   => 0,	# 左寄せ
-#		'center' => 0,	# 中央寄せ
-#		'right'  => 0,	# 右寄せ
-#		'wrap'   => 0,	# TABLEで囲む
-#		'nowrap' => 0,	# TABLEで囲まない
-#		'around' => 0,	# 回り込み
-#		'noicon' => 0,	# アイコンを表示しない
-#		'nolink' => 0,	# 元ファイルへのリンクを張らない
-#		'noimg'  => 0,	# 画像を展開しない
-#		'zoom'   => 0,	# 縦横比を保持する
-#		'_size'  => 0,	# (サイズ指定あり)
-#		'_w'     => 0,	# (幅)
-#		'_h'     => 0,	# (高さ)
-#		'_%'     => 0,	# (拡大率)
-#		'_args'  => '',
-#		'_done'  => 0,
-#		'_error' => ''
-#	};
+#	my %params = {											# comment
+#		'left'   => 0,	# 左寄せ							# comment
+#		'center' => 0,	# 中央寄せ							# comment
+#		'right'  => 0,	# 右寄せ							# comment
+#		'wrap'   => 0,	# TABLEで囲む						# comment
+#		'nowrap' => 0,	# TABLEで囲まない					# comment
+#		'around' => 0,	# 回り込み							# comment
+#		'noicon' => 0,	# アイコンを表示しない				# comment
+#		'nolink' => 0,	# 元ファイルへのリンクを張らない	# comment
+#		'noimg'  => 0,	# 画像を展開しない					# comment
+#		'zoom'   => 0,	# 縦横比を保持する					# comment
+#		'_size'  => 0,	# (サイズ指定あり)					# comment
+#		'_w'     => 0,	# (幅)								# comment
+#		'_h'     => 0,	# (高さ)							# comment
+#		'_%'     => 0,	# (拡大率)							# comment
+#		'_args'  => '',										# comment
+#		'_done'  => 0,										# comment
+#		'_error' => ''										# comment
+#	};														# comment
 
 	my (%params, $_title, $_backup);
 	foreach (@args) {
 		$_backup = $_;
 		$_ = &trim($_);
-		if (/^([0-9]+)x([0-9]+)$/i) { # size pixcel
+		if (/^([0-9]+)x([0-9]+)$/i) { # size pixcel			# comment
 			$params{_size} = 1;
 			$params{_w} = $1;
 			$params{_h} = $2;
-		} elsif (/^([0-9.]+)%$/i) { # size %
+		} elsif (/^([0-9.]+)%$/i) { # size %				# comment
 			$params{_par} = $1;
-		} elsif (/(left|center|right|wrap|nowrap|around|noicon|nolink|noimg|zoom)/i) { # align
+		} elsif (/(left|center|right|wrap|nowrap|around|noicon|nolink|noimg|zoom)/i) { # align	# comment
 			$params{lc $_} = 1;
 		} else {
 			if (!$page and &is_exist_page($_)) {
@@ -333,18 +314,18 @@ sub plugin_ref_body {
 	my $class;
 	my $popupmode=0;
 
-	if ($name =~ /^$::isurl/o) {	#URL
+	if ($name =~ /^$::isurl/o) {	#URL				# comment
 		$url = $url2 = &htmlspecialchars($name);
 		$title = &htmlspecialchars(($name =~ '/([^\/]+)$/') ? $1 : $url);
 		$is_image = (!$params{noimg} and $name =~ /\.$::image_extention$/oi);
 		$target='';
 		$class="url";
-	} else {	# 添付ファイル
+	} else {	# 添付ファイル							# comment
 		if (!-d "$::upload_dir/") {
 			$params{_error} = 'no $::upload_dir.';
 			return %params;
 		}
-		# ページ指定のチェック
+		# ページ指定のチェック							# comment
 		$page = $::form{mypage} if (!$page);
 		if ($name =~ /^(.+)\/([^\/]+)$/) {
 			$1 .= '/' if ($1 eq '.' or $1 eq '..');
@@ -387,9 +368,9 @@ sub plugin_ref_body {
 		}
 	}
 
-	# 画像サイズ調整
+	# 画像サイズ調整								# comment
 	if ($is_image) {
-		# 指定されたサイズを使用する
+		# 指定されたサイズを使用する				# comment
 		if ($params{_size}) {
 			if ($width == 0 and $height == 0) {
 				$width  = $params{_w};
@@ -416,7 +397,7 @@ sub plugin_ref_body {
 		}
 	}
 
-	#アラインメント判定
+	#アラインメント判定								# comment
 	if ($params{right}) {
 		$params{_align} = 'right';
 	} elsif ($params{left}) {
@@ -429,8 +410,8 @@ sub plugin_ref_body {
 
 	$title = $_title if ($_title);
 
-	# ファイル種別判定
-	if ($is_image) {	# 画像
+	# ファイル種別判定								# comment
+	if ($is_image) {	# 画像						# comment
 		my $_url;
 		if($ref::summary eq 1 && ($_width > $width || $_height > $height) && $url2) {
 			$_url=qq(<img src="$::script?cmd=ref&amp;mode=image&amp;page=@{[&encode($page)]}&amp;name=@{[&encode($name)]}&amp;width=$width&amp;height=$height">);
@@ -458,11 +439,11 @@ sub plugin_ref_body {
 			}
 		}
 		$params{_body} = $_url;
-	} else {	# 通常ファイル
+	} else {	# 通常ファイル							# comment
 		my $icon = $params{noicon} ? '' : $ref::file_icon;
 		$params{_body} = &make_link_target($url,$class,"_target",$info,$target)
 			. "$icon$title</a>\n";
-		# add 0.1.8
+		# add 0.1.8										# comment
 		if($::AttachCounter eq 2) {
 			require "plugin/counter.inc.pl";
 			my %attach_counter=&plugin_counter_do("attach\_$page\_$name","r");
@@ -476,17 +457,17 @@ EOM
 	}
 	return %params;
 
-#	if ($is_image) {	# 画像
-#		my $_url = "<img src=\"$url\" alt=\"$title\" title=\"$title\" $info/>";
-#		if (!$params{nolink} and $url2) {
-#			$_url = "<a $target href=\"$url2\" title=\"$title\">$_url</a>";
-#		}
-#		$params{_body} = $_url;
-#	} else {	# 通常ファイル
-#		my $icon = $params{noicon} ? '' : $ref::file_icon;
-#		$params{_body} = "<a href=\"$url\" title=\"$info\">$icon$title</a>\n";
-#	}
-#	return %params;
+#	if ($is_image) {	# 画像								# comment
+#		my $_url = "<img src=\"$url\" alt=\"$title\" title=\"$title\" $info/>";	# comment
+#		if (!$params{nolink} and $url2) {					# comment
+#			$_url = "<a $target href=\"$url2\" title=\"$title\">$_url</a>";		# comment
+#		}													# comment
+#		$params{_body} = $_url;								# comment
+#	} else {	# 通常ファイル								# comment
+#		my $icon = $params{noicon} ? '' : $ref::file_icon;	# comment
+#		$params{_body} = "<a href=\"$url\" title=\"$info\">$icon$title</a>\n";	# comment
+#	}														# comment
+#	return %params;											# comment
 }
 
 1;
@@ -611,11 +592,11 @@ $ref::imagepopup=1 At the time,  The parameter of window.open is specified.
 
 =item PyukiWiki/Plugin/Standard/ref
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/ref/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/ref/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ref.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ref.inc.pl?view=log>
 
 =back
 
@@ -629,15 +610,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

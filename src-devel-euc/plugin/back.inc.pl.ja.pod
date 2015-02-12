@@ -1,4 +1,4 @@
-#$Id: back.inc.pl.ja.pod,v 1.48 2011/05/04 07:26:50 papu Exp $
+#$Id: back.inc.pl.ja.pod,v 1.297 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -9,7 +9,7 @@ back.inc.pl - PyukiWiki プラグイン
 
 =head1 概要
 
- #back( [[表示文字列] [,[left| center| right] [,[0| 1] [,[戻り先] ]]]] ) 
+ #back( [[表示文字列] [,[left| center| right] [,[0| 1] [,[戻り先] ]]]] )
 
 =head1 説明
 
@@ -56,7 +56,7 @@ left, center, rightで表示位置を指定します。省略時はcenterになります。
 
 =item $back::allowjavascript
 
-戻り先の指定にJavaScript?(history.go(-1))を利用するかどうか 
+戻り先の指定にJavaScript?(history.go(-1))を利用するかどうか
 
 もし、JavaScriptの履歴が存在しない場合は表示しません。
 
@@ -72,7 +72,7 @@ L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/back/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/back.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/back.inc.pl?view=log>
 
 =back
 
@@ -86,15 +86,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by ななみ.
+Copyright (C) 2005-2012 by ななみ.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

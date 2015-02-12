@@ -1,15 +1,15 @@
 ######################################################################
 # recent.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: recent.inc.pl,v 1.93 2011/05/04 07:26:50 papu Exp $
+# $Id: recent.inc.pl,v 1.342 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -24,22 +24,10 @@
 # v 0.0.1 Actionによりダイナミック生成機能追加
 # v 0.0.0
 ######################################################################
-
 my $useTimeLocal=1;
-use Time::Local;
-# If you can't use Time::Local, comment out upper of 2 lines and
-# bottom 1 line, delete comment out
 #my $useTimeLocal=0;
-
-sub dbmname {
-	my ($name) = @_;
-	$name =~ s/(.)/uc unpack('H2', $1)/eg;
-	return $name;
-}
-
 sub get_date {
 	my ($time) = @_;
-
 	my (@week) = qw(Sun Mon Tue Wed Thu Fri Sat);
 	my ($sec, $min, $hour, $day, $mon, $year, $weekday) = localtime($time);
 	$year += 1900;
@@ -52,7 +40,6 @@ sub get_date {
 	$weekday = $week[$weekday];
 	return "$year-$mon-$day ($weekday) $hour:$min:$sec";
 }
-
 sub plugin_recent_action {
 	my $limit = shift;
 	if ($limit eq '') { $limit = 10; }
@@ -62,10 +49,8 @@ sub plugin_recent_action {
 	my $out = "";
 	foreach (split(/\n/, $recentchanges)) {
 		last if ($count >= $limit);
-
 		/^\- (\d\d\d\d)\-(\d\d)\-(\d\d) \(...\) (\d\d):(\d\d):(\d\d) (.*?)\ \ \- (.*)/;
-		next if ($7 =~ /\[*:/ || $7 =~ /$::non_list/ || !&is_readable($7));
-
+		next if ($7 eq '' || $7 =~ /\[*:/ || $7 =~ /$::non_list/ || !&is_readable($7));
 		if($useTimeLocal eq 1) {
 			$out.=qq(- @{[&date($::recent_format, Time::Local::timelocal($6,$5,$4,$3,$2-1,$1-1900))]} $7 - $8\n);
 		} else {
@@ -74,9 +59,7 @@ sub plugin_recent_action {
 	}
 	return('msg'=>"\t$::resource{recentchanges}", 'body'=>&text_to_html($out));
 }
-
 sub plugin_recent_convert {
-
 	my $argv = shift;
 	my ($limit, $ignore) = split(/,/, $argv);
 	if ($limit eq '') { $limit = 10; }
@@ -86,14 +69,11 @@ sub plugin_recent_convert {
 	my $out = "";
 	foreach (split(/\n/, $recentchanges)) {
 		last if ($count >= $limit);
-
 		/^\- (\d\d\d\d\-\d\d\-\d\d) \(...\) \d\d:\d\d:\d\d (.*?)\ \ \-/;
 		next if ($2 =~ /\[*:/ || $2 =~ /$::non_list/ || !&is_readable($2));
-
 		if ($ignore ne '') {
 			next if $2 =~ /($ignore)/;
 		}
-
 		if ($2) {
 			if ($date ne $1) {
 				if ($date ne '') { $out .= "</ul>\n"; }
@@ -109,4 +89,3 @@ sub plugin_recent_convert {
 }
 1;
 __END__
-

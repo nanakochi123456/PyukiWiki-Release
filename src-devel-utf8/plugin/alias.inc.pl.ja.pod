@@ -1,0 +1,89 @@
+#$Id: alias.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+alias.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ #alias(ページ名 [,pagenameflag])
+
+=head1 説明
+
+ページを表示せずに、指定した別のWikiページへジャンプする。
+
+=head1 使用方法
+
+=over 4
+
+=item ページ名
+
+ページを指定します。もし、ループされている場合は、その時点でエイリアスを終了し、現時点でのページを表示します。
+
+=item pagenameflag
+
+0 を指定すると、エイリアス先のページ名を表示します。
+
+1 を指定すると、エイリアス元のページ名を表示します。ただし、編集等のリンクはエイリアス先のページ名が指定されます。
+
+=item その他
+
+エイリアス元のページを変更するには、?cmd=adminedit&mypage=ページ名、もしくは listfrozen プラグインの編集リンクから変更して下さい。
+
+=back
+
+=head1 設定
+
+=head2 alias.inc.pl
+
+=over 4
+
+=item $alias::loopmax
+
+エイリアスの最大回数を指定します。デフォルトは２です。
+
+=back
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/alias
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/alias/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/alias.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

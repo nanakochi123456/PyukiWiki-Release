@@ -1,0 +1,11 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: compressbackup.ja.txt,v 1.73 2011/12/31 13:06:15 papu Exp $
+#
+
+# compressbackup.inc.pl
+compressbackup_plugin_title=バックアップディレクトリの再圧縮
+compressbackup_pluin_converted=バックアップディレクトリの再圧縮を行ないました。
+compressbackup_pluin_convert=バックアップディレクトリの再圧縮を行ないますか？（非常に重い処理です）
+compressbackup_pluin_convert_yes=続行

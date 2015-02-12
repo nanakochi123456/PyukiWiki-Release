@@ -1,15 +1,15 @@
 ######################################################################
 # rss10.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rss10.inc.pl,v 1.101 2011/05/04 07:26:50 papu Exp $
+# $Id: rss10.inc.pl,v 1.351 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 use Yuki::RSS;
 
 sub plugin_rss10_action {
-	# 言語別の設定
+	# 言語別の設定										# comment
 	if($::_exec_plugined{lang} > 1) {
 		$::modifier_rss_title=$::modifier_rss_title{$::lang} if($::modifier_rss_title{$::lang} ne '');
 		$::modifier_rss_link=$::modifier_rss_link{$::lang} ne '' ? $::modifier_rss_link{$::lang}: $::modifier_rss_link ne '' ? $::modifier_rss_link : $::basehref;
@@ -62,7 +62,7 @@ sub plugin_rss10_action {
 		}
 		$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
 			- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
-		my $date = $1 . "T" . $2 . sprintf("%+02d:00", $gmt);
+		my $date = $1 . "T" . $2 . sprintf("+%02d:00", $gmt);
 
 		if(&is_readable($title) && $title!~/$::non_list/) {
 			$rss->add_item(
@@ -74,13 +74,20 @@ sub plugin_rss10_action {
 			$count++;
 		}
 	}
-	# print RSS information (as XML).
+	# print RSS information (as XML).						# comment
 	my $body=$rss->as_string;
 	if($::lang eq 'ja' && $::defaultcode ne $::kanjicode) {
 		$body=&code_convert(\$body,   $::kanjicode);
 	}
-	print &http_header("Content-type: text/xml");
-	print $body;
+	&gzip_init;
+	if($::gzip_header ne '') {
+		print &http_header(
+			"Content-type: text/xml; charset=$::charset", $::gzip_header);
+	} else {
+		print &http_header(
+			"Content-type: text/xml; charset=$::charset");
+	}
+	&compress_output($body);
 	&close_db;
 	exit;
 }
@@ -104,23 +111,21 @@ Output RSS (RDF Site Summary) 1.0 from RecentChanges
 
 =item PyukiWiki/Plugin/Standard/rss10
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/rss10/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/rss10/>
 
 =item PyukiWiki CVS
 
-L<http://cvs.sourceforge.jp/cgi-bin/viewcvs.cgi/pyukiwiki/PyukiWiki-Devel/plugin/rss10.inc.pl>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rss10.inc.pl?view=log>
 
 =item YukiWiki
 
 using Yuki::RSS.
 
-L<http://www.hyuki.com/yukiwiki/wiki.cgi>
+L<http://www.hyuki.com/yukiwiki/>
 
 =back
 
 =head1 AUTHOR
-
-=over 4
 
 =item Nekyo
 
@@ -128,15 +133,13 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
-
-=back
+L<http://pyukiwiki.sfjp.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2010 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

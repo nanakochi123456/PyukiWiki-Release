@@ -1,0 +1,72 @@
+#$Id: linktrack.inc.pl.ja.pod,v 1.207 2011/12/31 13:06:09 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+linktrack.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+外部リンクへのカウンターを取る
+
+=head1 使用方法
+
+linktrack.inc.cgi にリネームして下さい。
+
+必要な場合、info/setup.cgi に以下の変数を記載して下さい。
+
+$linktrack::ignoredomain = wikiのURL (http://等のプリフィックスは除く）
+
+複数指定する場合は、「,」で区切って指定できます。
+
+例：abcdefg.com/~user,example.com
+
+=head1 参考
+
+右クリックをした時点でも、リンクトラッキングをできるようにしてあります。その時、Status 204 でのHTTPアクセスが発生します。
+
+=head1 上書きする関数
+
+make_link_target
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/ExPlugin/linktrack
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/linktrack/>
+
+
+=item PyukiWiki CVSレボジトリ
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/linktrack.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

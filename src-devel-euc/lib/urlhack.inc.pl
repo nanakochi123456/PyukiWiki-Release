@@ -1,15 +1,15 @@
 ######################################################################
 # urlhack.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: urlhack.inc.pl,v 1.107 2011/05/04 07:26:50 papu Exp $
+# $Id: urlhack.inc.pl,v 1.354 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-rc6 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -27,30 +27,31 @@
 # PATH_INFO を使う（0の場合File not foundを補足する)
 $urlhack::use_path_info=1
 	if(!defined($urlhack::use_path_info));
-
+#
 # fake extension 拡張子偽装
-$urlhack::fake_extention="/"	# "/" ".html" or null
+$urlhack::fake_extention="/"		# only "/"
 	if(!defined($urlhack::fake_extention));
-
-# use puny url 0:16進エンコード 1:punyエンコード
+#
+# use puny url 0:16進エンコード 1:punyエンコード 2:UTF8エンコード
 $urlhack::use_puny=1
 	if(!defined($urlhack::use_puny));
-
+#
 # not convert Alphabet or Number ( or dot and slash) page
 $urlhack::noconvert_marks=2	# 0:NO / 1:Alpha&Number / 2:AlphaNumber and mark
 	if(!defined($urlhack::noconvert_marks));
-
+#
 # force url hack (non extention .cgi)
 $urlhack::force_exec=0			# PATH_INFOを使わない場合で、拡張子CGIでない場合、1を設定
 	if(!defined($urlhack::force_exec));
+#
+######################################################################
 
 use strict;
 
-# Initlize
+# Initlize														# comment
 
 sub plugin_urlhack_init {
 	&exec_explugin_sub("lang");
-	$::debug.="urlhack.inc.cgi:Load\n";				# debug
 	unless($::form{mypage} eq '' || $::form{mypage} eq $::FrontPage) {
 		return('init'=>0
 			,'func'=>'make_cookedurl',
@@ -70,59 +71,59 @@ sub plugin_urlhack_init {
 sub plugin_urlhack_init_path_info {
 	my $req=$ENV{PATH_INFO};
 
-	# cmd=read以外は使用しない									# debug
+	# cmd=read以外は使用しない									# comment
 	unless($::form{cmd} eq '' || $::form{cmd} eq 'read') {
 		return 0;
 	}
 
-	# 拡張子偽装している場合、それを削除						# debug
+	# 拡張子偽装している場合、それを削除						# comment
 	if($urlhack::fake_extention ne '') {
 		my $regex=$urlhack::fake_extention;
 		$regex=~s/([\.\/])/'\\x' . unpack('H2', $1)/eg;
 		$req=~s/$regex$//g;
 	}
-	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# debug
+	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
 	if(&is_exist_page($req)) {
 		$::form{cmd}='read';
 		$::form{mypage}=$req;
 		return 0;
 	}
 
-	# 前後の不要なスラッシュを削除								# debug
+	# 前後の不要なスラッシュを削除								# comment
 	$req=~s!^/!!g;
 	$req=~s!/$!!g;
 
-	# 拡張子偽装している場合、それを削除						# debug
+	# 拡張子偽装している場合、それを削除						# comment
 	if($urlhack::fake_extention ne '') {
 		my $regex=$urlhack::fake_extention;
 		$regex=~s/([\.\/])/'\\x' . unpack('H2', $1)/eg;
 		$req=~s/$regex$//g;
 	}
-	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# debug
+	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
 	if(&is_exist_page($req)) {
 		$::form{cmd}='read';
 		$::form{mypage}=$req;
 		return 0;
 	}
 	$req=&plugin_urlhack_decode($req);
-	# URIが空の時の処理											# debug
+	# URIが空の時の処理											# comment
 	if($req eq '') {
-		# 通常のエンコードの場合の処理							# debug
+		# 通常のエンコードの場合の処理							# comment
 		$req=&decode($ENV{QUERY_STRING});
 		if(&is_exist_page($req)) {
 			$::form{cmd}='read';
 			$::form{mypage}=$req;
 			return 0;
-		# cmd=read&mypage=xxx の場合							# debug
+		# cmd=read&mypage=xxx の場合							# comment
 		} elsif(&is_exist_page($::form{mypage})) {
 			$::form{cmd}='read';
 			return 0;
 		}
-		# でなければ、FrontPage									# debug
+		# でなければ、FrontPage									# comment
 		$::form{cmd}='read';
 		$::form{mypage}=$::FrontPage;
 		return 0;
-	# REDIRECT_URIから取得したページが存在した場合				# debug
+	# REDIRECT_URIから取得したページが存在した場合				# comment
 	} elsif(&is_exist_page($req)) {
 		$::form{cmd}='read';
 		$::form{mypage}=$req;
@@ -132,7 +133,7 @@ sub plugin_urlhack_init_path_info {
 }
 
 sub plugin_urlhack_init_notfound {
-	# nphスクリプトか拡張子.cgiでない場合、使用しない			# debug
+	# nphスクリプトか拡張子.cgiでない場合、使用しない			# comment
 	if($urlhack::force_exec eq 0) {
 		unless($ENV{SCRIPT_NAME}=~/nph-/ || $ENV{REQUEST_URI}=~/\.cgi/) {
 			$::debug.="Not used urlhack.inc.cgi\n";
@@ -141,7 +142,7 @@ sub plugin_urlhack_init_notfound {
 	}
 	my $req;
 
-	# エラー404以外は使用しない									# debug
+	# エラー404以外は使用しない									# comment
 	if($::form{cmd} eq 'servererror') {
 		if($ENV{REDIRECT_STATUS} eq 404) {
 			$req=$ENV{REDIRECT_URL};
@@ -150,7 +151,7 @@ sub plugin_urlhack_init_notfound {
 		}
 	}
 
-	# 404で返されたREDIRECT_URLがない、cmd=read以外は使用しない	# debug
+	# 404で返されたREDIRECT_URLがない、cmd=read以外は使用しない	# comment
 	if($req ne '' || $::form{cmd} eq '' || $::form{cmd} eq 'read') {
 		$req=$ENV{REQUEST_URI};
 		$req="$req/" if($urlhack::force_exec eq 1 && ($ENV{REQUEST_URI}!~/\.cgi$/ || $ENV{REQUEST_URI}=~/\/$/));
@@ -158,10 +159,10 @@ sub plugin_urlhack_init_notfound {
 		return 0;
 	}
 
-	# ?以降は無視する											# debug
+	# ?以降は無視する											# comment
 	$req=~s/\?.*//g;
 
-	# dot(.)とslash(/)が有効の場合								# debug
+	# dot(.)とslash(/)が有効の場合								# comment
 	if($urlhack::noconvert_marks eq 2) {
 		my $uri;
 		# 自URIを取得し、削除する
@@ -181,27 +182,27 @@ sub plugin_urlhack_init_notfound {
 		} else {
 			$uri .= $ENV{'SCRIPT_NAME'};
 		}
-					# slashのみ正規表現にかけるためエスケープ	# debug
+					# slashのみ正規表現にかけるためエスケープ	# comment
 		$uri=~s!/!\x08!g;
 		$req=~s!/!\x08!g;
 		$req=~s!^$uri!!g;
-						# 戻す								# debug
+						# 戻す								# comment
 		$req=~s!\x08!/!g;
 	} else {
 		$req=~s/.*\///g;
 		$req=~s/^\///g;
 	}
-	# 前後の不要なスラッシュを削除								# debug
+	# 前後の不要なスラッシュを削除								# comment
 	$req=~s!^/!!g;
 	$req=~s!/$!!g;
 
-	# 拡張子偽装している場合、それを削除						# debug
+	# 拡張子偽装している場合、それを削除						# comment
 	if($urlhack::fake_extention ne '') {
 		my $regex=$urlhack::fake_extention;
 		$regex=~s/([\.\/])/'\\x' . unpack('H2', $1)/eg;
 		$req=~s/$regex$//g;
 	}
-	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# debug
+	# アルファベット数字のみで、変換不要の場合 FrontPage 等		# comment
 	$req=~s/%([A-Fa-f0-9][A-Fa-f0-9])/chr(hex($1))/eg;
 	if(&is_exist_page($req)) {
 		$::form{cmd}='read';
@@ -210,29 +211,29 @@ sub plugin_urlhack_init_notfound {
 	}
 	$req=&plugin_urlhack_decode($req);
 
-	# URIが空の時の処理											# debug
+	# URIが空の時の処理											# comment
 	if($req eq '') {
-		# 通常のエンコードの場合の処理							# debug
+		# 通常のエンコードの場合の処理							# comment
 		$req=&decode($ENV{QUERY_STRING});
 		if(&is_exist_page($req)) {
 			$::form{cmd}='read';
 			$::form{mypage}=$req;
 			return 0;
-		# cmd=read&mypage=xxx の場合							# debug
+		# cmd=read&mypage=xxx の場合							# comment
 		} elsif(&is_exist_page($::form{mypage})) {
 			$::form{cmd}='read';
 			return 0;
 		}
-		# でなければ、FrontPage									# debug
+		# でなければ、FrontPage									# comment
 		$::form{cmd}='read';
 		$::form{mypage}=$::FrontPage;
 		return 0;
-	# REDIRECT_URIから取得したページが存在した場合				# debug
+	# REDIRECT_URIから取得したページが存在した場合				# comment
 	} elsif(&is_exist_page($req)) {
 		$::form{cmd}='read';
 		$::form{mypage}=$req;
 		return 1;
-	# でなければ、404 Not foundで返す							# debug
+	# でなければ、404 Not foundで返す							# comment
 	} else {
 		$::form{cmd}='servererror';
 		$ENV{REDIRECT_STATUS}=404;
@@ -242,7 +243,7 @@ sub plugin_urlhack_init_notfound {
 	}
 }
 
-# hack wiki.cgi of make_cookedurl								# debug
+# hack wiki.cgi of make_cookedurl								# comment
 
 sub make_cookedurl {
 	my($cookedchunk)=@_;
@@ -275,25 +276,50 @@ sub plugin_urlhack_decode {
 		&plugin_urlhack_usepuny;
 		$str=~s/\_/\//g;
 		$str=IDNA::Punycode::decode_punycode($str);
-		$str=&code_convert(\$str, 'euc', 'utf8');
-	} else {
+		$str=&code_convert(\$str, $::defaultcode, 'utf8');
+		if($urlhack::use_puny ne 1) {
+			&getbasehref;
+			$::IN_HEAD.=<<EOM;
+<link rel="canonical" href="$::basehref@{[&plugin_urlhack_encode($str,$urlhack::use_puny)]}" />
+EOM
+		}
+	} elsif($str=~/^[0-9A-Fa-f]+/) {
 		$str=~s/([A-Fa-f0-9][A-Fa-f0-9])/pack("C", hex($1))/eg;
-	}
+		if($urlhack::use_puny ne 0) {
+			&getbasehref;
+			$::IN_HEAD.=<<EOM;
+<link rel="canonical" href="$::basehref@{[&plugin_urlhack_encode($str,$urlhack::use_puny)]}" />
+EOM
+		}
+	} else {
+		my $tmp=&decode($str);
+		$str=&code_convert(\$tmp, $::defaultcode, 'utf8');
+		if($urlhack::use_puny ne 2) {
+			&getbasehref;
+			$::IN_HEAD.=<<EOM;
+<link rel="canonical" href="$::basehref@{[&plugin_urlhack_encode($str,$urlhack::use_puny)]}" />
+EOM
+		}
+}
 	$str=~s/\+/\ /g;
 	$str=~s/\!2b/\+/g;
 	return $str;
 }
 
 sub plugin_urlhack_encode {
-	my($str)=@_;
-	if($urlhack::use_puny eq 0) {
+	my($str, $enc)=@_;
+	$enc=$enc eq '' ? $urlhack::use_puny : $enc;
+	if($enc eq 0) {
 		$str=~ s/(.)/unpack('H2', $1)/eg;
+	} elsif($enc eq 2) {
+		$str=&encode(&code_convert(\$str, 'utf8', $::defaultcode));
+		$str=~s!%2[Ff]!/!g;
 	} else {
 		&plugin_urlhack_usepuny;
 		$str=~s/\+/!2b/g;
 		$str=~s/\ /+/g;
 		my $org=$str;
-		$str=&code_convert(\$str, 'utf8', 'euc');
+		$str=&code_convert(\$str, 'utf8', $::defaultcode);
 		utf8::decode($str);
 		$str=IDNA::Punycode::encode_punycode($str);
 		$str=~s/\-{3,9}/--/g;
@@ -328,7 +354,7 @@ __DATA__
 		'$::urlhack_use_path_info=Method:1=PATH_INFO,0=Not Found Error/' .
 		'$::urlhack_fake_extention=Fake extention:=none,.html,/' .
 		'$::urlhack_noconvert_marks=Not convert charactors:0=All encode,1=Alphabet and number of page name,2=Alphabet and number and dot and slash',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/urlhack/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/urlhack/'
 	);
 __END__
 
@@ -391,7 +417,7 @@ change from B<$urlhack::use_path_info=1;> to B<$urlhack::use_path_info=0;>
 
  RewriteEngine on
  RewriteBase /
- 
+
  RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
  RewriteRule ^\?(.*)$ ./index.cgi?$1 [L]
  RewriteCond %{REQUEST_URI} !^/(attach|cache|image|skin)
@@ -449,11 +475,11 @@ make_cookedurl was overrided.
 
 =item PyukiWiki/Plugin/ExPlugin/urlhack
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/urlhack/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/urlhack/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/urlhack.inc.pl?view=log>
 
 =back
 
@@ -467,15 +493,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2010 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

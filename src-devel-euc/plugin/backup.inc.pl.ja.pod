@@ -1,0 +1,72 @@
+#$Id: backup.inc.pl.ja.pod,v 1.250 2011/12/31 13:06:10 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+backup.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ ?cmd=backup&mypage=ページ名
+
+ ?cmd=backup
+
+=head1 説明
+
+バックアップを表示するプラグインです。
+
+compact パッケージでは wiki.cgi においてもバックアップ機能が搭載されていません。
+なお、変更履歴の詳細を見れば、その時点での書き込みIPアドレス、リモートホスト名がわかります。(要管理者認証)
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/backup
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/backup/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/backup.inc.pl?view=log>
+
+=item YukiWiki
+
+Using Yuki::DiffText
+
+L<http://www.hyuki.com/yukiwiki/>
+
+=item CPAN Algorithm::Diff
+
+L<http://search.cpan.org/dist/Algorithm-diff/>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

@@ -1,3 +1,5 @@
+#freeze
+#metarobots(disable)
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]]用の練習ページです。
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|
@@ -5,10 +7,10 @@
 **他のWikiのページに飛んでみよう。
 -[[WikiWikiWeb:FrontPage]]
 -[[WalWiki:WalWiki]]
--[[Tiki:WelcomeVisitors]] 
--[[YukiWiki:FrontPage]] 
--[[RWiki:top]] 
--[[PukiWiki:FrontPage]] 
+-[[Tiki:WelcomeVisitors]]
+-[[YukiWiki:FrontPage]]
+-[[RWiki:top]]
+-[[PukiWiki:FrontPage]]
 -[[pukiwiki.dev:FrontPage]]
 
 **PyukiWikiのページに飛んでみよう。
@@ -34,4 +36,3 @@
 #lookup(MSN,検索,PyukiWiki)
 #lookup(Goo,検索,PyukiWiki)
 #lookup(Fresheye,検索,PyukiWiki)
-

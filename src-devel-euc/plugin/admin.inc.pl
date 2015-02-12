@@ -1,15 +1,15 @@
 ######################################################################
 # admin.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: admin.inc.pl,v 1.52 2011/05/04 07:26:50 papu Exp $
+# $Id: admin.inc.pl,v 1.301 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
 
-$admin::ignore_plugin=q{^edit|^admin\.|^newpage|^attach};
+$admin::ignore_plugin=q{^edit|^admin\.|^newpage|^attach|^diff|^backup};
 
 sub plugin_admin_action {
 	my $body;
@@ -98,11 +98,11 @@ The menu which supports execution of management plugin.
 
 =item PyukiWiki/Plugin/Admin/admin
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/admin/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/admin/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/admin.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/admin.inc.pl?view=log>
 
 =back
 
@@ -116,15 +116,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

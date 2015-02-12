@@ -1,5 +1,7 @@
+#freeze
+#metarobots(disable)
 *[[PyukiWiki>PyukiWiki:FrontPage]]ヘルプ
-//$Id: A5D8A5EBA5D7.txt,v 1.83 2011/05/04 07:26:50 papu Exp $	# debug
+//$Id: A5D8A5EBA5D7.txt,v 1.332 2011/12/31 13:06:12 papu Exp $	# debug
 
 -[[テキスト整形のルール>整形ルール]]
 -[[FAQ(PyukiWiki official)>PyukiWiki:PyukiWiki/FAQ]]
@@ -10,6 +12,25 @@
 ----
 #contents
 ----
+** ナビゲーションメニュー
+画面上部にあるのがナビゲーションメニューです。
+-トップ - トップメニューに遷移します。~
+デフォルトでは FrontPage が表示されます。
+-編集 - 現在表示中のページを編集します。~
+凍結されているページでは編集メニューは表示されません。
+-凍結 - 現在表示中のページを凍結します。~
+また、凍結されているファイルを編集したり、凍結を解除したりできます。
+-差分 - 現在表示中のページと直前に修正したページの差分を表示します。
+-バックアップ - 現在表示中のページの過去の履歴を見たり、差分を表示したりできます。#nocompact
+-添付 - 現在表示中のページに対して、ファイルを添付します。~
+環境によっては正しく動作しない場合があります。
+-リロード - 現在表示中のページを再表示します。
+-新規 - 新しいページを作成します。
+-一覧 - ページの一覧を表示します。
+-単語検索 - 検索したい単語の含まれているページの一覧を表示します。
+-最終更新 - ページ一覧を新しい順から表示されます。
+-ヘルプ - ヘルプを表示します。
+
 **[[PyukiWiki>PyukiWiki:FrontPage]]って何ですか？
 すべてのページが誰でも編集できます。変更したいページでページ上部の「編集」をクリックするとそのページが編集できます。編集内容は、[[整形ルール]]に従って整形されます。
 
@@ -34,7 +55,7 @@ Wikiとはそういうものです。誰でもどこでも書き加えたり、直したりできます。[[PyukiW
 
 **[[YukiWiki>YukiWiki:FrontPage]] からの変更点。
 
-- FrontPage をトップページにするように変更。frontpage.txt は使いません。 
+- FrontPage をトップページにするように変更。frontpage.txt は使いません。
 - MenuBar をメニューとして表示するように変更。
 - css を [[PukiWiki>PukiWiki:FrontPage]]の default.ja.css, print.ja.css を[[PyukiWiki>PyukiWiki:FrontPage]]用にカスタマイズした物を参照するように変更。((現在の仕様では、[[PukiWiki>PukiWiki:FrontPage]]では、cssにPHPを用いています。))
 - [リロード] などの [[PukiWiki>PukiWiki:FrontPage]]風 メニューを追加。
@@ -42,10 +63,14 @@ Wikiとはそういうものです。誰でもどこでも書き加えたり、直したりできます。[[PyukiW
 - [[Plugin機能>PyukiWiki:PyukiWiki/Plugin/Standard/]]、[[ExPluginを実装>PyukiWiki:PyukiWiki/Plugin/ExPlugin/]]
 
 現在標準サポートしているプラグインは
+alias,
 aname,
 article,
+back,
+backup,
 br,
 bugtrack,
+calender,
 calendar2,
 clear,
 color,
@@ -54,36 +79,47 @@ contents,
 counter,
 date,
 diff,
+help,
 hr,
 img,
 include,
+ipv6check,
 link,
 list,
+location,
 lookup,
 ls2,
+mailform,
+metarobots,
+navi,
 new,
 newpage,
 now,
 online,
-opml,
 pagenavi,
+pcomment,
 perlpod,
 popular,
 recent,
 ref,
-rename,
 rss10,
+rss10page,
 ruby,
+sbookmark,
 search,
 sitemap,
+setlinebreak,
 showrss,
 size,
 sub,
 sup,
 time,
+title,
+topicpath,
+twitter,
 verb,
-vote
-
+vote,
+yetlist
 
 サブセット版は一部機能が未実装だったりします。[[YukiWiki>YukiWiki:FrontPage]]は[[YukiWiki>YukiWiki:FrontPage]]機能をそのままプラグイン化したものです。
 
@@ -221,13 +257,13 @@ vote
 ***テーブル
 - コンマ(,)を行頭に書くと、テーブル(表)が作れます。以下のようにします。
 
- , Wikiの名前  ,  作者  , URL 
+ , Wikiの名前  ,  作者  , URL
  ,Wiki,Ward Cunningham,http://www.c2.com/
  ,PyukiWiki,Nekyo,http://pyukiwiki.sourceforge.jp/
  ,YukiWiki,Hiroshi Yuki,http://www.hyuki.com/
  ,WalWiki,Makio Tsukamoto,http://digit.que.ne.jp/
 
-, Wikiの名前  ,  作者  , URL 
+, Wikiの名前  ,  作者  , URL
 ,Wiki,Ward Cunningham,http://www.c2.com/
 ,[[PyukiWiki>PyukiWiki:FrontPage]],Nekyo,http://pyukiwiki.sourceforge.jp/
 ,[[YukiWiki>YukiWiki:FrontPage]],Hiroshi Yuki,http://www.hyuki.com/

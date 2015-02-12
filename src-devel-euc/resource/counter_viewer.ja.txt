@@ -1,7 +1,7 @@
 #
-# PyukiWiki Resource file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: counter_viewer.ja.txt,v 1.48 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: counter_viewer.ja.txt,v 1.298 2011/12/31 13:06:11 papu Exp $
 #
 
 # counter_viewer.inc.pl
@@ -28,3 +28,12 @@ counter_viewer_plugin_total=トータル
 counter_viewer_plugin_date=日付
 counter_viewer_plugin_count=カウント
 counter_viewer_plugin_btn_back=戻る
+counter_viewer_plugin_btn_delete=削除
+
+counter_viewer_plugin_delete=$1 のカウンターを削除
+counter_viewer_plugin_delete_confirm=$1 のカウンターを本当に削除しますか？
+counter_viewer_plugin_delete_confirm_ok=削除
+counter_viewer_plugin_delete_confirm_cancel=キャンセル
+counter_viewer_plugin_deleted=$1 のカウンターを削除しました。
+counter_viewer_plugin_return=一覧へ戻る
+counter_viewer_plugin_delete_title=$1 のカウンターの削除

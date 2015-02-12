@@ -1,15 +1,15 @@
 ######################################################################
 # servererror.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: servererror.inc.pl,v 1.91 2011/05/04 07:26:50 papu Exp $
+# $Id: servererror.inc.pl,v 1.340 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,7 +19,6 @@
 # サーバー上のエラーをキャッチするものです。
 # .htaccessの設定で起動します。
 ######################################################################
-
 sub plugin_servererror_action {
 	my $redirect_status;
 	$redirect_status=$ENV{REDIRECT_STATUS};
@@ -36,11 +35,9 @@ sub plugin_servererror_action {
 	my $rfcmsg;
 	my $rfcurl;
 	my $commonmsg;
-
 	if($ENV{HTTP_REFERER} eq '') {
 		$ENV{HTTP_REFERER}=$::script;
 	}
-
 	if($::resource{'servererror_plugin_' . $redirect_status . '_rfc'} ne '') {
 		$rfcurl=$::resource{servererror_plugin_rfcurl};
 		$rfcurl=~s/\$1/$::resource{'servererror_plugin_' . $redirect_status . '_rfc'}/gex;
@@ -48,7 +45,6 @@ sub plugin_servererror_action {
 		$rfcmsg=~s/\$1/$::resource{'servererror_plugin_' . $redirect_status . '_rfc'}/gex;
 		$rfcmsg=~s/\$2/$rfcurl/g;
 	}
-
 	$commonmsg=&plugin_servererror_msg("commonmsg");
 	if($::modifier_mail eq '') {
 		$commonmsg=~s/\$1//g;
@@ -56,7 +52,6 @@ sub plugin_servererror_action {
 		$ENV{modifier_mail}=$::modifier_mail;
 		$commonmsg=~s/\$1/&plugin_servererror_msg("modifier_mail");/gex;
 	}
-
 	my $host = "$ENV{'HTTP_HOST'}";
 	if (($ENV{'https'} =~ /on/i) || ($ENV{'SERVER_PORT'} eq '443')) {
 		$host = 'https://' . $host;
@@ -64,22 +59,17 @@ sub plugin_servererror_action {
 		$host = 'http://' . $host;
 		$host .= ":$ENV{'SERVER_PORT'}" if ($ENV{'SERVER_PORT'} ne '80');
 	}
-
 	if($ENV{REDIRECT_ERROR_NOTES} ne '') {
 		$ENV{REDIRECT_ERROR_NOTES}=~s/<[Bb][Rr](.*?)/>\n/g;
 		$ENV{REDIRECT_ERROR_NOTES}=~s/\n/~\n>>>/g;
 		$notes=">>$::resource{servererror_plugin_errormessage}~\n>>>"
 			. $ENV{REDIRECT_ERROR_NOTES};
 	}
-
 	$body=<<EOM;
 *$::resource{"servererror_plugin_" . $redirect_status . "_title"}
->@{[&plugin_servererror_msg("$redirect_status" . "_msg")]} 
-
+>@{[&plugin_servererror_msg("$redirect_status" . "_msg")]}
 >$commonmsg
-
 $notes
-
 @{[$rfcmsg ne '' ? ">>$rfcmsg" : '']}
 ----
 &size(20){''Error $ENV{REDIRECT_STATUS}''};~
@@ -89,16 +79,13 @@ $notes
 >'''$ENV{REDIRECT_REQUEST_METHOD} $host$ENV{REDIRECT_URL}'''~
 >'''from $ENV{REMOTE_ADDR}'''
 EOM
-
 	$body=&text_to_html($body,0);
 	my $http_header.=qq(Status: $ENV{REDIRECT_STATUS} $::resource{"servererror_plugin_" . $redirect_status . "_header"}\n);
 	return ('msg' => "\t$ENV{REDIRECT_STATUS} $::resource{'servererror_plugin_' . $redirect_status . '_header'}", 'body' => $body, 'http_header' => $http_header, 'notviewmenu' => 1);
 }
-
 sub plugin_servererror_msg {
 	my ($msg)=@_;
 	my $text;
-
 	$text=$::resource{"servererror_plugin_$msg"};
 	$text=~s/\\n/~\n/g;
 	$text=~s/\$ENV\{(.*?)\}/$ENV{$1}/g;
@@ -106,4 +93,3 @@ sub plugin_servererror_msg {
 }
 1;
 __END__
-

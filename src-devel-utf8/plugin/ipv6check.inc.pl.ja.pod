@@ -1,0 +1,55 @@
+#$Id: ipv6check.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+=head1 NAME
+
+ipv6check.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ &ipv6check([IPV6で表示するページ],[IPV4で表示するページ]);
+
+=head1 説明
+
+クライアントからのアクセスのIPV4か、IPV6かをチェックするプラグイン
+
+=head1 注意
+
+各ページで画像をattach等でアップロードする場合、このプラグインを設置するページにアップロードしなければなりません。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/ipv6check
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/ipv6check/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ipv6check.inc.pl?view=log>
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

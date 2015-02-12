@@ -1,9 +1,8 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: listfrozen.en.txt,v 1.79 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: listfrozen.en.txt,v 1.329 2011/12/31 13:06:11 papu Exp $
 #
-
 # listfrozen.inc.pl
 listfrozen_plugin_title=List of page freeze and unfreeze
 listfrozen_plugin_msg=Freeze page should put in a check.<br />UnFreeze page should remove a check.

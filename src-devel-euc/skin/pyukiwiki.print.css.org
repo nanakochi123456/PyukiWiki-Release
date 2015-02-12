@@ -1,7 +1,5 @@
-/*@charset "Shift_JIS";*/
-/* If use japanese font, use @charset */
-/* "PyukiWiki" version 0.1.9 $$ */
-/* $Id: pyukiwiki.print.css.org,v 1.4 2011/05/04 07:26:50 papu Exp $ */
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: pyukiwiki.print.css.org,v 1.254 2011/12/31 13:06:12 papu Exp $ */
 /* Code=EUC-JP */
 
 @import url("pyukiwiki.default.css");
@@ -28,11 +26,11 @@ div#navigator
 {
 	display:none;
 }
-td.menubar
+td.menubar, td.sidebar
 {
 	display:none;
 }
-div#menubar
+div#menubar, div#sidebar
 {
 	display:none;
 }

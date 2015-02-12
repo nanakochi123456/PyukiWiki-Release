@@ -1,0 +1,12 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: freezeconvert.en.txt,v 1.167 2011/12/31 13:06:11 papu Exp $
+#
+# freezeconvert.inc.pl
+freezeconvert_plugin_title=freezen page convert for v0.2.0
+freezeconvert_plugin_btn_submit=Execute
+freezeconvert_plugin_execmsg=It performed. Please check an execution result in the following log.
+freezeconvert_plugin_execed=Execed.
+freezeconvert_plugin_freeze=Freezed.
+freezeconvert_plugin_nofreeze=No freeze

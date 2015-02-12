@@ -1,0 +1,14 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: setupeditor.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# setupeditor.inc.pl
+setupeditor_plugin_title=PyukiWiki 設定ファイル編集
+setupeditor_plugin_edit=編集（全部空欄にすると削除されます。）<br />パスワードをこちらかプラグインで編集している時に注意<br />必ず末尾に「1;」を付けてください
+setupeditor_plugin_backup=以前の編集内容（編集不可）
+setupeditor_plugin_org=PyukiWiki標準（編集不可）
+setupeditor_plugin_submit=編集
+setupeditor_plugin_edited=編集しました。
+setupeditor_plugin_deleted=削除しました。

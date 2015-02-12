@@ -1,14 +1,14 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.153 2011/05/04 07:26:50 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.405 2011/12/31 13:06:08 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
-# Copyright (C) 2004-2011 by Nekyo.
+# "PyukiWiki" version 0.2.0 $$
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -46,6 +46,7 @@ $::bin_home = '.';		# 通常は変更しないで下さい
 #$::data_url = '.';
 
 $::data_dir    = "$::data_home/wiki";		# ページデータ保存用
+$::backup_dir  = "$::data_home/backup";		# バックアップ保存用
 $::diff_dir    = "$::data_home/diff";		# 差分保存用
 $::cache_dir   = "$::data_pub/cache";		# 一時用
 $::cache_url   = "$::data_url/cache";		# 一時用
@@ -65,7 +66,7 @@ $::res_dir     = "$::data_home/resource";	# リソース
 $::skin_name   = "pyukiwiki";
 $::use_blosxom=0;	# blosxom.cssを使用するとき１にする
 
-# 動的セットアップファイル (0.1.6ではパスワード変更のみ使用)
+# 動的セットアップファイル
 # pyukiwiki.ini.cgiの変更部分のみをsetup.ini.cgiに記載することで、
 # 今後のアップデートが容易になります。
 $::setup_file	= "$::info_dir/setup.ini.cgi" if($::setup_file eq '');
@@ -109,9 +110,11 @@ $::basepath			= '';
 $::FrontPage		= 'FrontPage';
 $::RecentChanges	= 'RecentChanges';
 $::MenuBar			= 'MenuBar';
-$::SideBar			= ':SideBar';						# for feature
+$::SideBar			= ':SideBar';
 $::Header			= ':Header';
 $::Footer			= ':Footer';
+$::BodyHeader		= ':BodyHeader';
+$::BodyFooter		= ':BodyFooter';
 $::SkinFooter		= ':SkinFooter';					# PyukiWikiの
 														# (c)に載せる
 #$::rule_page		= "整形ルール";						# to resource
@@ -131,6 +134,9 @@ $::adminpass = crypt("pass", "AA");
 #$::adminpass{admin} = crypt("admin","AA");		# 管理者用パスワード、全共通
 #$::adminpass{frozen} = crypt("frozen","AA");	# 凍結用パスワード
 #$::adminpass{attach} = crypt("attach","AA");	# 添付用パスワード
+
+# パスワードを簡易暗号化して送信する。
+$::Use_CryptPass=1;
 
 # 言語リスト
 #$::lang_list="ja en cn";
@@ -160,9 +166,12 @@ $::htmlmode="html4";	# html4        : //W3C//HTML 4.01 Transitional
 						# xhtml11      : //W3C//XHTML 1.1
 						# xhtmlbasic10 : //W3C//DTD XHTML Basic 1.0
 
+# バックアップの使用
+$::useBackUp=1;
+
 # 表示設定
 $::usefacemark = 0;		# フェースマークを 1:使う/0:使わない。
-$::use_popup = 0;   	# リンク先を 
+$::use_popup = 0;   	# リンク先を
 						# 0:普通にリンクする
 						# 1:ポップアップ (target=_blank)
 						# 2:HTTP_HOSTを比較して、同一なら普通に
@@ -178,7 +187,8 @@ $::allview = 0;			# 1:すべての画面でHeader, MenuBar, Footerを表示する, 0:しない
 $::notesview = 0;		# 注釈を 0:$bodyの下に表示 ,1:footerの上に表示, 2:footerの下に表示
 $::enable_convtime = 1;	# コンバートタイム 1:表示/0:非表示(perlversionも表示されます)
 
-$::diff_disable_email = 1;# diffプラグインにおいてメールアドレスを隠す。
+$::diff_disable_email = 1;# diff及びバックアッププラグインにおいてメールアドレスを隠す。
+$::backup_disable_email = 1;# バックアッププラグインのソース表示にてメールアドレスを隠す。
 
 # 日時フォーマット
 $::date_format = 'Y-m-d'; 			# replace &date; to this format.
@@ -186,6 +196,7 @@ $::time_format = 'H:i:s'; 			# replace &time; to this format,
 $::now_format="Y-m-d(lL) H:i:s";	# replace &now; to this format.
 $::lastmod_format="Y-m-d(lL) H:i:s";# lastmod format
 $::recent_format="Y-m-d(lL) H:i:s";	# RecentChanges(?cmd=recent) format
+$::backup_format="Y-m-d(lL) H:i:s"; # backup list format
 #$::lastmod_format="y年n月j日(lL) ALg時k分S秒";	# 日本語表示の例
 
 	# 年  :Y:西暦(4桁)/y:西暦(2桁)
@@ -197,16 +208,16 @@ $::recent_format="Y-m-d(lL) H:i:s";	# RecentChanges(?cmd=recent) format
 	# 分  : k:0-59/i:00-59
 	# 秒  : S:0-59/s:00-59
 	# O   : グリニッジとの時間差
-	# r RFC 822 フォーマットされた日付 例: Thu, 21 Dec 2000 16:01:07 +0200 
-	# Z タイムゾーンのオフセット秒数。 -43200 から 43200 
-	# L 閏年であるかどうかを表す論理値。 1なら閏年。0なら閏年ではない。 
+	# r RFC 822 フォーマットされた日付 例: Thu, 21 Dec 2000 16:01:07 +0200
+	# Z タイムゾーンのオフセット秒数。 -43200 から 43200
+	# L 閏年であるかどうかを表す論理値。 1なら閏年。0なら閏年ではない。
 	# lL:現在のロケールの言語での曜日（短）
 	# DL:現在のロケールの言語での曜日（長）
 	# aL:現在のロケールの言語での午前午後（大文字）
 	# AL:現在のロケールの言語での午前午後（小文字）
-	# t 指定した月の日数。 28 から 31 
-	# B Swatch インターネット時間 000 から 999 
-	# U Unix 時(1970年1月1日0時0分0秒)からの秒数 See also time() 
+	# t 指定した月の日数。 28 から 31
+	# B Swatch インターネット時間 000 から 999
+	# U Unix 時(1970年1月1日0時0分0秒)からの秒数 See also time()
 
 # ページ編集
 $::cols = 80;			# テキストエリアのカラム数
@@ -231,6 +242,12 @@ $::writefrozenplugin=1;	# 掲示板等、凍結されているページでもプラグインから書き込
 						# 0:不可 1:可
 $::newpage_auth=0;		# 新規ページ作成で 0:誰でもできる, 1:凍結パスワードが必要
 						# ただしプラグインから生成される新規ページには適用しません
+$::use_escapeoff=2;		# IEにおいて、誤ってESCキーを押して、入力した内容が消失
+						# するのを阻止する。
+						# 2 にすると、setting.inc.cgi でデフォルトで有効になる。
+
+$::setting_savename=0;	# setting.inc.cgi にて、掲示板等の名前の保存を、1 で
+						# デフォルトで有効にする。setting.inc.cgi有効時のみ機能
 
 # 自動リンク
 $::nowikiname = 1;		# 0:WikiNameを自動リンク 1:明示的に [[ ]] が必要
@@ -238,7 +255,6 @@ $::autourllink = 1;		# URLの自動リンク ([[ ]] で明示的に指定されたものはのぞく)
 $::automaillink = 0;	# メールアドレスの自動リンク ([[ ]] で明示的に指定されたものはのぞく)
 $::useFileScheme=0;		# 0:通常, 1:file:// のスキーマを有効にする（イントラネット向け）
 $::IntraMailAddr = 0;	# 1:イントラネット向けのドメインなしメールアドレスを有効
-
 # クッキー
 $::cookie_expire=3*30*86400;	# 保存cookieの有効期限(3ヶ月)
 $::cookie_refresh=86400;		# 保存cookieのリフレッシュ間隔(１日)
@@ -250,7 +266,7 @@ $::CounterDates=365;	# 保存する日数(14〜1000)
 $::CounterHostCheck=1;	# 1:カウンターのリモートホストをチェック/0:リロードでもカウントする
 
 # 添付
-$::file_uploads = 1;		# 添付を 0:使わない/1:使う/2:認証付き/3:削除のみ認証付
+$::file_uploads = 2;		# 添付を 0:使わない/1:使う/2:認証付き/3:削除のみ認証付
 $::max_filesize = 1000000;	# アップロードファイルの容量
 $::AttachFileCheck=1;		# 添付ファイルの内容監査を 0:拡張子のみ/1:内容監査もする
 							# 0の場合、セキュリティー上の問題になるので
@@ -261,6 +277,11 @@ $::AttachCounter=0;			# 添付ファイルのカウントをするだけ(1)、表示もする(2)
 $::use_HelpPlugin=1;	# ヘルプをプラグインで実行する（ナビゲータが変化します）
 						# ヘルプページを編集する場合は
 						# ?cmd=adminedit&mypage=%a5%d8%a5%eb%a5%d7 で
+						# UTF-8版であれば
+						# ?cmd=adminedit&mypage=?%e3%83%98%e3%83%ab%e3%83%97 で
+
+$::no_HelpLink=0;		# ヘルプのリンクを表示しない。
+						# (共同編集しないページで有効です）
 
 # 検索
 $::use_FuzzySearch=0;	# 0:通常検索/1:日本語あいまい検索を使用する
@@ -291,10 +312,17 @@ $::maxrecent = 50;
 $::non_list = qq((^\:));
 #$::non_list = qq((^\:|$::MenuBar\$)); # example of MenuBar
 
-# gzip パスを設定して、lib/gzip.inc.pl を gzip.inc.cgiにリネームすると圧縮が有効になる。
-#$::gzip_path = '/bin/gzip -1';
-#$::gzip_path = '/usr/bin/gzip -1 -f';
-#$::gzip_path = '';
+# 添付ファイルの全ページの一覧を上記正規表現で指定したページを除く
+$::attach_nonlist = 1;
+
+# gzip パスを強制的に指定する。
+# 指定しない場合は、gzipパスを自動検索し、
+# それでもなければ、Compress::Zlib を使用します。
+#$::gzip_path = '/bin/gzip -1';			# fast
+#$::gzip_path = '/usr/bin/gzip -1 -f';	# fast
+#$::gzip_path = '/bin/gzip -9';			# max compress
+#$::gzip_path = '/usr/bin/gzip -9 -f';	# max compress
+#$::gzip_path = 'nouse';				# 使用しない場合
 
 # sendmailパスの指定 $::modifier_mail宛てにメール通知
 $::modifier_sendmail=<<EOM;
@@ -352,6 +380,7 @@ $::TZ='';							# 自動取得
 $::disablewords=<<EOM;
 example.com
 EOM
+
 1;
 
 __END__

@@ -1,3 +1,7 @@
+#freeze
+#metarobots(disable)
+
+
 ** テキスト整形のルール
 
 通常は入力した文章がそのまま出力されます。
@@ -88,14 +92,14 @@
 - コンマ(,)を行頭に書くと、テーブル(表)が作れます。以下のようにします。
 
 ---(
- , Wikiの名前  ,  作者  , URL 
+ , Wikiの名前  ,  作者  , URL
  ,Wiki,Ward Cunningham,http://www.c2.com/
  ,PyukiWiki,Nekyo,http://pyukiwiki.sourceforge.jp/
  ,YukiWiki,Hiroshi Yuki,http://www.hyuki.com/
  ,WalWiki,Makio Tsukamoto,http://digit.que.ne.jp/
 ---)
 
-, Wikiの名前  ,  作者  , URL 
+, Wikiの名前  ,  作者  , URL
 ,Wiki,Ward Cunningham,http://www.c2.com/
 ,PyukiWiki,Nekyo,http://pyukiwiki.sourceforge.jp/
 ,YukiWiki,Hiroshi Yuki,http://www.hyuki.com/
@@ -235,7 +239,7 @@
 // ~#clearと同じ。
 
 *** フォーム
- #comment
+
 行頭で #comment を記述すると、コメントを挿入するためのフォームが埋め込まれます。
 
  #article
@@ -359,8 +363,8 @@
 - エイリアスは、他のインライン要素を子要素にできます。
 
 *** タブコード
- 	
-行中で 	 と書くと、タブコードに置換されます。
+ あああ	いいい
+行中で &amp;t; と書くと、タブコードに置換されます。
 
 通常、フォーム内ではキーボードからタブコードを直接入力できない((クリップボードからの貼り付けの場合はタブコードを直接入力できます。))ので、タブコードを入力したい位置に	を記述すると、保存時にタブコードに置換します。
 
@@ -409,7 +413,7 @@
 - 行中で&amp;bigsmile;と書くと、 &bigsmile; に置換されて出力されます。
 - 行中で&amp;huh;と書くと、 &huh; に置換されて出力されます。
 - 行中で&amp;oh;と書くと、 &oh; に置換されて出力されます。
-- 行中で&amplwink;と書くと、 &wink; に置換されて出力されます。
+- 行中で&amp;wink;と書くと、 &wink; に置換されて出力されます。
 - 行中で&amp;sad;と書くと、 &sad; に置換されて出力されます。
 
 - 文字参照文字は、表示されるときに置換されます。

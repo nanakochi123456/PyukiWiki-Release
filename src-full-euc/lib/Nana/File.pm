@@ -1,16 +1,16 @@
 ######################################################################
 # File.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: File.pm,v 1.60 2011/05/04 07:26:50 papu Exp $
+# $Id: File.pm,v 1.309 2011/12/31 13:06:10 papu Exp $
 #
 # "Nana::File" version 0.1 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -28,29 +28,22 @@
 # from http://www.din.or.jp/~ohzaki/perl.htm#File_Lock
 #
 ######################################################################
-
 package	Nana::File;
 use 5.005;
 use strict;
 use vars qw($VERSION);
 $VERSION = '0.1';
-
 use Fcntl ':flock';
-
 $Nana::File::LOCK_SH=1;
 $Nana::File::LOCK_EX=2;
 $Nana::File::LOCK_NB=4;
 $Nana::File::LOCK_DELETE=128;
-
 $Nana::File::UseCache=1;
-
 %Nana::File::_Cache=();
-
 sub lock_store {
 	my ($filename, $value) = @_;
 	my $lfh;
 	local $SIG{ALRM} = sub { die "time out" };
-
 	if($Nana::File::UseCache eq 1) {
 		$Nana::File::_Cache{$filename}=$value;
 	}
@@ -67,7 +60,6 @@ sub lock_store {
 			}
 			alarm(5);
 			truncate(FILE, 0);
-
 			print FILE $value;
 			alarm(5);
 			eval("flock(FILE, LOCK_UN)");
@@ -87,7 +79,6 @@ sub lock_store {
 	}
 	return $value;
 }
-
 sub lock_fetch {
 	my ($filename) = @_;
 	if($Nana::File::UseCache eq 1) {
@@ -112,10 +103,8 @@ sub lock_fetch {
 	}
 	return $value;
 }
-
 sub lock_delete {
 	my ($filename) = @_;
-
 	my $lfh;
 	open(FILE, "$filename") or return(undef);
 	eval("flock(FILE, LOCK_SH)");
@@ -129,21 +118,17 @@ sub lock_delete {
 		$Nana::File::_Cache{$filename}='';
 	}
 }
-
 sub lock {
 	&load_module("Nana::Lock");
 	return Nana::Lock::lock(@_);
 }
-
 sub unlock {
 	&load_module("Nana::Lock");
 	return Nana::Lock::unlock(@_);
 }
-
 sub load_module {
 	my $funcp = $::functions{"load_module"};
 	return &$funcp(@_);
 }
-
 1;
 __END__

@@ -1,5 +1,21 @@
 ######################################################################
-# 
+# popular.inc.pl - This is PyukiWiki, yet another Wiki clone.
+# $Id: popular.inc.pl,v 1.137 2011/12/31 13:06:11 papu Exp $
+#
+# "PyukiWiki" version 0.2.0 $$
+# Author: YashiganiModoki
+#         http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi
+# Copyright (C) 2004-2012 by Nekyo.
+# http://nekyo.qp.land.to/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
+# Based on YukiWiki http://www.hyuki.com/yukiwiki/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
+# License: GPL2 and/or Artistic or each later version
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+# Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
 # 作者音信普通の為、承諾がとれていませんが、便宜の上で
 # v0.1.6対応版を配布することとしました。
@@ -21,12 +37,14 @@
 # されます。
 ######################################################################
 
-use strict;
-use Nana::Cache;
-
 # キャッシュ保持時間(20分)
 $popular::cache_expire=20*60
 	if(!defined($popular::cache_expire));
+
+######################################################################
+
+use strict;
+use Nana::Cache;
 
 sub plugin_popular_convert {
 	my $argv = shift;
@@ -143,11 +161,11 @@ No display popular title
 
 =item PyukiWiki/Plugin/Standard/popular
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/popular/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/popular/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/popular.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/popular.inc.pl?view=log>
 
 =item PyukiWiki/Plugin/popular
 
@@ -161,25 +179,16 @@ L<http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi?PyukiWiki%2f%a5%d7%a5%e9%a
 
 =over 4
 
-=item YashiganiModoki
 
-L<http://hpcgi1.nifty.com/it2f/wikinger/pyukiwiki.cgi>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by YashiganiModoki.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
-
-License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
-
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
 
 =cut

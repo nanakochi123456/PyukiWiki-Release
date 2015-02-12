@@ -1,15 +1,15 @@
 ######################################################################
 # newpage.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: newpage.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: newpage.inc.pl,v 1.341 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -36,14 +36,14 @@ sub plugin_newpage_action {
 	if($::new_dirnavi eq 1) {
 		@ALLLIST=();
 		@UPPERLIST=();
-		# 全ページを一度スタック
+		# 全ページを一度スタック							# comment
 		foreach my $pages (keys %::database) {
 			push(@ALLLIST,$pages) if($pages!~/$::non_list/ && &is_readable($pages));
 		}
 		@ALLLIST=sort @ALLLIST;
-		# 今のページの上層を優先にするための処理
+		# 今のページの上層を優先にするための処理			# comment
 		if($::form{refer} ne '') {
-			my $refpage="/$::form{refer}";	# 意図的に先頭にスラッシュをつける
+			my $refpage="/$::form{refer}";	# 意図的に先頭にスラッシュをつける	# comment
 			while($refpage=~/\//) {
 				my $pushpage=$refpage;
 				$pushpage=~s/^\///g;
@@ -61,7 +61,7 @@ sub plugin_newpage_action {
 $::resource{newpage_plugin_under}<select name="under">
 <option value="">$::resource{newpage_plugin_none}</option>
 EOM
-		# 上層リストの作成
+		# 上層リストの作成									# comment
 		foreach(@UPPERLIST) {
 			$upperlist.=qq(<option value="$_"@{[$::form{under} eq $_ ? " selected" : ""]}>$_</option>\n);
 		}
@@ -77,15 +77,16 @@ EOM
 		$upperlist.=qq(</select>\n);
 	}
 	my $refercmd;
-	$refercmd=qq(<input type="hidden" name="refercmd" value="new">)
+	$refercmd=qq(<input type="hidden" name="refercmd" value="new" />)
 		if($::pukilike_edit eq 3);
 	$body =<<"EOD";
 <form action="$::script" method="post">
-    <input type="hidden" name="cmd" value="@{[$::newpage_auth eq 1 ? 'newpage' : 'edit']}">
+    <input type="hidden" name="cmd" value="@{[$::newpage_auth eq 1 ? 'newpage' : 'edit']}" />
     $::resource{newpage_plugin_msg}
-    <input type="text" name="mypage" value="$::form{mypage}" size="20">
-    <input type="hidden" name="refer" value="$::form{refer}">
-    <input type="submit" value="$::resource{newpagebutton}"><br>
+    <input type="text" name="mypage" value="$::form{mypage}" size="20" />
+    <input type="hidden" name="refer" value="$::form{refer}" />
+    <input type="hidden" name="mytouch" value="on" />
+    <input type="submit" value="$::resource{newpagebutton}" /><br />
 $upperlist<br />
 $auth{html}
 $refercmd
@@ -134,11 +135,11 @@ Display of selection Upper layer page 1:use / 0:not use
 
 =item PyukiWiki/Plugin/Standard/newpage
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/newpage/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/newpage/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/newpage.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/newpage.inc.pl?view=log>
 
 =back
 
@@ -152,15 +153,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

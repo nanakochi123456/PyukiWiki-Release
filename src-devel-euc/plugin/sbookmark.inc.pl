@@ -1,15 +1,15 @@
 ######################################################################
 # sbookmark.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: sbookmark.inc.pl,v 1.45 2011/05/04 07:26:50 papu Exp $
+# $Id: sbookmark.inc.pl,v 1.294 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -23,48 +23,44 @@
 # v 0.0.2 - URLのチェック機構の追加、日本語URLの対応
 # v 0.0.1 - ProtoType
 #
-# https:// をチェックするには、lib/Nana/HTTP.pm を
+# https:// や、IPV6サイトをチェックするには、lib/Nana/HTTP.pm を
 # $Nana::HTTP::useLWP=1 にして下さい。
 ######################################################################
-
-use strict;
-
 # コメント欄の全体フォーマット
 my $sbookmark_format = "[[\x08TITLE\x08>\x08URL\x08]]-- \x08NAME\x08 \x08NOW\x08~\n\x08COMMENT\x08";
-
-
+#
 # 名前なしで処理しない
 $sbookmark::noname = 1
 	if(!defined($sbookmark::noname));
-
+#
 # URLが記載されていない場合エラー
 $sbookmark::nodata = 1
 	if(!defined($sbookmark::nodata));
-
+#
 # タイトルが記載されていない場合エラー
 $sbookmark::notitle = 0
 	if(!defined($sbookmark::notitle));
-
+#
 # URLが実在するかチェック
 $sbookmark::urlcheck = 1
 	if(!defined($sbookmark::urlcheck));
-
-# コメントのテキストエリアの表示幅 
+#
+# コメントのテキストエリアの表示幅
 $sbookmark::size_msg = 40
 	if(!defined($sbookmark::size_name));
-
-# コメントの名前テキストエリアの表示幅 
+#
+# コメントの名前テキストエリアの表示幅
 $sbookmark::size_name = 24
 	if(!defined($sbookmark::size_name));
-
+#
 # コメントの欄の挿入フォーマット
 $sbookmark::format_msg = q{$1}
 	if(!defined($sbookmark::format_msg));
-
+#
 # 拒否するURL
 $sbookmark::ignoreurl='(\/\/|\.exe|\.scr|\.bat|\.pif)$'
 	if(!defined($sbookmark::ignoreurl));
-
+#
 # 指定したURLと同じ内容なら、URLが存在しないと仮定する。
 # (DNSがワイルドカードレコードで扱われているサーバーでの対策）
 # (punyURLには対応していません)
@@ -73,7 +69,7 @@ $sbookmark::wildcarddnsurl=''
 
 sub plugin_sbookmark_action {
 
-	# 入力内容のチェック
+	# 入力内容のチェック									# comment
 	if (($::form{url} =~ /^\s*$/ && $sbookmark::nodata eq 1)
 	 || ($::form{title} =~ /^\s*$/ && $sbookmark::notitle eq 1)
 	 || ($::form{myname} =~ /^\s*$/ && $sbookmark::noname eq 1)) {
@@ -86,7 +82,7 @@ sub plugin_sbookmark_action {
 		$::form{title}=$::form{url};
 	}
 
-	# URLが存在するかチェック
+	# URLが存在するかチェック								# comment
 	if($sbookmark::urlcheck eq 1) {
 		&load_module("Nana::HTTP");
 		my $url=$::form{url};
@@ -121,7 +117,7 @@ sub plugin_sbookmark_action {
 		if($result ne 0 || length($stream) eq 0) {
 			return('msg'=>"$::form{mypage}\t\t$::resource{sbookmark_plugin_urlnot}",'body'=>&text_to_html($::database{$::form{mypage}}),'ispage'=>1);
 		}
-		# ワイルドカードレコードのチェック
+		# ワイルドカードレコードのチェック					# comment
 		if($sbookmark::wildcarddnsurl ne '') {
 			my $whttp=new Nana::HTTP('plugin'=>"sbookmark");
 			my ($resultw, $streamw) = $whttp->get($sbookmark::wildcarddnsurl);
@@ -131,7 +127,7 @@ sub plugin_sbookmark_action {
 		}
 	}
 
-	# 書き込み処理
+	# 書き込み処理											# comment
 	my $lines = $::database{$::form{mypage}};
 	my @lines = split(/\r?\n/, $lines);
 
@@ -244,11 +240,11 @@ sbookmark.inc.pl - PyukiWiki Plugin
 
 =item PyukiWiki/Plugin/Standard/sbookmark
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/sbookmark/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/sbookmark/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/sbookmark.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/sbookmark.inc.pl?view=log>
 
 =back
 
@@ -262,15 +258,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

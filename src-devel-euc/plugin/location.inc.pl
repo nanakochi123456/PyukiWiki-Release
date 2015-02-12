@@ -1,15 +1,15 @@
 ######################################################################
 # location.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: location.inc.pl,v 1.9 2011/05/04 07:26:50 papu Exp $
+# $Id: location.inc.pl,v 1.258 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 ######################################################################
 # v0.1.9 2011/02/23 新規作成
 #
-#*Usage
+# *Usage
 # #location(http:〜 or wikiページ名)
 #
 # 安全の為、凍結されているページでしか実行されません。
@@ -26,7 +26,7 @@
 
 use strict;
 
-$::location::move_time=5
+$::location::move_time=3
 	if(!defined($::location::move_time));
 
 sub plugin_location_convert {
@@ -38,7 +38,7 @@ sub plugin_location_convert {
 		my $tmp=&make_cookedurl($url);
 		$url="$::basehref$tmp";
 	}
-	$::IN_HEAD=<<EOM;
+	$::IN_HEAD.=<<EOM;
 <meta http-equiv="Refresh" content="$::location::move_time;url=$url" />
 EOM
 	my $body=$::resource{location_plugin_message};
@@ -71,11 +71,11 @@ This plugin is location of page.
 
 =item PyukiWiki/Plugin/Standard/location
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/location/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/location/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/location.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/location.inc.pl?view=log>
 
 =back
 
@@ -89,15 +89,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

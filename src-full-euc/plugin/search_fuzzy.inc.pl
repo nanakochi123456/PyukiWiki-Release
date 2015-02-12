@@ -1,15 +1,15 @@
 ######################################################################
 # search_fuzzy.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: search_fuzzy.inc.pl,v 1.94 2011/05/04 07:26:50 papu Exp $
+# $Id: search_fuzzy.inc.pl,v 1.343 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -21,9 +21,7 @@
 # $::use_FuzzySearch=1;
 # ÇãLèq
 ######################################################################
-
 use Nana::Search;
-
 sub plugin_fuzzy_search {
 	my $body = "";
 	my $word=&escape(&code_convert(\$::form{mymsg}, $::defaultcode));
@@ -69,11 +67,9 @@ sub plugin_fuzzy_search {
 			$counter++;
 		}
 		$body .= ($counter == 0) ? $::resource{notfound} : qq|</ul>|;
-
 	}
 	$body.=&plugin_search_form(2,$word);
 	return ('msg'=>"\t$::resource{searchpage}", 'body'=>$body);
 }
 1;
 __END__
-

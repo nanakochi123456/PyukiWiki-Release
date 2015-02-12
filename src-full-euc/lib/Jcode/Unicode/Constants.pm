@@ -1,25 +1,17 @@
 #
-# $Id: Constants.pm,v 1.86 2011/05/04 07:26:50 papu Exp $
-# Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp 
+# $Id: Constants.pm,v 1.335 2011/12/31 13:06:10 papu Exp $
+# Id: Constants.pm,v 2.0 2005/05/16 19:08:01 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode::Unicode::Constants;
-
-
 use strict;
 use vars qw($RCSID $VERSION);
-
-$RCSID = q$Id: Constants.pm,v 1.86 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.86 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-
+$RCSID = q$Id: Constants.pm,v 1.335 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.335 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 use Carp;
-
 # Exporter is not used to optimize speed
-
 package Jcode::Unicode::Constants;
-
 use vars qw(%_U2E %_E2U);
-
 # Ugly S.O.B Here!
 %_U2E = (
 "\x00\xa1" => "\x8f\xa2\xc2",
@@ -13032,14 +13024,10 @@ use vars qw(%_U2E %_E2U);
 "\xff\xe3" => "\xa1\xb1",
 "\xff\xe5" => "\xa1\xef",
 );
-
 # fill the blank with ascii
-
 for my $c (0x00..0x7f){
     next if exists $_U2E{"\x00" . chr($c)};
     $_U2E{"\x00" . chr($c)} = chr($c);
 }
-
 %_E2U = ();
-
 1;

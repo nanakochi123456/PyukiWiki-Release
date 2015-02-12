@@ -1,55 +1,63 @@
 ######################################################################
 # debug.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: debug.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: debug.inc.pl,v 1.341 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-rc6 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
-# Return:LF Code=EUC-JP 1TAB=4Spaces
+# Return:LF Code=Shift-JIS 1TAB=4Spaces
 ######################################################################
 # This is extented plugin.
 # To use this plugin, rename to 'debug.inc.cgi'
-# WARNING!: Internet Explorer Only...TT
+# WARNING!: Internet Explorer or FireFox Only...TT
+# Can't use xhtml11 mode
 ######################################################################
+
+$::mode_debug=1;
 
 sub plugin_debug_init {
 	my $head=<<EOM;
 <script  type="text/javascript"><!--
-function Display(id,mode){
-	if(document.all || document.getElementById){	//IE4, NN6 or later
-		if(document.all){
-			obj = document.all(id).style;
-		}else if(document.getElementById){
-			obj = document.getElementById(id).style;
-		}
-		if(mode == "view") {
-			obj.display = "block";
-		} else if(mode == "none") {
-			obj.display = "none";
-		} else if(obj.display == "block"){
-			obj.display = "none";		//hidden
-		}else if(obj.display == "none"){
-			obj.display = "block";		//view
-		}
-	}
-}
+function Display(b,a){if(d.all||d.getElementById){if(d.all){obj=d.all(b).style}else{if(d.getElementById){obj=d.getElementById(b).style}}if(a=="view"){obj.display="block"}else{if(a=="none"){obj.display="none"}else{if(obj.display=="block"){obj.display="none"}else{if(obj.display=="none"){obj.display="block"}}}}}};
 //--></script>
 EOM
+
+	# 管理者認証なし
+	&exec_explugin_sub("authadmin_cookie");
+	if($::_exec_plugined{"authadmin_cookie"} < 2) {
+		return(
+#			'http_header'=>"X-PyukiWiki-Version: $::version Debug (No auth)",
+			'header'=>$head,
+			'init'=>1,
+			'func'=>'_db',
+			'_db'=>\&_db,
+		);
+	}
+
+	# cookie認証通らない場合無効
+	if($::authadmin_cookie_user_name ne $::authadmin_cookie_admin_name{admin}) {
+		return(
+			'http_header'=>"X-PyukiWiki-Version: $::version",
+			'init'=>0,
+		);
+	}
+
+	# 管理者認証あり
 	return(
-		'http_header'=>"X-PyukiWiki-Version: $::version Debug",
+#		'http_header'=>"X-PyukiWiki-Version: $::version Debug (Authed)",
 		'header'=>$head,
 		'init'=>1,
 		'func'=>'_db',
-		'_db'=>\&_db
+		'_db'=>\&_db,
 	);
 }
 
@@ -59,6 +67,11 @@ sub _db {
 	my $forms;
 	my $body;
 	my $jsclose;
+
+	# cookie認証通らない場合無効
+	if($::authadmin_cookie_user_name ne $::authadmin_cookie_admin_name{admin}) {
+		return $pagebody;
+	}
 
 	foreach(keys %ENV) {
 		$envs.="$_=$ENV{$_}\n";
@@ -89,7 +102,7 @@ EOM
 	}
 	foreach my $db1(@DB) {
 		$body.=<<EOM;
-[<a href="javascript:$jsclose Display('$db1','view');">$DB{$db1 . '_msg'}</a>] 
+[<a href="javascript:$jsclose Display('$db1','view');">$DB{$db1 . '_msg'}</a>]
 EOM
 	}
 	$body.=<<EOM;
@@ -97,7 +110,7 @@ EOM
 EOM
 	foreach my $db1(@DB) {
 		$body.=<<EOM;
-<tr><td class="style_td" style="display: none;" id="$db1" align="center"><textarea cols="100" rows="5">$DB{$db1 . '_arg'}</textarea></td></tr>
+<tr><td class="style_td" style="display: none;" id="$db1" align="center"><textarea cols="100" rows="5">@{[&htmlspecialchars($DB{$db1 . '_arg'},1)]}</textarea></td></tr>
 EOM
 	}
 	$body.=<<EOM;
@@ -113,11 +126,8 @@ __DATA__
 sub plugin_debug_setup {
 	return(
 	'en'=>'PyukiWiki Debug Plugin',
-	'use_req'=>'',
-	'use_opt'=>'',
-	'use_cmd'=>'',
 	'override'=>'_db',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/debug/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/debug/'
 	);
 __END__
 
@@ -151,11 +161,11 @@ Now, only Internet Explorer is supported.
 
 =item PyukiWiki/Plugin/ExPlugin/debug
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/debug/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/debug/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/debug.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/debug.inc.pl?view=log>
 
 =back
 
@@ -169,15 +179,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2010 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

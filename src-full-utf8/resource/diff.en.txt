@@ -1,0 +1,19 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: diff.en.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+# diff.inc.pl
+diff_plugin_title=Changes
+diff_plugin_msg=Difference
+diff_plugin_nodiff=Not found difference of $1
+diff_plugin_notice=<li>Add line display like <b class="diff_added">this</b>.</li><li>Delete line display like <s class="diff_removed">this</s>.</li>
+diff_plugin_goto=Go to $1
+diff_plugin_delete=Delete diff of $1
+backup_plugin_delete_confirm=Really delete the diff of page $1 ?
+backup_plugin_delete_confirm_ok=Delete
+backup_plugin_delete_confirm_cancel=Cancel
+diff_plugin_deleted=Deleted diff of $1.
+diff_plugin_return=Return $1
+diff_plugin_delete_title=Delete diff of $1
+diff_plugin_disable_email=(E-Mail Address)

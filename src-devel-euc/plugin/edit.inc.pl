@@ -1,15 +1,15 @@
 #######################################################################
 # edit.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: edit.inc.pl,v 1.100 2011/05/04 07:26:50 papu Exp $
+# $Id: edit.inc.pl,v 1.349 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ sub plugin_edit_action {
 	} elsif (&is_frozen($page)) {
 		$body .= qq(<p><strong>$::resource{edit_plugin_cantchange}</strong></p>);
 	} else {
-		# 2005.11.2 pochi: 部分編集を可能に {
+		# 2005.11.2 pochi: 部分編集を可能に						# comment
 		my $pagemsg;
 		if ($::form{mypart} =~ /^\d+$/ and $::form{mypart}) {
 			my $mymsg = (&read_by_part($page))[$::form{mypart} - 1];
@@ -84,7 +84,7 @@ sub plugin_edit_editform {
 				} else {
 					$body .= qq($::resource{edit_plugin_previewnotice2}\n);
 				}
-				$body .= qq(</div>\n);
+#				$body .= qq(</div>\n);						# comment
 			}
 		} else {
 			$body .= qq($::resource{edit_plugin_previewempty});
@@ -105,8 +105,8 @@ sub plugin_edit_editform {
 	$body.=&plugin_edit_extend_edit if ($::extend_edit);
 
 	$body.=$::pukilike_edit >0
-		? &plugin_edit_editform_pukilike($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,%mode)
-		: &plugin_edit_editform_pyukiwiki($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,%mode);
+		? &plugin_edit_editform_pukilike($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$edit eq 'adminedit' ? $auth{crypt} : 0,%mode)
+		: &plugin_edit_editform_pyukiwiki($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$edit eq 'adminedit' ? $auth{crypt} : 0,%mode);
 
 	unless ($mode{conflict}) {
 		if(&is_exist_page($::resource{rulepage})) {
@@ -139,49 +139,76 @@ EOM
 }
 
 sub plugin_edit_editform_pukilike {
-	my($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,%mode)=@_;
+	my($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$crypt,%mode)=@_;
 	my $loadlist;
 	if(($::pukilike_edit eq 3 && $::form{template} eq '' && $::form{refercmd} eq 'new')
 	 ||($::pukilike_edit eq 2 && $::form{template} eq '' )) {
 		$loadlist=&plugin_edit_editform_loadlist($edit);
 	}
 
-	# 2005.11.2 pochi: 部分編集を可能に {
+	# 2005.11.2 pochi: 部分編集を可能に							# comment
 	my $partfield = '';
 	if ($::form{mypart} =~ /^\d+$/ and $::form{mypart}) {
 		$partfield = qq(<input type="hidden" name="mypart" value="$::form{mypart}">);
 	}
-	# }
 
+	# changed 0.2.0 Javascript crypt password					# comment
 	my $body = <<"EOD";
 <form action="$::script" method="post" id="editform" name="editform">
-  @{[ $mode{admin} ? "$auth{html}<br>" : ""]}
-  <input type="hidden" name="myConflictChecker" value="$conflictchecker">
-  <input type="hidden" name="mypage" value="$escapedmypage">
-  <input type="hidden" name="refer" value="$::form{refer}">
-  <input type="hidden" name="refercmd" value="$edit">
+  @{[$mode{admin} ? "$auth{html}<br />" : ""]}
+  <input type="hidden" name="myConflictChecker" value="$conflictchecker" />
+  <input type="hidden" name="mypage" value="$escapedmypage" />
+  <input type="hidden" name="refer" value="$::form{refer}" />
+  <input type="hidden" name="refercmd" value="$edit" />
   $partfield
   $loadlist
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg)]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg,1)]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
-  <input type="radio" name="myfrozen" value="1" @{[$frozen ? qq(checked="checked") : ""]}>$::resource{edit_plugin_frozenbutton}
-  <input type="radio" name="myfrozen" value="0" @{[$frozen ? "" : qq(checked="checked")]}>$::resource{edit_plugin_notfrozenbutton}<br>)
+  <input type="radio" name="myfrozen" value="1"@{[$frozen ? qq( checked="checked") : ""]} />$::resource{edit_plugin_frozenbutton}
+  <input type="radio" name="myfrozen" value="0"@{[$frozen ? "" : qq( checked="checked")]} />$::resource{edit_plugin_notfrozenbutton}<br />)
   : ""
 ]}
 @{[
   $mode{conflict} ? "" :
+  $crypt ?
   qq(
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}">
-    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}">
-    <input type="checkbox" name="mytouch" value="on" checked="checked">$::resource{edit_plugin_touch}
-    <input type="submit" name="mypreview_cancel" value="$::resource{edit_plugin_cancelbutton}">
+    <span id="submitbutton"></span>
+    <script type="text/javascript"><!--
+	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_$edit" value="" /><input type="hidden" name="mypreviewjs_write" value="" /><input type="hidden" name="mypreviewjs_cancel" value="" /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<input type="button" name="mypreviewjs_button_cancel" value="$::resource{edit_plugin_cancelbutton}" onclick="editpost(2);" onkeypress="editpost(2,event);" />';
+//--></script>
+  <noscript>
+    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+    <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}
+    <input type="submit" name="mypreview_cancel" value="$::resource{edit_plugin_cancelbutton}" />
+  </noscript>
+  ) :
+  qq(
+    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+    <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}
+    <input type="submit" name="mypreview_cancel" value="$::resource{edit_plugin_cancelbutton}" />
   )
 ]}
 </form>
 EOD
 	return $body;
+}
+
+sub mytouchcheck {
+	my $ret=' checked="checked"';
+
+	if($ENV{REQUEST_METHOD} eq "POST") {
+		if(defined($::form{mytouchjs})) {
+			return $ret if($::form{mytouchjs} eq "on");
+		} elsif($::form{mytouch} eq "on") {
+			return $ret;
+		}
+		return '';
+	}
+	return $ret;
 }
 
 sub plugin_edit_editform_loadtemplate {
@@ -197,12 +224,12 @@ sub plugin_edit_editform_loadlist {
 	my @ALLLIST=();
 	my @loadlist=();
 	my $loadlist;
-	# 全ページを一度スタック
+	# 全ページを一度スタック								# comment
 	foreach my $pages (keys %::database) {
 		push(@ALLLIST,$pages) if($pages!~/$::non_list/ && &is_readable($pages));
 	}
 	@ALLLIST=sort @ALLLIST;
-	# 今のページの上層を優先にするための処理
+	# 今のページの上層を優先にするための処理				# comment
 	if($::form{refer} ne '') {
 		my $refpage="/$::form{refer}";	# 意図的に先頭にスラッシュをつける
 		while($refpage=~/\//) {
@@ -220,9 +247,9 @@ sub plugin_edit_editform_loadlist {
 	}
 	$loadlist=<<EOM;
 <select name="template">
-<option value="" selected>$::resource{edit_plugin_template}</option>
+<option value="" selected="selected">$::resource{edit_plugin_template}</option>
 EOM
-	# 上層リストの作成
+	# 上層リストの作成										# comment
 	foreach(@loadlist) {
 		$loadlist.=qq(<option value="$_">$_</option>\n);
 	}
@@ -237,42 +264,56 @@ EOM
 	}
 	$loadlist.=<<EOM;
 </select>
-<input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_load}">
+<input type="hidden" name="mytouch" value="on" />
+<input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_load}" />
 <br />
 EOM
 	return $loadlist;
 }
 
 sub plugin_edit_editform_pyukiwiki {
-	my($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,%mode)=@_;
-	# 2005.11.2 pochi: 部分編集を可能に {
+	my($mymsg,$conflictchecker,$escapedmypage,$frozen,$edit,$crypt,%mode)=@_;
+	# 2005.11.2 pochi: 部分編集を可能に						# comment
 	my $partfield = '';
 	if ($::form{mypart} =~ /^\d+$/ and $::form{mypart}) {
-		$partfield = qq(<input type="hidden" name="mypart" value="$::form{mypart}">);
+		$partfield = qq(<input type="hidden" name="mypart" value="$::form{mypart}" />);
 	}
-	# }
-	my 	$body= <<"EOD";
+
+	# changed 0.2.0 Javascript crypt password					# comment
+	my $body= <<"EOD";
 <form action="$::script" method="post" id="editform" name="editform">
-  @{[ $mode{admin} ? "$auth{html}<br>" : ""]}
-  <input type="hidden" name="myConflictChecker" value="$conflictchecker">
-  <input type="hidden" name="mypage" value="$escapedmypage">
-  <input type="hidden" name="refer" value="$::form{refer}">
-  <input type="hidden" name="refercmd" value="$edit">
+  @{[ $mode{admin} ? "$auth{html}<br />" : ""]}
+  <input type="hidden" name="myConflictChecker" value="$conflictchecker" />
+  <input type="hidden" name="mypage" value="$escapedmypage" />
+  <input type="hidden" name="refer" value="$::form{refer}" />
+  <input type="hidden" name="refercmd" value="$edit" />
   $partfield
-  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg)]}</textarea><br />
+  <textarea cols="$::cols" rows="$::rows" name="mymsg">@{[&htmlspecialchars($mymsg,1)]}</textarea><br />
 @{[
   $mode{admin} ?
   qq(
-  <input type="radio" name="myfrozen" value="1" @{[$frozen ? qq(checked="checked") : ""]}>$::resource{edit_plugin_frozenbutton}
-  <input type="radio" name="myfrozen" value="0" @{[$frozen ? "" : qq(checked="checked")]}>$::resource{edit_plugin_notfrozenbutton}<br>)
+  <input type="radio" name="myfrozen" value="1"@{[$frozen ? qq( checked="checked") : ""]} />$::resource{edit_plugin_frozenbutton}
+  <input type="radio" name="myfrozen" value="0"@{[$frozen ? "" : qq( checked="checked")]} />$::resource{edit_plugin_notfrozenbutton}<br />)
   : ""
 ]}
 @{[
   $mode{conflict} ? "" :
+  $crypt ?
   qq(
-    <input type="checkbox" name="mytouch" value="on" checked="checked">$::resource{edit_plugin_touch}<br>
-    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}">
-    <input type="submit" name="mypreview_write" value="$::resource{edit_plugin_savebutton}"><br>
+    <span id="submitbutton"></span>
+    <script type="text/javascript"><!--
+	d.getElementById("submitbutton").innerHTML='<input type="hidden" name="mypreviewjs_$edit" value="" /><input type="hidden" name="mypreviewjs_write" value="" /><input type="checkbox" name="mytouchjs" id="mytouchjs" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br /><input type="button" name="mypreviewjs_button_$edit" value="$::resource{edit_plugin_previewbutton}" onclick="editpost(0);" onkeypress="editpost(0,event);" /><input type="button" name="mypreviewjs_button_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" onclick="editpost(1);" onkeypress="editpost(1,event);" />';
+//--></script>
+  <noscript>
+    <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br />
+    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_write" value="@{[$::resource{edit_plugin_pukiwikisavebutton} eq '' ? $::resource{edit_plugin_savebutton} : $::resource{edit_plugin_pukiwikisavebutton}]}" />
+  </noscript>
+  ) :
+  qq(
+    <input type="checkbox" name="mytouch" id="mytouch" value="on"@{[&mytouchcheck]} />$::resource{edit_plugin_touch}<br />
+    <input type="submit" name="mypreview_$edit" value="$::resource{edit_plugin_previewbutton}" />
+    <input type="submit" name="mypreview_write" value="$::resource{edit_plugin_savebutton}" /><br />
   )
 ]}
 </form>
@@ -286,23 +327,23 @@ sub plugin_edit_extend_edit {
 <div>
 <a href="javascript:insTag('\\'\\'','\\'\\'','bold');"><b>B</b></a>
 <a href="javascript:insTag('\\'\\'\\'','\\'\\'\\'','italic');"><i>I</i></a>
-<a href="javascript:insTag('%%%','%%%','underline');"><u>U</u></a>
+<a href="javascript:insTag('%%%','%%%','underline');"><ins>U</ins></a>
 <a href="javascript:insTag('%%','%%','delline');"><del>D</del></a>
 <a href="javascript:insTag('\\n-','','list');">
 <img src="$::image_url/list_ex.png" alt="list" border="0" vspace="0"
-  hspace="1"></a>
+  hspace="1" /></a>
 <a href="javascript:insTag('\\n+','','list');">
 <img src="$::image_url/numbered.png" alt="list" border="0" vspace="0"
-  hspace="1"></a>
+  hspace="1" /></a>
 <a href="javascript:insTag('\\nCENTER:','\\n','centering');">
 <img src="$::image_url/center.png" alt="center" border="0" vspace="0"
-  hspace="1"></a>
+  hspace="1" /></a>
 <a href="javascript:insTag('\\nLEFT:','\\n','left');">
 <img src="$::image_url/left_just.png" alt="left" border="0" vspace="0"
-  hspace="1"></a>
+  hspace="1" /></a>
 <a href="javascript:insTag('\\nRIGHT:','\\n','right');">
 <img src="$::image_url/right_just.png" alt="right" border="0" vspace="0"
-  hspace="1"></a>
+  hspace="1" /></a>
 <a href="javascript:insTag('\\n*','','title');"><b>H</b></a>
 <a href="javascript:insTag('[[',']]','wikipage');">[[]]</a>
 <a href="javascript:insTag('','~\\n','');">&lt;br&gt;</a>
@@ -365,7 +406,7 @@ Position of preview screen 0:On an edit screen / 1:Under an edit screen
 
 =item $::new_refer
 
-For newpage plugin, 
+For newpage plugin,
 
 In create page, it's displayed a related page on initial value
 
@@ -373,7 +414,7 @@ It's not displayed that setting of null string.
 
 =item $::new_dirnavi
 
-For newpage plugin, 
+For newpage plugin,
 
 Display of selection Upper layer page 1:use / 0:not use
 
@@ -385,11 +426,11 @@ Display of selection Upper layer page 1:use / 0:not use
 
 =item PyukiWiki/Plugin/Standard/edit
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/edit/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/edit/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/edit.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/edit.inc.pl?view=log>
 
 =item YukiWiki
 
@@ -405,15 +446,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

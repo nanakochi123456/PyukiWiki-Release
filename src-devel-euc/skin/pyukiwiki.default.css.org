@@ -1,7 +1,5 @@
-/*@charset "Shift_JIS";*/
-/* If use japanese font, use @charset */
-/* "PyukiWiki" version 0.1.9 $$ */
-/* $Id: pyukiwiki.default.css.org,v 1.4 2011/05/04 07:26:50 papu Exp $ */
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: pyukiwiki.default.css.org,v 1.254 2011/12/31 13:06:12 papu Exp $ */
 /* Code=EUC-JP */
 
 /* base */
@@ -90,7 +88,8 @@ h4 {
 }
 
 h5, h6,
-#menubar h2, #menubar h3, #menubar h4 {
+#menubar h2, #menubar h3, #menubar h4,
+#sidebar h2, #sidebar h3, #sidebar h4 {
 	font-family:verdana, arial, helvetica, Sans-Serif;
 	color:inherit;
 	background-color:#DDEEFF;
@@ -252,15 +251,18 @@ ul.plist3, ol.plist3 {
 	margin-left:48px;
 }
 
-#menubar ul.plist1, #menubar ol.plist1 {
+#menubar ul.plist1, #menubar ol.plist1,
+#sidebar ul.plist1, #sidebar ol.plist1 {
 	padding-left:6px;
 	margin-left:6px;
 }
-#menubar ul.plist2, #menubar ol.plist2 {
+#menubar ul.plist2, #menubar ol.plist2,
+#sidebar ul.plist2, #sidebar ol.plist2 {
 	padding-left:10px;
 	margin-left:10px;
 }
-#menubar ul.plist3, #menubar ol.plist3 {
+#menubar ul.plist3, #menubar ol.plist3,
+#sidebar ul.plist3, #sidebar ol.plist3 {
 	padding-left:14px;
 	margin-left:14px;
 }
@@ -287,7 +289,7 @@ a.note_super {
 }
 
 div.jumpmenu {
-	font-size:60%; 
+	font-size:60%;
 	text-align:right;
 }
 
@@ -416,6 +418,14 @@ td.menubar {
 	width: 10em;
 }
 
+td.sidebar {
+	vertical-align:top;
+	padding: 0px;
+	margin: 0px;
+	overflow:hidden;
+	width: 12em;
+}
+
 div#menubar {
 	width: 10em;
 	padding:0px;
@@ -425,26 +435,42 @@ div#menubar {
 	overflow:hidden;
 }
 
-div#menubar ul {
+div#sidebar {
+	width: 12em;
+	padding:0px;
+	margin:4px;
+	word-break:break-all;
+	font-size:90%;
+	overflow:hidden;
+}
+
+div#menubar ul,
+div#sidebar ul {
 	margin:0px 0px 0px .5em;
 	padding:0px 0px 0px .5em;
 }
 
-div#menubar ul li {
+div#menubar ul li,
+div#sidebar ul li {
 	line-height:110%;
 }
 
 div#menubar h2,div#menubar h3,div#menubar h4,
-div#menubar h5,div#menubar h6 {
+div#menubar h5,div#menubar h6,
+div#sidebar h2,div#sidebar h3,div#sidebar h4,
+div#sidebar h5,div#sidebar h6 {
 	font-size:110%;
 }
 
-div#menubar p {
+div#menubar p,
+div#sidebar p {
 	margin-top: 0px;
 }
 
 div#menubar h2,div#menubar h3,div#menubar h4,
-div#menubar h5,div#menubar h6 {
+div#menubar h5,div#menubar h6,
+div#sidebar h2,div#sidebar h3,div#sidebar h4,
+div#sidebar h5,div#sidebar h6 {
 	margin-bottom: 7px;
 }
 
@@ -525,7 +551,8 @@ div#preview {
 	font-size: 20px;
 }
 
-#menubar .style_calendar {
+#menubar .style_calendar,
+#sidebar .style_calendar {
 	padding:0px;
 	margin:0px;
 	font-size: 11px;
@@ -542,11 +569,11 @@ div#preview {
 	padding:10px;
 }
 
-#menubar .style_td_caltop {
+#menubar .style_td_caltop,
+#sidebar .style_td_caltop {
 	padding:1px;
 	font-size: 110%;
 }
-
 
 .style_td_today {
 	color:inherit;
@@ -587,7 +614,9 @@ div#preview {
 }
 
 #menubar .style_td_today, #menubar .style_td_sat, #menubar .style_td_sun,
-#menubar .style_td_blank, #menubar .style_td_day, #menubar .style_td_week {
+#menubar .style_td_blank, #menubar .style_td_day, #menubar .style_td_week,
+#sidebar .style_td_today, #sidebar .style_td_sat, #sidebar .style_td_sun,
+#sidebar .style_td_blank, #sidebar .style_td_day, #sidebar .style_td_week {
 	text-align:center;
 	padding: 0px;
 }
@@ -667,26 +696,26 @@ span.counter
 {
 	font-size:70%;
 }
-ul.popular_list {
 /*
+ul.popular_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 1em;
 	word-wrap:break-word;
 	word-break:break-all;
-*/
 }
+*/
 
 /* recent.inc.pl,showrss.inc.pl */
-ul.recent_list {
 /*
+ul.recent_list {
 	padding:0px;
 	border:0px;
 	margin:0px 0px 0px 31em;
 	word-wrap:break-word;
 	word-break:break-all;
-*/
 }
+*/
 
 /* ref.inc.pl */
 div.img_margin {
@@ -777,7 +806,8 @@ a.partedit {
 /* antispam.inc.cgi (fake A link of span tag) */
 .mail {
 	cursor:pointer;
-	color:#4840ce;
+/*	color:#4840ce; */
+	color:#215dc6;
 	background-color:inherit;
 	text-decoration:none;
 	text-decoration:underline;

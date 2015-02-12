@@ -1,10 +1,11 @@
+#freeze
+#metarobots(disable)
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
 
   [URL サーバ名] タイプ
 の形式で記述してください。
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|
-
 ** WikiEngines
 -[http://www.c2.com/cgi/wiki? WikiWikiWeb] raw WikiNameのみなのでraw。
 -[http://openwiki.com/? OpenWiki] raw 英語なのでraw
@@ -15,6 +16,9 @@
 -[http://fswiki.poi.jp/wiki.cgi? FSWiki] euc
 -[http://hikiwiki.org/ja/? Hiki] euc
 -[http://xiki.mitsuki.no-ip.com/? Xiki] utf8
+-[http://xiki.mitsuki.no-ip.com/? Xiki] utf8
+
+** PukiWiki
 -[http://pukiwiki.sourceforge.jp/? PukiWiki] utf8
 -[http://pukiwiki.sourceforge.jp/? pukiwiki.org] utf8
 -[http://pukiwiki.sourceforge.jp/dev/? pukiwiki.dev] euc
@@ -28,12 +32,13 @@
 -[http://nekyo.qp.land.to/? Nekyo] euc
 
 ** Search Engine
--[http://www.google.co.jp/search?ie=utf8&amp;oe=utf8&amp;q=$1&amp;lr=lang_ja&amp;hl=ja Google.jp] utf8 
--[http://www.google.co.jp/search?ie=utf8&amp;oe=utf8&amp;q=$1&amp;lr=lang_ja&amp;hl=ja Google] utf8 
+-[http://www.google.co.jp/search?ie=utf8&oe=utf8&q=$1&lr=lang_ja&hl=ja Google.jp] utf8
+-[http://www.google.co.jp/search?ie=utf8&oe=utf8&q=$1&lr=lang_ja&hl=ja Google] utf8
 //IEのGoogleツールバー対策でUTF-8になってます。
 -[http://search.yahoo.co.jp/search?p=$1 Yahoo.jp] euc
 -[http://search.yahoo.co.jp/search?p=$1 Yahoo] euc
 -[http://search.yahoo.co.jp/search/dir?p=$1 Yahoo.dir] euc
+-[http://search.yahoo.com/search?p=$1 Yahoo.usa] utf8
 -[http://websearch.rakuten.co.jp/WebIS?qt=$1 Infoseek] euc
 -[http://websearch.rakuten.co.jp/WebIS?qt=$1 Rakuten] euc
 -[http://www.bing.com/search?q=$1 MSN] utf8
@@ -41,6 +46,8 @@
 -[http://search.goo.ne.jp/web.jsp?MT=$1 Goo] euc
 -[http://search.fresheye.com/?kw=$1 Fresheye] sjis
 -[http://ja.wikipedia.org/wiki/ WikiPedia] utf8
+-[http://ja.wikipedia.org/wiki/ WikiPedia.ja] utf8
+-[http://en.wikipedia.org/wiki/ WikiPedia.en] utf8
 
 ** 拡張InterWikiName
 -[./?cmd=newpage&amp;page= 新規]

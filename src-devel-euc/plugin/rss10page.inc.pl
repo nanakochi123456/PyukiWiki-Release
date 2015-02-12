@@ -1,15 +1,15 @@
 ######################################################################
 # rss10page.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rss10page.inc.pl,v 1.43 2011/05/04 07:26:50 papu Exp $
+# $Id: rss10page.inc.pl,v 1.293 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,16 +17,17 @@
 # Return:LF Code=Shift-JIS 1TAB=4Spaces
 ######################################################################
 
-use Yuki::RSS;
-use Nana::Cache;
-
 # descriptionの行数を指定
 $rss10page::description_line=5
 	if(!defined($rss10page::description_line));
+######################################################################
+
+use Yuki::RSS;
+use Nana::Cache;
+use Time::Local;
 
 sub plugin_rss10page_convert {
 	my ($mode) = split(/,/, shift);
-
 	my $cache=new Nana::Cache (
 		ext=>"showrss",
 		files=>1000,
@@ -45,6 +46,9 @@ sub plugin_rss10page_convert {
 	$buf=~s/[\xd\xa]//g;
 	$buf =~ s/<!\[CDATA\[(.+)\]\]>/$1/g;
 	$cache->write($file,&replace($buf));
+	$::IN_HEAD.=<<EOM if($::rss_lines>0);
+<link rel="alternate" type="application/rss+xml" title="RSS" href="?cmd=rss10page&amp;mypage=@{[&encode($::form{mypage})]}@{[$_exec_plugined{lang} > 1 ? "&amp;lang=$::lang" : ""]}" />
+EOM
 	return ' ';
 }
 
@@ -65,7 +69,7 @@ sub replace {
 sub plugin_rss10page_makerss {
 	my($page)=@_;
 
-	# 言語別の設定
+	# 言語別の設定											# comment
 	if($::_exec_plugined{lang} > 1) {
 		$::modifier_rss_link=$::modifier_rss_link{$::lang} ne '' ? $::modifier_rss_link{$::lang}: $::modifier_rss_link ne '' ? $::modifier_rss_link : $::basehref;
 	} else {
@@ -74,7 +78,7 @@ sub plugin_rss10page_makerss {
 
 	my $data=$::database{$page};
 
-	# モードを取得
+	# モードを取得											# comment
 	my $option;
 	foreach (split(/\n/, $data)) {
 		if(/$::embed_plugin/) {
@@ -107,7 +111,7 @@ sub plugin_rss10page_makerss {
 		link  => $link,
 		description => &get_subjectline($page)
 	);
-	# 内容を取得
+	# 内容を取得												# comment
 	foreach my $line(split(/\n/, $data)) {
 		last if ($count > $::rss_lines + 1);
 		if($line=~/^$option\s*(\d\d\d\d\-\d\d\-\d\d)\(.+\) (\d\d:\d\d:\d\d)\s*\[\[(.*)\]\]/) {
@@ -117,7 +121,7 @@ sub plugin_rss10page_makerss {
 			}
 			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
 				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
-			$date = $1 . "T" . $2 . sprintf("%+02d:00", $gmt);
+			$date = $1 . "T" . $2 . sprintf("+%02d:00", $gmt);
 			my $tmp=&make_link($3);
 			$escaped_title=$tmp;
 			$escaped_title=~s/<.*?>//g;
@@ -136,7 +140,7 @@ sub plugin_rss10page_makerss {
 			$link=$defaultlink;
 			$gmt = ((localtime(time))[2] + (localtime(time))[3] * 24)
 				- ((gmtime(time))[2] + (gmtime(time))[3] * 24);
-			$date = $1 . "T" . $2 . sprintf("%+02d:00", $gmt);
+			$date = $1 . "T" . $2 . sprintf("+%02d:00", $gmt);
 			$escaped_title=$3;
 			$escaped_title=~s/~$//g;
 			$count++;
@@ -162,9 +166,9 @@ sub plugin_rss10page_makerss {
 			}
 		}
 	}
-#	if($lines) {
-#		&plugin_rss10page_additem($rss,$escaped_title,$link	,$description,$date);
-#	}
+#	if($lines) {											# comment
+#		&plugin_rss10page_additem($rss,$escaped_title,$link	,$description,$date);		# comment
+#	}														# comment
 
 	my $body=$rss->as_string;
 	return $body;
@@ -183,20 +187,20 @@ sub plugin_rss10page_additem {
 	$description=~s/\n/<br \/>\n/g;
 	$description= qq(<![CDATA[) .$description . qq(]]>)
 		if($description=~/\n/);
-	if($link!~/#/) {
-		my $tmp=$date;
-		$tmp=~s/\+.*//g;
-		$tmp=~s/[+:\-T]//g;
-		my $tmp2=$tmp;
-		for(my $i=0; ;$i++) {
-			if($rss10page_dates{$tmp2} eq '') {
-				$rss10page_dates{$tmp2}="1";
-				last;
-			}
-			$tmp2="$tmp$i";
-		}
-		$link="$link#$tmp2";
-	}
+#	if($link!~/#/) {									# comment
+#		my $tmp=$date;									# comment
+#		$tmp=~s/\+.*//g;								# comment
+#		$tmp=~s/[+:\-T]//g;								# comment
+#		my $tmp2=$tmp;									# comment
+#		for(my $i=0; ;$i++) {							# comment
+#			if($rss10page_dates{$tmp2} eq '') {			# comment
+#				$rss10page_dates{$tmp2}="1";			# comment
+#				last;									# comment
+#			}											# comment
+#			$tmp2="$tmp$i";								# comment
+#		}												# comment
+#		$link="$link#$tmp2";							# comment
+#	}													# comment
 	$rss->add_item(
 		title => $escaped_title,
 		link  => $link,
@@ -215,8 +219,16 @@ sub plugin_rss10page_action {
 	if($::lang eq 'ja' && $::defaultcode ne $::kanjicode) {
 		$body=&code_convert(\$body,   $::kanjicode);
 	}
-	print &http_header("Content-type: text/xml");
-	print $body;
+
+	&gzip_init;
+	if($::gzip_header ne '') {
+		print &http_header(
+			"Content-type: text/xml; charset=$::charset", $::gzip_header);
+	} else {
+		print &http_header(
+			"Content-type: text/xml; charset=$::charset");
+	}
+	&compress_output($body);
 	&close_db;
 	exit;
 }
@@ -241,11 +253,11 @@ Output RSS (RDF Site Summary) 1.0 from it's page
 
 =item PyukiWiki/Plugin/Standard/rss10page
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/rss10page/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/rss10page/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rss10page.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rss10page.inc.pl?view=log>
 
 =item YukiWiki
 
@@ -265,15 +277,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

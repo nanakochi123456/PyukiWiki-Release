@@ -1,15 +1,15 @@
 ######################################################################
 # counter_viewer.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: counter_viewer.inc.pl,v 1.50 2011/05/04 07:26:50 papu Exp $
+# $Id: counter_viewer.inc.pl,v 1.306 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,6 +18,7 @@
 ######################################################################
 
 use strict;
+use Nana::File;
 
 $counter_viewer::dateformat="Y-m-d(lL)"
 	if(!defined($counter_viewer::dateformat));
@@ -38,28 +39,97 @@ sub plugin_counter_viewer_action {
 	if($::form{mypage} eq '') {
 		$body=&plugin_counter_viewer_index(%auth);
 	} else {
-		$body=&plugin_counter_viewer_page($::form{mypage},%auth);
+		if($::form{action} eq "delete") {
+			return &plugin_counter_viewer_delete;
+		} else {
+			$body=&plugin_counter_viewer_page($::form{mypage},%auth);
+		}
 	}
 
 	return('msg'=>"\t$::resource{counter_viewer_plugin_title}",'body'=>$body);
+}
+
+sub plugin_counter_viewer_delete {
+	my %auth=&authadminpassword(submit);
+	my $title=$::resource{counter_viewer_plugin_delete};
+	$title=~s/\$1/$::form{mypage}/g;
+	return('msg'=>"\t$title",'body'=>$auth{html})
+		if($auth{authed} eq 0);
+	if($::form{cancel} ne '') {
+		print &http_header(
+			"Status: 302",
+			"Location: $::basehref?cmd=counter_viewer&amp;mypage=@{[&encode($::form{mypage})]}",
+			$::HTTP_HEADER
+			);
+		close(STDOUT);
+		&exec_explugin_last;
+		exit;
+	}
+	if($::form{ok} eq '') {
+		my $delete = $::resource{counter_viewer_plugin_delete};
+		$delete=~s/\$1/$::form{mypage}/g;
+		my $confirmmsg=$::resource{counter_viewer_plugin_delete_confirm};
+		$confirmmsg=~s/\$1/$::form{mypage}/g;
+		my $body=<<EOM;
+<h3>$delete</h3>
+<form action="$::script" method="POST">
+$auth{html}
+<input type="hidden" name="cmd" value="counter_viewer" />
+<input type="hidden" name="action" value="delete" />
+<input type="hidden" name="mypage" value="$::form{mypage}" />
+$confirmmsg<br />
+<input type="submit" name="ok" value="$::resource{counter_viewer_plugin_delete_confirm_ok}" />
+<input type="submit" name="cancel" value="$::resource{counter_viewer_plugin_delete_confirm_cancel}" />
+</form>
+EOM
+		return('msg'=>"\t$title",'body'=>$body);
+	} else {
+		my $page=$::form{mypage};
+		my %counter=&plugin_counter_do($page,"r");
+		my $hex=&dbmname($page);
+		my $new=$hex;
+		my $file = $::counter_dir . "/" . $new . $::counter_ext;
+		Nana::File::lock_delete($file);
+		my $body=<<EOM;
+<strong>$::resource{counter_viewer_plugin_deleted}</strong>
+<hr />
+<form action="$::script" method="POST">
+<input type="hidden" name="cmd" value="counter_viewer" />
+<input type="submit" value="$::resource{counter_viewer_plugin_return}" />
+</form>
+EOM
+		$body=~s/\$1/$::form{mypage}/g;
+		return('msg'=>"\t$title",'body'=>$body);
+	}
 }
 
 sub plugin_counter_viewer_page {
 	my($page,%auth)=@_;
 	my %counter=&plugin_counter_do($page,"r");
 	my $body=<<EOM;
-<h2>$page$::resource{counter_viewer_plugin_details_title}</h2>
+<h2>@{[&htmlspecialchars($page)]}$::resource{counter_viewer_plugin_details_title}</h2>
+<table><tr><td>
 <form action="$::script" method="POST">
 <input type="hidden" name="cmd" value="counter_viewer" />
 $auth{html}
 <input type="hidden" name="sort" value="$::form{sort}" />
 <input type="submit" name="view" value="$::resource{counter_viewer_plugin_btn_back}" />
 </form>
+</td><td>
+<form action="$::script" method="POST">
+<input type="hidden" name="cmd" value="counter_viewer" />
+$auth{html}
+<input type="hidden" name="action" value="delete" />
+<input type="hidden" name="mypage" value="$::form{mypage}" />
+<input type="submit" name="view" value="$::resource{counter_viewer_plugin_btn_delete}" />
+</form>
+</td></tr></table>
 <table class="style_table" cellspacing="1" border="0">
 <thead><tr>
 <td class="style_td">$::resource{counter_viewer_plugin_date}</td>
 <td class="style_td">$::resource{counter_viewer_plugin_count}</td>
 </tr></thead>
+<tr>
 <td class="style_td">$::resource{counter_viewer_plugin_total}</td>
 <td class="style_td">$counter{total}</td>
 </tr><tr>
@@ -74,7 +144,7 @@ EOM
 		$i>=$counter{date}-($::CounterDates >=1000 ? 1000 : $::CounterDates);
 		$i--) {
 		$body.=<<EOM;
-</tr><tr>
+<tr>
 <td class="style_td">@{[&plugin_counter_viewer_mkdate($i)]}</td>
 <td class="style_td">@{[$counter{$i}+0]}</td>
 </tr>
@@ -96,18 +166,58 @@ sub plugin_counter_viewer_index {
 	my %auth=@_;
 	my @list=();
 	my $body;
-#	foreach my $pages (keys %::database) {
-#		my %counter=&plugin_counter_do($pages,"r");
-#		push(@list,"$pages\t$counter{total}\t$counter{today}\t$counter{yesterday}\t$counter{version}");
-#	}
+#	foreach my $pages (keys %::database) {						# comment
+#		my %counter=&plugin_counter_do($pages,"r");				# comment
+#		push(@list,"$pages\t$counter{total}\t$counter{today}\t$counter{yesterday}\t$counter{version}");		# comment
+#	}															# comment
 
-	# changes other counters
+#	# changes other counters									# comment
+#	opendir(DIR,$::counter_dir);								# comment
+#	my $file;													# comment
+#	while($file=readdir(DIR)) {									# comment
+#		next if($file!~/\.count$/);								# comment
+#		$file=~s/\.count$//g;									# comment
+#		my $page=&decode($file);								# comment
+#		my %counter=&plugin_counter_do($page,"r");				# comment
+#		push(@list,"$page\t$counter{total}\t$counter{today}\t$counter{yesterday}\t$counter{version}");											# comment
+#	}															# comment
+
+	# changes pukiwiki compatible								# comment
 	opendir(DIR,$::counter_dir);
 	my $file;
+	my @files;
 	while($file=readdir(DIR)) {
 		next if($file!~/\.count$/);
 		$file=~s/\.count$//g;
-		my $page=&decode($file);
+		push(@files,$file);
+	}
+	closedir(DIR);
+	my $flg=0;
+	foreach (@files) {
+		my $page;
+		my $file=$_;
+		s/0//g;
+		s/1//g;
+		s/2//g;
+		s/3//g;
+		s/4//g;
+		s/5//g;
+		s/6//g;
+		s/7//g;
+		s/8//g;
+		s/9//g;
+		s/0//g;
+		s/A//g;
+		s/B//g;
+		s/C//g;
+		s/D//g;
+		s/E//g;
+		s/F//g;
+		if($_ ne '') {
+			$page=&decode($file);
+		} else {
+			$page=&undbmname($file);
+		}
 		my %counter=&plugin_counter_do($page,"r");
 		push(@list,"$page\t$counter{total}\t$counter{today}\t$counter{yesterday}\t$counter{version}");
 	}
@@ -135,7 +245,7 @@ EOM
 		$sortmsg.="($::resource{counter_viewer_plugin_sort_reverse})"
 			if($sort=~/reverse/);
 		$body.=<<EOM;
-<option value="$sort"@{[$::form{sort} eq $sort ? ' selected' : '']}>$sortmsg</option>
+<option value="$sort"@{[$::form{sort} eq $sort ? ' selected="selected"' : '']}>$sortmsg</option>
 EOM
 	}
 	$body.=<<EOM;
@@ -150,13 +260,14 @@ EOM
 <input type="hidden" name="cmd" value="counter_viewer" />
 $auth{html}
 <input type="hidden" name="sort" value="$::form{sort}" />
-<input type="hidden" name="mypage" value="$name" />
-<input type="submit" value="$::resource{counter_viewer_plugin_btn_details}"@{[$version > 1 ? '' : ' disabled']} />
+<input type="hidden" name="mypage" value="@{[&htmlspecialchars($name)]}" />
+<input type="submit" value="$::resource{counter_viewer_plugin_btn_details}"@{[$version > 1 ? '' : ' disabled="disabled"']} />
 &nbsp;
 EOM
 		$body.=<<EOM;
 <form action="$::script" method="POST">
-<thead><tr><td class="style_td" colspan="4"><strong>$btn<a target="_blank" href="$::script?@{[&encode($name)]}">$name</a></strong></td></tr></thead>
+<thead><tr><td class="style_td" colspan="4"><strong>$btn
+@{[$::database{$name} ne '' ? "<a target=\"_blank\" href=\"$::script?@{[&encode($name)]}\">@{[&htmlspecialchars($name)]}</a>" : @{[&htmlspecialchars($name)]}]}</strong></td></tr></thead>
 <tr>
 <td class="style_td" align="right">$::resource{counter_viewer_plugin_total}:$total</td>
 <td class="style_td" align="right">$::resource{counter_viewer_plugin_today}:$today</td>
@@ -195,11 +306,11 @@ The detailed history of counters.
 
 =item PyukiWiki/Plugin/Admin/counter_viewer
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/counter_viewer/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/counter_viewer/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/counter_viewer.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/counter_viewer.inc.pl?view=log>
 
 
 =back
@@ -214,15 +325,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

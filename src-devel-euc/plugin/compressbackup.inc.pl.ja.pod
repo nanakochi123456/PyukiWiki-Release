@@ -1,0 +1,57 @@
+#$Id: compressbackup.inc.pl.ja.pod,v 1.73 2011/12/31 13:06:10 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+compressbackup.inc.pl - PyukiWiki 管理者向けプラグイン
+
+=head1 概要
+
+ ?cmd=compressbackup
+
+=head1 説明
+
+バックアップディレクトリを再圧縮します。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Admin/compressbackup
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/compressbackup/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/compressbackup.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

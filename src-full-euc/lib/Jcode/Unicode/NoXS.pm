@@ -1,30 +1,21 @@
 #
-# $Id: NoXS.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
-# Id: NoXS.pm,v 2.0 2005/05/16 19:08:02 dankogai Exp 
+# $Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
+# Id: NoXS.pm,v 2.0 2005/05/16 19:08:02 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode::Unicode::NoXS;
-
 use strict;
 use vars qw($RCSID $VERSION);
-
-$RCSID = q$Id: NoXS.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-
+$RCSID = q$Id: NoXS.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 use Carp;
-
 use Jcode::Constants qw(:all);
 use Jcode::Unicode::Constants;
-
 use vars qw(*_E2U *_U2E $PEDANTIC);
-
 $PEDANTIC = 0;
-
 # Quick and dirty import
-
 *_E2U = *Jcode::Unicode::Constants::_E2U;
 *_U2E = *Jcode::Unicode::Constants::_U2E;
-
 sub _init_u2e{
     unless ($PEDANTIC){
 	$_U2E{"\xff\x3c"} = "\xa1\xc0"; # ¡À
@@ -34,10 +25,9 @@ sub _init_u2e{
 	$_U2E{"\x00\x7e"} = "\x8f\xa2\xb7"; # ~
     }
 }
-
 sub _init_e2u{
     unless (%_E2U){
-	%_E2U = 
+	%_E2U =
 	    reverse %_U2E;
     }
     unless ($PEDANTIC){
@@ -48,32 +38,25 @@ sub _init_e2u{
 	$_E2U{"\x8f\xa2\xb7"} = "\x00\x7e"; # ~
     }
 }
-
-
-# Yuck! but this is necessary because this module is 'require'd 
+# Yuck! but this is necessary because this module is 'require'd
 # instead of being 'use'd (No package export done) subs below
 # belong to Jcode, not Jcode::Unicode
-
 sub Jcode::ucs2_euc{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     _init_u2e();
-
     $$r_str =~ s(
 		 ([\x00-\xff][\x00-\xff])
 		 )
     {
 	exists $_U2E{$1} ? $_U2E{$1} : $CHARCODE{UNDEF_JIS};
     }geox;
-
     $$r_str;
 }
-
 sub Jcode::euc_ucs2{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     _init_e2u();
-
     # 3 bytes
     $$r_str =~ s(
 		 ($RE{EUC_0212}|$RE{EUC_C}|$RE{EUC_KANA}|[\x00-\xff])
@@ -81,24 +64,20 @@ sub Jcode::euc_ucs2{
     {
 	exists $_E2U{$1} ? $_E2U{$1} : $CHARCODE{UNDEF_UNICODE};
     }geox;
-
     $$r_str;
 }
-
 sub Jcode::euc_utf8{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     &Jcode::euc_ucs2($r_str);
     &Jcode::ucs2_utf8($r_str);
 }
-
 sub Jcode::utf8_euc{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     &Jcode::utf8_ucs2($r_str);
     &Jcode::ucs2_euc($r_str);
 }
-
 sub Jcode::ucs2_utf8{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
@@ -117,17 +96,15 @@ sub Jcode::ucs2_utf8{
                 chr(0x80 | (($uc >> 6) & 0x3F)) .
                     chr(0x80 | ($uc & 0x3F));
         }
-
     }
     $$r_str = $result;
 }
-
 sub Jcode::utf8_ucs2{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     my $result;
     $$r_str =~ s/^[\200-\277]+//o;  # can't start with 10xxxxxx
-    $$r_str =~ 
+    $$r_str =~
 	s[
 	  ($RE{ASCII} | $RE{UTF8})
 	  ]{
@@ -145,9 +122,5 @@ sub Jcode::utf8_ucs2{
 	  }egox;
     $$r_str;
 }
-
 1;
 __END__
-
-
-

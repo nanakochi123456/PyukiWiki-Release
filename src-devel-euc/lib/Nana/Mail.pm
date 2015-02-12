@@ -1,16 +1,16 @@
 ######################################################################
 # Mail.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Mail.pm,v 1.39 2011/05/04 07:26:50 papu Exp $
+# $Id: Mail.pm,v 1.290 2011/12/31 13:06:10 papu Exp $
 #
-# "Nana::Mail" version 0.1 $$
+# "Nana::Mail" version 0.3 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ package	Nana::Mail;
 use 5.8.1;
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.1';
+$VERSION = '0.3';
 
 # sendmail¥Ñ¥¹¸¡º÷¸õÊä
 $Nana::Mail::sendmail=<<EOM;
@@ -38,20 +38,20 @@ EOM
 use Jcode;
 
 sub mime_conv {
-	my($str)=@_;
-	$str=Jcode->new($str)->jis;
+	my($str,$code)=@_;
+	$str=Jcode->new($str,$code)->jis;
 	$str=Jcode->new($str)->mime_encode;
 	return $str;
 }
 
 sub send {
 	my(%hash)=@_;
-	my $to=&mime_conv($hash{to});
-	my $to_name=&mime_conv($hash{to_name});
-	my $from=&mime_conv($hash{from});
-	my $from_name=&mime_conv($hash{from_name});
-	my $subject=&mime_conv($hash{subject});
-	my $data=Jcode->new($hash{data})->jis;
+	my $to=&mime_conv($hash{to},$::defaultcode);
+	my $to_name=&mime_conv($hash{to_name},$::defaultcode);
+	my $from=&mime_conv($hash{from},$::defaultcode);
+	my $from_name=&mime_conv($hash{from_name},$::defaultcode);
+	my $subject=&mime_conv($hash{subject},$::defaultcode);
+	my $data=Jcode->new($hash{data},$::defaultcode)->jis;
 	return 1 if($to eq '' || $from eq '' || $::modifier_sendmail eq '');
 	$subject="[Wiki] $::basehref" if($subject eq '');
 
@@ -84,7 +84,9 @@ sub toadmin {
 	my($mode,$page,$data)=@_;
 	$data=$::database{$page} if($data eq '');
 
-	&getremotehost;
+	my $getremotehost = $::functions{"getremotehost"};
+	&$getremotehost;
+
 	my $message = <<"EOD";
 --------
 WIKI = $::modifier_rss_title
@@ -98,19 +100,8 @@ $data
 --------
 EOD
 
-	&send(to=>$::modifier_mail, from=>$::modifier_mail, 
+	&send(to=>$::modifier_mail, from=>$::modifier_mail,
 		  subject=>"[Wiki]$mode $::basehref", data=>$message);
-}
-
-sub getremotehost {
-	if($ENV{REMOTE_HOST} eq '') {
-		my $host
-		 = gethostbyaddr(pack("C4", split(/\./, $ENV{REMOTE_ADDR})), 2);
-		if($host eq '') {
-			$host=$ENV{REMOTE_ADDR};
-		}
-		$ENV{REMOTE_HOST}=$host;
-	}
 }
 
 1;

@@ -1,0 +1,12 @@
+#
+# PyukiWiki Resource file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: freezeconvert.ja.txt,v 1.166 2011/12/31 13:06:11 papu Exp $
+#
+# forzenconvert.inc.pl
+freezeconvert_plugin_title=凍結ページ変換 for v0.2.0
+freezeconvert_plugin_btn_submit=実行
+freezeconvert_plugin_execmsg=実行しました。下記のログにて実行結果を確認して下さい。
+freezeconvert_plugin_execed=実行済みです。
+freezeconvert_plugin_freeze=凍結済み
+freezeconvert_plugin_nofreeze=非凍結

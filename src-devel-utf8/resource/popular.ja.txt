@@ -1,0 +1,12 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: popular.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# popular.inc.pl
+popular_plugin_total_frame=<h5>人気の%d件</h5><div>%s</div>
+popular_plugin_today_frame=<h5>今日の%d件</h5><div>%s</div>
+popular_plugin_yesterday_frame=<h5>昨日の%d件</h5><div>%s</div>
+popular_plugin_week_frame=<h5>今週の%d件</h5><div>%s</div>
+popular_plugin_lastweek_frame=<h5>先週の%d件</h5><div>%s</div>

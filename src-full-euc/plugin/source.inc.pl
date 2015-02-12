@@ -1,15 +1,15 @@
 ######################################################################
 # source.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: source.inc.pl,v 1.37 2011/05/04 07:26:50 papu Exp $
+# $Id: source.inc.pl,v 1.286 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -18,7 +18,6 @@
 ######################################################################
 # Usage:?cmd=source&page=pagename
 ######################################################################
-
 use strict;
 sub plugin_source_action {
 	return if ($::form{'page'} eq '');
@@ -30,4 +29,3 @@ sub plugin_source_action {
 }
 1;
 __END__
-

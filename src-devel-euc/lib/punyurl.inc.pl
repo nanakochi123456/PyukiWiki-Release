@@ -1,15 +1,15 @@
 ######################################################################
-# punyurl.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: punyurl.inc.pl,v 1.85 2011/05/04 07:26:50 papu Exp $
+# punyurl.inc.pl - This is PyukiWiki, yet another Wiki clone.
+# $Id: punyurl.inc.pl,v 1.332 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -27,9 +27,17 @@ use IDNA::Punycode;
 
 sub plugin_punyurl_init {
 
-$::isurl=q{(\b(?:https?|ftp|news)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*@)?(?:(?:(?:[a-zA-Z0-9](?:[-_a-zA-Z0-9]*[a-zA-Z0-9])?|[-_0-9a-zA-Z\xa1-\xfe](?:[-_0-9a-zA-Z\xa1-\xfe]*[-_0-9a-zA-Z\xa1-\xfe])?)\.)*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)*)?(?:\?(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?(?:\x23(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?)};
+# add 0.2.0 FileSchme
 
-$::isurl_puny=q{[\x81-\xfe]};
+if($::useFileScheme eq 1) {
+	$::isurl=q{(\b(?:(?:(?:https?|ftp|news)://)|(?:file:[/\x5c][/\x5c]))(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*@)?(?:(?:(?:[a-zA-Z0-9](?:[-_a-zA-Z0-9]*[a-zA-Z0-9])?|[-_0-9a-zA-Z\x80-\xfd](?:[-_0-9a-zA-Z\x80-\xfd]*[-_0-9a-zA-Z\x80-\xfd])?)\.)*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)*)?(?:\?(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?(?:\x23(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?)};
+} else {
+	$::isurl=q{(\b(?:https?|ftp|news)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*@)?(?:(?:(?:[a-zA-Z0-9](?:[-_a-zA-Z0-9]*[a-zA-Z0-9])?|[-_0-9a-zA-Z\x80-\xfd](?:[-_0-9a-zA-Z\x80-\xfd]*[-_0-9a-zA-Z\x80-\xfd])?)\.)*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*(?:/(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*(?:;(?:[-_.!~*'a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)*)?(?:\?(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?(?:\x23(?:[-_.!~*'a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?)};
+}
+
+$::isurl_puny=q{[\x80-\xfd]};
+
+
 
 	&init_inline_regex;
 
@@ -43,7 +51,7 @@ $::isurl_puny=q{[\x81-\xfe]};
 }
 
 sub make_link_url {
-	my($class,$chunk,$escapedchunk,$img,$target)=@_;
+	my($class,$chunk,$escapedchunk,$img,$target,$alt)=@_;
 	$target="_blank" if($target eq '');
 	if($img ne '') {
 		$class.=($class eq '' ? 'img' : '');
@@ -51,7 +59,7 @@ sub make_link_url {
 			. &make_link_image($img,$escapedchunk) . qq(</a>);
 	}
 	if($escapedchunk=~/^<img/) {
-		return &make_link_target(&make_link_puny($chunk),$class,$target,$chunk)
+		return &make_link_target(&make_link_puny($chunk),$class,$target,@{[$alt eq '' ? $chunk : $alt]})
 			. qq($escapedchunk</a>);
 	}
 	return &make_link_target(&make_link_puny($chunk),$class,$target,$escapedchunk)
@@ -60,31 +68,35 @@ sub make_link_url {
 
 sub make_link_puny {
 	my($url)=@_;
+
 	if($url=~/$::isurl_puny/o) {
-		$url=~/(https?|ftp):\/\/([^:\/\#]+)(.*)/;
+		$url=~/(https?|ftp|news):\/\/([^:\/\#]+)(.*)/;
 		my $schme=$1;
 		my $host=$2;
 		my $last=$3;
 		my $_host="";
-		foreach my $str(split(/\./,$host)) {
-			if($str=~/$::isurl_puny/o && $ENV{HTTP_USER_AGENT} !~/Fire[Ff]ox/) {
-				$str=&code_convert(\$str, 'utf8', 'euc');
-				idn_prefix('xn--');
-				utf8::decode($str);
-				$str=IDNA::Punycode::encode_punycode("$str") . '.';
-				utf8::encode($str);
-				$str=~s/\-{3,9}/--/g;
-				$_host.=$str;
-			} else {
-				$_host.="$str.";
+		if($host=~/$::isurl_puny/o) {
+			foreach my $str(split(/\./,$host)) {
+				if($str=~/$::isurl_puny/o) {
+					$str=&code_convert(\$str, 'utf8', $::defaultcode);
+					idn_prefix('xn--');
+					utf8::decode($str);
+					$str=IDNA::Punycode::encode_punycode("$str") . '.';
+					utf8::encode($str);
+					$str=~s/\-{3,9}/--/g;
+					$_host.=$str;
+				} else {
+					$_host.="$str.";
+				}
 			}
+		} else {
+			return &make_link_urlhref($url);
 		}
 		$_host=~s/\.$//g;
 		$url="$schme://$_host$last";
 	}
 	return &make_link_urlhref($url);
 }
-
 1;
 __DATA__
 sub plugin_punyurl_setup {
@@ -92,7 +104,7 @@ sub plugin_punyurl_setup {
 	'ja'=>'多言語ドメインをpunycodeに変換する',
 	'en'=>'View punycode of multibyte domain name',
 	'override'=>'make_link_url',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/punyurl/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/punyurl/'
 	);
 __END__
 
@@ -130,11 +142,11 @@ make_link_url function was overrided.
 
 =item PyukiWiki/Plugin/ExPlugin/punyurl
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/punyurl/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/punyurl/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/punyurl.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/punyurl.inc.pl?view=log>
 
 =back
 
@@ -148,15 +160,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

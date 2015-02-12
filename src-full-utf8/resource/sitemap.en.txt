@@ -1,0 +1,7 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: sitemap.en.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+# sitemap.inc.pl
+sitemap_plugin_title=Site Map

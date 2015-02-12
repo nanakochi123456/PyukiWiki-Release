@@ -1,9 +1,9 @@
-# $Id: MMagic.pm,v 1.75 2011/05/04 07:26:50 papu Exp $
-# "File::MMagic" version 1.26 $$
+# $Id: MMagic.pm,v 1.324 2011/12/31 13:06:10 papu Exp $
+# "File::MMagic" version 1.27 $$
 
 # File::MMagic
 #
-# Id: MMagic.pm 198 2006-01-30 05:24:17Z knok
+# $Id: MMagic.pm,v 1.324 2011/12/31 13:06:10 papu Exp $
 #
 # This program is originated from file.kulp that is a production of The
 # Unix Reconstruction Projct.
@@ -80,7 +80,7 @@
 #  * 4. The names "Apache Server" and "Apache Group" must not be used to
 #  *    endorse or promote products derived from this software without
 #  *    prior written permission. For written permission, please contact
-#  *    apache (at) apache (dot) org.
+#  *    <apache (at) apache (dot) org>.
 #  *
 #  * 5. Products derived from this software may not be called "Apache"
 #  *    nor may "Apache" appear in their names without prior written
@@ -277,7 +277,7 @@ that derived from the Apache HTTP Server.
  * 4. The names "Apache Server" and "Apache Group" must not be used to
  *    endorse or promote products derived from this software without
  *    prior written permission. For written permission, please contact
- *    apache (at) apache (dot) org.
+ *    <apache (at) apache (dot) org>.
  *
  * 5. Products derived from this software may not be called "Apache"
  *    nor may "Apache" appear in their names without prior written
@@ -342,7 +342,7 @@ BEGIN {
 	    t => "\t",
 	    f => "\f");
 
-$VERSION = "1.26";
+$VERSION = "1.27";
 $allowEightbit = 1;
 }
 
@@ -384,15 +384,15 @@ sub new {
 
 # removSpecials() can be used to remove those afterwards.
     $self->{SPECIALS} = {
-		 "message/rfc822" => [ "^Received:",   
-			     "^>From ",       
-			     "^From ",       
+		 "message/rfc822" => [ "^Received:",
+			     "^>From ",
+			     "^From ",
 			     "^To: ",
 			     "^Return-Path: ",
 			     "^Cc: ",
 			     "^X-Mailer: "],
-		 "message/news" => [ "^Newsgroups: ", 
-			     "^Path: ",       
+		 "message/news" => [ "^Newsgroups: ",
+			     "^Path: ",
 			     "^X-Newsreader: "],
 		 "text/html" => [ "<html[^>]*>",
 			     "<HTML[^>]*>",
@@ -458,7 +458,7 @@ sub addFileExts {
 sub removeFileExts {
     my $self = shift;
     # Remove all keys if no arguments given
-    my @filepats = (@_ or keys %{$self->{FILEEXTS}}); 
+    my @filepats = (@_ or keys %{$self->{FILEEXTS}});
     my %returnfilepats;
     foreach my $filepat (@filepats) {
       $returnfilepats{"$filepat"} = delete $self->{FILEEXTS}->{"$filepat"};
@@ -525,8 +525,8 @@ sub checktype_filename {
 	if ($followLinks) { stat($file); } else { lstat($file); }
     }
     if (! -f _  or -z _) {
-	if ( $^O ne 'MSWin32' && !$followLinks && -l _ ) { 
-	    $desc .= " symbolic link to ".readlink($file); 
+	if ( $^O ne 'MSWin32' && !$followLinks && -l _ ) {
+	    $desc .= " symbolic link to ".readlink($file);
 	}
 	elsif ( -d _ ) { $desc .= " directory"; }
 	elsif ( -p _ ) { $desc .= " named pipe"; }
@@ -684,7 +684,7 @@ sub checktype_data {
 	my %val;
 	foreach my $type (keys %{$self->{SPECIALS}}) {
 	    my $matched_pos = undef;
-	    foreach my $token (@{$self->{SPECIALS}->{$type}}){ 
+	    foreach my $token (@{$self->{SPECIALS}->{$type}}){
 		pos($data) = 0;
 		if ($data =~ /$token/mg) {
 		    my $tmp =  pos($data);
@@ -700,13 +700,13 @@ sub checktype_data {
 	    my @skeys = sort { $val{$a} <=> $val{$b} } keys %val;
 	    $mtype = $skeys[0];
 	}
-	
+
 #	$mtype = 'text/plain' if (! defined $mtype);
     }
     if (! defined $mtype && check_binary($data)) {
 	$mtype = "application/octet-stream";
     }
-	
+
 #    $mtype = 'text/plain' if (! defined $mtype);
     return $mtype;
 }
@@ -765,7 +765,10 @@ sub magicMatch {
     # this item, then parse out its structure.  @$item is just the
     # raw string, line number, and subtests until we need the real info.
     # this saves time otherwise wasted parsing unused subtests.
-    $item = readMagicLine(@$item) if @$item == 3;
+    if (@$item == 3){
+        my $tmp = readMagicLine(@$item);
+        @$item = @$tmp;
+    }
 
     # $item could be undef if we ran into troubles while reading
     # the entry.
@@ -775,8 +778,8 @@ sub magicMatch {
     # false for every item which allows reading/checking the entire
     # magic file.
     return unless defined($fh);
-    
-    my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval, 
+
+    my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval,
 	$template, $message, $subtests) = @$item;
 
     # bytes from file
@@ -804,7 +807,7 @@ sub magicMatch {
 
     if ($type =~ /^string/) {
 	# read the length of the match string unless the
-	# comparison is '>' ($numbytes == 0), in which case 
+	# comparison is '>' ($numbytes == 0), in which case
 	# read to the next null or "\n". (that's what BSD's file does)
 	if ($numbytes > 0) {
 	    if ($fh->read($data,$numbytes) != $numbytes) { return; }
@@ -840,8 +843,8 @@ sub magicMatch {
 	# read up to 4 bytes
 	if ($fh->read($data,$numbytes) != $numbytes) { return; }
 
-	# If template is a ref to an array of 3 letters, 
-	# then this is an endian 
+	# If template is a ref to an array of 3 letters,
+	# then this is an endian
 	# number which must be first unpacked into an unsigned and then
 	# coerced into a signed.  Is there a better way?
 	if (ref($template)) {
@@ -907,7 +910,7 @@ sub magicMatch {
 
 	return 1;
     }
-    
+
 }
 
 sub magicMatchStr {
@@ -933,8 +936,8 @@ sub magicMatchStr {
     # magic file.
     return unless defined($str);
     return if ($str eq '');
-    
-    my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval, 
+
+    my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval,
 	$template, $message, $subtests) = @$item;
     return unless defined $op;
 
@@ -964,7 +967,7 @@ sub magicMatchStr {
 
     if ($type =~ /^string/) {
 	# read the length of the match string unless the
-	# comparison is '>' ($numbytes == 0), in which case 
+	# comparison is '>' ($numbytes == 0), in which case
 	# read to the next null or "\n". (that's what BSD's file does)
 	if ($numbytes > 0) {
 	    $data = pack("a$numbytes", $str);
@@ -998,8 +1001,8 @@ sub magicMatchStr {
         return if (length($str) < 4);
 	$data = substr($str, 0, 4);
 
-	# If template is a ref to an array of 3 letters, 
-	# then this is an endian 
+	# If template is a ref to an array of 3 letters,
+	# then this is an endian
 	# number which must be first unpacked into an unsigned and then
 	# coerced into a signed.  Is there a better way?
 	if (ref($template)) {
@@ -1066,7 +1069,7 @@ sub magicMatchStr {
 
 	return 1;
     }
-    
+
 }
 
 # readMagicEntry($pa_magic, $MF, $depth)
@@ -1098,7 +1101,7 @@ sub readMagicEntry {
 	    $$MF[2]++;
 	    next;
 	}
-	
+
 	my ($thisDepth) = ($line =~ /^(>+)/);
 	$thisDepth = '' if (! defined $thisDepth);
 	$depth = 0 if (! defined $depth);
@@ -1159,20 +1162,20 @@ sub readMagicEntry {
 sub readMagicLine {
     my ($line, $line_num, $subtests) = @_;
 
-    my ($offtype, $offset, $numbytes, $type, $mask, 
+    my ($offtype, $offset, $numbytes, $type, $mask,
 	$operator, $testval, $template, $message);
-    
+
     # this would be easier if escaped whitespace wasn't allowed.
 
     # grab the offset and type.  offset can either be a decimal, oct,
     # or hex offset or an indirect offset specified in parenthesis
     # like (x[.[bsl]][+-][y]), or a relative offset specified by &.
     # offtype : 0 = absolute, 1 = indirect, 2 = relative
-    if ($line =~ s/^>*([&\(]?[a-flsx\.\+\-\d]+\)?)\s+(\S+)\s+//) {
+    if ($line =~ s/^>*([&\(]?[a-fA-Flsx\.\+\-\d]+\)?)\s+(\S+)\s+//) {
 	($offset,$type) = ($1,$2);
 
 	if ($offset =~ /^\(/) {
-	    # indirect offset.  
+	    # indirect offset.
 	    $offtype = 1;
 
 	    # store as a reference [ offset1 type template offset2 ]
@@ -1215,7 +1218,7 @@ sub readMagicLine {
 	warn "Bad Offset/Type at line $line_num. '$line'\n";
 	return;
     }
-    
+
     # check for & operator on type
     if ($type =~ s/&(.*)//) {
 	$mask = $1;
@@ -1223,13 +1226,13 @@ sub readMagicLine {
 	# convert if needed
 	$mask = oct($mask) if $mask =~ /^0/o;
     }
-    
+
     # check if type is valid
     if (!exists($TEMPLATES{$type}) && $type !~ /^string/) {
 	warn "Invalid type '$type' at line $line_num\n";
 	return;
     }
-    
+
     # take everything after the first non-escaped space
     if ($line =~ s/([^\\])\s+(.*)/$1/) {
 	$message = $2;
@@ -1238,7 +1241,7 @@ sub readMagicLine {
 	warn "Missing or invalid test condition or message at line $line_num\n";
 	return;
     }
-    
+
     # remove the return if it's still there
     $line =~ s/\n$//o;
 
@@ -1250,7 +1253,7 @@ sub readMagicLine {
 	$operator = 'x';
     }
     else { $operator = '='; }
-    
+
 
     if ($type =~ /string/) {
 	$testval = $line;
@@ -1307,7 +1310,7 @@ sub readMagicLine {
 	      unless $operator eq '>' || $operator eq '<';
 	}
     }
-    
+
     return [ $offtype, $offset, $numbytes, $type, $mask,
 	    $operator, $testval, $template, $message, $subtests ];
 }
@@ -1322,16 +1325,19 @@ sub dumpMagic {
     my $entry;
     foreach $entry (@$magic) {
 	# delayed evaluation.
-	$entry = readMagicLine(@$entry) if @$entry == 3;
+        if (@$entry == 3){
+            my $tmp = readMagicLine(@$entry);
+            @$entry = @$tmp;
+        }
 
 	next if !defined($entry);
 
-	my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval, 
+	my ($offtype, $offset, $numbytes, $type, $mask, $op, $testval,
 	    $template, $message, $subtests) = @$entry;
 
 	print STDERR '>'x$depth;
 	if ($offtype == 1) {
-	    $offset->[2] =~ tr/c/b/; 
+	    $offset->[2] =~ tr/c/b/;
 	    print STDERR "($offset->[0].$offset->[2]$offset->[3])";
 	}
 	elsif ($offtype == 2) {
@@ -1350,5 +1356,4 @@ sub dumpMagic {
 	}
     }
 }
-
 1;

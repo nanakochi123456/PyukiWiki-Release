@@ -1,15 +1,15 @@
 ######################################################################
-# iecompatiblehack.inc.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: iecompatiblehack.inc.pl,v 1.17 2011/05/04 07:26:50 papu Exp $
+# iecompatiblehack.inc.pl - This is PyukiWiki, yet another Wiki clone.
+# $Id: iecompatiblehack.inc.pl,v 1.264 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@
 sub plugin_iecompatiblehack_init {
 	my $agent=$ENV{HTTP_USER_AGENT};
 	my $header;
-	if($ENV{HTTP_USER_AGENT}=~/MSIE (\d).(\d)/) {
+	if($ENV{HTTP_USER_AGENT}=~/MSIE (\d+).(\d+)/) {
 		if($1 > 6) {
 			$header=<<EOM;
 X-UA-Compatible: IE=$1
@@ -47,7 +47,7 @@ sub plugin_iecompatiblehack_setup {
 	'ja'=>'IEの互換表示ボタンを強制的になくすプラグイン',
 	'en'=>'For Internet Explorer, disable compatible button',
 	'override'=>'none',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/iecompatiblehack/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/iecompatiblehack/'
 	);
 }
 __END__
@@ -73,11 +73,11 @@ none
 
 =item PyukiWiki/Plugin/ExPlugin/iecompatiblehack
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/iecompatiblehack/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/iecompatiblehack/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/iecompatiblehack.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/iecompatiblehack.inc.pl?view=log>
 
 =back
 
@@ -91,15 +91,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

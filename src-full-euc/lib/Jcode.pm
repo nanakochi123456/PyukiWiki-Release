@@ -1,36 +1,31 @@
 #
-# $Id: Jcode.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $
 # Id: Jcode.pm,v 2.7 2008/05/10 18:15:19 dankogai Exp dankogai
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode;
 use 5.005; # fair ?
 use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
-
-$RCSID = q$Id: Jcode.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: Jcode.pm,v 1.334 2011/12/31 13:06:09 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = 0;
-
 # we no longer use Exporter
 use vars qw($USE_ENCODE);
 $USE_ENCODE = ($] >= 5.008001);
-
 use Exporter;
 use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 @ISA         = qw(Exporter);
 @EXPORT      = qw(jcode getcode);
 @EXPORT_OK   = qw($RCSID $VERSION $DEBUG);
 %EXPORT_TAGS = ( all       => [ @EXPORT, @EXPORT_OK ] );
-
-use overload 
+use overload
     q("") => sub { $_[0]->euc },
     q(==) => sub { overload::StrVal($_[0]) eq overload::StrVal($_[1]) },
     q(.=) => sub { $_[0]->append( $_[1] ) },
     fallback => 1,
     ;
-
 if ($USE_ENCODE){
     $DEBUG and warn "Using Encode";
     my $data = join("", <DATA>);
@@ -51,7 +46,6 @@ if ($USE_ENCODE){
 	*{$enc . "_euc"} = \&{"Jcode::_Classic::" . $enc . "_euc"};
     }
 }
-
 1;
 __DATA__
 #
@@ -64,7 +58,6 @@ use Encode::Alias;
 use Encode::Guess;
 use Encode::JP::H2Z;
 use Scalar::Util; # to resolve from_to() vs. 'constant' issue.
-
 my %jname2e = (
 	       sjis        => 'shiftjis',
 	       euc         => 'euc-jp',
@@ -72,9 +65,7 @@ my %jname2e = (
 	       iso_2022_jp => 'iso-2022-jp',
 	       ucs2        => 'UTF-16BE',
 	      );
-
 my %ename2j = reverse %jname2e;
-
 our $FALLBACK = Encode::LEAVE_SRC;
 sub FB_PERLQQ()   { Encode::FB_PERLQQ() };
 sub FB_XMLCREF()  { Encode::FB_XMLCREF() };
@@ -83,18 +74,13 @@ sub FB_HTMLCREF() { Encode::FB_HTMLCREF() };
 #    no strict 'refs';
 #    *{$fb} = \&{"Encode::$fb"};
 #}
-
-
 #######################################
 # Functions
 #######################################
-
 sub jcode { return __PACKAGE__->new(@_); }
-
 #
 # Used to be in Jcode::Constants
 #
-
 my %_0208 = (
 	     1978 => '\e\$\@',
 	     1983 => '\e\$B',
@@ -108,13 +94,12 @@ my %RE = (
        EUC_KANA  => '\x8e[\xa1-\xdf]',
        JIS_0208  =>  "$_0208{1978}|$_0208{1983}|$_0208{1990}",
        JIS_0212  => "\e" . '\$\(D',
-       JIS_ASC   => "\e" . '\([BJ]',     
+       JIS_ASC   => "\e" . '\([BJ]',
        JIS_KANA  => "\e" . '\(I',
        SJIS_C    => '[\x81-\x9f\xe0-\xfc][\x40-\x7e\x80-\xfc]',
        SJIS_KANA => '[\xa1-\xdf]',
        UTF8      => '[\xc0-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf][\x80-\xbf]'
       );
-
 sub _max {
     my $result = shift;
     for my $n (@_){
@@ -122,7 +107,6 @@ sub _max {
     }
     return $result;
 }
-
 sub getcode {
     my $arg = shift;
     my $r_str = ref $arg ? $arg : \$arg;
@@ -132,7 +116,7 @@ sub getcode {
 	my $ucs2;
 	$ucs2 += length($1)
 	    while $$r_str =~ /(\x00$RE{ASCII})+/go;
-	if ($ucs2){      # smells like raw unicode 
+	if ($ucs2){      # smells like raw unicode
 	    ($code, $nmatch) = ('ucs2', $ucs2);
 	}else{
 	    ($code, $nmatch) = ('binary', 0);
@@ -141,47 +125,41 @@ sub getcode {
     elsif ($$r_str !~ /[\e\x80-\xff]/o) {
 	($code, $nmatch) = ('ascii', 1);
     }
-    elsif ($$r_str =~ 
+    elsif ($$r_str =~
 	   m[
 	     $RE{JIS_0208}|$RE{JIS_0212}|$RE{JIS_ASC}|$RE{JIS_KANA}
 	   ]ox)
     {
 	($code, $nmatch) = ('jis', 1);
-    } 
+    }
     else { # should be euc|sjis|utf8
-
-	$sjis += length($1) 
+	$sjis += length($1)
 	    while $$r_str =~ /((?:$RE{SJIS_C})+)/go;
-	$euc  += length($1) 
+	$euc  += length($1)
 	    while $$r_str =~ /((?:$RE{EUC_C}|$RE{EUC_KANA}|$RE{EUC_0212})+)/go;
-	$utf8 += length($1) 
+	$utf8 += length($1)
 	    while $$r_str =~ /((?:$RE{UTF8})+)/go;
-
 	$nmatch = _max($utf8, $sjis, $euc);
 	carp ">DEBUG:sjis = $sjis, euc = $euc, utf8 = $utf8" if $DEBUG >= 3;
-	$code = 
+	$code =
 	    ($euc > $sjis and $euc > $utf8) ? 'euc' :
 		($sjis > $euc and $sjis > $utf8) ? 'sjis' :
 		    ($utf8 > $euc and $utf8 > $sjis) ? 'utf8' : undef;
     }
     return wantarray ? ($code, $nmatch) : $code;
 }
-
 sub convert{
     my $r_str = (ref $_[0]) ? $_[0] : \$_[0];
     my (undef,$ocode,$icode,$opt) = @_;
     Encode::is_utf8($$r_str) and utf8::encode($$r_str);
     defined $icode or $icode = getcode($r_str) or return;
     $icode eq 'binary' and return $$r_str;
-
     $jname2e{$icode} and $icode = $jname2e{$icode};
     $jname2e{$ocode} and $ocode = $jname2e{$ocode};
-
     if ($opt){
-	return $opt eq 'z' 
+	return $opt eq 'z'
 	    ? jcode($r_str, $icode)->h2z->$ocode
 		: jcode($r_str, $icode)->z2h->$ocode ;
-	    
     }else{
 	if (Scalar::Util::readonly($$r_str)){
 	    my $tmp = $$r_str;
@@ -193,11 +171,9 @@ sub convert{
 	}
     }
 }
-
 #######################################
 # Constructors
 #######################################
-
 sub new{
     my $class = shift;
     my $self  = {};
@@ -205,7 +181,6 @@ sub new{
     defined $_[0] or $_[0] = '';
     $self->set(@_);
 }
-
 sub set{
     my $self  = shift;
     my $str   = $_[0];
@@ -223,7 +198,6 @@ sub set{
     $self->{fallback} = $FALLBACK;
     $self;
 }
-
 sub append{
     my $self  = shift;
     my $str   = $_[0];
@@ -240,50 +214,40 @@ sub append{
     $self->{method} = 'internal';
     $self;
 }
-
 #######################################
 # Accessors
 #######################################
-
 for my $method (qw/r_str icode nmatch error_m error_r error_tr/){
     no strict 'refs';
     *{$method} = sub { $_[0]->{$method} };
 }
-
 sub fallback{
     my $self = shift;
     @_ or return $self->{fallback};
     $self->{fallback} =  $_[0]|Encode::LEAVE_SRC;
     return $self;
 }
-
 #######################################
 # Converters
 #######################################
-
 sub utf8 { encode_utf8( ${$_[0]->{r_str}} ) }
-
 #
 #  Those supported in Jcode 0.x are defined as default
 #
-
 for my $enc (keys %jname2e){
     no strict 'refs';
     my $name = $jname2e{$enc} || $enc;
     my $e = find_encoding($name) or croak "$enc not supported";
     *{$enc} = sub {
 	my $r_str = $_[0]->{r_str};
-	Encode::is_utf8($$r_str) ? 
+	Encode::is_utf8($$r_str) ?
 		$e->encode($$r_str, $_[0]->{fallback}) : $$r_str;
     };
 }
-
 #
 # The rest is defined on the fly
 #
-
 sub DESTROY {};
-
 sub AUTOLOAD {
     our $AUTOLOAD;
     my $self = shift;
@@ -292,7 +256,7 @@ sub AUTOLOAD {
     my $myname = $AUTOLOAD;
     $myname =~ s/.*:://;  # strip fully-qualified portion
     $myname eq 'DESTROY' and return;
-    my $e = find_encoding($myname) 
+    my $e = find_encoding($myname)
 	or confess __PACKAGE__, ": unknown encoding: $myname";
     $DEBUG and warn ref($self), "->$myname defined";
     no strict 'refs';
@@ -304,15 +268,12 @@ sub AUTOLOAD {
 	  };
     $myname->($self);
 }
-
 #######################################
 # Length, Translation and Fold
 #######################################
-
 sub jlength{
     length(  ${$_[0]->{r_str}} );
 }
-
 sub tr{
     my $self = shift;
     my $str  = ${$self->{r_str}};
@@ -331,35 +292,29 @@ sub tr{
     $self->{nmatch} = $match || 0;
     return $self;
 }
-
 sub jfold{
     my $self = shift;
     my $r_str  = $self->{r_str};
     my $bpl = shift || 72;
     my $nl  = shift || "\n";
     my $kin = shift;
-
     my @lines = ();
     my %kinsoku = ();
     my ($len, $i) = (0,0);
-
     if( defined $kin and (ref $kin) eq 'ARRAY' ){
-	%kinsoku = map { my $k = Encode::is_utf8($_) ? 
+	%kinsoku = map { my $k = Encode::is_utf8($_) ?
 			     $_ : decode('euc-jp' =>  $_);
 			 ($k, 1) } @$kin;
     }
-
     while($$r_str =~ m/(.)/sg){
 	my $char = $1;
-
-
 	my $ord = ord($char);
 	my $clen =  $ord < 128 ? 1
-	    : $ord <  0xff61 ? 2 
-	    : $ord <= 0xff9f ? 1 : 2; 
+	    : $ord <  0xff61 ? 2
+	    : $ord <= 0xff9f ? 1 : 2;
 	if ($len + $clen > $bpl){
 	    unless($kinsoku{$char}){
-		$i++; 
+		$i++;
 		$len = 0;
 	    }
 	}
@@ -368,20 +323,16 @@ sub jfold{
     }
     defined($lines[$i]) or pop @lines;
     $$r_str = join($nl, @lines);
-
     $self->{r_str} = $r_str;
     my $e = find_encoding($self->{icode});
     @lines = map {
 	Encode::is_utf8($_) ? $e->encode($_, $self->{fallback}) : $_
     } @lines;
-
     return wantarray ? @lines : $self;
 }
-
 #######################################
 # Full and Half
 #######################################
-
 sub h2z{
     my $self = shift;
     my $euc  = $self->euc;
@@ -389,7 +340,6 @@ sub h2z{
     $self->set($euc => 'euc');
     $self;
 }
-
 sub z2h{
     my $self = shift;
     my $euc =  $self->euc;
@@ -397,17 +347,14 @@ sub z2h{
     $self->set($euc => 'euc');
     $self;
 }
-
 #######################################
 # MIME-Encoding
 #######################################
-
 sub mime_decode{
     my $self = shift;
     my $utf8  = Encode::decode('MIME-Header', $self->utf8);
     $self->set($utf8 =>'utf8');
 }
-
 sub mime_encode{
     my $self = shift;
     my $str = $self->euc;
@@ -419,12 +366,10 @@ sub mime_encode{
     not $trailing_crlf and $str =~ s/(\n|\r|\x0d\x0a)$//o;
     $str;
 }
-
 #
 # shamelessly stolen from
 # http://www.din.or.jp/~ohzaki/perl.htm#JP_Base64
 #
-
 sub _add_encoded_word {
     require MIME::Base64;
     my($str, $line, $lf, $bpl) = @_;
@@ -448,7 +393,7 @@ sub _add_encoded_word {
 	      MIME::Base64::encode_base64($iso_2022_jp, '')
 		      . '?=';
 	    if (length($encoded) + length($line) > $bpl) {
-		$target =~ 
+		$target =~
 		    s/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|$RE{ASCII})$//o;
 		$str = $1 . $str;
 	    } else {
@@ -459,7 +404,6 @@ sub _add_encoded_word {
     }
     return $result . $line;
 }
-
 sub _mime_unstructured_header {
     my ($oldheader, $lf, $bpl) = @_;
     my(@words, @wordstmp, $i);
@@ -496,13 +440,10 @@ sub _mime_unstructured_header {
     $header =~ s/\n? $/\n/;
     $header;
 }
-
 #######################################
 # Matching and Replacing
 #######################################
-
 no warnings 'uninitialized';
-
 sub m{
     use utf8;
     my $self    = shift;
@@ -510,10 +451,8 @@ sub m{
     my $pattern = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $opt     = shift || '' ;
     my @match;
-
     $pattern =~ s,\\,\\\\,og; $pattern =~ s,/,\\/,og;
     $opt     =~ s,[^a-z],,og;
-    
     eval qq{ \@match = (\$\$r_str =~ m/$pattern/$opt) };
     if ($@){
 	$self->{error_m} = $@;
@@ -522,7 +461,6 @@ sub m{
     # print @match, "\n";
     wantarray ?  map {encode('euc-jp' => $_)} @match : scalar @match;
 }
-
 sub s{
     use utf8;
     my $self    = shift;
@@ -530,20 +468,14 @@ sub s{
     my $pattern = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $replace = Encode::is_utf8($_[0]) ? shift : decode("euc-jp" => shift);
     my $opt     = shift;
-
     $pattern =~ s,\\,\\\\,og; $pattern =~ s,/,\\/,og;
     $replace =~ s,\\,\\\\,og; $replace =~ s,/,\\/,og;
     $opt     =~ s,[^a-z],,og;
-
     eval qq{ (\$\$r_str =~ s/$pattern/$replace/$opt) };
     if ($@){
 	$self->{error_s} = $@;
     }
     $self;
 }
-
 1;
 __END__
-
-
-

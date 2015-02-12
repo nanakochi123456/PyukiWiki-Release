@@ -1,11 +1,9 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: resource.en.txt,v 1.98 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: resource.en.txt,v 1.348 2011/12/31 13:06:12 papu Exp $
 #
-
 resource_loaded=1
-
 top=Top
 reload=Reload
 help=Help
@@ -16,6 +14,7 @@ editbutton=Edit
 admineditbutton=Freeze
 difftitle=Diff
 diffbutton=Diff
+backupbutton=Backup
 renamebutton=Rename
 rssbutton=RSS
 attachbutton=Attach
@@ -23,28 +22,20 @@ recentbutton=History
 recentchanges=Update History
 settingbutton=Setting
 rulepage=FormatRule
-
 closebutton=Close
 backbutton=Back
-
 prevbutton=Prev
 nextbutton=Next
-
 searchthispage=Search This Page
-
 profile_page=Profile
 comment_page=Comments
-
 editthispage=Editting This Page.
 admineditthispage=Editting This Page.(Need Password)
-
 continuereading=Continue Reading:
-
 cantchange=Can not modify this page.
 deleted=deleted.
 notfound=Not Found.
 invalidname=Invalid Name.
-
 passworderror=Invalid Password
 changepasswordbutton=Password change
 oldpassword=Old Password
@@ -53,32 +44,22 @@ newpassword2=New Password(Reinput)
 passwordmismatcherror=Password Mismatch.
 passwordchanged=Password changed.
 changepassword=Password change
-
 adminbutton=Admin
-
 # for admin password input
 admin_passwd_prompt_title=Enter administrator password.
 admin_passwd_prompt_msg=Password:
 admin_passwd_prompt_error=Invalid Password
 admin_passwd_button=Send
-
-
 # for feauture, authble wiki
 auth_readfobidden=Deny for read this page
-
 # write
 auth_writefobidden=Deny for write this page
-
 # search.inc.pl
 searchpage=Search Word
 searchbutton=Search
 searchand=AND
 searchor=OR
-
 # sub date
 date_ampm_en=am,pm
 date_weekday_en=Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday
-date_weekdaylength_en=3
-
-# diff.inc.pl
-diff_disable_email=(E-Mail Address)
+date_weekday_en_short=Sun,Mon,Tue,Wed,Thu,Fri,Sat

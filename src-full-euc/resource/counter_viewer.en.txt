@@ -1,13 +1,10 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: counter_viewer.en.txt,v 1.48 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: counter_viewer.en.txt,v 1.298 2011/12/31 13:06:11 papu Exp $
 #
-
 # counter_viewer.inc.pl
-
 counter_viewer_plugin_title=View counter
-
 counter_viewer_plugin_list=Counter List
 counter_viewer_plugin_sort_reverse=Reverse
 counter_viewer_plugin_sort_name=Sort by Name
@@ -20,7 +17,6 @@ counter_viewer_plugin_today=Today
 counter_viewer_plugin_yesterday=Yesterday
 counter_viewer_plugin_version=Version
 counter_viewer_plugin_btn_details=Details
-
 counter_viewer_plugin_details_title='s details
 counter_viewer_plugin_lastdate=Last access date
 counter_viewer_plugin_lastip=Last access IP
@@ -28,3 +24,10 @@ counter_viewer_plugin_total=Total
 counter_viewer_plugin_date=Date
 counter_viewer_plugin_count=Counter
 counter_viewer_plugin_btn_back=Back
+counter_viewer_plugin_delete=Delete counter of $1
+counter_viewer_plugin_delete_confirm=Really delete the counter of page $1 ?
+counter_viewer_plugin_delete_confirm_ok=Delete
+counter_viewer_plugin_delete_confirm_cancel=Cancel
+counter_viewer_plugin_deleted=Deleted counter of $1
+counter_viewer_plugin_return=Return to counter list
+counter_viewer_plugin_delete_title=Delete counter of $1

@@ -1,15 +1,15 @@
 ######################################################################
 # slashpage.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: slashpage.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: slashpage.inc.pl,v 1.339 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-rc6 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -26,13 +26,13 @@ sub plugin_slashpage_init {
 	&exec_explugin_sub("lang");
 	@::PLUGIN_SLASHPAGE_STACK=();
 
-	# / を含むページのみ配列に格納する				# debug
+	# / を含むページのみ配列に格納する				# debug # comment
 	foreach my $pages (keys %::database) {
 		push(@::PLUGIN_SLASHPAGE_STACK,$pages) if($pages=~/\//);
 	}
 	@::PLUGIN_SLASHPAGE_STACK=sort @::PLUGIN_SLASHPAGE_STACK;
 
-	# InterWikiからのを検索してみる					# debug
+	# InterWikiからのを検索してみる					# debug # comment
 	my $req=$ENV{QUERY_STRING};
 	if($req ne '' && $::form{mypage} eq $::FrontPage && ($::form{cmd} eq '' || $::form{cmd} eq 'read')) {
 		if (&is_exist_page($req)) {
@@ -78,7 +78,7 @@ sub make_link_wikipage {
 		}
 	}
 	if (&is_editable($chunk)) {
-		# 2005.10.27 pochi: 自動リンク機能を拡張 {
+		# 2005.10.27 pochi: 自動リンク機能を拡張		# comment
 		if ($::editchar eq 'this') {
 			return qq(<a title="$::resource{editthispage}" class="editlink" href="$::script?cmd=edit&amp;mypage=$cookedchunk">$escapedchunk</a>);
 		} elsif ($::editchar) {
@@ -99,6 +99,7 @@ sub plugin_slashpage_setup {
 	'use_opt'=>'',
 	'use_cmd'=>'',
 	'override'=>'make_link_wikipage',
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/slashpage/'
 	);
 __END__
 
@@ -109,7 +110,6 @@ slashpage.inc.pl - PyukiWiki Plugin
 =head1 SYNOPSIS
 
 Link of the page name under a class easily
-
 
 =head1 DESCRIPTION
 
@@ -134,11 +134,11 @@ make_link_wikiname was overrided.
 
 =item PyukiWiki/Plugin/ExPlugin/slashpage
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/slashpage/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/slashpage/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/slashpage.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/slashpage.inc.pl?view=log>
 
 =back
 
@@ -152,15 +152,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2010 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

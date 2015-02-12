@@ -1,10 +1,16 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id$
+# $Id: build.pl,v 1.371 2011/12/31 13:06:09 papu Exp $
 
 $DIR=$ARGV[0];
 $TYPE=$ARGV[1];
 $LF=$ARGV[2];
+$CHARSET=$ARGV[3];
+$ALLFLG=$ARGV[4];
+
+use Jcode;
+
+$CHARSET="euc" if($CHARSET eq '');
 
 require 'build/text.pl';
 
@@ -13,15 +19,23 @@ $releasepatch="./releasepatch";
 $binary_files='(\.(jpg|png|gif|dat|key|zip)$)|(^unicode\.pl|favicon\.ico$)';
 
 $cvs_ignore='^3A|\.sum$|\.sign$|^cold|^line|^sfdev|74657374|setup.ini.cgi|\.bak$|\.lk$';
-$common_ignore='\.sum$|\.sign$|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v.cgi|^playvideo|setup.ini.cgi|\.bak$|\.lk$';
-$release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$';
-$update_ignore=$common_ignore . '|^debug\.inc\.pl|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
-$compact_ignore='|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$';
+$all_ignore='\.sum$|\.sign$|setup.ini.cgi|\.bak$|\.lk$|^kanato';
+$common_ignore=$all_ignore . '|^qrcode|^cold|^line|^Google|^sitemaps\.|^xrea|^unicode\.pl|^3A|74657374|^counter2|^popular2|^bookmark|^clipcopy|^exdate|^ad\.|^ad\_edit|^v.cgi|^playvideo|setup.ini.cgi$';
+$release_ignore=$common_ignore . '|^debug|\.pod$|magic_compact\.txt|\.zip|\.src$|\.inc\.js$|\.inc.\.css';
+$update_ignore=$common_ignore . '|\.pod$|magic_compact\.txt|\.zip$|\.src$|htaccess|htpasswd';
+$compact_ignore='^aguse|^google\_analytics|^linktrack|^ck.inc.pl|^ipv6check|^backup|^pcomment|^back|^hr|^navi|^setlinebreak|^yetlist|^slashpage|^qrcode|^lang\.|^topicpath|^setting|^debug|^Jcode|^Jcode\.pm|magic\.txt|\.en\.(js|css|cgi|txt)|^bugtrack|^(fr|no).*\.inc\.pl|^servererror|^server|^sitemap|^showrss|^perlpod|^Pod|^versionlist|^listfrozen|^admin\.inc\.pl|^urlhack|^punyurl|^opml|^HTTP|^Lite\.pm|^OPML|^atom|^ATOM|^search\_fuzzy|^Search\.pm$|^login|^twitter|\.en\.txt$|GZIP|compressbackup|^logs|^smedia|^GZIP';
 $releasec_ignore=$common_ignore . $compact_ignore . '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip|\.src$';
 $updatec_ignore=$common_ignore . $compact_ignore. '|^debug\.inc\.pl|\.pod$|magic\.txt|\.zip$|\.src$|htaccess|htpasswd';
 
-$devel_ignore=$common_ignore . '|\.zip$';
+if($ALLFLG eq 'all') {
+	$devel_ignore=$all_ignore . '|\.zip$';
+} else {
+	$devel_ignore=$common_ignore . '|\.zip$';
+}
 $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
+
+$ignore_crlfcut='README.txt|DEVEL.txt|COPYRIGHT.txt|COPYRIGHT.ja.txt|\.htaccess|.htpasswd|pyukiwiki.ini.cgi|wiki\/(.+)?\.txt$';
+$ignore_codecheck="build.pl";
 
 @release_dirs=(
 	"attach:nodata:0777:0644",
@@ -39,6 +53,7 @@ $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 	"lib/HTTP::0755:0644",
 	"lib/Jcode::0755:0644",
 	"lib/Jcode/Unicode::0755:0644",
+	"lib/AWS::0755:0644",
 	"lib/Nana::0755:0644",
 	"lib/Time::0755:0644",
 	"lib/Yuki::0755:0644",
@@ -88,6 +103,7 @@ $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 	"lib/HTTP::0755:0644",
 	"lib/Jcode::0755:0644",
 	"lib/Jcode/Unicode::0755:0644",
+	"lib/AWS::0755:0644",
 	"lib/Nana::0755:0644",
 	"lib/Time::0755:0644",
 	"lib/Yuki::0755:0644",
@@ -139,6 +155,7 @@ $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 	"lib/HTTP::0755:0644",
 	"lib/Jcode::0755:0644",
 	"lib/Jcode/Unicode::0755:0644",
+	"lib/AWS::0755:0644",
 	"lib/Nana::0755:0644",
 	"lib/Time::0755:0644",
 	"lib/Yuki::0755:0644",
@@ -188,6 +205,7 @@ $updated_ignore=$common_ignore . '|\.zip$' . '|htaccess|htpasswd';
 	"lib/HTTP::0755:0644",
 	"lib/Jcode::0755:0644",
 	"lib/Jcode/Unicode::0755:0644",
+	"lib/AWS::0755:0644",
 	"lib/Nana::0755:0644",
 	"lib/Time::0755:0644",
 	"lib/Yuki::0755:0644",
@@ -380,6 +398,12 @@ foreach(<R>) {
 }
 close(R);
 
+foreach my $i (0x00 .. 0xFF) {
+	$::_urlescape{chr($i)} = sprintf('%%%02x', $i);
+	$::_dbmname_encode{chr($i)} = sprintf('%02X', $i);
+	$::_dbmname_decode{sprintf('%02X', $i)} = chr($i);
+}
+
 &copyfile($DIR,$LF);
 
 sub copyfile {
@@ -429,34 +453,89 @@ sub shell {
 sub copyascii {
 	my($chmod,$old,$new,$filemode)=@_;
 	if($touchonly eq 1) {
-		&shell("touch $old");
+		&shell("to	uch $old");
 		return;
 	}
+
+	if($new=~/wiki\// && $new=~/\.txt$/ && $CHARSET eq 'utf8') {
+		if($new=~/(.*)\/(.+)?\.txt$/) {
+			$path=$1;
+			$dbm=&undbmname($2);
+			&Jcode::convert($dbm, "utf8");
+			$dbm=&dbmname($dbm);
+			$new="$path/$dbm.txt";
+		}
+	}
+
 	return if((stat($old))[9]<(stat($new))[9] && $checktimestamp eq 1);
 
 	print "copy $old $new($chmod ascii)\n";
-	&textinit($old,$::version,$filemode,$TYPE);
+	&textinit($old,$::version,$filemode,$TYPE,$CHARSET);
 	if(-r "$releasepatch/$old") {
-		open(R,"$releasepatch/$old");
+		$oldfile="$releasepatch/$old";
 	} else {
-		open(R,"$old");
+		$oldfile="$old";
 	}
+
+	if($CHARSET eq 'utf8') {
+		open(R,"$oldfile");
+		$buf="";
+		foreach(<R>) {
+			$buf.=$_;
+		}
+		close(R);
+		open(W,">utf8.tmp");
+		&Jcode::convert($buf, "utf8");
+		print W $buf;
+		close(W);
+		$oldfile="utf8.tmp";
+	}
+	open(R,"$oldfile");
 	open(W,">$new");
 	my $cut=0;
 	foreach(<R>) {
 		chomp;
-
+		if($old!~/$ignore_codecheck/) {
+			if(/\=encoding euc-jp/ && $CHARSET eq 'utf8') {
+				$_ = '=encoding utf-8';
+			}
+			if(/\#euc/) {
+				next if($CHARSET ne 'euc');
+				s/([\s\t])?#euc//g;
+			}
+			if(/\#utf8/) {
+				next if($CHARSET ne 'utf8');
+				s/([\s\t])?#utf8//g;
+			}
+		}
 		# for sorceforge url
 		s/L\<\@\@CVSURL\@\@(.*)\>/L\<\@\@CVSURL\@\@$1\?view\=log\>/g;
 
-		# for compact source (release v0.2.0 ?)
-		if($TYPE=~/compact/) {
-			next if(/#nocompact$/);
-		} else {
-			next if(/#compact$/);
+		# for yuicompress direct source
+		if(/\@\@yuicompressor\_(.+)\=\"(.+)\"\@\@/) {
+			my $mode=$1;
+			my $compressfile=$2;
+			&shell("perl ./build/compressfile.pl $mode /tmp/compressfile $compressfile nohead");
+			open(YUI,"/tmp/compressfile") || die;
+			my $yui="";
+			foreach(<YUI>) {
+				$yui.=$_;
+			}
+			close(YUI);
+			unlink("/tmp/compressfile");
+			s/\@\@yuicompressor\_(.+)\=\"(.+)\"\@\@/$yui/;
 		}
-		s/#nocompact$//g;
-		s/#compact$//g;
+
+		# for compact source (release v0.2.0 ?)
+		if($TYPE=~/release/ || $TYPE=~/compact/) {
+			if($TYPE=~/compact/) {
+				next if(/#nocompact$/);
+			} else {
+				next if(/#compact$/);
+			}
+			s/#nocompact$//g;
+			s/#compact$//g;
+		}
 		$cut=1 if(/^\=(head|lang)/);
 		if(/^\=cut/) {
 			$cut=0;
@@ -465,11 +544,26 @@ sub copyascii {
 		next if($cut eq 1 && $podcut eq 1);
 		next if(/nanami\=true/);
 		next if(/\#\s{0,3}nanami/);
-		next if(/^#\t/ && $commentcut eq 1 && $old!~/\.ini/);
+#		next if(/^#\t/ && $commentcut eq 1 && $old!~/\.ini/);
+#		next if(/^#\t/ && $commentcut eq 1 && $old!~/\.ini/);
 
-		if(!/\#\s{0,3}debug/ || $debug eq 1) {
-			s/\t+#.*$//g if($commentcut eq 1 && $old!~/\.ini/);
+		if(!/\#\s{0,3}debug/ || /\#([\s\t]+)?comment/ || $debug eq 1) {
 			$ii=0;
+			if($commentcut eq 1) {
+				#s/([\s\t]+)?\#([\s\t]+)?#([\s\t]+)?comment//g;
+				if(/^\#.*comment/) {
+				#if(/^\#/ && /\#([\s\t]+)?comment$/) {
+					$_="";
+				}
+				if(/\#([\s\t]+)?comment$/) {
+					s/([\s\t]+)?\#.*//g;
+					s/^\#.*//g;
+				}
+				s/\t+#.*$//g if($commentcut eq 1 && $old!~/\.ini/);
+			} else {
+#				s/([\s\t]+)?\#([\s\t]+)?comment$//g;
+			}
+			s/([\s\t]+)?$//g;
 			$s=$_;
 			while($s=~/\@\@(.+?)\@\@/) {
 				$rep=$1;
@@ -483,11 +577,13 @@ sub copyascii {
 			}
 			if(!($file=~/\.txt$/ && $s=~/test/) || $debug eq 1) {
 				chomp $s;
-				$s=&email($s);
-				if($filemode eq 'crlf') {
-					print W "$s\r\n";
-				} else {
-					print W "$s\n";
+				if($s ne '' || $commentcut eq 0 || $old=~/$ignore_crlfcut/) {
+					$s=&email($s);
+					if($filemode eq 'crlf') {
+						print W "$s\r\n";
+					} else {
+						print W "$s\n";
+					}
 				}
 			}
 		}
@@ -495,6 +591,7 @@ sub copyascii {
 	close(W);
 	close(R);
 	chmod(oct($chmod),"$new");
+	unlink("utf8.tmp");
 }
 
 sub copybin {
@@ -532,7 +629,7 @@ $CRlist      = '\n\015';
 $qtext       = qq/[^$esc$NonASCII$CRlist\"]/;
 $dtext       = qq/[^$esc$NonASCII$CRlist$OpenBR$CloseBR]/;
 $quoted_pair = qq<${esc}[^$NonASCII]>;
-$atom_char   = qq/[^($space)<>\@,;:\".$esc$OpenBR$CloseBR$ctrl$NonASCII]/;
+$atom_char   = qq/[^($space)<>\@,;:\".\'$esc$OpenBR$CloseBR$ctrl$NonASCII]/;
 $atom        = qq<$atom_char+(?!$atom_char)>;
 $quoted_str  = qq<\"$qtext*(?:$quoted_pair$qtext*)*\">;
 $word        = qq<(?:$atom|$quoted_str)>;
@@ -555,3 +652,18 @@ sub emailsub {
 	$ss=~s/\./ \(dot\) /g;
 	return "<$ss>";
 }
+
+sub dbmname {
+	my ($name) = @_;
+#	$name =~ s/(.)/uc unpack('H2', $1)/eg;
+	$name =~ s/(.)/$::_dbmname_encode{$1}/g;
+	return $name;
+}
+
+sub undbmname {
+	my ($name) = @_;
+#	$name =~ s/(.)/uc unpack('H2', $1)/eg;
+	$name =~ s/([0-9A-F][0-9A-F])/$::_dbmname_decode{$1}/g;
+	return $name;
+}
+

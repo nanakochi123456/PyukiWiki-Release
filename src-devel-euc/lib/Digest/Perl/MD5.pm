@@ -1,11 +1,11 @@
 #! /usr/bin/false
 #
 # Id: MD5.pm,v 1.23 2004/08/27 20:28:25 lackas Exp
-# $Id: MD5.pm,v 1.47 2011/05/04 07:26:50 papu Exp $
+# $Id: MD5.pm,v 1.296 2011/12/31 13:06:10 papu Exp $
 #
 # "Digest::Perl::MD5" version 1.8 $$
 
-# original MD5: Neil Winton <N.Winton (at) axion (dot) bt (dot) co (dot) uk>
+# original MD5: Neil Winton <N (dot) Winton (at) axion (dot) bt (dot) co (dot) uk>
 # Digest::MD5: Gisle Aas <gisle (at) aas (dot) no>
 # This release: Christian Lackas <delta (at) lackas (dot) net>.
 #
@@ -32,7 +32,7 @@ sub MAX() { 0xFFFFFFFF }
 
 # padd a message to a multiple of 64
 sub padding {
-    my $l = length (my $msg = shift() . chr(128));    
+    my $l = length (my $msg = shift() . chr(128));
     $msg .= "\0" x (($l%64<=56?56:120)-$l%64);
     $l = ($l-1)*8;
     $msg .= pack 'VV', $l & MAX , ($l >> 16 >> 16);
@@ -82,18 +82,18 @@ sub gen_code {
 
 	$c = "$1=(((\$r=$2)<<$3)|((\$r>>$su)&$sh))+$4";
 
-	#my $rotate = "(($2 << $3) || (($2 >> (32 - $3)) & (1 << $2) - 1)))"; 
+	#my $rotate = "(($2 << $3) || (($2 >> (32 - $3)) & (1 << $2) - 1)))";
 	# $c = "\$r = $2;
 	# $1 = ((\$r << $3) | ((\$r >> (32 - $3))  & ((1 << $3) - 1))) + $4";
 	$insert .= "\t$c\n";
   }
   close DATA;
-  
+
   my $dump = '
   sub round {
 	my ($a,$b,$c,$d) = @_[0 .. 3];
 	my $r;' . $insert . '
-	$_[0]+$a' . $MSK . ', $_[1]+$b ' . $MSK . 
+	$_[0]+$a' . $MSK . ', $_[1]+$b ' . $MSK .
         ', $_[2]+$c' . $MSK . ', $_[3]+$d' . $MSK . ';
   }';
   eval $dump;
@@ -203,7 +203,7 @@ sub b64digest {
 
 sub clone {
 	my $self = shift;
-	my $clone = { 
+	my $clone = {
 		_state => [@{$self->{_state}}],
 		_length => $self->{_length},
 		_data => $self->{_data}
@@ -218,12 +218,12 @@ sub md5 {
 	my ($a,$b,$c,$d) = (A,B,C,D);
 	my $i;
 	for $i (0 .. (length $message)/64-1) {
-		my @X = unpack 'V16', substr $message,$i*64,64;	
+		my @X = unpack 'V16', substr $message,$i*64,64;
 		($a,$b,$c,$d) = round($a,$b,$c,$d,@X);
 	}
 	pack 'V4',$a,$b,$c,$d;
 }
-sub md5_hex { _encode_hex &md5 } 
+sub md5_hex { _encode_hex &md5 }
 sub md5_base64 { _encode_base64 &md5 }
 
 
@@ -265,7 +265,7 @@ educational purposes
  $hash = md5 $data;
  $hash = md5_hex $data;
  $hash = md5_base64 $data;
-    
+
 
  # OO style
  use Digest::MD5;
@@ -292,7 +292,7 @@ easily exchange them, e.g.
 	  if ($@) { # ups, no Digest::MD5
 	    require Digest::Perl::MD5;
 	    import Digest::Perl::MD5 'md5_hex'
-	  }		
+	  }
 	}
 
 If the C<Digest::MD5> module is available it is used and if not you take
@@ -320,12 +320,12 @@ provided that the implementation is working correctly.  The same
 checksum can also be calculated in OO style:
 
     use Digest::MD5;
-    
+
     $md5 = Digest::MD5->new;
     $md5->add('foo', 'bar');
     $md5->add('baz');
     $digest = $md5->hexdigest;
-    
+
     print "Digest is $digest\n";
 
 The digest methods are destructive. That means you can only call them
@@ -410,14 +410,14 @@ licenses.
 =head1 AUTHORS
 
 The original MD5 interface was written by Neil Winton
-(<N.Winton (at) axion.bt.co.uk>).
+(<N (dot) Winton (at) axion (dot) bt (dot) co (dot) uk>).
 
-C<Digest::MD5> was made by Gisle Aas <gisle (at) aas.no> (I took his Interface
+C<Digest::MD5> was made by Gisle Aas <gisle (at) aas (dot) no> (I took his Interface
 and part of the documentation).
 
 Thanks to Guido Flohr for his 'use integer'-hint.
 
-This release was made by Christian Lackas <delta (at) lackas.net>.
+This release was made by Christian Lackas <delta (at) lackas (dot) net>.
 
 =cut
 
@@ -438,7 +438,7 @@ FF,$b,$c,$d,$a,$_[15],22,0x895cd7be,/* 12 */
 FF,$a,$b,$c,$d,$_[16],7,0x6b901122,/* 13 */
 FF,$d,$a,$b,$c,$_[17],12,0xfd987193,/* 14 */
 FF,$c,$d,$a,$b,$_[18],17,0xa679438e,/* 15 */
-FF,$b,$c,$d,$a,$_[19],22,0x49b40821,/* 16 */ 
+FF,$b,$c,$d,$a,$_[19],22,0x49b40821,/* 16 */
 GG,$a,$b,$c,$d,$_[5],5,0xf61e2562,/* 17 */
 GG,$d,$a,$b,$c,$_[10],9,0xc040b340,/* 18 */
 GG,$c,$d,$a,$b,$_[15],14,0x265e5a51,/* 19 */

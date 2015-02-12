@@ -1,38 +1,35 @@
 ######################################################################
 # link.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: link.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: link.pl,v 1.341 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Hiroshi Yuki http://www.hyuki.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 use strict;
-
 package link;
-
 sub plugin_inline {
 	my ($escaped_argument) = @_;
 	my ($caption, $url,$target) = split(/,/, $escaped_argument);
 	if ($url =~ /^(mailto|http|https|ftp):/) {
 		return &make_link_url("link",$url,$caption,@{[$::use_autoimg && $caption=~/\.$::image_extention$/o ? $caption : ""]},$target);
+#		return qq(<a href="$url">$caption</a>);
 	} elsif($url=~/(?:[Mm][Aa][Ii][Ll][Tt][Oo]:($::ismail))|($::ismail)/) {
 		return &make_link_mail($url,@{[$::use_autoimg && $caption=~/\.$::image_extention$/o ? &make_link_image($caption,"Mail") : $caption]});
 	} else {
 		return qq(&link($escaped_argument));
 	}
 }
-
 sub plugin_usage {
 	return {
 		name => 'link',
@@ -43,7 +40,6 @@ sub plugin_usage {
 		example => "Please visit &link(Hiroshi Yuki,http://www.hyuki.com/).",
 	};
 }
-
 sub make_link_url {
 	my $funcp = $::functions{"make_link_url"};
 	return &$funcp(@_);
@@ -56,7 +52,5 @@ sub make_link_image {
 	my $funcp = $::functions{"make_link_image"};
 	return &$funcp(@_);
 }
-
 1;
 __END__
-

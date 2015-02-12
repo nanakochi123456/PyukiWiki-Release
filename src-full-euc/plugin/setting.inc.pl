@@ -1,15 +1,15 @@
 ######################################################################
 # setting.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: setting.inc.pl,v 1.65 2011/05/04 07:26:50 papu Exp $
+# $Id: setting.inc.pl,v 1.315 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p5 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -20,17 +20,16 @@
 # 設定はリソースファイルにします。
 # ExPlugin setting.inc.cgi、$::write_location=1を有効にする必要があります
 ######################################################################
-
 sub plugin_setting_action {
 	my $body;
-# bug ? 0.1.8 fix
-# 0.1.9 fix
 	return if($::useExPlugin eq 1 && $::_exec_plugined{setting} ne 2);
 	if($::form{submit} ne '') {
 		my @http_headers=();
 		push(@http_headers, "Status: 302");
 		if($::form{refer} ne '') {
 			push(@http_headers, "Location: $::basehref?@{[&encode($::form{refer})]}");
+		} elsif($::form{mypage} ne '') {
+			push(@http_headers, "Location: $::basehref?@{[&encode($::form{mypage})]}");
 		} else {
 			push(@http_headers, "Location: $::basehref?cmd=setting");
 		}
@@ -53,7 +52,7 @@ sub plugin_setting_action {
 					$flg=1 if($v eq $::form{"_" . $setting});
 				}
 				if($flg eq 0) {
-					$body.="err:$setting<br>";
+					$body.="err:$setting<br />";
 				} else {
 					$::setting_cookie{$setting}=$::form{"_" . $setting};
 				}
@@ -70,8 +69,9 @@ sub plugin_setting_action {
 	$body.=<<EOM;
 <h3>$::resource{plugin_setting_title}</h3>
 <form action="$::script" method="POST">
-<input type="hidden" name="cmd" value="setting">
-<input type="hidden" name="refer" value="$::form{refer}">
+<input type="hidden" name="cmd" value="setting" />
+<input type="hidden" name="refer" value="$::form{refer}" />
+<input type="hidden" name="mypage" value="$::form{mypage}" />
 <table>
 EOM
 	foreach my $setting(split(/,/,$::resource{plugin_setting_list})) {
@@ -113,12 +113,12 @@ EOM
 					$value=$_;
 				}
 				if($::setting_cookie{$setting} ne '') {
-					$checked=" checked" if($value eq $::setting_cookie{$setting});
+					$checked=qq( checked="checked") if($value eq $::setting_cookie{$setting});
 				} else {
-					$checked=" checked" if($value eq $default);
+					$checked=qq( checked="checked") if($value eq $default);
 				}
 				$opts.=<<EOM;
-<input type="radio" name="_$setting" value="$value"$checked>$name
+<input type="radio" name="_$setting" value="$value"$checked />$name
 EOM
 			}
 			$body.=<<EOM;
@@ -127,14 +127,11 @@ EOM
 		}
 	}
 	$body.=<<EOM;
-<tr><td>&nbsp;</td><td><input type="submit" name="submit" value="$::resource{plugin_setting_button}"></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" name="submit" value="$::resource{plugin_setting_button}" /></td></tr>
 </table>
 </form>
 EOM
-
 	return('msg'=>"\t$::resource{plugin_setting_title}", 'body'=>$body);
 }
-
 1;
 __END__
-

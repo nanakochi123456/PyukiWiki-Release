@@ -1,15 +1,15 @@
 ######################################################################
 # server.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: server.inc.pl,v 1.99 2011/05/04 07:26:50 papu Exp $
+# $Id: server.inc.pl,v 1.351 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@
 # よっては、タイムアウトでInternal Server Errorになる可能性があります。
 ######################################################################
 
-@info_envs=(
+my @info_envs=(
 	":server",
 	"OSNAME:1",
 	"SERVER_SOFTWARE:1",
@@ -75,20 +75,36 @@
 	"HTTP_COOKIE:1"
 );
 
-@bench_envs=(
+my @bench_envs=(
 	"MATHCOUNT:1",
 	"PROCCOUNT:1",
 	"FILECOUNT:1",
 	"REGCOUNT:1"
 );
 
-@perl_envs=(
+my @perl_envs=(
 	":perl",
 	"PERLPATH:1",
 	"PERLVER:1",
 	"64BITPERL:1",
 	":perlmodule"
 );
+
+my @linux_info=(
+	":cpuinfo",
+	"cpuinfo:/proc/cpuinfo",
+	":meminfo",
+	"meminfo:/proc/meminfo",
+	":loadavg",
+	"loadavg:/proc/loadavg",
+);
+
+my @freebsd_info=(
+	":dmesginfo",
+	"dmesginfo:/var/run/dmesg.boot",
+);
+
+my @envs;
 
 sub plugin_server_bench_gcd{
 	local($a,$b)=@_;
@@ -337,7 +353,7 @@ sub plugin_server_infomation {
 	$ENV{OSNAME}=&uname;
 	if($ENV{OSNAME} eq '') {
 		if($ENV{OS} ne '') {
-			$ENV{OSNAME}=$ENV{OS};	# for Windows NT
+			$ENV{OSNAME}=$ENV{OS};	# for Windows NT		# comment
 		} else {
 			$ENV{OSNAME}=$::resource{server_plugin_unknown};
 		}
@@ -430,7 +446,7 @@ sub plugin_server_perl_getmodule_sub2 {
 sub plugin_server_perl_getmodule_sub3 {
 	my($mod) = @_;
 	my $ver;
-	chdir("lib");
+	#chdir("lib");									# comment
 	if($^O =~ /MSWin32/i) {
 		$ver = `/usr/bin/perl -m$mod -e "print \$${module}::VERSION"`;
 	} else {
@@ -475,7 +491,105 @@ sub plugin_server_perl {
 	return  &plugin_server_perl_getmodule;
 }
 
+sub plugin_server_info {
+	my ($form)=@_;
+	my $buf;
+	my $body;
 
+	foreach (@envs) {
+		my($name,$flag)=split(/:/,$_);
+		if($name eq '') {
+			$body.=qq(** $flag $::resource{"server_plugin_" . $flag . "_title"} \n);
+		} else {
+			$buf=" $name:$flag\n";
+			if(open(R,$flag)) {
+				foreach(<R>) {
+					chomp;
+					$buf.=" $_\n";
+				}
+				close(R);
+				$body.=$buf;
+			} else {
+				$body=qq(''Can't open $flag'');
+			}
+		}
+	}
+	$body= $form .  &text_to_html($body);
+	return($::resource{server_plugin_server_title},$body);
+}
+
+sub linuxbutton {
+	my $path;
+	foreach(split(/:/,$ENV{PATH})) {
+		if(-x "$_/uname") {
+			$path="$_/uname";
+			last;
+		}
+	}
+	my $osname;
+	if(open(PIPE,"$path |")) {
+		foreach(<PIPE>) {
+			$osname.=$_;
+		}
+		close(PIPE);
+	}
+	$osname=~s/[\s|\r|\n]//g;
+	my $button;
+	if($osname=~/[Ll][Ii][Nn][Uu][Xx]/) {
+		$button=<<EOM;
+<input type="submit" name="linux" value="$::resource{server_plugin_linux_button}" />
+EOM
+	}
+	return $button;
+}
+
+sub freebsdbutton {
+	my $path;
+	foreach(split(/:/,$ENV{PATH})) {
+		if(-x "$_/uname") {
+			$path="$_/uname";
+			last;
+		}
+	}
+	my $osname;
+	if(open(PIPE,"$path |")) {
+		foreach(<PIPE>) {
+			$osname.=$_;
+		}
+		close(PIPE);
+	}
+	$osname=~s/[\s|\r|\n]//g;
+	my $button;
+	if($osname=~/[Ff][Rr][Ee][Ee][Bb][Ss][Dd]/) {
+		$button=<<EOM;
+<input type="submit" name="freebsd" value="$::resource{server_plugin_freebsd_button}" />
+EOM
+	}
+	return $button;
+}
+
+sub makeform {
+	my($mode,$authed)=@_;
+
+	$form=<<EOM;
+<h2>$::resource{"server_plugin_" . $mode . "_button"}</h2>
+<form action="$::script" method="POST">
+<input type="hidden" name="cmd" value="$::form{cmd}" />
+$authed
+<table><tr>
+<td>
+<input type="submit" name="infomation" value="$::resource{server_plugin_infomation_button}" />
+</td><td>
+<input type="submit" name="perlinfo" value="$::resource{server_plugin_perlinfo_button}" />
+</td><td>
+<input type="submit" name="benchmark" value="$::resource{server_plugin_benchmark_button}" />
+@{[&linuxbutton]}
+@{[&freebsdbutton]}
+</td></tr></table></form>
+EOM
+
+	return $form;
+}
 
 sub plugin_server_action {
 	my $body;
@@ -506,6 +620,7 @@ sub plugin_server_action {
 		}
 		$ENV{PATH}.=".";
 	}
+
 	if($::form{perlinfo} ne '') {
 		$mode="perlinfo";
 		$html=&plugin_server_perl;
@@ -514,27 +629,23 @@ sub plugin_server_action {
 		$mode="benchmark";
 		&plugin_server_bench;
 		@envs=@bench_envs;
+	} elsif($::form{linux} ne '') {
+		$mode="linux";
+		@envs=@linux_info;
+		my($m,$b)=&plugin_server_info(&makeform($mode,$auth{html}));
+		return('msg'=>"\t$m",'body'=>$b);
+	} elsif($::form{freebsd} ne '') {
+		$mode="freebsd";
+		@envs=@freebsd_info;
+		my($m,$b)=&plugin_server_info(&makeform($mode,$auth{html}));
+		return('msg'=>"\t$m",'body'=>$b);
 	} else {
 		$mode="infomation";
 		@envs=@info_envs;
 		&getremotehost;
 		&plugin_server_infomation
 	}
-
-	$form=<<EOM;
-<h2>$::resource{"server_plugin_" . $mode . "_button"}</h2>
-<form action="$::script" method="POST">
-<input type="hidden" name="cmd" value="$::form{cmd}">
-$auth{html}
-<table><tr>
-<td>
-<input type="submit" name="infomation" value="$::resource{server_plugin_infomation_button}">
-</td><td>
-<input type="submit" name="perlinfo" value="$::resource{server_plugin_perlinfo_button}">
-</td><td>
-<input type="submit" name="benchmark" value="$::resource{server_plugin_benchmark_button}">
-</td></tr></table></form>
-EOM
+	$form=&makeform($mode,$auth{html});
 
 	foreach (@envs) {
 		my($name,$flag)=split(/:/,$_);
@@ -556,7 +667,7 @@ sub disp {
 	return ($s ? $s : "-");
 }
 
-# 以前のバージョンのを改悪 (携帯関連の取り除き）
+# 以前のバージョンのを改悪 (携帯関連の取り除き）				# comment
 
 sub plugin_server_convert {
 	return &plugin_inline;
@@ -611,11 +722,11 @@ When it uses it as a block type plugin, the frozen password becomes a display on
 
 =item PyukiWiki/Plugin/Admin/server
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/server/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/server/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/server.inc.pl?view=log>
 
 =back
 
@@ -629,15 +740,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

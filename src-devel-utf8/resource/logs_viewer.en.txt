@@ -1,0 +1,108 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id$
+#
+
+# logs_viewer.inc.pl
+
+logs_viewer_plugin_title=View Access Log
+
+logs_viewer_plugin_list=View Access Log
+logs_viewer_plugin_sort_reverse=逆順
+logs_viewer_plugin_sort_name=名前で並び替え
+logs_viewer_plugin_sort_total=トータルで並び替え
+logs_viewer_plugin_sort_today=今日で並び替え
+logs_viewer_plugin_sort_yesterday=昨日で並び替え
+logs_viewer_plugin_btn_view=View
+logs_viewer_plugin_total=Total
+logs_viewer_plugin_btn_details=Details
+
+logs_viewer_plugin_details_title='s Details
+
+logs_viewer_plugin_index_month=Month
+logs_viewer_plugin_index_count=Count
+
+logs_viewer_plugin_details_mon=月の統計
+logs_viewer_plugin_details_total=Total hits
+logs_viewer_plugin_details_pages=Page hits
+logs_viewer_plugin_details_writes=Page writes
+logs_viewer_plugin_details_attachdownload=Attach Downloads
+logs_viewer_plugin_details_attachupload=Attach uploads, deletes.
+
+logs_viewer_plugin_details_referer=Referers
+logs_viewer_plugin_details_useragent=User agents
+logs_viewer_plugin_details_hosts=Remote Hosts
+logs_viewer_plugin_details_countriess=Countries.
+
+logs_viewer_plugin_day=Daily Statistics
+logs_viewer_plugin_day_datestr=Day
+logs_viewer_plugin_week=Week Statistics
+logs_viewer_plugin_hour=Daily Statistics
+
+logs_viewer_plugin_pages=Page accesses
+logs_viewer_plugin_pages_str=All pages
+logs_viewer_plugin_pages_all=See all pages access
+logs_viewer_plugin_write=Page writes
+logs_viewer_plugin_write_str=All pagese
+logs_viewer_plugin_write_all=See all pages writing
+logs_viewer_plugin_attachdownload=Number of downloads files attachment
+logs_viewer_plugin_attachdownload_str=Files
+logs_viewer_plugin_attachdownload_all=View all downloads
+logs_viewer_plugin_attachpost=Number of upload and delete files attachments
+logs_viewer_plugin_attachpost_str=Files
+logs_viewer_plugin_attachpost_all=View all upload and deletes
+logs_viewer_plugin_links=External links jump
+logs_viewer_plugin_links_str=Links
+logs_viewer_plugin_links_all=View all links
+logs_viewer_plugin_countries=Access source country
+logs_viewer_plugin_countries_str=Country
+logs_viewer_plugin_countries_all=See all the access source countries
+logs_viewer_plugin_topdomains=Access sourece Top Domains
+logs_viewer_plugin_topdomains_str=Domains
+logs_viewer_plugin_topdomains_all=See all the top domain from which access
+logs_viewer_plugin_domains=Access source Domain
+logs_viewer_plugin_domains_str=Domains
+logs_viewer_plugin_domains_all=See all the domain from which access
+logs_viewer_plugin_hosts=Accessing remote host
+logs_viewer_plugin_hosts_str=Hosts
+logs_viewer_plugin_hosts_all=View all remote hosts\
+logs_viewer_plugin_uaos=Using OS stats
+logs_viewer_plugin_uaos_str=OS
+logs_viewer_plugin_uaos_all=See all Using OS stats
+logs_viewer_plugin_browsertypes=Using the browser statistics
+logs_viewer_plugin_browsertypes_str=Software
+logs_viewer_plugin_browsertypes_all=Browser stats show all
+logs_viewer_plugin_browserversions=Using browser details
+logs_viewer_plugin_browserversions_str=Software
+logs_viewer_plugin_browserversions_all=Browser detailed stats show all
+logs_viewer_plugin_users=User stats
+logs_viewer_plugin_users_str=Users
+logs_viewer_plugin_users_all=See all user stats
+logs_viewer_plugin_referers=What links stats
+logs_viewer_plugin_referers_str=Referer
+logs_viewer_plugin_referers_all=See all what links stats
+logs_viewer_plugin_searchengines=Search Engine stats
+logs_viewer_plugin_searchengines_str=Sites
+logs_viewer_plugin_searchengines_all=See all search engine
+logs_viewer_plugin_searchkeywords=Search keyword stats
+logs_viewer_plugin_searchkeywords_str=Words
+logs_viewer_plugin_searchkeywords_all=See all keywords stats
+
+logs_viewer_plugin_return=Return
+
+logs_viewer_plugin_lastdate=最終アクセス日付
+logs_viewer_plugin_lastip=最終アクセスIPアドレス
+logs_viewer_plugin_total=トータル
+logs_viewer_plugin_date=日付
+logs_viewer_plugin_count=カウント
+logs_viewer_plugin_btn_back=戻る
+logs_viewer_plugin_btn_delete=削除
+
+logs_viewer_plugin_delete=$1 のカウンターを削除
+logs_viewer_plugin_delete_confirm=$1 のカウンターを本当に削除しますか？
+logs_viewer_plugin_delete_confirm_ok=削除
+logs_viewer_plugin_delete_confirm_cancel=キャンセル
+logs_viewer_plugin_deleted=$1 のカウンターを削除しました。
+logs_viewer_plugin_return=一覧へ戻る
+logs_viewer_plugin_delete_title=$1 のカウンターの削除

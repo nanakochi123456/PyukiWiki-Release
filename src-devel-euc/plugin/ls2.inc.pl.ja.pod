@@ -1,4 +1,4 @@
-#$Id: ls2.inc.pl.ja.pod,v 1.83 2011/05/04 07:26:50 papu Exp $
+#$Id: ls2.inc.pl.ja.pod,v 1.332 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -30,7 +30,7 @@ ls2.inc.pl - PyukiWiki プラグイン
 
 =item title
 
-ページに含まれる見出し(*,**,***)の一覧を併記します。 
+ページに含まれる見出し(*,**,***)の一覧を併記します。
 
 =item include
 
@@ -52,11 +52,11 @@ actionプラグインを呼び出すリンクを表示します。
 
 =item PyukiWiki/Plugin/Standard/ls2
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/ls2/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/ls2/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ls2.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/ls2.inc.pl?view=log>
 
 =back
 
@@ -70,15 +70,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

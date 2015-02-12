@@ -1,15 +1,15 @@
 ######################################################################
 # antispam.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: antispam.inc.pl,v 1.96 2011/05/04 07:26:50 papu Exp $
+# $Id: antispam.inc.pl,v 1.344 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-rc6 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -27,69 +27,43 @@
 #
 ######################################################################
 
-
-## 固定トークンにする場合、16文字で同一の文字が存在してはいけない
-#$antispam::token="Tfj8a9xNoLkm2Z43"
-#	if(!defined($antispam::token));
-
-# Initlize
+# Initlize												# comment
 
 sub plugin_antispam_init {
-	my $header;
-	if($::AntiSpam eq '') {
-		$::AntiSpam=$antispam::token;
-		if($::AntiSpam eq '') {
-			my (@token) = ('0'..'9', 'A'..'Z', 'a'..'z');
-			$::AntiSpam="";
-			my $add=0;
-			for(my $i=0; $i<16;) {
-				my $token;
-				$token=$token[(time + $add++ + $i + int(rand(62))) % 62]; # 62 is scalar(@token)
-				if($::AntiSpam!~/$token/) {
-					$::AntiSpam.=$token;
-					$i++;
-				}
-			}
-		}
-	}
-	$header=qq(<script type="text/javascript">@{[!$::is_xhtml ? "<!--\n" : '']}var cs = "$::AntiSpam";@{[!$::is_xhtml ? '//-->' : '']}</script>\n);
-
+	$::AntiSpam_Count=0;
+	$::AntiSpam="enable";
 	$::functions{make_link_mail}=\&make_link_mail;
-	return ('header'=>$header,'init'=>1
+	return ('init'=>1
 		, 'func'=>'make_link_mail', 'make_link_mail'=>\&make_link_mail);
 }
 
-# hack wiki.cgi of make_link_mail
+# hack wiki.cgi of make_link_mail						# comment
 
 sub make_link_mail {
 	my($chunk,$escapedchunk)=@_;
-
 	my $adr=$chunk;
+	$::IN_HEAD.=&maketoken if($::Token eq '');
 	$adr=~s/^[Mm][Aa][Ii][Ll][Tt][Oo]://g;
 	my $mailtoadr="mailto:$adr";
-	return qq(<a href="$mailtoadr" class="mail">$escapedchunk</a>) if($::AntiSpam eq '');
+	return qq(<a href="$mailtoadr" class="mail">$escapedchunk</a>) if($::Token eq '');
 
 	my $chunk1=&Enc_UntiSpam("mailto:$adr");
 
+	$::AntiSpam_Count++;
+	my $id="antispammail$::AntiSpam_Count";
+
 	if($adr eq $escapedchunk || $mailtoadr eq $escapedchunk) {
 		$escapedchunk=&Enc_UntiSpam("$escapedchunk");
-		return qq(<span class="mail" onclick="addec_link('$chunk1\')" onkeypress="void(0);"><script type="text/javascript">@{[!$::is_xhtml ? "<!--\n" : '']}addec_text('$escapedchunk');\n@{[!$::is_xhtml ? '//-->' : '']}</script></span>);
+		$::AntiSpam_Count++;
+		return qq(<span class="mail" id="$id" onclick="addec_link('$chunk1\')" onkeypress="void(0);"><script type="text/javascript"><!--\naddec_text('$escapedchunk','$id');\n//--></script></span>);
 	} else {
-		return qq(<span class="mail" onclick="addec_link('$chunk1\')" onkeypress="void(0);">$escapedchunk</span>);
+		return qq(<span class="mail" id="$id" onclick="addec_link('$chunk1\','$id')" onkeypress="void(0);">$escapedchunk</span>);
 	}
 }
 
 sub Enc_UntiSpam {
-	my( $adr ) = @_;
-	my( $i, $dd, $res, $dif );
-	my $enc_list = $::AntiSpam;
-	$dif = int(rand(127));
-	$res = substr($enc_list,$dif/0x10,1).substr($enc_list,$dif%0x10,1);
-	for( $i = 0 ; $i < length( $adr ) ; $i ++ ) {
-		$dd = ord(substr($adr,$i,1))+$dif;
-		$res .= substr($enc_list,$dd/0x10,1).substr($enc_list,$dd%0x10,1);
-	}
-	return( $res );
+	my($ad) = @_;
+	return &password_encode($ad,$::Token);
 }
 
 1;
@@ -99,7 +73,7 @@ sub plugin_antispam_setup {
 	'ja'=>'迷惑メール防止',
 	'en'=>'Anti Spam Plugin',
 	'override'=>'make_link_mail',
-	'url'=>'http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/antispam/'
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/antispam/'
 	);
 }
 __END__
@@ -136,11 +110,11 @@ Please go via a function make_link_mail.
 
 =item PyukiWiki/Plugin/ExPlugin/antispam
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/ExPlugin/antispam/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/antispam/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/antispam.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/antispam.inc.pl?view=log>
 
 =item The measure against a collection contractor (an automatic collection program and robot) of a mail address
 
@@ -164,15 +138,15 @@ L<http://ninja.index.ne.jp/~toshi/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2010 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

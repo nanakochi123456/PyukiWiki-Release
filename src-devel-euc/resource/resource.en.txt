@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: resource.en.txt,v 1.98 2011/05/04 07:26:50 papu Exp $
+# "PyukiWiki" version 0.2.0 $$
+# $Id: resource.en.txt,v 1.348 2011/12/31 13:06:12 papu Exp $
 #
 
 resource_loaded=1
@@ -16,6 +16,7 @@ editbutton=Edit
 admineditbutton=Freeze
 difftitle=Diff
 diffbutton=Diff
+backupbutton=Backup
 renamebutton=Rename
 rssbutton=RSS
 attachbutton=Attach
@@ -78,7 +79,4 @@ searchor=OR
 # sub date
 date_ampm_en=am,pm
 date_weekday_en=Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday
-date_weekdaylength_en=3
-
-# diff.inc.pl
-diff_disable_email=(E-Mail Address)
+date_weekday_en_short=Sun,Mon,Tue,Wed,Thu,Fri,Sat

@@ -1,27 +1,21 @@
 #
-# $Id: _Classic.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: _Classic.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: _Classic.pm,v 2.0 2005/05/16 19:08:04 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
-
 package Jcode::_Classic;
 use 5.004;
 use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
-
-$RCSID = q$Id: _Classic.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-
+$RCSID = q$Id: _Classic.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 $DEBUG = $Jcode::DEBUG;
 use vars qw($USE_CACHE $NOXS);
-
 $USE_CACHE = 1;
 $NOXS = 0;
-
 print $RCSID, "\n" if $DEBUG;
-
 use Jcode::Constants qw(:all);
-
 sub new {
     my $class = shift;
     my ($thingy, $icode) = @_;
@@ -37,11 +31,9 @@ sub new {
     carp "Object of class $class created" if $DEBUG >= 2;
     bless $self, $class;
 }
-
 sub r_str  { $_[0]->[0] }
 sub icode  { $_[0]->[1] }
 sub nmatch { $_[0]->[2] }
-
 sub set {
     my $self = shift;
     my ($thingy, $icode) = @_;
@@ -55,7 +47,6 @@ sub set {
     $self->[3] = "Classic";
     return $self;
 }
-
 sub append {
     my $self = shift;
     my ($thingy, $icode) = @_;
@@ -68,13 +59,11 @@ sub append {
     $self->[2] = $nmatch;
     return $self;
 }
-
 sub jcode { return Jcode->new(@_) }
 sub euc   { return ${$_[0]->[0]} }
 sub jis   { return  &euc_jis(${$_[0]->[0]})}
 sub sjis  { return &euc_sjis(${$_[0]->[0]})}
 sub iso_2022_jp{return $_[0]->h2z->jis}
-
 sub jfold{
     my $self = shift;
     my ($bpl, $nl) = @_;
@@ -86,7 +75,7 @@ sub jfold{
 	   m/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|[\x00-\xff])/sgo)
     {
 	if ($len + length($1) > $bpl){ # fold!
-	    $i++; 
+	    $i++;
 	    $len = 0;
 	}
 	$lines[$i] .= $1;
@@ -96,30 +85,25 @@ sub jfold{
     $$r_str = join($nl, @lines);
     return wantarray ? @lines : $self;
 }
-
 sub jlength {
     my $self = shift;
     my $r_str = $self->[0];
     return scalar (my @char = $$r_str =~ m/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|[\x00-\xff])/sgo);
 }
-
 sub mime_encode{
     my $self = shift;
     my $r_str = $self->[0];
     my $lf  = shift || "\n";
     my $bpl = shift || 76;
-
     my ($trailing_crlf) = ($$r_str =~ /(\n|\r|\x0d\x0a)$/o);
     my $str  = _mime_unstructured_header($$r_str, $lf, $bpl);
     not $trailing_crlf and $str =~ s/(\n|\r|\x0d\x0a)$//o;
     $str;
 }
-
 #
 # shamelessly stolen from
 # http://www.din.or.jp/~ohzaki/perl.htm#JP_Base64
 #
-
 sub _add_encoded_word {
     require MIME::Base64;
     my($str, $line, $bpl) = @_;
@@ -143,7 +127,7 @@ sub _add_encoded_word {
 	      MIME::Base64::encode_base64($iso_2022_jp, '')
 		  . '?=';
 	    if (length($encoded) + length($line) > $bpl) {
-		$target =~ 
+		$target =~
 		    s/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|$RE{ASCII})$//o;
 		$str = $1 . $str;
 	    } else {
@@ -154,7 +138,6 @@ sub _add_encoded_word {
     }
     return $result . $line;
 }
-
 sub _mime_unstructured_header {
     my ($oldheader, $lf, $bpl) = @_;
     my(@words, @wordstmp, $i);
@@ -191,13 +174,11 @@ sub _mime_unstructured_header {
     $header =~ s/\n? $/\n/;
     $header;
 }
-
 # see http://www.din.or.jp/~ohzaki/perl.htm#JP_Base64
-#$lws = '(?:(?:\x0d\x0a)?[ \t])+'; 
-#$ew_regex = '=\?ISO-2022-JP\?B\?([A-Za-z0-9+/]+=*)\?='; 
-#$str =~ s/($ew_regex)$lws(?=$ew_regex)/$1/gio; 
-#$str =~ s/$lws/ /go; $str =~ s/$ew_regex/decode_base64($1)/egio; 
-
+#$lws = '(?:(?:\x0d\x0a)?[ \t])+';
+#$ew_regex = '=\?ISO-2022-JP\?B\?([A-Za-z0-9+/]+=*)\?=';
+#$str =~ s/($ew_regex)$lws(?=$ew_regex)/$1/gio;
+#$str =~ s/$lws/ /go; $str =~ s/$ew_regex/decode_base64($1)/egio;
 sub mime_decode{
     require MIME::Base64; # not use
     my $self = shift;
@@ -206,26 +187,22 @@ sub mime_decode{
     my $re_ew = '=\?[Ii][Ss][Oo]-2022-[Jj][Pp]\?[Bb]\?([A-Za-z0-9+/]+=*)\?=';
     $$r_str =~ s/($re_ew)$re_lws(?=$re_ew)/$1/sgo;
     $$r_str =~ s/$re_lws/ /go;
-    $self->[2] = 
+    $self->[2] =
 	($$r_str =~
 	 s/$re_ew/jis_euc(MIME::Base64::decode_base64($1))/ego
 	 );
     $self;
 }
-
 sub tr{
     require Jcode::Tr; # not use
     my $self = shift;
     $self->[2] = Jcode::Tr::tr($self->[0], @_);
     return $self;
 }
-
 #
 # load needed module depending on the configuration just once!
 #
-
 use vars qw(%PKG_LOADED);
-
 sub load_module{
     my $pkg = shift;
     return $pkg if $PKG_LOADED{$pkg}++;
@@ -245,27 +222,23 @@ sub load_module{
     }
     $pkg;
 }
-
 sub ucs2{
     load_module("Jcode::Unicode");
     euc_ucs2(${$_[0]->[0]});
 }
-
 sub utf8{
     load_module("Jcode::Unicode");
     euc_utf8(${$_[0]->[0]});
 }
-
 sub getcode {
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
-
     my ($code, $nmatch, $sjis, $euc, $utf8) = ("", 0, 0, 0, 0);
     if ($$r_str =~ /$RE{BIN}/o) {
 	my $ucs2;
 	$ucs2 += length($1)
 	    while $$r_str =~ /(\x00$RE{ASCII})+/go;
-	if ($ucs2){      # smells like raw unicode 
+	if ($ucs2){      # smells like raw unicode
 	    ($code, $nmatch) = ('ucs2', $ucs2);
 	}else{
 	    ($code, $nmatch) = ('binary', 0);
@@ -274,55 +247,45 @@ sub getcode {
     elsif ($$r_str !~ /[\e\x80-\xff]/o) {
 	($code, $nmatch) = ('ascii', 1);
     }
-    elsif ($$r_str =~ 
+    elsif ($$r_str =~
 	   m[
 	     $RE{JIS_0208}|$RE{JIS_0212}|$RE{JIS_ASC}|$RE{JIS_KANA}
 	   ]ox)
     {
 	($code, $nmatch) = ('jis', 1);
-    } 
+    }
     else { # should be euc|sjis|utf8
-
-	$sjis += length($1) 
+	$sjis += length($1)
 	    while $$r_str =~ /((?:$RE{SJIS_C})+)/go;
-	$euc  += length($1) 
+	$euc  += length($1)
 	    while $$r_str =~ /((?:$RE{EUC_C}|$RE{EUC_KANA}|$RE{EUC_0212})+)/go;
-	$utf8 += length($1) 
+	$utf8 += length($1)
 	    while $$r_str =~ /((?:$RE{UTF8})+)/go;
-
 	$nmatch = _max($utf8, $sjis, $euc);
 	carp ">DEBUG:sjis = $sjis, euc = $euc, utf8 = $utf8" if $DEBUG >= 3;
-	$code = 
+	$code =
 	    ($euc > $sjis and $euc > $utf8) ? 'euc' :
 		($sjis > $euc and $sjis > $utf8) ? 'sjis' :
 		    ($utf8 > $euc and $utf8 > $sjis) ? 'utf8' : undef;
     }
     return wantarray ? ($code, $nmatch) : $code;
 }
-
 sub convert{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
     my ($ocode, $icode, $opt) = @_;
-
     my $nmatch;
     ($icode, $nmatch) = getcode($r_str) unless $icode;
-
     return $$r_str if $icode eq $ocode and !defined $opt; # do nothin'
-
     no strict qw(refs);
     my $method;
-
     # convert to EUC
-
     load_module("Jcode::Unicode") if $icode =~ /ucs2|utf8/o;
     if ($icode and defined &{$method = "$icode" . "_euc"}){
 	carp "Dispatching \&$method" if $DEBUG >= 2;
 	&{$method}($r_str) ;
     }
-
     # h2z or z2h
-
     if ($opt){
 	my $cmd = ($opt =~ /^z/o) ? "h2z" : ($opt =~ /^h/o) ? "z2h" : undef;
 	if ($cmd){
@@ -330,9 +293,7 @@ sub convert{
 	    &{'Jcode::H2Z::' . $cmd}($r_str);
 	}
     }
-
     # convert to $ocode
-
     load_module("Jcode::Unicode") if $ocode =~ /ucs2|utf8/o;
     if ($ocode and defined &{$method =  "euc_" . $ocode}){
 	carp "Dispatching \&$method" if $DEBUG >= 2;
@@ -340,24 +301,19 @@ sub convert{
     }
     $$r_str;
 }
-
 sub h2z {
     require Jcode::H2Z; # not use
     my $self = shift;
     $self->[2] = Jcode::H2Z::h2z($self->[0], @_);
     return $self;
 }
-
-
 sub z2h {
     require Jcode::H2Z; # not use
     my $self = shift;
     $self->[2] =  &Jcode::H2Z::z2h($self->[0], @_);
     return $self;
 }
-
 # JIS<->EUC
-
 sub jis_euc {
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
@@ -380,14 +336,12 @@ sub jis_euc {
     }geox;
     $$r_str;
 }
-
 #
 # euc_jis
 #
 # Based upon the contribution of
 # Kazuto Ichimura <ichimura (at) shimada (dot) nuee (dot) nagoya-u (dot) ac (dot) jp>
 # optimized by <ohzaki (at) iod (dot) ricoh (dot) co (dot) jp>
-
 sub euc_jis{
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
@@ -395,7 +349,7 @@ sub euc_jis{
 	((?:$RE{EUC_C})+|(?:$RE{EUC_KANA})+|(?:$RE{EUC_0212})+)
 	}{
 	    my $str = $1;
-	    my $esc = 
+	    my $esc =
 		( $str =~ tr/\x8E//d ) ? $ESC{KANA} :
 		    ( $str =~ tr/\x8F//d ) ? $ESC{JIS_0212} :
 			$ESC{JIS_0208};
@@ -407,12 +361,9 @@ sub euc_jis{
 	    (\Q$ESC{KANA}\E|\Q$ESC{JIS_0212}\E|\Q$ESC{JIS_0208}\E)/$1/gox;
     $$r_str;
 }
-
 # EUC<->SJIS
-
 my %_S2E = ();
 my %_E2S = ();
-
 sub sjis_euc {
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
@@ -439,9 +390,7 @@ sub sjis_euc {
     }geox;
     $$r_str;
 }
-
 #
-
 sub euc_sjis {
     my $thingy = shift;
     my $r_str = ref $thingy ? $thingy : \$thingy;
@@ -471,11 +420,9 @@ sub euc_sjis {
     }geox;
     $$r_str;
 }
-
 #
 # Util. Functions
 #
-
 sub _max {
     my $result = shift;
     for my $n (@_){

@@ -2,7 +2,7 @@
 # Diff.pm - This is PyukiWiki, yet another Wiki clone.
 # from YukiWiki
 #
-# $Id: Diff.pm,v 1.87 2011/05/04 07:26:50 papu Exp $
+# $Id: Diff.pm,v 1.336 2011/12/31 13:06:10 papu Exp $
 #
 # "Algorithm::Diff" version 1.1901 $$
 # Ned Konz, perl (at) bike-nomad (dot) com
@@ -32,7 +32,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw();
 @EXPORT_OK = qw(LCS diff traverse_sequences);
-$VERSION = sprintf('%d.%02d', (q$Revision: 1.87 $ =~ /\d+/g));
+$VERSION = sprintf('%d.%02d', (q$Revision: 1.336 $ =~ /\d+/g));
 
 # McIlroy-Hunt diff algorithm
 # Adapted from the Smalltalk code of Mario I. Wolczko, <mario (at) wolczko (dot) com>
@@ -57,7 +57,7 @@ Algorithm::Diff - Compute `intelligent' differences between two files / lists
   @diffs = diff( \@seq1, \@seq2 );
 
   @diffs = diff( \@seq1, \@seq2, $key_generation_function );
-  
+
   traverse_sequences( \@seq1, \@seq2,
                      { MATCH => $callback,
                        DISCARD_A => $callback,
@@ -99,7 +99,7 @@ I<S> is
 
 From there it's only a small step to get diff-like output:
 
-        e   h i   k   q r x y 
+        e   h i   k   q r x y
         +   - +   +   - + + +
 
 This module solves the LCS problem.  It also includes a canned
@@ -168,20 +168,20 @@ Here is an example:  The diff of the following two sequences:
 
 Result:
 
- [ 
-   [ [ '-', 0, 'a' ] ],       
+ [
+   [ [ '-', 0, 'a' ] ],
 
    [ [ '+', 2, 'd' ] ],
 
-   [ [ '-', 4, 'h' ] , 
+   [ [ '-', 4, 'h' ] ,
      [ '+', 4, 'f' ] ],
 
    [ [ '+', 6, 'k' ] ],
 
-   [ [ '-', 8, 'n' ], 
-     [ '-', 9, 'p' ], 
-     [ '+', 9, 'r' ], 
-     [ '+', 10, 's' ], 
+   [ [ '-', 8, 'n' ],
+     [ '-', 9, 'p' ],
+     [ '+', 9, 'r' ],
+     [ '+', 10, 's' ],
      [ '+', 11, 't' ],
    ]
  ]
@@ -191,7 +191,7 @@ position 0 of the first sequence should be deleted (C<->).  The second
 hunk says that the C<d> at position 2 of the second sequence should
 be inserted (C<+>).  The third hunk says that the C<h> at position 4
 of the first sequence should be removed and replaced with the C<f>
-from position 4 of the second sequence.  The other two hunks similarly. 
+from position 4 of the second sequence.  The other two hunks similarly.
 
 C<diff> may be passed an optional third parameter; this is a CODE
 reference to a key generation function.  See L</KEY GENERATION
@@ -216,7 +216,7 @@ which are equal and which are part of the LCS, there will be some
 moment during the execution of C<traverse_sequences> when arrow A is
 pointing to C<$A[$i]> and arrow B is pointing to C<$B[$j]>.  When this
 happens, C<traverse_sequences> will call the C<MATCH> callback
-function and then it will advance both arrows. 
+function and then it will advance both arrows.
 
 Otherwise, one of the arrows is pointing to an element of its sequence
 that is not part of the LCS.  C<traverse_sequences> will advance that
@@ -269,7 +269,7 @@ By default, comparisons will use "eq" and elements will be turned into keys
 using the default stringizing operator '""'.
 
 Where this is important is when you're comparing something other than
-strings. If it is the case that you have multiple different objects 
+strings. If it is the case that you have multiple different objects
 that should be considered to be equal, you should supply a key
 generation function. Otherwise, you have to make sure that your arrays
 contain unique references.
@@ -347,7 +347,7 @@ This code was adapted from the Smalltalk code of
 Mario Wolczko <mario (at) wolczko (dot) com>, which is available at
 ftp://st.cs.uiuc.edu/pub/Smalltalk/MANCHESTER/manchester/4.0/diff.st
 
-The algorithm is that described in 
+The algorithm is that described in
 I<A Fast Algorithm for Computing Longest Common Subsequences>,
 CACM, vol.20, no.5, pp.350-353, May 1977, with a few
 minor improvements to improve the speed.
@@ -523,7 +523,7 @@ sub _longestCommonSubsequence
 				# oddly, it's faster to always test this (CPU cache?).
 				if ( defined( $k ) )
 				{
-					$links->[ $k ] = 
+					$links->[ $k ] =
 						[ ( $k ? $links->[ $k - 1 ] : undef ), $i, $j ];
 				}
 			}

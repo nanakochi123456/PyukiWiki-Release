@@ -1,15 +1,15 @@
 ######################################################################
 # topicpath.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: topicpath.inc.pl,v 1.63 2011/05/04 07:26:50 papu Exp $
+# $Id: topicpath.inc.pl,v 1.313 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Junichi http://www.re-birth.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -43,61 +43,42 @@ $topicpath::FRONTPAGENAME='Top'			if(!defined($topicpath::FRONTPAGENAME));
 $topicpath::PREFIX = ''					if(!defined($topicpath::PREFIX));
 $topicpath::SUFFIX = ''					if(!defined($topicpath::SUFFIX));
 ######################################################################
-
 sub plugin_topicpath_inline {
-
 	my($wikicgiflag,$page)=split(/,/, shift);
 	return '' if(shift eq 1 && $topicpath::AutoLoad eq 0);
-
 	my $mypage = $page eq '' ? $::form{mypage} : $page;
-
 	if(!(&is_exist_page($mypage))) {
 		return "";
 	}
-
 	my @path_array = split($topicpath::SEPARATOR,$mypage);
-
-
 	$topicpath::FRONTPAGEUrl = &createUrl($topicpath::FRONTPAGE, $topicpath::FRONTPAGE, $topicpath::FRONTPAGE, $topicpath::FRONTPAGENAME);
-
 	if($mypage eq $topicpath::FRONTPAGE) {
 		return $topicpath::PREFIX . $topicpath::FRONTPAGEUrl . $topicpath::SUFFIX;
 	}
-
 	$result = $topicpath::FRONTPAGEUrl . $topicpath::FRONTMARK;
 	my $pathname = "";
 	foreach $pagename (@path_array) {
-
 		if($pathname ne "") {
 			$pathname .= $topicpath::SEPARATOR . $pagename;
 		}else{
 			$pathname = $pagename;
 		}
-
 		$result .= &createUrl($pagename, $pathname, $topicpath::FRONTPAGE, $topicpath::FRONTPAGENAME);
-
-
 		$result .= $topicpath::ARROW;
 	}
-
 	$result =~s/$topicpath::ARROW$//g;
-
 	return $topicpath::PREFIX . $result . $topicpath::SUFFIX;
 }
-
 # ex.
 # $pagename : Page
 # $pathname : Category/Page
 sub createUrl() {
 	my ($pagename,$pathname, $FRONTPAGE, $FRONTPAGENAME) = @_;
-
 	if(&is_exist_page($pathname)) {
 		return qq|<a href="@{[&make_cookedurl(&encode($pathname))]}">@{[&escape($pagename eq $FRONTPAGE ? $FRONTPAGENAME : $pagename)]}</a>|;
 	} else {
-		return qq|@{[&escape($pagename)]}<a href="$::script?cmd=edit&mypage=@{[&encode($pathname)]}">?</a>|;
+		return qq|@{[&escape($pagename)]}<a href="$::script?cmd=edit&amp;mypage=@{[&encode($pathname)]}">?</a>|;
 	}
 }
-
 1;
 __END__
-

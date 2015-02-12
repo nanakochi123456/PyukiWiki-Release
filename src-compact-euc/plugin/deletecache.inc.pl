@@ -1,32 +1,28 @@
 ######################################################################
 # deletecache.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: deletecache.inc.pl,v 1.55 2011/05/04 07:26:50 papu Exp $
+# $Id: deletecache.inc.pl,v 1.304 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 $deletecache::ignore_regex=q(^$|^..?$|^index|htaccess$|\..{1,3}$);
-$deletecache::nonselect_regex=q(showrss);
-
+$deletecache::nonselect_regex=q(showrss|bak|rel);
 sub plugin_deletecache_action {
 	my $body;
-
 	my %auth=&authadminpassword(submit,"","admin");
 	return('msg'=>"\t$::resource{deletecache_plugin_title}",'body'=>$auth{html})
 		if($auth{authed} eq 0);
-
 	if($::form{submit}) {
 		$body=<<EOM;
 <h2>$::resource{deletecache_plugin_msg_deleted}</h2>
@@ -53,7 +49,6 @@ EOM
 	}
 	return('msg'=>"\t$::resource{deletecache_plugin_title}",'body'=>$body);
 }
-
 sub deletecache_list {
 	my $body;
 	opendir(DIR,"$::cache_dir");
@@ -68,13 +63,12 @@ sub deletecache_list {
 	}
 	foreach my $ext(sort keys %exts) {
 		$body.=<<EOM;
-<input type="checkbox" name="delete_$ext"@{[$ext=~/$deletecache::nonselect_regex/ ? '' : " checked"]} />
+<input type="checkbox" name="delete_$ext"@{[$ext=~/$deletecache::nonselect_regex/ ? '' : ' checked="checked"']} />
 $ext ($exts{$ext}$::resource{deletecache_plugin_files})<br />
 EOM
 	}
 	return $body;
 }
-
 sub deletecache_exec {
 	my($delete_list,$err_list);
 	opendir(DIR,"$::cache_dir");
@@ -89,7 +83,6 @@ sub deletecache_exec {
 	}
 	$regex=~s/|$//g;
 	$regex.=')$';
-
 	foreach my $dir(@DIR) {
 		if($dir!~/$deletecache::ignore_regex/) {
 			if($dir=~/$regex/) {
@@ -103,7 +96,5 @@ sub deletecache_exec {
 	}
 	return($err_list . "\n" . $delete_list);
 }
-
 1;
 __END__
-

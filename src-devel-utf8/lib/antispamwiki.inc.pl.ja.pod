@@ -1,0 +1,57 @@
+#$Id: antispamwiki.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:13 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+antispamwiki.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+wikiスパミング防止プラグイン
+
+=head1 説明
+
+cookieを用いて、簡易的にwikiスパミングを防止します。
+
+=head1 使用方法
+
+antispamwiki.inc.cgi にリネームして下さい。
+
+=head1 上書きする関数
+
+なし
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/ExPlugin/gzip
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/gzip/>
+
+
+=item PyukiWiki CVSレボジトリ
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/lib/gzip.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+
+
+=cut

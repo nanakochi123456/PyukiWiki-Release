@@ -1,16 +1,16 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.81 2011/05/04 07:26:50 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.330 2011/12/31 13:06:10 papu Exp $
 #
-# "Nana::YukiWikiDB" version 0.3p $$
+# "Nana::YukiWikiDB" version 0.4 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 ######################################################################
 
 package Nana::YukiWikiDB;
-$VERSION="0.3p";
+$VERSION="0.4";
 use strict;
 use Nana::File;
 
@@ -50,25 +50,21 @@ sub TIEHASH {
 	return bless($self, $class);
 }
 
-# Store
+# Store												# comment
 sub STORE {
 	my ($self, $key, $value) = @_;
 	my $filename = &make_filename($self, $key);
-#	&lock_store($filename, $value);
-#	return $value;
 	return Nana::File::lock_store($filename,$value);
 }
 
-# Fetch
+# Fetch												# comment
 sub FETCH {
 	my ($self, $key) = @_;
 	my $filename = &make_filename($self, $key);
-#	my $value = &lock_fetch($filename);
-#	return $value;
 	return Nana::File::lock_fetch($filename);
 }
 
-# Exists
+# Exists											# comment
 sub EXISTS {
 	my ($self, $key) = @_;
 	my $filename = &make_filename($self, $key);
@@ -80,8 +76,6 @@ sub DELETE {
 	my ($self, $key) = @_;
 	my $filename = &make_filename($self, $key);
 	return Nana::File::lock_delete($filename);
-	#unlink $filename;
-	# return delete $self->{$key};
 }
 
 sub FIRSTKEY {
@@ -91,8 +85,6 @@ sub FIRSTKEY {
 		@{$self->{keys}} = grep /\.txt$/, readdir(DIR);
 		foreach my $name (@{$self->{keys}}) {
 			$name =~ s/\.txt$//;
-#			$name =~ s/[0-9A-F][0-9A-F]/pack("C", hex($&))/eg;	# debug
-#			$name=&undbmname($name);
 			$name=&$funcp($name);
 		}
 		closedir(DIR);
@@ -110,28 +102,9 @@ sub NEXTKEY {
 
 sub make_filename {
 	my ($self, $key) = @_;
-#	my $enkey = '';		# change better code ? 	# debug
-#	foreach my $ch (split(//, $key)) {			# debug
-#		$enkey .= sprintf("%02X", ord($ch));	# debug
-#	}											# debug
-#	$key=~ s/(.)/unpack('H2', $1)/eg;			# debug
-#	$key=~tr/a-f/A-F/;							# debug
-#	$key=&dbmname($key);						# debug
-#	my $funcp = $::functions{"dbmname"};		# debug
-#	$key=&$funcp($key);							# debug
 	$key =~ s/(.)/$::_dbmname_encode{$1}/g;
 
 	return $self->{dir} . "/$key.txt";
 }
-
-#sub dbmname {									# debug
-#	my $funcp = $::functions{"dbmname"};		# debug
-#	return &$funcp(@_);							# debug
-#}												# debug
-
-#sub undbmname {								# debug
-#	my $funcp = $::functions{"undbmname"};		# debug
-#	return &$funcp(@_);							# debug
-#}												# debug
 
 1;

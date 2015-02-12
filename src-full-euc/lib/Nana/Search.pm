@@ -1,63 +1,77 @@
 ######################################################################
 # Search.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Search.pm,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: Search.pm,v 1.341 2011/12/31 13:06:10 papu Exp $
 #
-# "Nana::Search" version 0.4 $$
+# "Nana::Search" version 0.5 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-# 日本語あいまい検索をするためのモジュールです。内部コードEUC用
+# 日本語あいまい検索をするためのモジュールです。内部コードEUC、UTF8用
 ######################################################################
-
 package	Nana::Search;
-use 5.005;
+use 5.8.1;
 use strict;
 use vars qw($VERSION @EXPORT_OK @ISA @EXPORT);
 require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw();
 @EXPORT_OK = qw();
-$VERSION = '0.4';
-
+$VERSION = '0.5';
 $Nana::Search::EUCPRE = qr{(?<!\x8F)};
 $Nana::Search::EUCPOST = qr{
 	(?=
-	(?:[\xA1-\xFE][\xA1-\xFE])* # JIS X 0208 が 0文字以上続いて
-	(?:[\x00-\x7F\x8E\x8F]|\z)  # ASCII, SS2, SS3 または終端
+	(?:[\xA1-\xFE][\xA1-\xFE])*
+	(?:[\x00-\x7F\x8E\x8F]|\z)
 	)
 }x;
-
 sub Search {
 	my($text,$wd)=@_;
 	my $search;
 	my $keyword;
-
-	$search=&Z2H($text);
-	if($::_SEARCH{$wd} eq '') {
-		$keyword=&Z2H($wd);
-		$::_SEARCH{$wd}=$keyword;
+	if($::defaultcode eq "utf8") {
+		$search=&Z2H_UTF8($text);
+		if($::_SEARCH{$wd} eq '') {
+			$keyword=&Z2H_UTF8($wd);
+			$::_SEARCH{$wd}=$keyword;
+		} else {
+			$keyword=$::_SEARCH{$wd};
+		}
+		return 0 if($keyword eq '');
+		return 1 if($search =~ /$Nana::Search::EUCPRE\Q$keyword\E$Nana::Search::EUCPOST/i);
+		return 0;
 	} else {
-		$keyword=$::_SEARCH{$wd};
+		$search=&Z2H($text);
+		if($::_SEARCH{$wd} eq '') {
+			$keyword=&Z2H($wd);
+			$::_SEARCH{$wd}=$keyword;
+		} else {
+			$keyword=$::_SEARCH{$wd};
+		}
+		return 0 if($keyword eq '');
+		return 1 if($search =~ /$Nana::Search::EUCPRE\Q$keyword\E$Nana::Search::EUCPOST/i);
+		return 0;
 	}
-	return 0 if($keyword eq '');
-	return 1 if($search =~ /$Nana::Search::EUCPRE\Q$keyword\E$Nana::Search::EUCPOST/i);
-	return 0;
 }
-
+sub Z2H_UTF8 {
+	my ($parm)=@_;
+	my $funcp = $::functions{"code_convert"};
+	$parm .= '';
+	$parm = &$funcp(\$parm, 'euc', 'utf8');
+	return &Z2H($parm);
+}
 sub Z2H {
 	my ($parm)=@_;
-
 	$parm=~s/$Nana::Search::EUCPRE\xa1(\xaa|\xc9|\xf4|\xf0|\xf3|\xf5|\xc7|\xca|\xcb|\xf6|\xdc|\xa4|\xdd|\xa5|\xbf|\xa7|\xa2)$Nana::Search::EUCPOST//g;
 	$parm=~s/$Nana::Search::EUCPRE\xa1(\xa8|\xe3|\xe1|\xe4|\xa9|\xf7|\xce|\xef|\xcf|\xb0|\xb2|\xc6|\xd0|\xc3|\xd1|\xd1|\xa3)$Nana::Search::EUCPOST//g;
 	$parm=~s/[\x21-\x2f|\x3a-\x40|\x5b-\x60|\x7b-\x7f]//g;
@@ -71,7 +85,5 @@ sub Z2H {
 	$parm=~tr/A-Z/a-z/;
 	return $parm;
 }
-
 1;
 __END__
-

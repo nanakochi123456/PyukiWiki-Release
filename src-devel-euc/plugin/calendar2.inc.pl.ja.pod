@@ -1,4 +1,4 @@
-#$Id: calendar2.inc.pl.ja.pod,v 1.78 2011/05/04 07:26:50 papu Exp $
+#$Id: calendar2.inc.pl.ja.pod,v 1.327 2011/12/31 13:06:10 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -83,11 +83,15 @@ date_formatには、半角の ( ) を使用することはできません。
 
 =item PyukiWiki/Plugin/Standard/calendar2
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/calendar2/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar2/>
+
+=item PyukiWiki/Plugin/Standard/calendar
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar2.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar2.inc.pl?view=log>
 
 =back
 
@@ -101,15 +105,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by ななみ.
+Copyright (C) 2005-2012 by ななみ.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

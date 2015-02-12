@@ -1,7 +1,7 @@
 #
-# PyukiWiki Conflict file (Japanese EUC)
-# "PyukiWiki" version 0.1.9 $$
-# $Id: conflict.ja.txt,v 1.84 2011/05/04 07:26:50 papu Exp $
+# PyukiWiki Conflict file (Japanese EUC-JP)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: conflict.ja.txt,v 1.334 2011/12/31 13:06:11 papu Exp $
 #
 *更新の衝突が発生しました。
 

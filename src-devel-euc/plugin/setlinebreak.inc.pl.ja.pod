@@ -1,4 +1,4 @@
-#$Id: setlinebreak.inc.pl.ja.pod,v 1.48 2011/05/04 07:26:50 papu Exp $
+#$Id: setlinebreak.inc.pl.ja.pod,v 1.297 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -24,11 +24,11 @@ setlinebreak¥×¥é¥°¥¤¥ó¤Ï³ºÅö¥Ú¡¼¥¸¤Î°Ê¹ß¤Î¹Ô¤Ë´Ø¤·¤Æ¡¢$::line_break¤ÎÀßÄê¤Ë°ø¤é¤
 
 =over 4
 
-=item °ú¿ô 
+=item °ú¿ô
 ¥Ñ¥é¥á¡¼¥¿¤Ë¤Ï°Ê¹ß¤Î²þ¹Ô¤Î°·¤¤¤ò»ØÄê¤·¤Þ¤¹¡£¥Ñ¥é¥á¡¼¥¿¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢²þ¹Ô¤È¤ß¤Ê¤¹¤«¤É¤¦¤«¤Ë¤Ä¤¤¤Æ¤ÎÀßÄê¤òµÕÅ¾¤µ¤»¤Þ¤¹¡£
 
- on¤Þ¤¿¤Ï1 ¡Ý °Ê¹ß¤ÎÊ¸¾Ï¤ÇÃÊÍîÆâ¤Î²þ¹Ô¤ò²þ¹Ô¤È¤ß¤Ê¤·¤Þ¤¹($::line_break=1¤ÈÆ±ÍÍ)¡£ 
- off¤Þ¤¿¤Ï0 ¡Ý °Ê¹ß¤ÎÊ¸¾Ï¤Ç²þ¹Ô¤òÌµ»ë¤·¤Þ¤¹($::line_break=0¤ÈÆ±ÍÍ)¡£²þ¹Ô¤ò¹Ô¤¦¤¿¤á¤Ë¤Ï¹ÔËö¤Ë¥Á¥ë¥À¤òµ­½Ò¤¹¤ë¤«¡¢¹ÔÃæ¤Çbr¥×¥é¥°¥¤¥ó¤ò»ÈÍÑ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£ 
+ on¤Þ¤¿¤Ï1 ¡Ý °Ê¹ß¤ÎÊ¸¾Ï¤ÇÃÊÍîÆâ¤Î²þ¹Ô¤ò²þ¹Ô¤È¤ß¤Ê¤·¤Þ¤¹($::line_break=1¤ÈÆ±ÍÍ)¡£
+ off¤Þ¤¿¤Ï0 ¡Ý °Ê¹ß¤ÎÊ¸¾Ï¤Ç²þ¹Ô¤òÌµ»ë¤·¤Þ¤¹($::line_break=0¤ÈÆ±ÍÍ)¡£²þ¹Ô¤ò¹Ô¤¦¤¿¤á¤Ë¤Ï¹ÔËö¤Ë¥Á¥ë¥À¤òµ­½Ò¤¹¤ë¤«¡¢¹ÔÃæ¤Çbr¥×¥é¥°¥¤¥ó¤ò»ÈÍÑ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
  default ¡Ý ²þ¹Ô¤Î°·¤¤¤ò¤½¤Î¥µ¥¤¥È¤Î$::line_breakÀßÄê¤ËÌá¤·¤Þ¤¹¡£
 
 =back
@@ -39,11 +39,11 @@ setlinebreak¥×¥é¥°¥¤¥ó¤Ï³ºÅö¥Ú¡¼¥¸¤Î°Ê¹ß¤Î¹Ô¤Ë´Ø¤·¤Æ¡¢$::line_break¤ÎÀßÄê¤Ë°ø¤é¤
 
 =item PyukiWiki/Plugin/Standard/setlinebreak
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/setlinebreak/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/setlinebreak/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/setlinebreak.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/setlinebreak.inc.pl?view=log>
 
 
 =back
@@ -58,15 +58,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ¥é¥¤¥»¥ó¥¹
 
-Copyright (C) 2005-2011 by ¤Ê¤Ê¤ß.
+Copyright (C) 2005-2012 by ¤Ê¤Ê¤ß.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

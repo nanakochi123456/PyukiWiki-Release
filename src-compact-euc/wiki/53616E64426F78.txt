@@ -1,3 +1,5 @@
+#freeze
+#metarobots(disable)
 * SandBox: お砂場(練習ページ)です [#v299c566]
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|

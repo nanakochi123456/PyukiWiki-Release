@@ -1,15 +1,15 @@
 ######################################################################
 # adminchangepassword.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: adminchangepassword.inc.pl,v 1.48 2011/05/04 07:26:50 papu Exp $
+# $Id: adminchangepassword.inc.pl,v 1.297 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -29,22 +29,25 @@ sub plugin_adminchangepassword_action {
 	return('msg'=>"\t$::resource{adminchangepassword_plugin_title}",'body'=>$auth{html})
 		if($auth{authed} eq 0);
 
+	my($h,$b,$stat,$body);
 	if(defined($::form{extpass})) {
 		($stat,$body)=&plugin_adminchangepassword_set;
-		$body.=&plugin_adminchangepassword_input
-			if($stat ne 0);
+		if($stat ne 0) {
+			($h,$b)=&plugin_adminchangepassword_input($auth{crypt});
+			$body.=$b;
+		}
 	} else {
-		$body=&plugin_adminchangepassword_input;
+		($h,$body)=&plugin_adminchangepassword_input($auth{crypt});
 	}
 
 	my $in_head=<<EOM;
-<script  type="text/javascript"><!--
-function Display(id,mode){
-	if(document.all || document.getElementById){	//IE4, NN6 or later
-		if(document.all){
-			obj = document.all(id).style;
-		}else if(document.getElementById){
-			obj = document.getElementById(id).style;
+<script type="text/javascript"><!--
+function ViewPassForm(id,mode){
+	if(d.all || d.getElementById){	//IE4, NN6 or later
+		if(d.all){
+			obj = d.all(id).style;
+		}else if(d.getElementById){
+			obj = d.getElementById(id).style;
 		}
 		if(mode == "view") {
 			obj.display = "block";
@@ -57,6 +60,7 @@ function Display(id,mode){
 		}
 	}
 }
+@{[$h ne '' ? "\nfunction SetPass(e){$h}" : ""]}
 //--></script>
 EOM
 	return ('msg'=>"\t$::resource{adminchangepassword_plugin_title}", 'body'=>$body,
@@ -82,14 +86,14 @@ sub plugin_adminchangepassword_write {
 	if($::form{extpass} eq 1) {
 		$write=<<EOM;
 \$::adminpass = '$adminchangepassword::dummypass';
-\$::adminpass{admin}='@{[&plugin_adminchangepassword_crypt($::form{passwd_admin})]}';
-\$::adminpass{frozen}='@{[&plugin_adminchangepassword_crypt($::form{passwd_frozen})]}';
-\$::adminpass{attach}='@{[&plugin_adminchangepassword_crypt($::form{passwd_attach})]}';
+\$::adminpass{admin}='@{[&plugin_adminchangepassword_crypt(&password_decode($::form{passwd_admin},$::form{passwd_admin_enc},$::form{passwd_admin_token}))]}';
+\$::adminpass{frozen}='@{[&plugin_adminchangepassword_crypt(&password_decode($::form{passwd_frozen},$::form{passwd_frozen_enc},$::form{passwd_admin_token}))]}';
+\$::adminpass{attach}='@{[&plugin_adminchangepassword_crypt(&password_decode($::form{passwd_attach},$::form{passwd_attach_enc},$::form{passwd_attach_token}))]}';
 1;
 EOM
 	} else {
 		$write=<<EOM;
-\$::adminpass = '@{[&plugin_adminchangepassword_crypt($::form{passwd_common})]}';
+\$::adminpass = '@{[&plugin_adminchangepassword_crypt(&password_decode($::form{passwd_common},$::form{passwd_common_enc},$::form{passwd_common_token}))]}';
 \$::adminpass{admin}='';
 \$::adminpass{frozen}='';
 \$::adminpass{attach}='';
@@ -101,7 +105,7 @@ EOM
 		close(W);
 		$body=<<EOM;
 $::resource{adminchangepassword_plugin_msg_complete}<br />
-<form action="$::script" method="POST">
+<form action="$::script" method="POST" id="adminchangepasswd" name="adminchangepasswd">
 <input type="hidden" name="cmd" value="adminchangepassword" />
 <input type="submit" value="$::resource{adminchangepassword_plugin_btn_back}" />
 </form>
@@ -111,7 +115,7 @@ EOM
 		$msg=~s/FILE/$adminchangepassword::setupinicgi/g;
 		$body=<<EOM;
 <div class="error">$msg<br />
-<form action="$::script" method="POST">
+<form action="$::script" method="POST" id="adminchangepasswd" name="adminchangepasswd">
 <input type="hidden" name="cmd" value="adminchangepassword" />
 <input type="submit" value="$::resource{adminchangepassword_plugin_btn_back}" />
 </form>
@@ -124,13 +128,17 @@ sub plugin_adminchangepassword_check {
 	my($form,$stat,$body)=@_;
 
 	if($::form{"passwd_" . $form} eq '') {
+		$::form{"passwd_" . $form}=&password_decode($::form{"passwd_" . $form},$::form{"passwd_" . $form . "_enc"},$::form{"passwd_" . $form . "_token"});
+		$::form{"passwd2_" . $form}=&password_decode($::form{"passwd2_" . $form},$::form{"passwd2_" . $form . "_enc"},$::form{"passwd_" . $form . "_token"});
+	}
+	if($::form{"passwd_" . $form} eq '') {
 		$stat=1;
 		$body.=<<EOM;
 <div class="error">
 $::resource{"adminchangepassword_plugin_" . $form}
 $::resource{adminchangepassword_plugin_err_nopass}
 </div>
-</br >
+<br />
 EOM
 	} elsif(length($::form{"passwd_" . $form}) < $adminchangepassword::minlength
 	|| length($::form{"passwd_" . $form}) > $adminchangepassword::maxlength) {
@@ -142,7 +150,7 @@ EOM
 <div class="error">
 $::resource{"adminchangepassword_plugin_" . $form}$msg
 </div>
-</br >
+<br />
 EOM
 	} elsif($::form{"passwd_" . $form} ne $::form{"passwd2_" . $form}) {
 		$stat=1;
@@ -151,7 +159,7 @@ EOM
 $::resource{"adminchangepassword_plugin_" . $form}
 $::resource{adminchangepassword_plugin_err_ignore}
 </div>
-</br >
+<br />
 EOM
 	}
 	if($stat eq 1) {
@@ -162,19 +170,23 @@ EOM
 }
 
 sub plugin_adminchangepassword_input {
+	my($cryptflg)=@_;
+
 	my $body;
 	$body=<<EOM;
-<form action="$::script" method="POST">
+<form action="$::script" method="POST" id="adminchangepasswd" name="adminchangepasswd">
 <input type="hidden" name="cmd" value="adminchangepassword" />
 $auth{html}
 <table>
 <tr>
 <td width="$adminchangepassword::tableleftwidth">$::resource{adminchangepassword_plugin_extpass}:</td>
 <td>
-<input type="radio" name="extpass" value="0" onclick="Display('common','view');Display('admin','none');Display('frozen','none');Display('attach','none');"@{[!&plugin_adminchangepassword_checkmode ? " checked" : ""]} />
+<input type="radio" name="extpass" value="0" onclick="ViewPassForm('common','view');ViewPassForm('admin','none');ViewPassForm('frozen','none');ViewPassForm('attach','none');"@{[!&plugin_adminchangepassword_checkmode ? qq( checked="checked") : ""]} />
 $::resource{adminchangepassword_plugin_nouse}
-<input type="radio" name="extpass" value="1" onclick="Display('common','none');Display('admin','view');Display('frozen','view');Display('attach','view');"@{[&plugin_adminchangepassword_checkmode ? " checked" : ""]} />
+<input type="radio" name="extpass" value="1" onclick="ViewPassForm('common','none');ViewPassForm('admin','view');ViewPassForm('frozen','view');ViewPassForm('attach','view');"@{[&plugin_adminchangepassword_checkmode ? qq( checked="checked") : ""]} />
 $::resource{adminchangepassword_plugin_use}
+</td>
+</tr>
 </table>
 EOM
 	$body.=&plugin_adminchangepassword_makepasswdform("common"
@@ -190,13 +202,34 @@ EOM
 <table>
 <tr>
 <td width="$adminchangepassword::tableleftwidth">&nbsp;</td>
+EOM
+
+	my $js;
+	if($cryptflg) {
+		$js.="if(keypress(e)==false) return;";
+		$js.="var f=getid('adminchangepasswd');";
+		foreach("common","admin","frozen","attach") {
+			$js.="pencf(f.passwd\_$_,f.passwd\_$_\_enc,f.passwd\_$_\_token);";
+			$js.="pencf(f.passwd2\_$_,f.passwd2\_$_\_enc,f.passwd2\_$_\_token);";
+		}
+		$js.="fsubmitdelay('adminchangepasswd',e);";
+
+		$body.=<<EOM;
+<td><input type="button" value="$::resource{adminchangepassword_plugin_btn_submit}" onclick="SetPass();" onkeypress="SetPass(event);" />
+</td>
+EOM
+	} else {
+		$body.=<<EOM;
 <td><input type="submit" value="$::resource{adminchangepassword_plugin_btn_submit}" />
 </td>
+EOM
+	}
+	$body.=<<EOM;
 </tr>
 </table>
 </form>
 EOM
-	return $body;
+	return ($js,$body);
 }
 
 sub plugin_adminchangepassword_crypt {
@@ -252,11 +285,11 @@ Change Administrator's password (or frozen, attach)
 
 =item PyukiWiki/Plugin/Admin/adminchangepassword
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/adminchangepassword/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/adminchangepassword/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/adminchangepassword.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/adminchangepassword.inc.pl?view=log>
 
 =back
 
@@ -270,15 +303,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

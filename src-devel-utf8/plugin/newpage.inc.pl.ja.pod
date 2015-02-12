@@ -1,0 +1,73 @@
+#$Id: newpage.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+newpage.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ ?cmd=newpage&mypage=ページ名&refer=関連ページ
+
+=head1 説明
+
+新しいページを作成する
+
+=head1 設定
+
+=head 2 pyukiwiki.ini.cgi
+
+=over 4
+
+=item $::new_refer
+
+新規作成の場合、関連ページのリンクを初期値として表示する画面を新規ページ名入力画面で表示する。
+
+空文字にすると表示されません。
+
+=item $::new_dirnavi
+
+新規ページ作成画面で、どのページの下層に来るか選択できるようにする 1:使用/0:未使用
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/newpage
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/newpage/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/newpage.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item Nekyo
+
+L<http://nekyo.qp.land.to/>
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2004-2012 by Nekyo.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

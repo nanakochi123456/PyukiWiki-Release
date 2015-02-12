@@ -1,0 +1,16 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: deletecache.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# deletecache.inc.pl
+deletecache_plugin_title=キャッシュの削除
+deletecache_plugin_deleted=削除しました
+deletecache_plugin_error=削除できませんでした
+
+deletecache_plugin_listmsg=削除する拡張子を選択して下さい。
+deletecache_plugin_files=ファイル
+deletecache_plugin_btn_delete=削除
+deletecache_plugin_msg_deleted=以下のファイルを削除しました。
+deletecache_plugin_btn_back=戻る

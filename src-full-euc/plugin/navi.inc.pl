@@ -1,15 +1,15 @@
 ######################################################################
 # navi.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: navi.inc.pl,v 1.56 2011/05/04 07:26:50 papu Exp $
+# $Id: navi.inc.pl,v 1.305 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,25 +17,22 @@
 # Return:LF Code=Shift-JIS 1TAB=4Spaces
 ######################################################################
 # Based on PukiWiki 1.4.6 navi.inc.php,v 1.22 2005/04/02 06:33:39 henoheno
-
+#
 #*Usage
 # #navi(パターン[,prefixのタイトル][,reverse])
 ######################################################################
-
 $navi::head_link=1
 	if(!defined($navi::head_link));
-
+######################################################################
 sub plugin_navi_convert {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
-
 	my $prefix = '';
 	my @args = split(/,/, shift);
 	my $reverse = 0;
 	my (@pages, $txt, @txt, $tocnum);
 	my $body = '';
 	my $prefixtitle;
-
 	if (@args > 0) {
 		$prefix = shift(@args);
 		foreach my $arg (@args) {
@@ -54,7 +51,6 @@ sub plugin_navi_convert {
 		push(@pages, $page) if ($page =~ /^$prefix\/|^$prefix$/ && &is_readable($page) && $page!~/$::non_list/);
 	}
 	@pages = reverse(@pages) if ($reverse);
-
 	my ($pageprev,$pagenow,$pagenext,$pagepush);
 	foreach my $page(@pages) {
 		if($pagenow ne '') {
@@ -66,7 +62,6 @@ sub plugin_navi_convert {
 		$pageprev=$pagepush;
 		$pagepush=$page;
 	}
-
 	if($navi::head_link eq 1 && $::IN_HEAD!~/<link/) {
 		$::IN_HEAD.=qq(<link rel="up" href="@{[&make_cookedurl(&encode($prefix))]}" title="$prefix" />\n);
 		$::IN_HEAD.=qq(<link rel="prev" href="@{[&make_cookedurl(&encode($pageprev))]}" title="$pageprev" />\n)
@@ -81,7 +76,5 @@ sub plugin_navi_convert {
 		if($pagenext ne '');
 	$body.=qq(<li class="navi_none">@{[&make_link_wikipage($prefix,$prefixtitle eq '' ? $prefix : $prefixtitle)]}</li>\n</ul>\n<hr class="full_hr" />);
 }
-
 1;
 __END__
-

@@ -1,0 +1,194 @@
+/* "PyukiWiki" version 0.2.0 $$ */
+/* $Id: common.lang.js.src,v 1.171 2011/12/31 13:06:16 papu Exp $ */
+/* Code=UTF-8 */
+
+var	d=document,
+	w=window,
+	ie=d.selection ? 1 : 0,
+	moz=(d.getSelection && !w.opera) ? 1 : 0;
+
+/* for antispam.inc.cgi */
+function addec_link(ad) {
+	var dec=addec_ext(ad);
+
+	if(confirm( '送信先を\n>> '+dec+'\nとして新規にメールを作成します.')) {	# lang_ja
+	if(confirm( 'New mail creation as address\n>>' + dec) ) {	# lang_en
+		location=dec;
+	}
+}
+
+function addec_text(ad,id) {
+	var dec=addec_ext(ad);
+	d.getElementById(id).innerHTML = dec;
+}
+
+function addec_ext(ad) {
+	for(var dec="",i=0;i<ad.length;i+=4) {
+		var dif = cs.indexOf(ad.charAt(i))*cs.length+cs.indexOf(ad.charAt(i+1)),
+		c0=cs.indexOf(ad.charAt(i+2)), c=c0*cs.length+cs.indexOf(ad.charAt(i+3))-dif;
+		dec=dec+String.fromCharCode(c);
+	}
+	return dec;
+}
+
+function openURI(a, frame){
+	w.open(a, frame);
+	return false;
+}
+
+/* for form reset cancel for IE */
+
+/* from http://q.hatena.ne.jp/1157553490
+   and  http://www.programming-magic.com/file/20080205232140/keycode_table.html
+ */
+
+function keyCode(e){
+	var e=w.event || e;
+
+	if(d.all)
+         return e.keyCode;
+     else if(d.getElementById)
+         return e.keyCode ? e.keyCode : e.charCode;
+     else if(d.layers)
+         return e.which;
+}
+
+function escpress(e) {
+	if(e == null) return true;
+	if(d.all && keyCode(e) == 27) {
+		return false;
+	}
+	return true;
+}
+
+/* this is include to main routine */
+/* d.onkeydown=escpress; */
+
+/* for ref.inc.pl */
+/* from http://martin.p2b.jp/index.php?UID=1115484023 */
+
+function getClientWidth(){
+	if(self.innerWidth){
+		return self.innerWidth;
+	} else if(d.documentElement && d.documentElement.clientWidth){
+		return d.documentElement.clientWidth;
+	} else if(d.body){
+		return d.body.clientWidth;
+	}
+}
+
+function getClientHeight(){
+	if(self.innerHeight){
+		return self.innerHeight;
+	} else if(d.documentElement && d.documentElement.clientHeight){
+		return d.documentElement.clientHeight;
+	} else if(d.body){
+		return d.body.clientHeight;
+	}
+}
+
+function getDocHeight(){
+	var h;
+	if(d.documentElement && d.body){
+		h = Math.max(
+		d.documentElement.scrollHeight,d.documentElement.offsetHeight,d.body.scrollHeight
+	);
+	} else h = d.body.scrollHeight;
+	return (arguments.length==1) ? h + 'px' : h;
+}
+
+function getScrollY(){
+	if(typeof w.pageYOffset != "undefined"){
+		return w.pageYOffset;
+	} else if(d.body && typeof d.body.scrollTop != "undefined"){
+		if(d.compatMode == 'CSS1Compat'){
+			return d.documentElement.scrollTop;;
+		}
+		return d.body.scrollTop;
+	} else if(d.documentElement && typeof d.documentElement.scrollTop != "undefined"){
+		return d.documentElement.scrollTop;
+	}
+	return 0;
+}
+
+var imgPop = null;
+
+imagePop = function (e, path, w, h){
+	if(imgPop==null){
+		imgPop = d.createElement("img");
+		imgPop.src = path;
+		with (imgPop.style){
+			position = "absolute";
+			left = Math.round((getClientWidth()-w) / 2) + "px";
+			top = Math.round((getClientHeight()-h) / 2 + getScrollY()) + "px";
+			margin = "0";
+			zIndex = 1000;
+			border = "4px groove Teal";
+			display = "none";
+		}
+		d.body.appendChild(imgPop);
+		if(imgPop.complete){
+			imgPop.style.display = "block";
+		} else w.status = "画像読み込み中…";	# lang_en
+		} else w.status = "Loading image...";	# lang_ja
+		imgPop.onload = function(){imgPop.style.display="block"; w.status="";}
+		imgPop.onclick = function(){d.body.removeChild(imgPop);imgPop=null;}
+		imgPop.title = "Close for mouse click";		# lang_en
+		imgPop.title = "マウスクリックで閉じます";	# lang_ja
+	}
+}
+
+/* from http://martin.p2b.jp/index.php?date=20050201 */
+hackFirefoxToolTip = function(e){
+	var aa=d.getElementsByTagName('a'),
+		tT=d.createElement('div'),
+		sd=d.createElement('div');
+
+	with(tT.style) {
+		position='absolute';
+		backgroundColor='ivory';
+		border='1px solid #333';
+		padding='1px 3px 1px 3px';
+		font='500 11px arial';
+		zIndex=10000;
+		top="-100px";
+	}
+	with (sd.style) {
+		position='absolute';
+		MozOpacity=0.3;
+		MozBorderRadius='3px';
+		background='#000';
+		zIndex=tT.style.zIndex - 1;
+	}
+	for(i=0,l=aa.length;i<l;i++){
+		if(aa[i].getAttribute('title') != null || aa[i].getAttribute('alt') != null){
+			aa[i].onmouseover=function(e){
+				var _title=this.getAttribute('title')!=null ? this.getAttribute('title') : this.getAttribute('alt');
+				this.setAttribute('title', '');
+				_title=_title.replace(/[\r\n]+/g,'<br/>').replace(/\s/g,'&nbsp;');
+				if(_title=='') return;
+				tT.style.left=20+e.pageX+'px';
+				tT.style.top=10+e.pageY+'px';
+				tT.innerHTML=_title;
+				with(sd.style){
+					width=tT.offsetWidth-2+'px';
+					height=tT.offsetHeight-2+'px';
+					left=parseInt(tT.style.left)+5+'px';
+					top=parseInt(tT.style.top)+5+'px';
+				}
+			}
+			aa[i].onmouseout=function(){
+				this.setAttribute('title', tT.innerHTML.replace(/<br\/>/g,'&#13;&#10;').replace(/&nbsp;/g,' '));
+				tT.style.top='-1000px';
+				sd.style.top='-1000px';
+				tT.innerHTML='';
+			}
+		}
+	}
+	d.body.appendChild(sd);
+	d.body.appendChild(tT);
+}
+
+w.onload = function(){
+	if(w.sidebar) hackFirefoxToolTip();
+}

@@ -1,0 +1,106 @@
+#$Id: smedia.inc.pl.ja.pod,v 1.65 2011/12/31 13:06:14 papu Exp $
+=head1 NAME
+
+smedia.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ #smedia([menubar|sidebar],[options=value[,options=value]])
+
+ &smedia([menubar|sidebar],[options=value[,options=value]]);
+
+=head1 説明
+
+ソーシャルメディアのリンクを生成する。
+
+=head1 注意
+
+XHTML1.1モードでは動作しません。
+
+同じページに２つ以上設置することはできません。
+
+=head1 簡単なサービス登録方法
+
+=over 4
+
+=item Twitter
+
+以下のURLから登録する。
+
+L<https://twitter.com/about/resources/buttons#tweet>
+
+=item FaceBook
+
+以下のURLから登録する。
+
+L<http://developers.facebook.com/docs/reference/plugins/like/>
+
+=item google+
+
+以下のURLから登録する。
+
+L<http://www.google.com/intl/ja/webmasters/+1/button/index.html>
+
+=item はてなブックマーク（日本語のみ）
+
+以下のURLから登録する。
+
+L<http://b.hatena.ne.jp/guide/bbutton>
+
+=item mixiチェック
+
+以下のURLからDeveloper登録を行なう。要携帯メールアドレス
+
+L<https://mixi.jp/guide_developer.pl>
+
+mixi Developper Center L<http://developer.mixi.co.jp/> の mixi Developer Dashboard L<https://sap.mixi.jp/home.pl> から チェックキーの発行を行なう。
+
+トップページから、mixi Plugin にアクセスする。
+
+左メニューから、「新規サービス追加」をクリックする。
+
+必要な情報を記述すると、チェックキーが発行されるので、$smedia::mixi{"data-key"}=""; の中にチェックキーを代入する。
+
+
+=back
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/smedia
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/smedia/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/smedia.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

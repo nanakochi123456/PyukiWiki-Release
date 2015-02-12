@@ -1,15 +1,15 @@
 ######################################################################
 # slashpage.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: slashpage.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: slashpage.inc.pl,v 1.339 2011/12/31 13:06:09 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-rc6 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,18 +19,14 @@
 # This is extented plugin.
 # To use this plugin, rename to 'slashpage.inc.cgi'
 ######################################################################
-
 use strict;
-
 sub plugin_slashpage_init {
 	&exec_explugin_sub("lang");
 	@::PLUGIN_SLASHPAGE_STACK=();
-
 	foreach my $pages (keys %::database) {
 		push(@::PLUGIN_SLASHPAGE_STACK,$pages) if($pages=~/\//);
 	}
 	@::PLUGIN_SLASHPAGE_STACK=sort @::PLUGIN_SLASHPAGE_STACK;
-
 	my $req=$ENV{QUERY_STRING};
 	if($req ne '' && $::form{mypage} eq $::FrontPage && ($::form{cmd} eq '' || $::form{cmd} eq 'read')) {
 		if (&is_exist_page($req)) {
@@ -48,13 +44,11 @@ sub plugin_slashpage_init {
 	}
 	return('init'=>1,'func'=>'make_link_wikipage', 'make_link_wikipage'=>\&make_link_wikipage);
 }
-
 sub make_link_wikipage {
 	my($chunk1,$escapedchunk)=@_;
 	my($chunk,$anchor)=$chunk1=~/^([^#]+)#?(.*)/;
 	my $cookedchunk  = &encode($chunk);
 	my $cookedurl=&make_cookedurl($cookedchunk);
-
 	if (&is_exist_page($chunk)) {
 		if($anchor eq '') {
 			return qq(<a title="$chunk" href="$cookedurl">$escapedchunk</a>);
@@ -76,17 +70,14 @@ sub make_link_wikipage {
 		}
 	}
 	if (&is_editable($chunk)) {
-
 		if ($::editchar eq 'this') {
 			return qq(<a title="$::resource{editthispage}" class="editlink" href="$::script?cmd=edit&amp;mypage=$cookedchunk">$escapedchunk</a>);
 		} elsif ($::editchar) {
-
 			return qq($escapedchunk<a title="$::resource{editthispage}" class="editlink" href="$::script?cmd=edit&amp;mypage=$cookedchunk">$::editchar</a>);
 		}
 	}
 	return $escapedchunk;
 }
-
 1;
 __DATA__
 sub plugin_slashpage_setup {
@@ -97,6 +88,6 @@ sub plugin_slashpage_setup {
 	'use_opt'=>'',
 	'use_cmd'=>'',
 	'override'=>'make_link_wikipage',
+	'url'=>'http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/ExPlugin/slashpage/'
 	);
 __END__
-

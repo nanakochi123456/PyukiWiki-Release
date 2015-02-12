@@ -1,0 +1,14 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: setupeditor.en.txt,v 1.251 2011/12/31 13:06:12 papu Exp $
+#
+
+# setupeditor.inc.pl
+setupeditor_plugin_title=PyukiWiki Setup File Editor
+setupeditor_plugin_edit=Edit Form (If empty string, delete file)¡Ë<br />Attention! when password is edited by this file or plugin.<br />Please put ";" on last line.
+setupeditor_plugin_backup=Before edit content (Can't edit)
+setupeditor_plugin_org=PyukiWiki Default (Can' edit)
+setupeditor_plugin_submit=Edit
+setupeditor_plugin_edited=Edited.
+setupeditor_plugin_deleted=Deleted.

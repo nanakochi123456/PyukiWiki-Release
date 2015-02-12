@@ -1,0 +1,59 @@
+#$Id: title.inc.pl.ja.pod,v 1.242 2011/12/31 13:06:11 papu Exp $
+
+__END__
+=encoding euc-jp
+
+=head1 NAME
+
+title.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ #title(titleタグ文字列)
+
+=head1 説明
+
+titleタグを設定します。
+
+なお、安全の為に凍結されたページからしか使えません。
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/title
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/title/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/title.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item ななみ
+
+L<http://nanakochi.daiba.cx/> etc...
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2005-2012 by ななみ.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

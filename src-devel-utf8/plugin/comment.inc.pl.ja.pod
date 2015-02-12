@@ -1,0 +1,112 @@
+#$Id: comment.inc.pl.ja.pod,v 1.171 2011/12/31 13:06:14 papu Exp $
+
+__END__
+=encoding utf-8
+
+=head1 NAME
+
+comment.inc.pl - PyukiWiki プラグイン
+
+=head1 概要
+
+ #comment
+
+=head1 説明
+
+コメントフォームを表示して、訪問者からのコメント入力を受け付ける
+
+=head1 使用方法
+
+ #comment([above], [below], [nodate], [noname])
+
+=over 4
+
+=item above
+
+コメントの上に挿入する
+
+=item below
+
+コメントの下に挿入する
+
+=item nodate
+
+日付を表示しない
+
+=item noname
+
+名前を使用しない
+
+=back
+
+=head1 設定
+
+=head2 pyukiwiki.ini.cgiの設定
+
+=over 4
+
+=item $::writefrozenplugin
+
+１の場合、凍結されたページでも書き込めるようにする。
+
+=back
+
+=head2 comment.inc.plの設定
+
+=over 4
+
+=item my $comment_format
+Wiki文法でコメントを挿入する書式
+
+\x08はセパレーターなので、削除しないで下さい。
+
+=item $comment::noname
+
+1 の場合、名前なしで処理しない
+
+=item $comment::nodata
+
+1 の場合、コメントなしでエラーとする
+
+=back
+
+=head1 参考
+
+=over 4
+
+=item PyukiWiki/Plugin/Standard/comment
+
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/comment/>
+
+=item PyukiWiki CVS
+
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/comment.inc.pl?view=log>
+
+=back
+
+=head1 著者
+
+=over 4
+
+=item Nekyo
+
+L<http://nekyo.qp.land.to/>
+
+=item PyukiWiki Developers Team
+
+L<http://pyukiwiki.sfjp.jp/>
+
+=back
+
+=head1 ライセンス
+
+Copyright (C) 2004-2012 by Nekyo.
+
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
+
+License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut

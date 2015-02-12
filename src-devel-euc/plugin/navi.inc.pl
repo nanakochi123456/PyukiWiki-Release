@@ -1,15 +1,15 @@
 ######################################################################
 # navi.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: navi.inc.pl,v 1.56 2011/05/04 07:26:50 papu Exp $
+# $Id: navi.inc.pl,v 1.305 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,13 +17,14 @@
 # Return:LF Code=Shift-JIS 1TAB=4Spaces
 ######################################################################
 # Based on PukiWiki 1.4.6 navi.inc.php,v 1.22 2005/04/02 06:33:39 henoheno
-
+#
 #*Usage
 # #navi(パターン[,prefixのタイトル][,reverse])
 ######################################################################
 
 $navi::head_link=1		# <head>～</head>に<link>タグを出力
 	if(!defined($navi::head_link));
+######################################################################
 
 sub plugin_navi_convert {
 	my ($args) = @_;
@@ -129,11 +130,11 @@ Reverse sort of navi list
 
 =item PyukiWiki/Plugin/Standard/navi
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/navi/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/navi/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/navi.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/navi.inc.pl?view=log>
 
 =back
 
@@ -147,15 +148,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

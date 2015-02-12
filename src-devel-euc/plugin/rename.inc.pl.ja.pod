@@ -1,4 +1,4 @@
-#$Id: rename.inc.pl.ja.pod,v 1.82 2011/05/04 07:26:50 papu Exp $
+#$Id: rename.inc.pl.ja.pod,v 1.331 2011/12/31 13:06:11 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -15,25 +15,25 @@ rename.inc.pl - PyukiWiki 管理者向けプラグイン
 
 Wikiページ名を変更するためのプラグインです。
 
-カウンタ、差分(diff)、添付ファイルもあわせてリネームされます。 
+カウンタ、差分(diff)、添付ファイルもあわせてリネームされます。
 
-PukiWikiからの移植です。 
+PukiWikiからの移植です。
 
-PyukiWikiで実装されていない部分は省略しています。 
+PyukiWikiで実装されていない部分は省略しています。
 
 =head1 バグ
 
-recentに対して更新をかけていない。 
+recentに対して更新をかけていない。
 
 =head1 参考
 
 =over 4
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Admin/rename/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Admin/rename/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rename.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/rename.inc.pl?view=log>
 
 =item サイト制作/PyukiWiki/プラグイン/リネーム
 
@@ -53,15 +53,15 @@ L<http://www.re-birth.com/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 ライセンス
 
-Copyright (C) 2005-2011 by Junichi.
+Copyright (C) 2005-2012 by Junichi.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

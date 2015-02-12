@@ -1,0 +1,11 @@
+#
+# PyukiWiki Resource file (English)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: article.en.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# article.inc.pl
+article_plugin_name=Name:
+article_plugin_subject=Subject:
+article_plugin_btn=Submit
+article_plugin_err=Items mentioned are insufficient.

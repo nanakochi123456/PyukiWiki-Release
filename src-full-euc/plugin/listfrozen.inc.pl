@@ -1,22 +1,21 @@
 ######################################################################
 # listfrozen.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: listfrozen.inc.pl,v 1.87 2011/05/04 07:26:50 papu Exp $
+# $Id: listfrozen.inc.pl,v 1.336 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 sub plugin_listfrozen_action {
 	my $body;
 	my $upperlist;
@@ -24,25 +23,9 @@ sub plugin_listfrozen_action {
 	%::auth=&authadminpassword(submit);
 	return('msg'=>"\t$::resource{listfrozen_plugin_title}",'body'=>$auth{html})
 		if($auth{authed} eq 0);
-
 	$::IN_HEAD.=<<EOM;
 <script type="text/javascript"><!--
-function allcheckbox(v) {
-	var len=document.sel.elements.length;
-	for(var i=0;i<len;i++) {
-		if(document.sel.elements[i].type == "checkbox") {
-			if(v == 1) {
-				if(!document.sel.elements[i].checked) {
-					document.sel.elements[i].click();
-				}
-			} else {
-				if(document.sel.elements[i].checked) {
-					document.sel.elements[i].click();
-				}
-			}
-		}
-	}
-}
+function allcheckbox(a){f=d.getElementById("sel");len=f.elements.length;for(i=0;i<len;i++){if(f.elements[i].type=="checkbox"){if(a==1){if(!f.elements[i].checked){f.elements[i].click()}}else{if(f.elements[i].checked){f.elements[i].click()}}}}};
 //--></script>
 EOM
 	foreach my $pages (keys %::database) {
@@ -84,22 +67,21 @@ EOM
 	} else {
 		@ALLLIST=sort @ALLLIST;
 	}
-
 	if($::form{exec} eq '') {
 	$body=<<EOM;
 <h2>$::resource{listfrozen_plugin_title}</h2>
 $::resource{listfrozen_plugin_msg}
-<form action="$::script" method="post" name="sel">
-<input type="hidden" name="cmd" value="listfrozen">
+<form action="$::script" method="post" name="sel" id="sel">
+<input type="hidden" name="cmd" value="listfrozen" />
 $auth{html}
-<input type="submit" name="exec" value="$::resource{listfrozen_plugin_btn_submit}">
+<input type="submit" name="exec" value="$::resource{listfrozen_plugin_btn_submit}" />
 <hr />
 <select name="dir">
 <option value="">$::resource{listfrozen_plugin_dir}</option>
 EOM
 	foreach(@DIRLIST) {
 		$body.=<<EOM;
-<option value="$_"@{[$::form{dir} eq $_ ? ' selected' : '']}>$_</option>
+<option value="$_"@{[$::form{dir} eq $_ ? ' selected="selected"' : '']}>$_</option>
 EOM
 	}
 	$body.=<<EOM;
@@ -108,14 +90,14 @@ EOM
 EOM
 	foreach("date","date_reverse","name","name_reverse") {
 		$body.=<<EOM;
-<option value="$_"@{[$::form{sort} eq $_ ? ' selected' : '']}>$::resource{"listfrozen_plugin_sort_$_"}</option>
+<option value="$_"@{[$::form{sort} eq $_ ? ' selected="selected"' : '']}>$::resource{"listfrozen_plugin_sort_$_"}</option>
 EOM
 	}
 	$body.=<<EOM;
 </select>
-<input type="submit" name="view" value="$::resource{listfrozen_plugin_btn_view}">
-<input type="button" value="$::resource{listfrozen_plugin_btn_checkon}" onclick="allcheckbox(1);">
-<input type="button" value="$::resource{listfrozen_plugin_btn_checkoff}" onclick="allcheckbox(0);">
+<input type="submit" name="view" value="$::resource{listfrozen_plugin_btn_view}" />
+<input type="button" value="$::resource{listfrozen_plugin_btn_checkon}" onclick="allcheckbox(1);" />
+<input type="button" value="$::resource{listfrozen_plugin_btn_checkoff}" onclick="allcheckbox(0);" />
 <br />
 EOM
 		foreach(@ALLLIST) {
@@ -123,18 +105,18 @@ EOM
 			if($::form{dir} ne '') {
 				if("$::form{dir}/" ne substr($page,0,length($::form{dir})+1)) {
 					$body.=<<EOM;
-<input type="hidden" name="frozen_$hex" value="@{[$frozen eq 0 ? '':1]}">
-<input type="hidden" name="check_$hex" value="$frozen">
-<input type="hidden" name="exist_$hex" value="1">
+<input type="hidden" name="frozen_$hex" value="@{[$frozen eq 0 ? '':1]}" />
+<input type="hidden" name="check_$hex" value="$frozen" />
+<input type="hidden" name="exist_$hex" value="1" />
 EOM
 					next;
 				}
 			}
 			my $pg2=$page;
 			$body.=<<EOM;
-<input type="checkbox" name="frozen_$hex" value="1"@{[$frozen eq 0 ? '' : ' checked']}>
-<input type="hidden" name="check_$hex" value="$frozen">
-<input type="hidden" name="exist_$hex" value="1">
+<input type="checkbox" name="frozen_$hex" value="1"@{[$frozen eq 0 ? '' : ' checked="checked"']} />
+<input type="hidden" name="check_$hex" value="$frozen" />
+<input type="hidden" name="exist_$hex" value="1" />
 @{[&make_link($pg2)]}
 &nbsp;(<a href="$::script?cmd=adminedit&amp;mypage=@{[&encode($page)]}">$::resource{editbutton}</a>)&nbsp;
 $date<br />
@@ -176,12 +158,12 @@ EOM
 <h2>$::resource{listfrozen_plugin_title}</h2>
 $::resource{listfrozen_plugin_execmsg}
 <form action="$::script" method="post" name="sel">
-<input type="hidden" name="cmd" value="listfrozen">
+<input type="hidden" name="cmd" value="listfrozen" />
 $auth{html}
-<input type="submit" name="return" value="$::resource{listfrozen_plugin_btn_return}">
+<input type="submit" name="return" value="$::resource{listfrozen_plugin_btn_return}" />
 <hr />
-<input type="hidden" name="dir" value="$::form{dir}">
-<input type="hidden" name="sort" value="$::form{sort}">
+<input type="hidden" name="dir" value="$::form{dir}" />
+<input type="hidden" name="sort" value="$::form{sort}" />
 <table>
 EOM
 		if($::form{sort} eq 'name') {
@@ -203,4 +185,3 @@ EOM
 }
 1;
 __END__
-

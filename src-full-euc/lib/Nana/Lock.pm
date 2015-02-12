@@ -1,16 +1,16 @@
 ######################################################################
 # Lock.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Lock.pm,v 1.81 2011/05/04 07:26:50 papu Exp $
+# $Id: Lock.pm,v 1.330 2011/12/31 13:06:10 papu Exp $
 #
 # "Nana::Lock" version 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -28,26 +28,20 @@
 # from http://www.din.or.jp/~ohzaki/perl.htm#File_Lock
 #
 ######################################################################
-
 package	Nana::Lock;
 use 5.005;
 use strict;
 use vars qw($VERSION);
 $VERSION = '0.2';
-
-
 $Nana::Lock::LOCK_SH=1;
 $Nana::Lock::LOCK_EX=2;
 $Nana::Lock::LOCK_NB=4;
 $Nana::Lock::LOCK_DELETE=128;
-
 # rename lock idea
 # http://www.din.or.jp/~ohzaki/perl.htm#File_Lock
-
 sub lock {
 	my $timeout=5;
 	my $trytime=2;
-
 	my($fname,$method)=@_;
 	my($d,$f,$e)=$fname=~/(.*)\/(.+)\.(.+)$/;
 	$f=~s/[.%()[]:*,_]//g;
@@ -64,12 +58,10 @@ sub lock {
 		return &lock_del(%lfh);
 	}
 	return if($lfh{method} eq 0);
-
 	for(my $i=0; $i < $lfh{trytime}*10; $i++) {
 		$lfh{current}=sprintf("%s/%s.%x.%x.%x.%d.lk"
 			,$lfh{dir},$lfh{basename},$lfh{method},$$,time);
 		return \%lfh if(rename($lfh{path},$lfh{current}));
-
 		my @filelist=&lock_getdir(%lfh);
 		my @locklist=();
 		my $fcount=0;
@@ -115,11 +107,9 @@ sub lock {
 	}
 	return undef;
 }
-
 sub unlock {
 	rename($_[0]->{current}, $_[0]->{path});
 }
-
 sub lock_del {
 	my(%lfh)=@_;
 	unlink($lfh{path});
@@ -130,7 +120,6 @@ sub lock_del {
 		}
 	}
 }
-
 sub lock_getdir {
 	my(%lfh)=@_;
 	opendir(LOCKDIR, $lfh{dir});
@@ -138,6 +127,5 @@ sub lock_getdir {
 	closedir(LOCKDIR);
 	return @filelist;
 }
-
 1;
 __END__

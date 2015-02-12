@@ -1,15 +1,17 @@
+#freeze
+#metarobots(disable)
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]]用の練習ページです。
-//$Id: 496E74657257696B6953616E64426F78.txt,v 1.82 2011/05/04 07:26:50 papu Exp $	# debug
+//$Id: 496E74657257696B6953616E64426F78.txt,v 1.331 2011/12/31 13:06:12 papu Exp $	# debug
 
 |SEO SPAMボットの攻撃対象になるため、デフォルトでこのページは凍結されています。|
 
 **他のWikiのページに飛んでみよう。
 -[[WikiWikiWeb:FrontPage]]
 -[[WalWiki:WalWiki]]
--[[Tiki:WelcomeVisitors]] 
--[[YukiWiki:FrontPage]] 
--[[RWiki:top]] 
--[[PukiWiki:FrontPage]] 
+-[[Tiki:WelcomeVisitors]]
+-[[YukiWiki:FrontPage]]
+-[[RWiki:top]]
+-[[PukiWiki:FrontPage]]
 -[[pukiwiki.dev:FrontPage]]
 
 **PyukiWikiのページに飛んでみよう。
@@ -35,4 +37,3 @@
 #lookup(MSN,検索,PyukiWiki)
 #lookup(Goo,検索,PyukiWiki)
 #lookup(Fresheye,検索,PyukiWiki)
-

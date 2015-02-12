@@ -1,0 +1,9 @@
+#
+# PyukiWiki Resource file (Japanese UTF-8)
+# "PyukiWiki" version 0.2.0 $$
+# $Id: yetlist.ja.txt,v 1.171 2011/12/31 13:06:15 papu Exp $
+#
+
+# yetlist.inc.pl
+yetlist_plugin_title=未作成のページ一覧
+yetlist_plugin_nopage=未作成のページはありません

@@ -1,34 +1,30 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.89 2011/05/04 07:26:50 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.338 2011/12/31 13:06:10 papu Exp $
 #
 # "Yuki::YukiWikiDB" version 2.1.2a $$
 # Author: Hiroshi Yuki
 # http://www.hyuki.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 package Yuki::YukiWikiDB;
 $VERSION="2.1.2a";
-
 use strict;
 use Fcntl ':flock';
-
 # Constructor
 sub new {
 	return shift->TIEHASH(@_);
 }
-
 # tying
 sub TIEHASH {
 	my ($class, $dbname) = @_;
@@ -43,7 +39,6 @@ sub TIEHASH {
 	}
 	return bless($self, $class);
 }
-
 # Store
 sub STORE {
 	my ($self, $key, $value) = @_;
@@ -51,7 +46,6 @@ sub STORE {
 	&lock_store($filename, $value);
 	return $value;
 }
-
 # Fetch
 sub FETCH {
 	my ($self, $key) = @_;
@@ -59,22 +53,18 @@ sub FETCH {
 	my $value = &lock_fetch($filename);
 	return $value;
 }
-
 # Exists
 sub EXISTS {
 	my ($self, $key) = @_;
 	my $filename = &make_filename($self, $key);
 	return -e($filename);
 }
-
 # Delete
 sub DELETE {
 	my ($self, $key) = @_;
 	my $filename = &make_filename($self, $key);
 	unlink $filename;
-
 }
-
 sub FIRSTKEY {
 	my ($self) = @_;
 	opendir(DIR, $self->{dir}) or die $self->{dir};
@@ -85,12 +75,10 @@ sub FIRSTKEY {
 	}
 	return shift @{$self->{keys}};
 }
-
 sub NEXTKEY {
 	my ($self) = @_;
 	return shift @{$self->{keys}};
 }
-
 sub make_filename {
 	my ($self, $key) = @_;
 	my $enkey = '';
@@ -99,44 +87,32 @@ sub make_filename {
 	}
 	return $self->{dir} . "/$enkey.txt";
 }
-
 sub lock_store {
 	my ($filename, $value) = @_;
 	open(FILE, "+< $filename") or open(FILE, "> $filename") or die "$filename cannot be created";
 	eval("flock(FILE, LOCK_EX)");
 	if ($@) {
-
-
 	}
 	truncate(FILE, 0);
-
 	$value =~ s/\x0D\x0A/\n/g;
 	print FILE $value;
 	eval("flock(FILE, LOCK_UN)");
 	if ($@) {
-
-
 	}
 	close(FILE);
 }
-
 sub lock_fetch {
 	my ($filename) = @_;
 	open(FILE, "$filename") or return(undef);
 	eval("flock(FILE, LOCK_SH)");
 	if ($@) {
-
-
 	}
 	local $/;
 	my $value = <FILE>;
 	eval("flock(FILE, LOCK_UN)");
 	if ($@) {
-
-
 	}
 	close(FILE);
 	return $value;
 }
-
 1;

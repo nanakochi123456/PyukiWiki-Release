@@ -1,15 +1,15 @@
 ######################################################################
 # sitemap.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: sitemap.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
+# $Id: sitemap.inc.pl,v 1.341 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -66,14 +66,14 @@ sub plugin_sitemap_action {
 	$::form{level}=5 if($::form{level}+0 eq 0);
 
 	foreach $basepage(split(/\n/,$::database{$menubar})) {
-		# MenuBarから ***の項目を抽出する
+		# MenuBarから ***の項目を抽出する					# comment
 		if ($basepage=~/^(\*{1,5})(.+)/) {
 			$name=$basepage;
 			$name=~s/^(\*{1,5})//g;
 			$name=&plugin_sitemap_trim($name);
 			$menucount++;
 			push(@sitemap,$name);
-		#  MenuBarからブラケットを抽出する
+		#  MenuBarからブラケットを抽出する					# comment
 		}elsif($basepage=~/$::bracket_name/ && $basepage!~/>(http:|https:|ftp:|mailto:|\?)/
 			&& $basepage!~/($::interwiki_name1|$::interwiki_name2)/) {
 			$basepage=~s/$::bracket_name/$1/g;
@@ -82,7 +82,7 @@ sub plugin_sitemap_action {
 			if(&is_readable($basepage)) {
 				$submenu++;
 				$sitemap{$name}.=sprintf("%05d\t%05d\t%05d\t%05d\t%s\n",$menucount,$submenu,0,0,$basepage);
-				# MenuBarから抽出したページから、次レベルのページを抽出する
+				# MenuBarから抽出したページから、次レベルのページを抽出する	# comment
 				$sitemap{$name}.=&submenu($basepage,$menucount,$submenu,0,1);
 			}
 		}
@@ -153,10 +153,10 @@ sub submenu {
 			$nextmenu++;
 			$ret.=sprintf("%05d\t%05d\t%05d\t%05d\t%s\n",$menucount,$submenu,$nextmenu,$nest,$nextpage);
 			$ret.=&submenu($nextpage,$menucount,$submenu,$nextmenu+1,$nest+1);
-		# include
+		# include											# comment
 		} elsif($line=~/^#include\((.*?)\)/ && $::form{include} eq '') {
 			$ret.=&submenu((split(/,/,$1))[0],$menucount+1,$submenu,$nextmenu+1,$nest)
-		# ls2
+		# ls2												# comment
 		}elsif(($line=~/^#ls2\((.*?)\)/ || $line=~/^#ls2/) && $::form{ls2} eq '') {
 			my @ls2args = split(/,/, $1);
 			my $ls2prefix;
@@ -189,7 +189,7 @@ sub submenu {
 sub plugin_sitemap_trim {
 	my($str,$strlen)=@_;
 
-	$Zspace = '(?:\xA1\xA1)'; # 全角スペース
+	$Zspace = '(?:\xA1\xA1)'; # 全角スペース		# comment
 	$eucpre = qr{(?<!\x8F)};
 
 	if($strlen+0 > 0) {
@@ -201,9 +201,9 @@ sub plugin_sitemap_trim {
 		$str.="..." if($len ne length($str));
 	}
 
-	# $str の先頭末尾の空白文字(全角スペース含)を削除する
-	$str =~ s/^(?:\s|$Zspace)+//o; # $str が EUC-JP の場合
-	$str =~ s/$eucpre(?:\s|$Zspace)+$//o; # $str が EUC-JP の場合(perl5.005以降)
+	# $str の先頭末尾の空白文字(全角スペース含)を削除する	# comment
+	$str =~ s/^(?:\s|$Zspace)+//o; # $str が EUC-JP の場合	# comment
+	$str =~ s/$eucpre(?:\s|$Zspace)+$//o; # $str が EUC-JP の場合(perl5.005以降	# comment)
 	$str=~s/\~//g;
 	$str=~s/[\r|\n]//g;
 	$str=~s/\ \/\/\ \#.*//g;	# debug
@@ -267,11 +267,11 @@ The page registered into MenuBar describes as follows.
 
 =item PyukiWiki/Plugin/Standard/sitemap
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/sitemap/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/sitemap/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/sitemap.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/sitemap.inc.pl?view=log>
 
 =back
 
@@ -285,15 +285,15 @@ L<http://nanakochi.daiba.cx/> etc...
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2005-2011 by Nanami.
+Copyright (C) 2005-2012 by Nanami.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

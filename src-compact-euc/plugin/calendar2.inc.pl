@@ -1,15 +1,15 @@
 ######################################################################
 # calendar2.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: calendar2.inc.pl,v 1.84 2011/05/04 07:26:50 papu Exp $
+# $Id: calendar2.inc.pl,v 1.333 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -47,35 +47,28 @@
 # p.s.exdateには多くのキャッシュ保持機能があって少しでも軽くなるように
 # なっていますが、それでもまだまだ重いです。汗
 ######################################################################
-
-use strict;
-use Time::Local;
-
-######################################################################
 # 新規編集画面での初期値
 # カレンダーのALT
-
+#
 if($::_exec_plugined{exdate} ne '') {
-
 	$calendar2::initwikiformat=<<EOM;
 *&date(SGGY年Zn月Zj日（DL）RY RK RS RG XG SZ MG,__DATE__);
 EOM
 	$calendar2::altformat="DL RY RK RG";
 } else {
-
 	$calendar2::initwikiformat=<<EOM;
 *&date(Y-n-j[lL],__DATE__);
 EOM
 	$calendar2::altformat="[lL]";
 }
-
+#
 ######################################################################
 # MenuBar等に設置した場合、月の前後をMenuBarだけで動かす場合 1
 $calendar2::menubaronly=1;
-
-
-######################################################################
 #
+######################################################################
+use strict;
+use Time::Local;
 sub plugin_calendar2_convert {
 	my ($page, $arg_date, $date_format) = split(/,/, shift);
 	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst);
@@ -104,7 +97,6 @@ sub plugin_calendar2_convert {
 		$splitter = '/';
 	}
 	$page = &htmlspecialchars($prefix);
-
 	if($calendar2::menubaronly+0 eq 1) {
 		$arg_date=$::form{date} if($::form{date} ne '');
 	}
@@ -115,22 +107,17 @@ sub plugin_calendar2_convert {
 	my $disp_year  = $year+1900;
 	my $disp_month = $mon+1;
 	my $pagelink=&makepagelink($page,$page,$::resource{editthispage});
-	my $prev_year=$disp_month eq 1 ? $disp_year-1 : $disp_year;
+	my $prev_year=$disp_month eq 1 ? $disp_year-1 : 	$disp_year;
 	my $prev_month=$disp_month eq 1 ? 12 : $disp_month-1;
 	my $next_year=$disp_month eq 12 ? $disp_year+1 : $disp_year;
 	my $next_month=$disp_month eq 12 ? 1 : $disp_month+1;
 	my $label="$disp_year.$disp_month";
 	my $cookedpage=&encode($page eq '' ? $::FrontPage : $page);
-
 	my @weekstr;
-
 	for(my $i=1; $i<=7; $i++) {
 		my $tm=Time::Local::timelocal(0,0,0,$i,$disp_month-1,$disp_year-1900);
 		$weekstr[&getwday($disp_year,$disp_month,$i)]
 			= &date("lL",$tm);
-	}
-	for(my $i=0; $i<=6; $i++) {
-		$weekstr[$i]=substr($weekstr[$i],0,(length($weekstr[$i])+1) % 2+1);
 	}
 	my $query;
 	if($calendar2::menubaronly+0 eq 1) {
@@ -162,17 +149,14 @@ END
 	for($i=0; $i< $disp_wday; $i++ ) {
 		$calendar.=qq(<td class="style_td_blank">$empty</td>);
 	}
-
 	if($::_exec_plugined{exdate} ne '') {
 		&date("RS",Time::Local::timelocal(0,0,0,1,$disp_month-1,$disp_year-1900));
 	}
-	my $initwiki_format= &code_convert(\$calendar2::initwikiformat,   $::kanjicode);
-
+	my $initwiki_format= &code_convert(\$calendar2::initwikiformat,$::kanjicode,$::defaultcode);
 	for($i=1;$i<=&lastday($disp_year,$disp_month); $i++) {
 		my $wday=&getwday($disp_year,$disp_month,$i);
 		my $pagename = sprintf "%s%s%04d-%02d-%02d", $page, $splitter, $disp_year, $disp_month, $i;
 		my $cookedname = &encode($pagename);
-
 		my $style;
 		$calendar.=qq(</tr>\n<tr>) if($wday eq 0 && $i ne 1);
 		if($_year eq $disp_year && $_mon eq $disp_month && $i eq $mday) {
@@ -199,18 +183,20 @@ END
 			$calendar .= "<td class=\"style_td_blank\">$empty</td>";
 		}
 	}
-
 	$calendar.="</tr></table>\n";
 	return $calendar;
 }
-
 sub makepagelink {
 	my($page,$nonposted, $posted,$name,$wiki,$date)=@_;
 	my $pagelink;
 	my $cookedpage=&encode($page eq '' ? $::FrontPage : $page);
 	my $cookedurl;
 	if($calendar2::menubaronly+0 eq 1) {
-		$cookedurl="$::script?cmd=read&amp;mypage=$cookedpage&amp;date=$::form{date}";
+		if($::form{date} ne '') {
+			$cookedurl="$::script?cmd=read&amp;mypage=$cookedpage&amp;date=$::form{date}";
+		} else {
+			$cookedurl=&make_cookedurl($cookedpage);
+		}
 	} else {
 		$cookedurl=&make_cookedurl($cookedpage);
 	}
@@ -227,17 +213,14 @@ sub makepagelink {
 	}
 	return $pagelink;
 }
-
 sub plugin_calendar2_action {
 	my $page = &escape($::form{mymsg});
 	my $date = &escape($::form{date});
 	my $format=&htmlspecialchars($::form{format});
 	my $body = &plugin_calendar2_convert(qq($page,$date,$format));
-
 	my $yy = sprintf("%04d.%02d",substr($date,0,4),substr($date,4,2));
 	my $s_page = &htmlspecialchars($page);
 	return ('msg'=>qq(calendar $s_page/$yy), 'body'=>$body);
 }
 1;
 __END__
-

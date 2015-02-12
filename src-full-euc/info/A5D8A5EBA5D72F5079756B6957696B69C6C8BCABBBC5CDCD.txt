@@ -1,3 +1,0 @@
-ConflictChecker=Sun Jan  8 15:01:19 2006
-IsFrozen=0
-LastModified=Sun Jan  8 15:01:19 2006

@@ -1,6 +1,7 @@
 #
-# $Id: _Classic.pm,v 1.85 2011/05/04 07:26:50 papu Exp $
+# $Id: _Classic.pm,v 1.334 2011/12/31 13:06:10 papu Exp $
 # Id: _Classic.pm,v 2.0 2005/05/16 19:08:04 dankogai Exp
+# "Jcode.pm" version 2.7 $$
 #
 
 package Jcode::_Classic;
@@ -9,8 +10,8 @@ use Carp;
 use strict;
 use vars qw($RCSID $VERSION $DEBUG);
 
-$RCSID = q$Id: _Classic.pm,v 1.85 2011/05/04 07:26:50 papu Exp $;
-$VERSION = do { my @r = (q$Revision: 1.85 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
+$RCSID = q$Id: _Classic.pm,v 1.334 2011/12/31 13:06:10 papu Exp $;
+$VERSION = do { my @r = (q$Revision: 1.334 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
 
 $DEBUG = $Jcode::DEBUG;
 use vars qw($USE_CACHE $NOXS);
@@ -86,7 +87,7 @@ sub jfold{
 	   m/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|[\x00-\xff])/sgo)
     {
 	if ($len + length($1) > $bpl){ # fold!
-	    $i++; 
+	    $i++;
 	    $len = 0;
 	}
 	$lines[$i] .= $1;
@@ -143,7 +144,7 @@ sub _add_encoded_word {
 	      MIME::Base64::encode_base64($iso_2022_jp, '')
 		  . '?=';
 	    if (length($encoded) + length($line) > $bpl) {
-		$target =~ 
+		$target =~
 		    s/($RE{EUC_0212}|$RE{EUC_KANA}|$RE{EUC_C}|$RE{ASCII})$//o;
 		$str = $1 . $str;
 	    } else {
@@ -193,10 +194,10 @@ sub _mime_unstructured_header {
 }
 
 # see http://www.din.or.jp/~ohzaki/perl.htm#JP_Base64
-#$lws = '(?:(?:\x0d\x0a)?[ \t])+'; 
-#$ew_regex = '=\?ISO-2022-JP\?B\?([A-Za-z0-9+/]+=*)\?='; 
-#$str =~ s/($ew_regex)$lws(?=$ew_regex)/$1/gio; 
-#$str =~ s/$lws/ /go; $str =~ s/$ew_regex/decode_base64($1)/egio; 
+#$lws = '(?:(?:\x0d\x0a)?[ \t])+';
+#$ew_regex = '=\?ISO-2022-JP\?B\?([A-Za-z0-9+/]+=*)\?=';
+#$str =~ s/($ew_regex)$lws(?=$ew_regex)/$1/gio;
+#$str =~ s/$lws/ /go; $str =~ s/$ew_regex/decode_base64($1)/egio;
 
 sub mime_decode{
     require MIME::Base64; # not use
@@ -206,7 +207,7 @@ sub mime_decode{
     my $re_ew = '=\?[Ii][Ss][Oo]-2022-[Jj][Pp]\?[Bb]\?([A-Za-z0-9+/]+=*)\?=';
     $$r_str =~ s/($re_ew)$re_lws(?=$re_ew)/$1/sgo;
     $$r_str =~ s/$re_lws/ /go;
-    $self->[2] = 
+    $self->[2] =
 	($$r_str =~
 	 s/$re_ew/jis_euc(MIME::Base64::decode_base64($1))/ego
 	 );
@@ -265,7 +266,7 @@ sub getcode {
 	my $ucs2;
 	$ucs2 += length($1)
 	    while $$r_str =~ /(\x00$RE{ASCII})+/go;
-	if ($ucs2){      # smells like raw unicode 
+	if ($ucs2){      # smells like raw unicode
 	    ($code, $nmatch) = ('ucs2', $ucs2);
 	}else{
 	    ($code, $nmatch) = ('binary', 0);
@@ -274,25 +275,25 @@ sub getcode {
     elsif ($$r_str !~ /[\e\x80-\xff]/o) {	# not Japanese
 	($code, $nmatch) = ('ascii', 1);
     }				# 'jis'
-    elsif ($$r_str =~ 
+    elsif ($$r_str =~
 	   m[
 	     $RE{JIS_0208}|$RE{JIS_0212}|$RE{JIS_ASC}|$RE{JIS_KANA}
 	   ]ox)
     {
 	($code, $nmatch) = ('jis', 1);
-    } 
+    }
     else { # should be euc|sjis|utf8
 	# use of (?:) by Hiroki Ohzaki <ohzaki (at) iod (dot) ricoh (dot) co (dot) jp>
-	$sjis += length($1) 
+	$sjis += length($1)
 	    while $$r_str =~ /((?:$RE{SJIS_C})+)/go;
-	$euc  += length($1) 
+	$euc  += length($1)
 	    while $$r_str =~ /((?:$RE{EUC_C}|$RE{EUC_KANA}|$RE{EUC_0212})+)/go;
-	$utf8 += length($1) 
+	$utf8 += length($1)
 	    while $$r_str =~ /((?:$RE{UTF8})+)/go;
 	# $utf8 *= 1.5; # M. Takahashi's suggestion
 	$nmatch = _max($utf8, $sjis, $euc);
 	carp ">DEBUG:sjis = $sjis, euc = $euc, utf8 = $utf8" if $DEBUG >= 3;
-	$code = 
+	$code =
 	    ($euc > $sjis and $euc > $utf8) ? 'euc' :
 		($sjis > $euc and $sjis > $utf8) ? 'sjis' :
 		    ($utf8 > $euc and $utf8 > $sjis) ? 'utf8' : undef;
@@ -395,7 +396,7 @@ sub euc_jis{
 	((?:$RE{EUC_C})+|(?:$RE{EUC_KANA})+|(?:$RE{EUC_0212})+)
 	}{
 	    my $str = $1;
-	    my $esc = 
+	    my $esc =
 		( $str =~ tr/\x8E//d ) ? $ESC{KANA} :
 		    ( $str =~ tr/\x8F//d ) ? $ESC{JIS_0212} :
 			$ESC{JIS_0208};

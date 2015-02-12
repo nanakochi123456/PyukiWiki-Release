@@ -1,9 +1,9 @@
 # release file makefile for pyukiwiki
-# $Id$
+# $Id: build.mk,v 1.355 2011/12/31 13:06:09 papu Exp $
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"
-	@echo "Usage: ${MAKE} [build|prof|release|pkg|cvsupdate|clean|cvsclean]"
+	@echo "Usage: ${MAKE} [build|prof|release|buildrelease|buildreleaseutf8|builddevel|builddevelutf8|buildcompact|buildcompactutf8|pkg|clean|cvsclean]"
 
 version:
 	@echo "PyukiWIki ${VERSION}"
@@ -46,6 +46,23 @@ release:FORCE
 	@echo "Building ${PKGNAME}-${VERSION}-update-devel"
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-update-devel  "updatedevel" lf >/dev/null
 
+
+releasedevel:FORCE
+	@rm -rf ${TEMP} ${RELEASE}
+	@mkdir ${TEMP} 2>/dev/null
+	@mkdir ${RELEASE} 2>/dev/null
+	@mkdir ${RELEASE}/${PKGNAME}-${VERSION}-devel 2>/dev/null
+	@echo "Building ${PKGNAME}-${VERSION}-devel all plugin"
+	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/${PKGNAME}-${VERSION}-devel "devel" lf euc all >/dev/null
+
+builddevel:FORCE
+	@rm -rf ${TEMP} ${RELEASE}
+	@mkdir ${TEMP} 2>/dev/null
+	@mkdir ${RELEASE} 2>/dev/null
+	@echo "Building ${PKGNAME}-${VERSION}-devel"
+	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/ "devel" lf >/dev/null
+
+
 buildrelease:FORCE
 	@rm -rf ${TEMP} ${RELEASE}
 	@mkdir ${TEMP} 2>/dev/null
@@ -53,34 +70,14 @@ buildrelease:FORCE
 	@echo "Building ${PKGNAME}-${VERSION}-full"
 	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/ "release" lf >/dev/null
 
-cvsupdate:
-	@echo "Updating CVS"
-#	@rm -rf ${TEMP} ${RELEASE}
-	@${SH} ${BUILDDIR}/cvs.sh init ${CVSDIR}
-	@${PERL} -e 'mkdir("${CVSDIR}");' 2>/dev/null
-	@${PERL} -e 'mkdir("${CVSDIR}/${CVSNAME}");' 2>/dev/null
-	@${PERL} ${BUILDDIR}/build.pl ${CVSDIR}/${CVSNAME} cvs lf
-	@${SH} ${BUILDDIR}/cvs.sh update ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh commit ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh init ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh makesums ${CVSDIR} ${CVSNAME}
-	@${SH} ${BUILDDIR}/cvs.sh update ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh commit ${CVSDIR}
 
-cvsoverride:
-	@echo "Override CVS"
-#	@rm -rf ${TEMP} ${RELEASE}
-	@${SH} ${BUILDDIR}/cvs.sh init ${CVSDIR}
-	@${PERL} -e 'mkdir("${CVSDIR}");' 2>/dev/null
-	@${PERL} -e 'mkdir("${CVSDIR}/${CVSNAME}");' 2>/dev/null
-	@${PERL} ${BUILDDIR}/build.pl ${CVSDIR}/${CVSNAME} touch lf >/dev/null
-	@${PERL} ${BUILDDIR}/build.pl ${CVSDIR}/${CVSNAME} cvs lf >/dev/null
-	@${SH} ${BUILDDIR}/cvs.sh update ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh commit ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh init ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh makesums ${CVSDIR} ${CVSNAME}
-	@${SH} ${BUILDDIR}/cvs.sh update ${CVSDIR}
-	@${SH} ${BUILDDIR}/cvs.sh commit ${CVSDIR}
+buildcompact:FORCE
+	@rm -rf ${TEMP} ${RELEASE}
+	@mkdir ${TEMP} 2>/dev/null
+	@mkdir ${RELEASE} 2>/dev/null
+	@echo "Building ${PKGNAME}-${VERSION}-compact"
+	@${PERL} ${BUILDDIR}/build.pl ${RELEASE}/ "compact" lf >/dev/null
+
 
 pkgtgz:
 	@echo "Building ${PKGNAME}-${VERSION}${PKGPREFIX}.tar.gz"
@@ -112,6 +109,8 @@ pkgzip:
 	@cp ${RELEASE}/zip.zip ${ARCHIVEDIR}/${PKGNAME}-${VERSION}/${PKGNAME}-${VERSION}${PKGPREFIX}.zip
 	@rm ${RELEASE}/zip.zip
 
+
+
 clean:
 	@echo "Cleaning work directorys"
 	@rm -rf ${TEMP} ${RELEASE}
@@ -127,15 +126,22 @@ BUILDMAKER=${BUILDDIR}/makesampleini.pl \
 			${BUILDDIR}/build.mk \
 			${BUILDDIR}/build.pl \
 			${BUILDDIR}/compactmagic.pl \
-			${BUILDDIR}/compressfile.pl
+			${BUILDDIR}/compressfile.pl \
+			${BUILDDIR}/text.pl \
+			Makefile
 
 BUILDFILES=sample/pyukiwiki.ini.cgi \
 			skin/instag.js \
 			skin/common.en.js skin/common.ja.js \
+			skin/passwd.js \
 			skin/twitter.js \
 			skin/common.sjis.ja.js skin/common.utf8.ja.js \
 			lib/File/magic.txt lib/File/magic_compact.txt \
-			skin/pyukiwiki.default.css skin/pyukiwiki.print.css
+			skin/pyukiwiki.default.css skin/pyukiwiki.print.css \
+			sample/mikachan.default.css sample/mikachan.print.css \
+			sample/mikachan.default.css.org sample/mikachan.print.css.org \
+			sample/mikachan.skin.cgi \
+			skin/blosxom.css
 
 prof:FORCE
 	@${PERL} -d:DProf index.cgi >/dev/null 2>/dev/null
@@ -164,6 +170,9 @@ sample/pyukiwiki.ini.cgi: pyukiwiki.ini.cgi ${BUILDMAKER}
 skin/instag.js: skin/instag.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl js skin/instag.js skin/instag.js.src
 
+skin/passwd.js: skin/passwd.js.src ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl js skin/passwd.js skin/passwd.js.src
+
 skin/twitter.js: skin/twitter.js.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl js skin/twitter.js skin/twitter.js.src
 
@@ -184,3 +193,15 @@ skin/pyukiwiki.default.css: skin/pyukiwiki.default.css.org ${BUILDMAKER}
 
 skin/pyukiwiki.print.css: skin/pyukiwiki.print.css.org ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compressfile.pl css skin/pyukiwiki.print.css skin/pyukiwiki.print.css.org
+
+skin/blosxom.css: skin/blosxom.css.org ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl css skin/blosxom.css skin/blosxom.css.org
+
+sample/mikachan.default.css: sample/mikachan.default.css.org ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl css sample/mikachan.default.css sample/mikachan.default.css.org
+
+sample/mikachan.print.css: sample/mikachan.print.css.org ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/compressfile.pl css sample/mikachan.print.css sample/mikachan.print.css.org
+
+sample/mikachan.skin.cgi: skin/pyukiwiki.skin.cgi ${BUILDMAKER}
+	cp skin/pyukiwiki.skin.cgi sample/mikachan.skin.cgi

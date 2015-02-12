@@ -1,15 +1,15 @@
 ######################################################################
 # ref.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: ref.inc.pl,v 1.104 2011/05/04 07:26:50 papu Exp $
+# $Id: ref.inc.pl,v 1.354 2011/12/31 13:06:11 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -53,42 +53,41 @@
 # ページ名やパラメータに見える文字列を使用するときは、
 # #ref(hoge.png,,zoom)のようにタイトルの前にカンマを余分に入れる
 ######################################################################
-
-use strict;
-
+#
 $ref::file_icon =<<EOM
 <img src="$::image_url/file.png" width="20" height="20" alt="file" style="border-width:0px" />
 EOM
 	if(!defined($ref::file_icon));
-
+#
 # default alignment
 $ref::default_align = 'left' # 'left','center','right'
 	if(!defined($ref::default_align));
-
+#
 # force wrap on default (nonuse)
 #$ref::wrap_table = 0 # 1,0
-
+#	if(!defined($ref::wrap_table));
+#
 # summary make small image (use Image::Magick)
 $ref::summary=0
 	if(!defined($ref::summary));
-
+#
 # link popup
 $ref::popup=0
 	if(!defined($ref::popup));
-
+#
 $ref::popup_regex=qq(do[ct]|ppt|pps|pot|xls|csv|mpp|md[baentwz]|vs[dstw]|pub|one|pdf|txt|[ch]p?p?|js|cgi|p[lm]|php?|rb|gif|jpe?g|png)
 	if(!defined($ref::popup_regex));
-
+#
 # link popup of image
 $ref::imagepopup=0
 	if(!defined($ref::imagepopup));
-
+#
 # window.open parameters
 $ref::wopen='toolbar=no,hotkeys=no,directories=no,scrollbars=no,resizable=yes,menubar=no,width=1,height=1'
 	if(!defined($ref::wopen));
-
+#
 ######################################################################
-
+use strict;
 sub plugin_ref_action {
 	if($::form{mode} eq "image") {
 		my $mime;
@@ -140,42 +139,23 @@ sub plugin_ref_action {
 $::dtd
 <title>$::form{name}</title>
 <script type="text/javascript"><!--
-function loadchk() {
-	if(document.pi.complete) {
-		window.status="";
-		self.resizeTo($::form{width}+10,$::form{height}+80);
-		view.style.display="block";
-	} else {
-		window.status="Loading...";
-		window.setTimeout("loadchk();",100);
-	}
-}
-function imgsize(v){
-	var w=$::form{width}*v;
-	var h=$::form{height}*v;
-	document.pi.height=h;
-	document.pi.width=w;	
-	self.resizeTo(w+10,h+80);
-}
-//self.focus();
+function loadchk(){if(d.pi.complete){window.status="";self.resizeTo($::form{width}+10,$::form{height}+80);}else{window.status="Loading...";window.setTimeout("loadchk();",100);}}
+function imgsize(v){var w=$::form{width}*v;var h=$::form{height}*v;d.pi.height=h;d.pi.width=w;self.resizeTo(w+10,h+80);}
 window.setTimeout("loadchk();",100);
 //--></script>
 <style type="text/css"><!--
-*,img{
-	margin: 0px;
-	padding: 0px;
-}
+*,img{margin: 0px;padding: 0px;}
 //--></style>
 </head>
 <body>
-<div align="center" id="view" style="display:none;">
+<div align="center" id="view" style="display:block;">
 <table>
 <tr><td>
 <form action="#">
 <select name="size" onchange="imgsize(this.value);">
 <option value="0.25">25%</option>
 <option value="0.5">50%</option>
-<option value="1" selected>100%</option>
+<option value="1" selected="selected">100%</option>
 <option value="1.5">150%</option>
 <option value="2">200%</option>
 </select>
@@ -201,7 +181,6 @@ EOM
 		exit:
 	}
 }
-
 sub plugin_ref_inline {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
@@ -209,14 +188,11 @@ sub plugin_ref_inline {
 	my %params = &plugin_ref_body($args, $::form{mypage});
 	return ($params{_error}) ? $params{_error} : $params{_body};
 }
-
 sub plugin_ref_convert {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
 	return '<p>no argument(s).</p>' if (@args < 1);
 	my %params = &plugin_ref_body($args, $::form{mypage});
-
-
 	my $style;
 	if ($params{around}) {
 		$style = ($params{_align} eq 'right') ? 'float:right' : 'float:left';
@@ -225,22 +201,19 @@ sub plugin_ref_convert {
 	}
 	return "<div class=\"img_margin\" style=\"$style\">$params{_body}</div>\n";
 }
-
 sub getimagesize {
 	my ($imgfile, $datafile) = @_;
 	my $width  = 0;
 	my $height = 0;
 	my ($data, $m, $c, $l);
-
 	if (!$datafile) {
 		$datafile = $imgfile;
 	}
-
 	if ($imgfile =~ /\.jpe?g$/i) {
 		open(FILE, "$datafile") || return (0, 0);
 		binmode FILE;
 		read(FILE, $data, 2);
-		while (1) { # read Exif Blocks
+		while (1) {
 			read(FILE, $data, 4);
 			($m, $c, $l) = unpack("a a n", $data);
 			if ($m ne "\xFF") {
@@ -261,7 +234,6 @@ sub getimagesize {
 		sysread(FILE, $data, 10);
 		close(FILE);
 		$data = substr($data, -4) if ($data =~ /^GIF/);
-
 		$width  = unpack("v", substr($data, 0, 2));
 		$height = unpack("v", substr($data, 2, 2));
 	} elsif ($imgfile =~ /\.png$/i) {
@@ -269,31 +241,27 @@ sub getimagesize {
 		binmode(FILE);
 		read(FILE, $data, 24);
 		close(FILE);
-
 		$width  = unpack("N", substr($data, 16, 20));
 		$height = unpack("N", substr($data, 20, 24));
 	}
 	return ($width, $height);
 }
-
 sub plugin_ref_body {
 	my ($args) = @_;
 	my @args = split(/,/, $args);
 	my $name = &trim(shift(@args));
 	my $page;
-
-
 	my (%params, $_title, $_backup);
 	foreach (@args) {
 		$_backup = $_;
 		$_ = &trim($_);
-		if (/^([0-9]+)x([0-9]+)$/i) { # size pixcel
+		if (/^([0-9]+)x([0-9]+)$/i) {
 			$params{_size} = 1;
 			$params{_w} = $1;
 			$params{_h} = $2;
-		} elsif (/^([0-9.]+)%$/i) { # size %
+		} elsif (/^([0-9.]+)%$/i) {
 			$params{_par} = $1;
-		} elsif (/(left|center|right|wrap|nowrap|around|noicon|nolink|noimg|zoom)/i) { # align
+		} elsif (/(left|center|right|wrap|nowrap|around|noicon|nolink|noimg|zoom)/i) {
 			$params{lc $_} = 1;
 		} else {
 			if (!$page and &is_exist_page($_)) {
@@ -303,7 +271,6 @@ sub plugin_ref_body {
 			}
 		}
 	}
-
 	my ($url, $url2, $urlr, $title, $is_image, $info);
 	my $width  = 0;
 	my $height = 0;
@@ -312,7 +279,6 @@ sub plugin_ref_body {
 	my $target;
 	my $class;
 	my $popupmode=0;
-
 	if ($name =~ /^$::isurl/o) {
 		$url = $url2 = &htmlspecialchars($name);
 		$title = &htmlspecialchars(($name =~ '/([^\/]+)$/') ? $1 : $url);
@@ -324,7 +290,6 @@ sub plugin_ref_body {
 			$params{_error} = 'no $::upload_dir.';
 			return %params;
 		}
-
 		$page = $::form{mypage} if (!$page);
 		if ($name =~ /^(.+)\/([^\/]+)$/) {
 			$1 .= '/' if ($1 eq '.' or $1 eq '..');
@@ -339,7 +304,6 @@ sub plugin_ref_body {
 			return %params;
 		}
 		$is_image = (!$params{noimg} and $name =~ /\.$::image_extention$/oi);
-
 		$url = "$::script?cmd=attach&amp;pcmd=open"
 			. "&amp;file=@{[&encode($name)]}&amp;mypage=@{[&encode($page)]}&amp;refer=@{[&encode($page)]}";
 		$urlr= "$::basehref?cmd=attach&amp;pcmd=open"
@@ -366,10 +330,7 @@ sub plugin_ref_body {
 			$class="attach";
 		}
 	}
-
-
 	if ($is_image) {
-
 		if ($params{_size}) {
 			if ($width == 0 and $height == 0) {
 				$width  = $params{_w};
@@ -395,8 +356,6 @@ sub plugin_ref_body {
 			$info = "width=\"$width\" height=\"$height\" ";
 		}
 	}
-
-
 	if ($params{right}) {
 		$params{_align} = 'right';
 	} elsif ($params{left}) {
@@ -406,10 +365,7 @@ sub plugin_ref_body {
 	} else {
 		$params{_align} = $ref::default_align;
 	}
-
 	$title = $_title if ($_title);
-
-
 	if ($is_image) {
 		my $_url;
 		if($ref::summary eq 1 && ($_width > $width || $_height > $height) && $url2) {
@@ -442,7 +398,6 @@ sub plugin_ref_body {
 		my $icon = $params{noicon} ? '' : $ref::file_icon;
 		$params{_body} = &make_link_target($url,$class,"_target",$info,$target)
 			. "$icon$title</a>\n";
-
 		if($::AttachCounter eq 2) {
 			require "plugin/counter.inc.pl";
 			my %attach_counter=&plugin_counter_do("attach\_$page\_$name","r");
@@ -455,9 +410,6 @@ EOM
 		}
 	}
 	return %params;
-
 }
-
 1;
 __END__
-

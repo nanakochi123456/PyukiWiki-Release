@@ -2,10 +2,11 @@
 # $Id$
 # "magic file for File::MMagic" version 1.7 $$
 #----------------------------------------------------------------------
-# $Id: magic.txt.src,v 1.70 2011/05/04 07:26:50 papu Exp $
-# "magic file for File::MMagic" version 1.4 $$
+# $Id: magic.txt.src,v 1.319 2011/12/31 13:06:10 papu Exp $
+# "magic file for File::MMagic" version 1.7 $$
 #----------------------------------------------------------------------
 # archive:  file(1) magic for archive formats (see also "msdos" for self-
+#	extracting compressed archives)
 # cpio, ar, arc, arj, hpack, lha/lharc, rar, squish, uc2, zip, zoo, etc.
 # pre-POSIX "tar" archives are handled in the C code.
 257	string	ustar\0	POSIX tar archive
@@ -288,6 +289,8 @@
 #----------------------------------------------------------------------
 # JPEG images
 # SunOS 5.5.1 had
+#	0	string	\377\330\377\340	JPEG file
+#	0	string	\377\330\377\356	JPG file
 # both of which turn into "JPEG image data" here.
 0	beshort	0xffd8	JPEG image data
 >6	string	JFIF	\b, JFIF standard
@@ -296,64 +299,64 @@
 >>18	byte	!0	\b, thumbnail %dx
 >>>19	byte	x	\b%d
 >6	string	Exif	\b, EXIF standard
->>12	string	II	
->>>70	leshort	0x8769	
->>>>(78.l+14)	leshort	0x9000	
+>>12	string	II
+>>>70	leshort	0x8769
+>>>>(78.l+14)	leshort	0x9000
 >>>>>(78.l+23)	byte	x	%c
 >>>>>(78.l+24)	byte	x	\b.%c
 >>>>>(78.l+25)	byte	!0x30	\b%c
->>>118	leshort	0x8769	
->>>>(126.l+38)	leshort	0x9000	
+>>>118	leshort	0x8769
+>>>>(126.l+38)	leshort	0x9000
 >>>>>(126.l+47)	byte	x	%c
 >>>>>(126.l+48)	byte	x	\b.%c
 >>>>>(126.l+49)	byte	!0x30	\b%c
->>>130	leshort	0x8769	
->>>>(138.l+38)	leshort	0x9000	
+>>>130	leshort	0x8769
+>>>>(138.l+38)	leshort	0x9000
 >>>>>(138.l+47)	byte	x	%c
 >>>>>(138.l+48)	byte	x	\b.%c
 >>>>>(138.l+49)	byte	!0x30	\b%c
->>>>(138.l+50)	leshort	0x9000	
+>>>>(138.l+50)	leshort	0x9000
 >>>>>(138.l+59)	byte	x	%c
 >>>>>(138.l+60)	byte	x	\b.%c
 >>>>>(138.l+61)	byte	!0x30	\b%c
->>>>(138.l+62)	leshort	0x9000	
+>>>>(138.l+62)	leshort	0x9000
 >>>>>(138.l+71)	byte	x	%c
 >>>>>(138.l+72)	byte	x	\b.%c
 >>>>>(138.l+73)	byte	!0x30	\b%c
->>>142	leshort	0x8769	
->>>>(150.l+38)	leshort	0x9000	
+>>>142	leshort	0x8769
+>>>>(150.l+38)	leshort	0x9000
 >>>>>(150.l+47)	byte	x	%c
 >>>>>(150.l+48)	byte	x	\b.%c
 >>>>>(150.l+49)	byte	!0x30	\b%c
->>>>(150.l+50)	leshort	0x9000	
+>>>>(150.l+50)	leshort	0x9000
 >>>>>(150.l+59)	byte	x	%c
 >>>>>(150.l+60)	byte	x	\b.%c
 >>>>>(150.l+61)	byte	!0x30	\b%c
->>>>(150.l+62)	leshort	0x9000	
+>>>>(150.l+62)	leshort	0x9000
 >>>>>(150.l+71)	byte	x	%c
 >>>>>(150.l+72)	byte	x	\b.%c
 >>>>>(150.l+73)	byte	!0x30	\b%c
->>12	string	MM	
->>>118	beshort	0x8769	
->>>>(126.L+14)	beshort	0x9000	
+>>12	string	MM
+>>>118	beshort	0x8769
+>>>>(126.L+14)	beshort	0x9000
 >>>>>(126.L+23)	byte	x	%c
 >>>>>(126.L+24)	byte	x	\b.%c
 >>>>>(126.L+25)	byte	!0x30	\b%c
->>>>(126.L+38)	beshort	0x9000	
+>>>>(126.L+38)	beshort	0x9000
 >>>>>(126.L+47)	byte	x	%c
 >>>>>(126.L+48)	byte	x	\b.%c
 >>>>>(126.L+49)	byte	!0x30	\b%c
->>>130	beshort	0x8769	
->>>>(138.L+38)	beshort	0x9000	
+>>>130	beshort	0x8769
+>>>>(138.L+38)	beshort	0x9000
 >>>>>(138.L+47)	byte	x	%c
 >>>>>(138.L+48)	byte	x	\b.%c
 >>>>>(138.L+49)	byte	!0x30	\b%c
->>>>(138.L+62)	beshort	0x9000	
+>>>>(138.L+62)	beshort	0x9000
 >>>>>(138.L+71)	byte	x	%c
 >>>>>(138.L+72)	byte	x	\b.%c
 >>>>>(138.L+73)	byte	!0x30	\b%c
->>>142	beshort	0x8769	
->>>>(150.L+50)	beshort	0x9000	
+>>>142	beshort	0x8769
+>>>>(150.L+50)	beshort	0x9000
 >>>>>(150.L+59)	byte	x	%c
 >>>>>(150.L+60)	byte	x	\b.%c
 >>>>>(150.L+61)	byte	!0x30	\b%c

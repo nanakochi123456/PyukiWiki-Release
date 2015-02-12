@@ -1,29 +1,26 @@
 ######################################################################
 # RSS.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: RSS.pm,v 1.88 2011/05/04 07:26:50 papu Exp $
+# $Id: RSS.pm,v 1.337 2011/12/31 13:06:10 papu Exp $
 #
 # "Yuki::RSS" version 0.3 $$
 # Author: Hiroshi Yuki
 # http://www.hyuki.com/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
-
 package Yuki::RSS;
 use strict;
 use vars qw($VERSION);
-
 $VERSION = '0.3';
-
 # The constructor.
 sub new {
 	my ($class, %hash) = @_;
@@ -35,7 +32,6 @@ sub new {
 	};
 	return bless $self, $class;
 }
-
 # Setting channel.
 sub channel {
 	my ($self, %hash) = @_;
@@ -44,26 +40,22 @@ sub channel {
 	}
 	return $self->{channel};
 }
-
 # Adding item.
 sub add_item {
 	my ($self, %hash) = @_;
 	push(@{$self->{items}}, \%hash);
 	return $self->{items};
 }
-
-# 
+#
 sub as_string {
 	my ($self) = @_;
 	my $doc = <<"EOD";
 <?xml version="1.0" encoding="$self->{encoding}" ?>
-
 <rdf:RDF
  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
  xmlns="http://purl.org/rss/1.0/"
  xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
-
 <channel rdf:about="$self->{channel}->{link}">
  <title>$self->{channel}->{title}</title>
  <link>$self->{channel}->{link}</link>
@@ -93,7 +85,5 @@ sub as_string {
 </rdf:RDF>
 EOD
 }
-
 1;
 __END__
-

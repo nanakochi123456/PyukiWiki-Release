@@ -1,15 +1,15 @@
 ######################################################################
 # alias.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: alias.inc.pl,v 1.48 2011/05/04 07:26:50 papu Exp $
+# $Id: alias.inc.pl,v 1.297 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nanami http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -19,16 +19,11 @@
 # Based on PukiWiki Plugin "alias.inc.php" ver.1.5 2005/05/28
 # modified by kochi
 ######################################################################
-
 use strict;
-
 $alias::loopmax=2;
-
 %alias::loopcount;
 @alias::pushmypage;
-
 sub plugin_alias_convert {
-;
 	my($page,$usethispagetitle)=split(/,/, shift);
 	return ' ' if($::form{mypage}=~/($::MenuBar|$::SideBar|$::Header|$::Footer)$/);
 	return ' ' if($::form{cmd} ne 'read');
@@ -37,7 +32,6 @@ sub plugin_alias_convert {
 	$alias::loopcount{$::form{mypage}}++;
 	$alias::loopcount{""}++;
 	return ' ' if($alias::loopcount{""} >= $alias::loopmax);
-
 	push(@alias::pushmypage,$::form{mypage});
 	my $title=$::form{mypage};
 	$::form{mypage}=$page;
@@ -49,7 +43,5 @@ sub plugin_alias_convert {
 	&close_db;
 	exit;
 }
-
 1;
 __END__
-

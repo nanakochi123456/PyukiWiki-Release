@@ -1,15 +1,15 @@
 ######################################################################
 # calendar.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: calendar.inc.pl,v 1.29 2011/05/04 07:26:50 papu Exp $
+# $Id: calendar.inc.pl,v 1.278 2011/12/31 13:06:10 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.2.0 $$
 # Author: Nekyo
-# Copyright (C) 2004-2011 by Nekyo.
+# Copyright (C) 2004-2012 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2011 PyukiWiki Developers Team
-# http://pyukiwiki.sourceforge.jp/
+# Copyright (C) 2005-2012 PyukiWiki Developers Team
+# http://pyukiwiki.sfjp.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
-# Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
+# Powerd by PukiWiki http://pukiwiki.sfjp.jp/
 # License: GPL2 and/or Artistic or each later version
 #
 # This program is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
 #
-# カレンダーを設置する。
+# カレンダーを設置する。（日本語オンリー）
 # :書式|
 #  #calendar([{[ページ名],[年月]}])
 # -ページ名を指定する。省略時は設置ページとなる。
@@ -29,7 +29,6 @@
 #          calendar2.inc.php v1.20  2003/06/03 11:59:07 arino.
 #          calendar.pl       v1.2                       Seiji Zenitani.
 use strict;
-use Time::Local;
 
 sub plugin_calendar_convert {
 	my ($page, $arg_date) = split(/,/, shift);
@@ -130,9 +129,9 @@ END
 
 		if ( $i == $today ) {		# today
 			$style = 'style_td_today';
-		} elsif ($disp_wday == 0) {	# Sunday 
+		} elsif ($disp_wday == 0) {	# Sunday
 			$style = 'style_td_sun';
-		} elsif ($disp_wday == 6) {	# Saturday 
+		} elsif ($disp_wday == 6) {	# Saturday
 			$style = 'style_td_sat';
 		} else {
 			$style = 'style_td_day';
@@ -224,15 +223,15 @@ Date format samples
 
 =item PyukiWiki/Plugin/Standard/calendar
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/calendar/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar/>
 
 =item PyukiWiki/Plugin/Standard/calendar2
 
-L<http://pyukiwiki.sourceforge.jp/PyukiWiki/Plugin/Standard/calendar2/>
+L<http://pyukiwiki.sfjp.jp/PyukiWiki/Plugin/Standard/calendar2/>
 
 =item PyukiWiki CVS
 
-L<http://sourceforge.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar.inc.pl?view=log>
+L<http://sfjp.jp/cvs/view/pyukiwiki/PyukiWiki-Devel/plugin/calendar.inc.pl?view=log>
 
 =back
 
@@ -246,15 +245,15 @@ L<http://nekyo.qp.land.to/>
 
 =item PyukiWiki Developers Team
 
-L<http://pyukiwiki.sourceforge.jp/>
+L<http://pyukiwiki.sfjp.jp/>
 
 =back
 
 =head1 LICENSE
 
-Copyright (C) 2004-2011 by Nekyo.
+Copyright (C) 2004-2012 by Nekyo.
 
-Copyright (C) 2005-2011 by PyukiWiki Developers Team
+Copyright (C) 2005-2012 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 
