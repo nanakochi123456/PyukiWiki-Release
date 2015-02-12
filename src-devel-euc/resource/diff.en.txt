@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: diff.en.txt,v 1.82 2011/05/03 20:43:28 papu Exp $
+# $Id: diff.en.txt,v 1.85 2011/05/04 07:26:50 papu Exp $
 #
 
 # diff.inc.pl

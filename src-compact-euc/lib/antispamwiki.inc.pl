@@ -1,6 +1,6 @@
 ######################################################################
 # antispamwiki.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: antispamwiki.inc.pl,v 1.45 2011/05/03 20:43:28 papu Exp $
+# $Id: antispamwiki.inc.pl,v 1.48 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.8-rc6 $$
 # Author: Nanami http://nanakochi.daiba.cx/

@@ -1,6 +1,6 @@
 ######################################################################
 # sitemap.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: sitemap.inc.pl,v 1.89 2011/05/03 20:43:28 papu Exp $
+# $Id: sitemap.inc.pl,v 1.92 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Nanami http://nanakochi.daiba.cx/

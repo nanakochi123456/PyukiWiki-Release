@@ -1,5 +1,5 @@
 *[[InterWiki>PyukiWiki:PyukiWiki/Glossary/InterWiki]] サーバーリスト
-//$Id: 496E74657257696B694E616D65.txt,v 1.83 2011/05/03 20:43:28 papu Exp $	# debug
+//$Id: 496E74657257696B694E616D65.txt,v 1.86 2011/05/04 07:26:50 papu Exp $	# debug
 
   [URL サーバ名] タイプ
 の形式で記述してください。

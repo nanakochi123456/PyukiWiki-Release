@@ -1,6 +1,6 @@
 ######################################################################
 # mailform.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: mailform.inc.pl,v 1.36 2011/05/03 20:43:28 papu Exp $
+# $Id: mailform.inc.pl,v 1.39 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Nanami http://nanakochi.daiba.cx/

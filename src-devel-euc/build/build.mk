@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: build.mk,v 1.103 2011/05/03 20:43:28 papu Exp $
+# $Id$
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"
@@ -133,7 +133,7 @@ BUILDFILES=sample/pyukiwiki.ini.cgi \
 			skin/instag.js \
 			skin/common.en.js skin/common.ja.js \
 			skin/twitter.js \
-			sample/common.sjis.ja.js sample/common.utf8.ja.js \
+			skin/common.sjis.ja.js skin/common.utf8.ja.js \
 			lib/File/magic.txt lib/File/magic_compact.txt \
 			skin/pyukiwiki.default.css skin/pyukiwiki.print.css
 
@@ -152,11 +152,11 @@ lib/File/magic.txt: lib/File/magic.txt.src ${BUILDMAKER}
 lib/File/magic_compact.txt: lib/File/magic.txt.src ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/compactmagic.pl lib/File/magic.txt.src compact>lib/File/magic_compact.txt
 
-sample/common.sjis.ja.js: skin/common.ja.js ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/Jcode-convert.pl sjis skin/common.ja.js sample/common.sjis.ja.js
+skin/common.sjis.ja.js: skin/common.ja.js ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/Jcode-convert.pl sjis skin/common.ja.js skin/common.sjis.ja.js
 
-sample/common.utf8.ja.js: skin/common.ja.js ${BUILDMAKER}
-	${PERL} ${BUILDDIR}/Jcode-convert.pl utf8 skin/common.ja.js sample/common.utf8.ja.js
+skin/common.utf8.ja.js: skin/common.ja.js ${BUILDMAKER}
+	${PERL} ${BUILDDIR}/Jcode-convert.pl utf8 skin/common.ja.js skin/common.utf8.ja.js
 
 sample/pyukiwiki.ini.cgi: pyukiwiki.ini.cgi ${BUILDMAKER}
 	${PERL} ${BUILDDIR}/makesampleini.pl > sample/pyukiwiki.ini.cgi

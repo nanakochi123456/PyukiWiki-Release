@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: setting.en.txt,v 1.61 2011/05/03 20:43:28 papu Exp $
+# $Id: setting.en.txt,v 1.64 2011/05/04 07:26:50 papu Exp $
 #
 
 # setting.inc.pl

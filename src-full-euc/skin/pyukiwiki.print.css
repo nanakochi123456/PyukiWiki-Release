@@ -1,6 +1,6 @@
-// @charset "Shift_JIS";
-// If use japanese font, use 
-// "PyukiWiki" version 0.1.9 $$
-// $Id$
+/* @charset "Shift_JIS"; */
+/* If use japanese font, use  */
+/* "PyukiWiki" version 0.1.9-p1 $$ */
+/* $Id$ */
 
-@import url("pyukiwiki.default.css");a:link{text-decoration:underline;}a:visited{text-decoration:underline;}img#logo{display:none;}div#navigator{display:none;}td.menubar{display:none;}div#menubar{display:none;}div#attach{display:none;}div#toolbar{display:none;}div#related{display:none;}div.jumpmenu{display:none;}div.partinfo,a.partedit{display:none;}
+@import url("pyukiwiki.default.css");a:link{text-decoration:underline}a:visited{text-decoration:underline}img#logo{display:none}div#navigator{display:none}td.menubar{display:none}div#menubar{display:none}div#attach{display:none}div#toolbar{display:none}div#related{display:none}div.jumpmenu{display:none}div.partinfo,a.partedit{display:none}

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: resource.en.txt,v 1.95 2011/05/03 20:43:28 papu Exp $
+# $Id: resource.en.txt,v 1.98 2011/05/04 07:26:50 papu Exp $
 #
 
 resource_loaded=1

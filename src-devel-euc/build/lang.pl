@@ -1,5 +1,5 @@
 # release file perl script for pyukiwiki
-# $Id: lang.pl,v 1.23 2011/05/03 20:43:28 papu Exp $
+# $Id: lang.pl,v 1.20 2006/02/23 10:48:17 papu Exp $
 
 $lang=$ARGV[0];
 $src=$ARGV[1];

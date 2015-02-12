@@ -1,6 +1,6 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.165 2011/05/03 20:43:28 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.153 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Copyright (C) 2004-2011 by Nekyo.

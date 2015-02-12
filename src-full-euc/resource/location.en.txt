@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (English)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: location.en.txt,v 1.6 2011/05/03 20:43:28 papu Exp $
+# $Id: location.en.txt,v 1.9 2011/05/04 07:26:50 papu Exp $
 #
 
 # location.inc.pl

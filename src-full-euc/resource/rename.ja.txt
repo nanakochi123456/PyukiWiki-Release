@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: rename.ja.txt,v 1.79 2011/05/03 20:43:28 papu Exp $
+# $Id: rename.ja.txt,v 1.82 2011/05/04 07:26:50 papu Exp $
 #
 
 # rename.inc.pl

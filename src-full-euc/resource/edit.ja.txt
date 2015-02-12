@@ -1,7 +1,7 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: edit.ja.txt,v 1.83 2011/05/03 20:43:28 papu Exp $
+# $Id: edit.ja.txt,v 1.86 2011/05/04 07:26:50 papu Exp $
 #
 
 # edit.inc.pl

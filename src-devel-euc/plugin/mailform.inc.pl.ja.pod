@@ -1,4 +1,4 @@
-#$Id: mailform.inc.pl.ja.pod,v 1.37 2011/05/03 20:43:28 papu Exp $
+#$Id: mailform.inc.pl.ja.pod,v 1.40 2011/05/04 07:26:50 papu Exp $
 
 __END__
 =encoding euc-jp

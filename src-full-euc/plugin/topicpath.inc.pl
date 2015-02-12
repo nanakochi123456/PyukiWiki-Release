@@ -1,6 +1,6 @@
 ######################################################################
 # topicpath.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: topicpath.inc.pl,v 1.60 2011/05/03 20:43:28 papu Exp $
+# $Id: topicpath.inc.pl,v 1.63 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Junichi http://www.re-birth.com/
@@ -77,11 +77,11 @@ sub plugin_topicpath_inline {
 		$result .= &createUrl($pagename, $pathname, $topicpath::FRONTPAGE, $topicpath::FRONTPAGENAME);
 
 
-		if($pagename ne $path_array[$#path_array]){
-			$result .= $topicpath::ARROW;
-		}
-
+		$result .= $topicpath::ARROW;
 	}
+
+	$result =~s/$topicpath::ARROW$//g;
+
 	return $topicpath::PREFIX . $result . $topicpath::SUFFIX;
 }
 

@@ -1,7 +1,7 @@
 #
 # PyukiWiki Conflict file (Japanese EUC)
 # "PyukiWiki" version 0.1.9 $$
-# $Id: conflict.en.txt,v 1.81 2011/05/03 20:43:28 papu Exp $
+# $Id: conflict.en.txt,v 1.84 2011/05/04 07:26:50 papu Exp $
 #
 *On updating, a collision has occurred.
 

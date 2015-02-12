@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.99 2011/05/03 20:43:28 papu Exp $
+	$Id: README.txt,v 1.102 2011/05/04 07:26:50 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 

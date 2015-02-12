@@ -1,6 +1,6 @@
 ######################################################################
 # twitter.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: twitter.inc.pl,v 1.1 2011/05/03 20:43:28 papu Exp $
+# $Id: twitter.inc.pl,v 1.4 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Nanami http://nanakochi.daiba.cx/
@@ -19,6 +19,8 @@
 # usage: #twitter(username or #hashtag[, header name)
 # visit http://twitstat.us/
 # thanks to #jishin_power project
+# can't use Nana::HTTP's inline module, please install LWP::UserAgent
+# (now twitter or IE9 bug)
 ######################################################################
 
 $plugin_twitter_title="twitter of $1";
@@ -32,6 +34,8 @@ $plugin_twitter_link_color="#307ace";
 $plugin_twitter_width="600";
 
 #--------------
+
+use Nana::HTTP;
 
 $::plugin_twitter_count=0;
 
@@ -54,9 +58,9 @@ EOM
 	$::plugin_twitter_count++;
 	return <<EOM;
 <div id="twitter">
-<div class="twitstatus_badge_container" id="twitstat_badge_$::plugin_twitter_count"></div>
+<div class="twitstatus_badge_container" id="twitstat_badge\_$::plugin_twitter_count"></div>
 <script type="text/javascript" src="$::skin_url/twitter.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript"><!--
 twitstat.badge.init({
 	badge_container: "twitstat_badge_$::plugin_twitter_count",
 	title: "$title",
@@ -71,9 +75,36 @@ twitstat.badge.init({
 	width: $plugin_twitter_width,
 	popup: $popup_allow
 });
-</script>
+//--></script>
 </div>
 EOM
+}
+
+sub plugin_twitter_action {
+	my $env;
+	foreach(keys %::form) {
+		if($_ eq "rpp" || $_ eq "callback" || $_ eq "q" || $_ eq "near" || $_ eq "within" || $_ eq "units" || $_ eq "since_id") {
+			if($_ eq "q") {
+				$env.="$_=@{[&encode($::form{$_})]}&";
+			} else {
+				$env.="$_=$::form{$_}&";
+			}
+		}
+	}
+	$env=~s/\&$//g;
+	my $http=new Nana::HTTP('plugin'=>"showrss");
+	my $searchurl="http://search.twitter.com/search.json";
+
+	my $uri="$searchurl?$env";
+	my ($result, $stream) = $http->get($uri);
+	if($result eq 0) {
+		print &http_header("Content-type: application/json");
+		print $stream;
+	} else {
+		print &http_header("Content-type: text/plain");
+		print "Cant get '$uri'\n";
+	}
+	exit;
 }
 
 1;
@@ -92,6 +123,8 @@ Display twitter username of twite of twitter of #hashtag
 
 
 =head1 USAGE
+
+install LWP::UserAgent
 
 #twitter(username or #hashtag[, headername]
 

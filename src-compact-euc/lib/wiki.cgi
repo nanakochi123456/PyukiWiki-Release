@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.245 2011/05/03 20:43:28 papu Exp $
+# $Id: wiki.cgi,v 1.248 2011/05/04 07:26:50 papu Exp $
 #
-# "PyukiWiki" version 0.1.9 $$
+# "PyukiWiki" version 0.1.9-p1 $$
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2011 PyukiWiki Developers Team
@@ -17,7 +17,6 @@
 ######################################################################
 ##############################
 
-$login=1;
 # Setting Database Type
 #use Yuki::YukiWikiDB;
 use Nana::YukiWikiDB;
@@ -42,7 +41,7 @@ $::use_exists = 0;
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.9';
+$::version = '0.1.9-p1';
 
 
 

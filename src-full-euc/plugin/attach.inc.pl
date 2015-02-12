@@ -1,6 +1,6 @@
 ######################################################################
 # attach.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: attach.inc.pl,v 1.107 2011/05/03 20:43:28 papu Exp $
+# $Id: attach.inc.pl,v 1.110 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Nekyo

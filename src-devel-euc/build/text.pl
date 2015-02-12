@@ -1,10 +1,10 @@
 # release file perl script for pyukiwiki
-# $Id: text.pl,v 1.75 2011/05/03 20:43:28 papu Exp $
+# $Id$
 
 use Jcode;
 
 sub textinit {
-	($fn,$pyukiversion,$mode)=@_;
+	($fn,$pyukiversion,$mode,$TYPE)=@_;
 	($sec, $min, $hour, $mday, $mon, $year,
 		$wday, $yday, $isdst) = localtime;
 	$year+=1900;
@@ -18,6 +18,15 @@ $text{BASEHEAD1}=<<EOM;
 # \$Id\$
 EOM
 
+if($TYPE=~/compact/) {
+$text{BASEHEAD2}=<<EOM;
+Copyright (C) 2004-$year by Nekyo.
+# \@\@NEKYO_URL\@\@
+# Copyright (C) 2005-$year PyukiWiki Developers Team
+# \@\@PYUKI_URL\@\@
+# Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
+EOM
+} else {
 $text{BASEHEAD2}=<<EOM;
 Copyright (C) 2004-$year by Nekyo.
 # \@\@NEKYO_URL\@\@
@@ -31,6 +40,7 @@ Copyright (C) 2004-$year by Nekyo.
 # modify it under the same terms as Perl itself.
 # Return:\@\@CRLF\@\@ Code=\@\@CODE\@\@ 1TAB=4Spaces
 EOM
+}
 
 $text{HEADER1}=<<EOM;
 \@\@BASEHEAD1\@\@

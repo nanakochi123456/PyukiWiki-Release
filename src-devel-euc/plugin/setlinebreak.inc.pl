@@ -1,6 +1,6 @@
 ######################################################################
 # setlinebreak.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: setlinebreak.inc.pl,v 1.43 2011/05/03 20:43:28 papu Exp $
+# $Id: setlinebreak.inc.pl,v 1.46 2011/05/04 07:26:50 papu Exp $
 #
 # "PyukiWiki" version 0.1.9 $$
 # Author: Nanami http://nanakochi.daiba.cx/

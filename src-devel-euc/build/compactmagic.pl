@@ -1,13 +1,19 @@
 #!/usr/bin/perl
 # release file perl script for pyukiwiki
-# $Id: compactmagic.pl,v 1.19 2006/03/04 13:12:52 papu Exp $
+# $Id$
 
 $header="#----------------------------------------------------------------------\n";
+print $header;
+print "# " . '$' . "Id" . '$' . "\n";
+print <<EOM;
+# "magic file for File::MMagic" version 1.7 \$\$
+EOM
 $output=0;
 $chk=0;
 $title=0;
 $file=$ARGV[0];
 $opt=$ARGV[1];
+
 if(open(R,$file)) {
 	foreach $f (<R>) {
 		chomp $f;

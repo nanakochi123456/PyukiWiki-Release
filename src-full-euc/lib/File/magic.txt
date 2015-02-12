@@ -1,5 +1,8 @@
 #----------------------------------------------------------------------
-# $Id: magic.txt.src,v 1.67 2011/05/03 20:43:28 papu Exp $
+# $Id$
+# "magic file for File::MMagic" version 1.7 $$
+#----------------------------------------------------------------------
+# $Id: magic.txt.src,v 1.70 2011/05/04 07:26:50 papu Exp $
 # "magic file for File::MMagic" version 1.4 $$
 #----------------------------------------------------------------------
 # archive:  file(1) magic for archive formats (see also "msdos" for self-

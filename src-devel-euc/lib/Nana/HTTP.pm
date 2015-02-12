@@ -1,8 +1,8 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.53 2011/05/03 20:43:28 papu Exp $
+# $Id: HTTP.pm,v 1.57 2011/05/04 07:32:14 papu Exp $
 #
-# "Nana::HTTP" version 0.3 $$
+# "Nana::HTTP" version 0.5 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
@@ -21,10 +21,16 @@
 package	Nana::HTTP;
 use 5.005;
 use strict;
-use vars qw($VERSION);
-$VERSION = '0.3';
+use strict;
+use Socket 1.3;
+use Fcntl;
+use Errno qw(EAGAIN);
+use HTTP::Lite;
 
-# 0:付属エンジン 1:LWPが存在すればLWP、なければ付属エンジン
+use vars qw($VERSION);
+$VERSION = '0.5';
+
+# 0:付属エンジン(HTTP::Lite) 1:LWPが存在すればLWP、なければ付属エンジン
 $Nana::HTTP::useLWP=0;
 
 # ユーザーエージェント
@@ -39,7 +45,6 @@ $Nana::HTTP::counter=2;
 ######################################################################
 
 my $timeoutflag=0;
-use Socket;
 
 sub new {
 	my ($class, %hash) = @_;
@@ -53,14 +58,16 @@ sub new {
 	};
 	$$self{lwp_ok}=0;
 	if($Nana::HTTP::useLWP eq 1) {
-		if(&load_module("LWP::UserAgent")) {
+		if(&load_module("LWP::UserAgent") && &load_module("HTTP::HEADERS")) {
 			$$self{lwp_ua}=LWP::UserAgent->new;
 			$$self{_ua} = &makeua($$self{lwp_ua}->_agent,%hash),
 			$$self{_header} = "User-Agent: " . $$self{_ua} . $$self{header};
 			$$self{lwp_ua}->agent($$self{_ua});
 			$$self{lwp_ua}->timeout($Nana::HTTP::timeout);
-			foreach("http", "https", "ftp") {
-				$$self{lwp_ua}->proxy($_,"http://$::proxy_host:$::proxy_port/")
+			if($::proxy_host ne '') {
+				foreach("http", "https", "ftp") {
+					$$self{lwp_ua}->proxy($_,"http://$::proxy_host:$::proxy_port/")
+				}
 			}
 			$$self{lwp_ok}=1;
 		}
@@ -141,86 +148,29 @@ sub makeua {
 	return $ua;
 }
 
+
 sub httpcl {
 	my($url,$method,$header,$postdata)=@_;
-	my($stat,$ret);
-	my $timeoutcounter=$Nana::HTTP::counter;
-
-	$SIG{ALRM}=\&httpcl_timeout;
-	$ret="";
-
-	while($timeoutcounter>0) {
-		$timeoutflag=0;
-		alarm($Nana::HTTP::alarmtime / $Nana::HTTP::counter);
-		($stat,$ret)=&httpclsub($url,$method,$header,$postdata);
-		alarm(0);
-		$timeoutcounter--;
-		$ret="" if($timeoutflag eq 1);
-		if($ret eq '') {
-			$timeoutcounter=0;
-			$stat=5;
-		}
+	my $http=new HTTP::Lite;
+	$method="GET" if($method eq '');
+	$http->method($method);
+	$http->http11_mode(1);
+	foreach(split(/\n/,$header)) {
+		my($hn,$hv)=split(/:\s/,$_);
+		$http->add_req_header($hn,$hv) if($_=~/:/);
 	}
-	if($stat ne 0) {
-		$ret=("","Host not found","Can't Create Socket address"
-			, "Socket Error", "Can't connect Server", "Timeout")[$stat];
+	if($::proxy_host ne '' && $::proxy_port > 0) {
+		$http->proxy("http://$::proxy_host:$::proxy_port");
 	}
-	return ($stat,$ret);
-}
-
-sub httpclsub {
-	my($url,$method,$header,$postdata)=@_;
-	my($ret);
-	my($postlength);
-	my($iaddr,$sock_addr);
-	$ret="";
-	if(uc $method=~/^(GET|POST|HEAD)$/) {
-		if($url =~ m!(http:)?(//)?([^:/]*)?(:([0-9]+)?)?(/.*)?!) {
-			my $host = ($3 ne "") ? $3 : "localhost";
-			my $port = ($5 ne "") ? $5 : 80;
-			my $path = ($6 ne "") ? $6 : "/";
-#			$port = getservbyname('http', 'tcp');
-			if($::proxy_host ne '' && $::proxy_port > 0) {
-				$iaddr = inet_aton($::proxy_host) || return (1,"");
-				$sock_addr = pack_sockaddr_in($::proxy_port, $iaddr) || return (2,"");
-				socket(SOCKET, PF_INET, SOCK_STREAM, 0) || return (3,"");
-				connect(SOCKET, $sock_addr) || return (4,"");
-				select(SOCKET); $|=1; select(STDOUT);
-				print SOCKET "$method $url HTTP/1.0\r\n";
-			} else {
-				$iaddr = inet_aton($host) || return (1,"");
-				$sock_addr = pack_sockaddr_in($port, $iaddr) || return (2,"");
-				socket(SOCKET, PF_INET, SOCK_STREAM, 0) || return (3,"");
-				connect(SOCKET, $sock_addr) || return (4,"");
-				select(SOCKET); $|=1; select(STDOUT);
-				print SOCKET "$method /$path HTTP/1.0\r\n";
-				print SOCKET "Host: $host:$port\r\n";
-			}
-			$postlength=length($postdata);
-			foreach(split(/\n/,$header)) {
-				print SOCKET "$_\r\n"
-					if($_=~/:/);
-			}
-			print SOCKET "Content-Length: $postlength\r\n" if($method eq 'POST');
-			print SOCKET "\r\n";
-			print SOCKET $postdata if($method eq 'POST');
-			print SOCKET "\r\n" if($method eq 'POST');
-			if($method ne 'HEAD') {	
-				while(<SOCKET>) {
-					m/^\r\n$/ && last;
-				}
-			}
-			while(<SOCKET>) {
-				s/\r//g;
-				$ret.=$_;
-			}
-		}
+	if($postdata ne '') {
+		$http->prepare_post($postdata);
 	}
-	return (0,$ret);
+	my $req=$http->request($url);
+	if($req eq 200) {
+		return(0,$http->body());
+	} else {
+		return(1,"Error $req");
+	}
 }
-sub httpcl_timeout {
-	$timeoutflag=1;
-}
-
 1;
 __END__
