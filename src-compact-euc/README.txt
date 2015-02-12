@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.8-p2 $$
+	"PyukiWiki" version 0.1.8-p3 $$
 	Copyright (C)
 	  2005-2011 PukiWiki Developers Team
 	  2004-2011 Nekyo (Based on PukiWiki, YukiWiki)
@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: README.txt,v 1.92 2011/01/25 03:11:15 papu Exp $
+	$Id: README.txt,v 1.93 2011/02/22 20:59:12 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 

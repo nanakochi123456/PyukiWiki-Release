@@ -1,8 +1,8 @@
 ######################################################################
 # autometarobot.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: autometarobot.inc.pl,v 1.75 2011/01/25 03:11:15 papu Exp $
+# $Id: autometarobot.inc.pl,v 1.76 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
@@ -63,12 +63,13 @@ EOD
 		if($::auto_meta_maxkeyword>0) {
 			# 以下キーワード自動生成
 			my @keyword;
-			$keyword="$::wiki_title," . &htmlspecialchars($pagename);
+			$keyword="$::wiki_title," . &htmlspecialchars($pagename) . ",";
+#			$keyword="$::wiki_title," . &htmlspecialchars($pagename);
 			# <h?>〜</h?>、強調、WikiName
 			foreach($body=~/(<h\d>(.+?)<\/h\d>|<strong>(.+?)<\/strong>|$::wiki_name)/g) {
 				s/[\x0d\x0a]//g;
 				s/<.*?>//g;
-				$keyword.="$_ ,";
+				$keyword.="$_,";
 			}
 			# img alt="〜", a title="〜"
 			foreach($body=~/<(?:a|img)(?:.+?)(?:alt|title)="(.+?)"(?:.+)>/g) {
@@ -76,7 +77,7 @@ EOD
 				s/[\x0d\x0a]//g;
 				s/<.*?>//g;
 				next if(/$::resource{editthispage}|$::resource{admineditthispage}/);
-				$keyword.="$_ ";
+				$keyword.="$_,";
 			}
 			$keyword=~s/$::_symbol_anchor//g;
 			$keyword=~s/([\x0-\x2f|\x3a-\x40|\x5b-\x60|\x7b-\x7f]|(?:\xA1\xA1))/,/g;
@@ -94,7 +95,7 @@ EOD
 			$keyword="";
 			my $i=0;
 			foreach(@keyword) {
-				unless($keyword=~/$_/) {
+				unless($keyword=~/\,$_/) {
 					$keyword.="$_,";
 					last if(++$i >= $::auto_meta_maxkeyword);
 				}
