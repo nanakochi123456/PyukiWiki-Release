@@ -1,5 +1,5 @@
 # release file makefile for pyukiwiki
-# $Id: build.mk,v 1.93 2010/12/14 22:20:00 papu Exp $
+# $Id: build.mk,v 1.94 2010/12/29 06:21:06 papu Exp $
 
 all:
 	@echo "PyukiWIki ${VERSION} Release Builder"

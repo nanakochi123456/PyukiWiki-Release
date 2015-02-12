@@ -1,6 +1,6 @@
 ######################################################################
 # YukiWikiDB.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: YukiWikiDB.pm,v 1.76 2010/12/14 22:20:00 papu Exp $
+# $Id: YukiWikiDB.pm,v 1.77 2010/12/29 06:21:06 papu Exp $
 #
 # "Yuki::YukiWikiDB" version 2.1.2a $$
 # Author: Hiroshi Yuki

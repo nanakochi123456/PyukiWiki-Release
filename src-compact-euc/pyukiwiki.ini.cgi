@@ -1,8 +1,8 @@
 ######################################################################
 # pyukiwiki.ini.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.ini.cgi,v 1.140 2010/12/14 22:20:00 papu Exp $
+# $Id: pyukiwiki.ini.cgi,v 1.141 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2010 PyukiWiki Developers Team
@@ -319,8 +319,10 @@ $::modifier_sendmail = '';
 
 # フィルター関連
 $::filter_flg = 1;					# 1でフィルター機能を有効にする。
-$::chk_uri_count = 10;				# 1つの投稿ホームページアドレスが
+$::chk_uri_count = 10;				# 1つの掲示板等投稿ホームページアドレスが
 									# 10個以上あるとスパムとみなす。
+$::chk_wiki_uri_count = 0;			# 編集画面でホームページアドレスが
+									# 上記個数以上になるとスパムとみなす。
 $::chk_write_jp_only = 0;			# 編集画面で日本語が一字も入ってないと
 									# スパムとみなす。
 									# なお、デフォルトはプラグインだけや

@@ -1,8 +1,8 @@
 ######################################################################
 # counter_viewer.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: counter_viewer.inc.pl,v 1.37 2010/12/14 22:20:00 papu Exp $
+# $Id: counter_viewer.inc.pl,v 1.38 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/

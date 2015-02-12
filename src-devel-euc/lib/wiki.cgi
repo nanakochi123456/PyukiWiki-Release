@@ -1,8 +1,8 @@
 ######################################################################
 # wiki.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: wiki.cgi,v 1.234 2010/12/14 22:20:00 papu Exp $
+# $Id: wiki.cgi,v 1.235 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/
 # Copyright (C) 2005-2010 PyukiWiki Developers Team
@@ -40,7 +40,7 @@ $::use_exists = 0;	# If you can use 'exists' method for your DB.
 
 ##############################
 $::package = 'PyukiWiki';
-$::version = '0.1.8';
+$::version = '0.1.8-p1';
 
 	# 2005.12.19 pochi: mod_perlで実行可能に
 	# グローバル関数の定義
@@ -1579,7 +1579,8 @@ sub do_write {
 	$::form{mymsg}=~s/\x0D\x0A|\x0D|\x0A/\n/g;
 
 	# スパムフィルター
-	&spam_filter($::form{mymsg}, 2) if ($::chk_write_jp_only eq 1);
+	&spam_filter($::form{mymsg}, 0) if ($::chk_wiki_uri_count eq 1);
+	&spam_filter($::form{mymsg}, 1) if ($::chk_write_jp_only eq 1);
 
 	# Making diff
 	if (1) {

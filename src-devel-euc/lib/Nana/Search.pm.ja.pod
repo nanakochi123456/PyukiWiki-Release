@@ -1,4 +1,4 @@
-$Id: Search.pm.ja.pod,v 1.69 2010/12/14 22:20:00 papu Exp $
+$Id: Search.pm.ja.pod,v 1.70 2010/12/29 06:21:06 papu Exp $
 
 __END__
 

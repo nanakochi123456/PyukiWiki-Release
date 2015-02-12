@@ -1,6 +1,6 @@
 PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 
-	"PyukiWiki" version 0.1.8 $$
+	"PyukiWiki" version 0.1.8-p1 $$
 	Copyright (C)
 	  2005-2010 PukiWiki Developers Team
 	  2004-2010 Nekyo (Based on PukiWiki, YukiWiki)
@@ -15,7 +15,7 @@ PyukiWiki - 自由にページを追加・削除・編集できるWebページ構築CGI
 	MAIL:
 		ななみ <nanami (at) daiba (dot) cx> (注：ネカマです)
 
-	$Id: DEVEL.txt,v 1.62 2010/12/14 22:20:00 papu Exp $
+	$Id: DEVEL.txt,v 1.63 2010/12/29 06:21:06 papu Exp $
 
 	このテキストファイルはShift-JIS、TAB4で記述されています。
 

@@ -1,4 +1,4 @@
-#$Id: recent.inc.pl.ja.pod,v 1.70 2010/12/14 22:20:00 papu Exp $
+#$Id: recent.inc.pl.ja.pod,v 1.71 2010/12/29 06:21:06 papu Exp $
 
 __END__
 =encoding euc-jp
@@ -9,7 +9,7 @@ recent.inc.pl - PyukiWiki プラグイン
 
 =head1 概要
 
- #recent(件数)
+ #recent(件数[,表示しないページの正規表現])
 
 =head1 説明
 

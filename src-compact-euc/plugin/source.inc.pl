@@ -1,8 +1,8 @@
 ######################################################################
 # source.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: source.inc.pl,v 1.24 2010/12/14 22:20:00 papu Exp $
+# $Id: source.inc.pl,v 1.25 2010/12/29 06:21:06 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Author: Nekyo
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/

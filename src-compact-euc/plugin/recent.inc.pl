@@ -1,8 +1,8 @@
 ######################################################################
 # recent.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: recent.inc.pl,v 1.79 2010/12/14 22:20:00 papu Exp $
+# $Id: recent.inc.pl,v 1.81 2010/12/30 02:32:01 papu Exp $
 #
-# "PyukiWiki" version 0.1.8 $$
+# "PyukiWiki" version 0.1.8-p1 $$
 # Author: Nekyo
 # Copyright (C) 2004-2010 by Nekyo.
 # http://nekyo.qp.land.to/
@@ -16,6 +16,7 @@
 # modify it under the same terms as Perl itself.
 # Return:LF Code=EUC-JP 1TAB=4Spaces
 ######################################################################
+# v 0.1.9 #recent(count,表示しないページの正規表現) を追加
 # v 0.1.6 半角スペースのページに対応、Time::Localを使用
 #         actionにも対応
 # v 0.0.3 : + ページ名は一覧に表示しない。
@@ -75,7 +76,9 @@ sub plugin_recent_action {
 }
 
 sub plugin_recent_convert {
-	my $limit = shift;
+
+	my $argv = shift;
+	my ($limit, $ignore) = split(/,/, $argv);
 	if ($limit eq '') { $limit = 10; }
 	my $recentchanges = $::database{$::RecentChanges};
 	my $count = 0;
@@ -86,6 +89,11 @@ sub plugin_recent_convert {
 
 		/^\- (\d\d\d\d\-\d\d\-\d\d) \(...\) \d\d:\d\d:\d\d (.*?)\ \ \-/;
 		next if ($2 =~ /\[*:/ || $2 =~ /$::non_list/ || !&is_readable($2));
+
+		if ($ignore ne '') {
+			next if $2 =~ /($ignore)/;
+		}
+
 		if ($2) {
 			if ($date ne $1) {
 				if ($date ne '') { $out .= "</ul>\n"; }

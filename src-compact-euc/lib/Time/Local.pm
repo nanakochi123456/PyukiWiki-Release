@@ -1,4 +1,4 @@
-# $Id: Local.pm,v 1.68 2010/12/14 22:20:00 papu Exp $
+# $Id: Local.pm,v 1.69 2010/12/29 06:21:06 papu Exp $
 # "Time::Local" version 1.11 $$
 
 package Time::Local;

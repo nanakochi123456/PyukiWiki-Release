@@ -1,4 +1,4 @@
-#$Id: showrss.inc.pl.ja.pod,v 1.74 2010/12/14 22:20:00 papu Exp $
+#$Id: showrss.inc.pl.ja.pod,v 1.75 2010/12/29 06:21:06 papu Exp $
 
 __END__
 =encoding euc-jp
