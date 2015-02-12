@@ -1,12 +1,12 @@
 ######################################################################
 # rss10page.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: rss10page.inc.pl,v 1.31 2010/12/29 06:21:06 papu Exp $
+# $Id: rss10page.inc.pl,v 1.34 2011/01/25 03:11:15 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p1 $$
+# "PyukiWiki" version 0.1.8-p2 $$
 # Author: Nekyo
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/

@@ -1,11 +1,11 @@
 ######################################################################
 # pyukiwiki.skin.cgi - This is PyukiWiki, yet another Wiki clone.
-# $Id: pyukiwiki.skin.cgi,v 1.62 2010/12/29 06:21:06 papu Exp $
+# $Id: pyukiwiki.skin.cgi,v 1.65 2011/01/25 03:11:15 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p1 $$
-# Copyright (C) 2004-2010 by Nekyo.
+# "PyukiWiki" version 0.1.8-p2 $$
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -53,7 +53,7 @@ EOD
 		$title_tag="$title$escapedpage @{[&htmlspecialchars(&get_subjectline($page))]}";
 	}
 
-	# MenuBar, :Header, :FooterのHTML生成
+	# MenuBar, :Header, :Footer, :SkinFooter:のHTML生成
 	if($is_page || $::allview eq 1) {
 		$headerbody=&print_content($::database{$::Header}, $::form{mypage})
 			if(&is_exist_page($::Header));
@@ -66,6 +66,10 @@ EOD
 		$footerbody=&print_content($::database{$::Footer}, $::form{mypage})
 			if(&is_exist_page($::Footer));
 	}
+
+	# add v 0.1.9
+	$skinfooterbody=$::database{$::SkinFooter}
+		if(&is_exist_page($::SkinFooter));
 
 	# 注釈HTMLの生成
 	if (@::notes) {
@@ -232,9 +236,9 @@ EOD
 	if($::lang eq 'ja') {
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
-~
+$skinfooterbody~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/]]''
-Copyright&copy; 2004-2010 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
+Copyright&copy; 2004-2011 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/]]
 License is [[GPL>http://www.opensource.jp/gpl/gpl.ja.html]], [[Artistic>http://www.opensource.jp/artistic/ja/Artistic-ja.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~
@@ -243,9 +247,9 @@ EOD
 	# lang=en and/or other
 		$footerbody=<<EOD;
 @{[$::wiki_title ne '' ? qq(''[[$::wiki_title>$basehref]]'' ) : '']}Modified by [[$::modifier>$::modifierlink]]~
-~
+$skinfooterbody~
 ''[[PyukiWiki $::version>http://pyukiwiki.sourceforge.jp/en/]]''
-Copyright&copy; 2004-2010 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
+Copyright&copy; 2004-2011 by [[Nekyo>http://nekyo.qp.land.to/]], [[PyukiWiki Developers Team>http://pyukiwiki.sourceforge.jp/en/]]
 License is [[GPL>http://www.gnu.org/licenses/gpl.html]], [[Artistic>http://www.perl.com/language/misc/Artistic.html]]~
 Based on "[[YukiWiki>http://www.hyuki.com/yukiwiki/]]" 2.1.0 by [[yuki>http://www.hyuki.com/]]
 and [[PukiWiki>http://pukiwiki.sourceforge.jp/]] by [[PukiWiki Developers Term>http://pukiwiki.sourceforge.jp/]]~

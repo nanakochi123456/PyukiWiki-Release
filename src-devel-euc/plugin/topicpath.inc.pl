@@ -1,12 +1,12 @@
 ######################################################################
 # topicpath.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: topicpath.inc.pl,v 1.51 2010/12/29 06:21:06 papu Exp $
+# $Id: topicpath.inc.pl,v 1.54 2011/01/25 03:11:15 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p1 $$
+# "PyukiWiki" version 0.1.8-p2 $$
 # Author: Junichi http://www.re-birth.com/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
@@ -155,9 +155,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2005-2010 by Junichi.
+Copyright (C) 2005-2011 by Junichi.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2011 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

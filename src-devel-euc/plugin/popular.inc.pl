@@ -173,9 +173,9 @@ L<http://pyukiwiki.sourceforge.jp/>
 
 =head1 LICENSE
 
-Copyright (C) 2004-2010 by YashiganiModoki.
+Copyright (C) 2004-2011 by YashiganiModoki.
 
-Copyright (C) 2005-2010 by PyukiWiki Developers Team
+Copyright (C) 2005-2011 by PyukiWiki Developers Team
 
 License is GNU GENERAL PUBLIC LICENSE 2 and/or Artistic 1 or each later version.
 

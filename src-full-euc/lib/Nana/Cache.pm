@@ -1,13 +1,13 @@
 ######################################################################
 # Cache.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Cache.pm,v 1.67 2010/12/29 06:21:06 papu Exp $
+# $Id: Cache.pm,v 1.70 2011/01/25 03:11:15 papu Exp $
 #
 # "Nana::Cache" version 0.2 $$
 # Author: Nanami
 # http://nanakochi.daiba.cx/
-# Copyright (C) 2004-2010 by Nekyo.
+# Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
-# Copyright (C) 2005-2010 PyukiWiki Developers Team
+# Copyright (C) 2005-2011 PyukiWiki Developers Team
 # http://pyukiwiki.sourceforge.jp/
 # Based on YukiWiki http://www.hyuki.com/yukiwiki/
 # Powerd by PukiWiki http://pukiwiki.sourceforge.jp/
