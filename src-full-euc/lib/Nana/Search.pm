@@ -1,6 +1,6 @@
 ######################################################################
 # Search.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: Search.pm,v 1.83 2011/01/25 03:11:15 papu Exp $
+# $Id: Search.pm,v 1.84 2011/02/22 20:59:12 papu Exp $
 #
 # "Nana::Search" version 0.4 $$
 # Author: Nanami

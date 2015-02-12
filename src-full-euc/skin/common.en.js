@@ -1,5 +1,5 @@
-/* "PyukiWiki" version 0.1.8-p2 $$ */
-/* $Id: common.en.js,v 1.123 2011/01/25 03:11:15 papu Exp $ */
+/* "PyukiWiki" version 0.1.8-p3 $$ */
+/* $Id: common.en.js,v 1.124 2011/02/22 20:59:12 papu Exp $ */
 /* Code=EUC-JP */
 
 var d=document;

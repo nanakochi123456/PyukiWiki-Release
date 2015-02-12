@@ -1,8 +1,8 @@
 ######################################################################
 # showrss.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: showrss.inc.pl,v 1.95 2011/01/25 03:11:15 papu Exp $
+# $Id: showrss.inc.pl,v 1.96 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Author: Nekyo
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
@@ -18,8 +18,6 @@
 ######################################################################
 
 use strict;
-#	use Socket;
-#	use FileHandle;
 use Nana::Cache;
 use Time::Local;
 use Nana::HTTP;
@@ -30,7 +28,7 @@ sub plugin_showrss_inline
 }
 
 sub plugin_showrss_convert {
-	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag) = split(/,/, shift);
+	my ($rssuri,$tmplname,$usecache,$dateflag,$discflag,$domain) = split(/,/, shift);
 	return if($rssuri eq '');
 
 	my $expire = $usecache * 3600;
@@ -47,18 +45,14 @@ sub plugin_showrss_convert {
 		use=>($usecache eq '0' ? 0 : 1),
 		expire=>($expire+0 <= 0 ? 3600 : $expire),
 	);
-#	$cache->check(
-#		"$::plugin_dir/showrss.inc.pl",
-#		"$::explugin_dir/Nana/Cache.pm"
-#	);
 
 	my $buf=$cache->read($cachefile,1);
 	# rss10pageで生成されたページの場合
 	if($rssuri!~/$::isurl/) {
-		return &makebody($buf,$tmplname,$dateflag,$discflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
 	if($cache->read($cachefile) ne '') {
-		return &makebody($buf,$tmplname,$dateflag,$discflag);
+		return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 	}
 	my $pid;
 	if($buf ne '') {
@@ -74,7 +68,7 @@ sub plugin_showrss_convert {
 		if($result ne 0) {
 			return qq(#showrss: $stream : $rssuri);
 		}
-		return &makebody($stream,$tmplname,$dateflag,$discflag);
+		return &makebody($stream,$tmplname,$dateflag,$discflag,$domain);
 	} else {
 		if($pid) {
 			# マルチタスクの親
@@ -85,9 +79,9 @@ sub plugin_showrss_convert {
 				alerm(0);
 			};
 			if ($@ =~ /time out/) {
-				return &makebody($buf,$tmplname,$dateflag,$discflag);
+				return &makebody($buf,$tmplname,$dateflag,$discflag,$domain);
 			} else {
-				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag);
+				return &makebody($cache->read($cachefile,1),$tmplname,$dateflag,$discflag,$domain);
 			}
 		} else {
 			# マルチタスクの子
@@ -100,7 +94,7 @@ sub plugin_showrss_convert {
 }
 
 sub makebody {
-	my($stream,$tmplname,$dateflag,$discflag)=@_;
+	my($stream,$tmplname,$dateflag,$discflag,$domain)=@_;
 	my $body;
 	my %xml = &xmlParser($stream);
 	my @title = split(/\n/,
@@ -176,15 +170,28 @@ EOD
 				$dt='';
 			}
 		}
-		# 複数ドメイン対応のため "_self"を指定
+		# 複数ドメイン対応、更に対応 v0.1.9
 		if($discflag) {
-			$body .=<<"EOD";
+			$domain=$ENV{HTTP_HOST} if($domain eq '');
+			if($link[$count]=~/https?\:\/\/$domain\//) {
+				$body .=<<"EOD";
 $ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}<br />$desc[$count]$lr
 EOD
+			} else {
+				$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_blank")]}<br />$desc[$count]$lr
+EOD
+			}
 		} else {
-			$body .=<<"EOD";
+			if($link[$count]=~/https?\:\/\/$domain\//) {
+				$body .=<<"EOD";
 $ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_self")]}$lr
 EOD
+			} else {
+				$body .=<<"EOD";
+$ll@{[&make_link_url("ext",$link[$count],$dt . $title[$count],"","_blank")]}$lr
+EOD
+			}
 		}
 		$count++;
 	}
@@ -194,17 +201,9 @@ EOD
 
 sub plugin_showrss_sub {
 	my($rssuri)=@_;
-#	$rssuri =~ m!(http:)?(//)?([^:/]*)?(:([0-9]+)?)?(/.*)?!;
-#	my $host = ($3 ne "") ? $3 : "localhost";
-#	my $port = ($5 ne "") ? $5 : 80;
-#	my $path = ($6 ne "") ? $6 : "/";
 	my $code = 'utf8';
-
 	my ($result, $stream);
-#	($result, $stream) = &get_rss($host, $path, $port);
-#	($result, $stream) = Nana::HTTP::get($rssuri);
 	my $http=new Nana::HTTP('plugin'=>"showrss");
-#	($result, $stream) = Nana::HTTP::get($rssuri);
 	($result, $stream) = $http->get($rssuri);
 	$stream=~s/[\xd\xa]//g;
 
@@ -217,37 +216,9 @@ sub plugin_showrss_sub {
 	} else {
 		$code="utf8";
 	}
-#	$stream = &Jcode::convert($stream, $::defaultcode, $code);
-#	$stream = &replace($stream);
 	$stream = &replace(&code_convert(\$stream,$::defaultcode, $code));
 	return ($result,$stream);
 }
-
-#sub get_rss {
-#	my ($host, $path, $port) = @_;
-#	my (@log, $sock, $sockaddr, $ip, $data);
-#	$sock = new FileHandle;
-#	if ($host =~ /^(\d+).(\d+).(\d+).(\d+)$/) {
-#		$ip = pack('C4', split(/\./, $host));
-#	} else {
-#	#	$ip = (gethostbyname($host))[4] || return (1, "Host Not Found.");
-#		$ip = inet_aton($host) || return (1, "Host Not Found.");
-#	}
-#	$sockaddr = pack_sockaddr_in($port, $ip) || (2, "Can't Create Socket address.");
-#	socket($sock, PF_INET, SOCK_STREAM, 0) || return (3, "Socket Error.");
-#	connect($sock, $sockaddr) || return (4, "Can't connect Server.");
-#	autoflush $sock(1);
-#	print $sock "GET $path HTTP/1.1\r\nHost: $host\r\n\r\n";
-#	@log = <$sock>;
-#	sleep(1);
-#	close($sock);
-#	undef $data;
-#	foreach (@log) {
-#		s/[\xd\xa]//g;
-#		$data .= $_;
-#	}
-#	return (0, $data);
-#}
 
 sub replace {
 	my ($xmlStream) = @_;

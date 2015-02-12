@@ -1,6 +1,6 @@
 #
 # PyukiWiki Resource file (Japanese EUC)
-# $Id: sbookmark.ja.txt,v 1.31 2011/01/25 03:11:15 papu Exp $
+# $Id: sbookmark.ja.txt,v 1.32 2011/02/22 20:59:12 papu Exp $
 #
 
 # sbookmark.inc.pl

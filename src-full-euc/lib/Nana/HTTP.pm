@@ -1,6 +1,6 @@
 ######################################################################
 # HTTP.pm - This is PyukiWiki, yet another Wiki clone.
-# $Id: HTTP.pm,v 1.47 2011/01/25 03:11:15 papu Exp $
+# $Id: HTTP.pm,v 1.48 2011/02/22 20:59:12 papu Exp $
 #
 # "Nana::HTTP" version 0.2 $$
 # Author: Nanami

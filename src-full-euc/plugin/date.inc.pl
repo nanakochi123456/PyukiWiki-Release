@@ -1,8 +1,8 @@
 ######################################################################
 # date.inc.pl - This is PyukiWiki, yet another Wiki clone.
-# $Id: date.inc.pl,v 1.68 2011/01/25 03:11:15 papu Exp $
+# $Id: date.inc.pl,v 1.69 2011/02/22 20:59:12 papu Exp $
 #
-# "PyukiWiki" version 0.1.8-p2 $$
+# "PyukiWiki" version 0.1.8-p3 $$
 # Author: Nanami http://nanakochi.daiba.cx/
 # Copyright (C) 2004-2011 by Nekyo.
 # http://nekyo.qp.land.to/
